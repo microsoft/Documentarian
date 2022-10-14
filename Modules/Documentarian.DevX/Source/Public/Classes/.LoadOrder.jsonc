@@ -1,0 +1,39 @@
+// Note: The classes in this file are loaded in the order they are specified.
+[
+    // This example exists until a JSON schema is defined.
+    // {
+    //     "Name": "Foo",
+    //     "IgnoreForBuild": false,
+    //     "IgnoreForTest": false
+    // }
+    {
+        "Name": "AstTypeTransformAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValidatePowerShellScriptPath",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "AstInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "SourceFile",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "SourceFolder",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "SourceReference",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    }
+]
