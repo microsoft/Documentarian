@@ -1,0 +1,19 @@
+// Note: The enums in this file are loaded in the order they are specified.
+[
+    // This example exists until a JSON schema is defined.
+    // {
+    //     "Name": "Foo",
+    //     "IgnoreForBuild": false,
+    //     "IgnoreForTest": false
+    // }
+    {
+        "Name": "SourceCategory",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "SourceScope",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    }
+]

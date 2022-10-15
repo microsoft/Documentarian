@@ -1,0 +1,4 @@
+enum SourceScope {
+  Private
+  Public
+}

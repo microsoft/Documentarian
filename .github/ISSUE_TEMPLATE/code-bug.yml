@@ -1,0 +1,98 @@
+name: 🛠🐛 Report a code issue
+description: >-
+  Report errors or unexpected behavior with a module.
+labels:
+  - bug
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Use this template to report issues with a module's functionality. This can include unhandled
+        edge cases, unexpected behavior, etc.
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: >-
+        These steps are required. After you've completed each step, check the box for it before
+        moving on.
+      options:
+        - label: >-
+            **Existing Issue:** Search the existing issues for this repository. If there is an issue
+            that fits your needs do not file a new one. Subscribe, react, or comment on that issue
+            instead.
+          required: true
+        - label: >-
+            **Descriptive Title:** Write the title for this issue as a short synopsis. If possible,
+            provide context. For example, "Missing OutputType in `Get-Foo` cmdlet" instead of
+            "Missing OutputType."
+          required: true
+  - type: dropdown
+    id: module
+    validations:
+      required: true
+    attributes:
+      label: Module
+      description: >-
+        Select the name of the module or modules this bug is in.
+      multiple: true
+      options:
+        - Documentarian
+        - Documentarian.DevX
+        # - Documentarian.MarkdownLint
+        # - Documentarian.MicrosoftDocs
+        # - Documentarian.MicrosoftDocs.PSDocs
+        # - Documentarian.ModuleAuthor
+        # - Documentarian.Vale
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      render: console
+      placeholder: |
+        PS> 2 + 2
+        4
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Actual behavior
+      render: console
+      placeholder: |
+        PS> 2 + 2
+        5
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: >-
+        List of steps, sample code, failing test or link to a project that reproduces the behavior.
+        Make sure you place a stack trace inside a code (```) block to avoid linking unrelated
+        issues.
+      placeholder: |
+        I am experiencing a problem with X.
+
+        I think Y should be happening but Z is actually happening.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Error details
+      description: Paste verbatim output from `Get-Error` if PowerShell returns an error.
+      render: console
+      placeholder: PS> Get-Error
+  - type: textarea
+    attributes:
+      label: Environment data
+      description: Paste verbatim output from `$PSVersionTable` below.
+      render: PowerShell
+      placeholder: PS> $PSVersionTable
+    validations:
+      required: true
+  - type: input
+    validations:
+      required: true
+    attributes:
+      label: Version
+      description: Specify the version of the module you're using.

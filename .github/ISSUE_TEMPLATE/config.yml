@@ -1,0 +1,12 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question
+    url: https://github.com/michaeltlombardi/DocumentarianModules/discussions/new?category=q-a
+    about: >-
+      If you have a question about a module, the docs, or this project, ask it here.
+  - name: Suggest a document, feature, or change
+    url: https://github.com/michaeltlombardi/DocumentarianModules/discussions/new?category=ideas
+    about: >-
+      If you have an idea for a feature or change in code functionallity, a new documentation
+      article, or a rewrite of existing documentation, suggest it here. When an idea is accepted for
+      implementation, the team will create an issue for tracking the work.
