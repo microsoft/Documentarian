@@ -185,8 +185,8 @@ patents, or trademarks, whether by implication, estoppel or otherwise.
 [07]: https://github.com/microsoft/Documentarian/labels/bug
 [08]: https://github.com/microsoft/Documentarian/labels/enhancement
 [11]: https://img.shields.io/badge/PowerShell-v7.2-blue?logo=powershell
-[12]: https://img.shields.io/badge/License%20(Code)-MIT-green
-[13]: https://img.shields.io/badge/License%20(Docs)-CC--BY--4.0-green
+[12]: https://img.shields.io/badge/License%20(Code)-MIT-green?style=for-the-badge
+[13]: https://img.shields.io/badge/License%20(Docs)-CC--BY--4.0-green?style=for-the-badge
 [14]: https://img.shields.io/github/contributors/microsoft/Documentarian?style=for-the-badge
 [15]: https://img.shields.io/github/forks/microsoft/Documentarian.svg?style=for-the-badge
 [16]: https://img.shields.io/github/issues/microsoft/Documentarian.svg?style=for-the-badge
