@@ -1,0 +1,58 @@
+extends: existence
+message: "'%s' is a weasel word!"
+ignorecase: true
+level: warning
+tokens:
+  - additionally
+  - approximately
+  - awkwardly
+  - badly
+  - barely
+  - beautifully
+  - blindly
+  - boldly
+  - busily
+  - currently
+  - definitely
+  - deliberately
+  - elegantly
+  - enormously
+  - equally
+  - especially
+  - eventually
+  - exceedingly
+  - extremely
+  - fairly
+  - faithfully
+  - inadequately
+  - interestingly
+  - largely
+  - likely
+  - literally
+  - loosely
+  - mildly
+  - mostly
+  - mysteriously
+  - neatly
+  - normally
+  - occasionally
+  - particularly
+  - poorly
+  - powerfully
+  - promptly
+  - quickly
+  - rapidly
+  - rarely
+  - really
+  - regularly
+  - remarkably
+  - relatively
+  - rightfully
+  - roughly
+  - sensibly
+  - seriously
+  - shortly
+  - significantly
+  - simply
+  - substantially
+  - timely
