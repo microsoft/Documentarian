@@ -1,3 +1,5 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
 #requires -Version 7.2
 #requires -Module InvokeBuild
 using module ./Source/Private/Enums/UncommonLineEndingAction.psm1

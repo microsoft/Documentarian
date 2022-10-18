@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 using module ../../Classes/AstTypeTransformAttribute.psm1
 
 Function New-AstPredicate {

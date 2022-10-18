@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 using namespace System.Management.Automation
 
 #region    RequiredFunctions

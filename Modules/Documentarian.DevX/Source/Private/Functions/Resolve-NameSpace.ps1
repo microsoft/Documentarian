@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 using module ../../Public/Enums/SourceCategory.psm1
 using module ../../Public/Enums/SourceScope.psm1
 

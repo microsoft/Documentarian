@@ -1,4 +1,6 @@
----
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 extends: existence
 link: 'https://owl.purdue.edu/owl/general_writing/grammar/that_vs_which.html'
 message: "Always use a comma before '%s'."

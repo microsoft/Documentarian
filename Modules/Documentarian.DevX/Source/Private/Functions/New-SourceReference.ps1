@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 using module ../../Public/Classes/SourceFile.psm1
 using module ../../Public/Classes/SourceReference.psm1
 

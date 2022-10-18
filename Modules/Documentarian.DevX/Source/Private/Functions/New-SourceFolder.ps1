@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 using module ../../Public/Classes/SourceFolder.psm1
 
 function New-SourceFolder {

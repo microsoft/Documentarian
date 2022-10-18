@@ -1,5 +1,8 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 extends: existence
-message: "Use parentheses judiciously."
+message: 'Use parentheses judiciously.'
 link: 'https://developers.google.com/style/parentheses'
 nonword: true
 level: suggestion

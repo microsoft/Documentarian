@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 #requires -Version 7.2
 #requires -Module InvokeBuild
 #requires -Module Documentarian.DevX

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 // Note: The classes in this file are loaded in the order they are specified.
 [
     // This example exists until a JSON schema is defined.

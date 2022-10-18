@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 extends: existence
 message: "Don't start a sentence with '%s'."
 level: error

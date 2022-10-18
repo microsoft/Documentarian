@@ -1,3 +1,5 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
 #requires -Version 7.2
 #requires -Module InvokeBuild
 
@@ -18,8 +20,8 @@
 param(
   [ValidateSet(
     'Documentarian',
-    'Documentarian.DevX',
-    'Documentarian.Vale'
+    'Documentarian.DevX' # ,
+    # 'Documentarian.Vale'
   )]
   [string[]]$Module
 )
@@ -28,7 +30,7 @@ if (!$Module) {
   $Module = @(
     'Documentarian.DevX'
     'Documentarian'
-    'Documentarian.Vale'
+    # 'Documentarian.Vale'
   )
 }
 
