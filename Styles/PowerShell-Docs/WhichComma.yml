@@ -1,0 +1,16 @@
+extends: existence
+link: 'https://owl.purdue.edu/owl/general_writing/grammar/that_vs_which.html'
+message: "Use a comma before 'which'."
+nonword: true
+ignorecase: true
+level: warning
+raw:
+  - '\S+[^,]\s+(which)\s+'
+exceptions:
+  - of which
+  - on which
+  - to which
+  - for which
+  - from which
+  - with which
+  - about which

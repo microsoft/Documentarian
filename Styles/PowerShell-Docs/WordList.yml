@@ -1,0 +1,58 @@
+extends: substitution
+message: "Use '%s' instead of '%s'."
+link: 'https://developers.google.com/style/word-list'
+level: warning
+ignorecase: false
+action:
+  name: replace
+swap:
+
+  '(?:API Console|dev|developer) key': API key
+  '(?:cell ?phone|smart ?phone)': phone|mobile phone
+  '(?:dev|developer|APIs) console': API console
+  '(?:e-mail|Email|E-mail)': email
+  '(?:file ?path|path ?name)': path
+  '(?:ok|Okay)': OK|okay
+  '(?:WiFi|wifi)': Wi-Fi
+  '[\.]+apk': APK
+  '3\-D': 3D
+  'un(?:check|select)': clear
+  above: preceding
+  account name: username
+  admin: administrator
+  Ajax: AJAX
+  approx\.: approximately
+  cellular data: mobile data
+  cellular network: mobile network
+  chapter: documents|pages|sections
+  check box: checkbox
+  check: select
+  CLI: command-line tool
+  click on: click|click in
+  content type: media type
+  curated roles: predefined roles
+  disabled?: turn off|off
+  ephemeral IP address: ephemeral external IP address
+  fewer data: less data
+  file name: filename
+  firewalls: firewall rules
+  functionality: capability|feature
+  grayed-out: unavailable
+  HTTPs: HTTPS
+  in order to: to
+  ingest: import|load
+  k8s: Kubernetes
+  long press: touch & hold
+  network IP address: internal IP address
+  omnibox: address bar
+  open-source: open source
+  regex: regular expression
+  sign into: sign in to
+  sign-?on: single sign-on
+  synch: sync
+  folder name: foldername
+  tablet: device
+  touch: tap
+  url:  URL
+  vs\.: versus
+  World Wide Web: web

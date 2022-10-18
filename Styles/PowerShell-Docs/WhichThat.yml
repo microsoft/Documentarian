@@ -1,0 +1,16 @@
+---
+extends: existence
+link: 'https://owl.purdue.edu/owl/general_writing/grammar/that_vs_which.html'
+message: "Did you really mean to use 'which' instead of 'that'?"
+ignorecase: true
+nonword: true
+level: suggestion
+raw:
+  - '(\w+|,)\s*(which)\s*'
+exceptions:
+  - of which
+  - on which
+  - to which
+  - for which
+  - from which
+  - with which

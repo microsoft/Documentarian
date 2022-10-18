@@ -9,5 +9,6 @@
     "powershell.codeFormatting.useConstantStrings": true,
     "powershell.codeFormatting.useCorrectCasing": true,
     "powershell.integratedConsole.suppressStartupBanner": true,
-    "reflowMarkdown.preferredLineLength": 99
+    "reflowMarkdown.preferredLineLength": 99,
+    "vale.valeCLI.config": "${workspaceFolder}/.vale.ini"
 }

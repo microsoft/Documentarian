@@ -1,1 +1,5 @@
 Modules/Documentarian*/[0-9]*.[0-9]*.[0-9]*/
+/Styles/*
+!/Styles/PowerShell-Docs/
+!/Styles/Vocab/
+
