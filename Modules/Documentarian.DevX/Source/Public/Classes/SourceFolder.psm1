@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 using module ../../Private/Enums/UncommonLineEndingAction.psm1
 using module ../Enums/SourceCategory.psm1
 using module ../Enums/SourceScope.psm1

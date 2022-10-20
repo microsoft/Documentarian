@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 enabled: true
 description: >
   This configuration defines the default spellcheck settings for all PowerShell documentation. Where

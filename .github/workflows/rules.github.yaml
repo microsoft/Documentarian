@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   analyze_github:
-    name: Analyze repository
+    name: GitHub
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,7 +15,7 @@ jobs:
         with:
           modules: "PSRule.Rules.GitHub"
   analyze_msft_oss:
-    name: Analyze repository
+    name: Microsoft OSS
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
