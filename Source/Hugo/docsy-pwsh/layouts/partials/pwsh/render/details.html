@@ -1,0 +1,30 @@
+{{/*
+  Controls rendering as details.
+
+  Parameters:
+
+  - title: the text to write for the inner text of the summary element.
+  - body: the text to place after the summary in the details element.
+*/}}
+{{- $params := . -}}
+{{- $render := "" -}}
+
+{{- with $params.body -}}
+  {{- $class := slice "pwsh" "td-card" "card" -}}
+  {{- with $params.class -}}
+    {{- $class = $class | append . -}}
+  {{- end -}}
+  {{- $class = printf `class="%s"` (delimit $class " ") -}}
+
+  {{- with $params.title -}}
+    {{- $summaryClass := `class="card-header"` -}}
+    {{- $summary := printf "\n<summary %s>%s</summary>\n" $summaryClass $params.title -}}
+    {{- $bodyClass := `class="card-body code"` -}}
+    {{- $body := printf "\n\n<div %s>\n%s</div>" $bodyClass $params.body -}}
+    {{- $render  = printf "<details %s>\n%s\n%s\n\n</details>\n\n" $class $summary $body -}}
+  {{- else -}}
+    {{- $render  = printf "<details %s>\n\n%s\n\n</details>" $class $params.body -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $render -}}

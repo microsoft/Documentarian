@@ -6,7 +6,7 @@ description: >
   This configuration defines the default spellcheck settings for all PowerShell documentation. Where
   needed, other projects and subfolders can extend or override these defaults.
 
-# Ensure that any comments in code files to controll cSpell are correct.
+# Ensure that any comments in code files to control cSpell are correct.
 validateDirectives: true
 
 # These apply to all files unless otherwise specified. They're defined in NPM modules that are
@@ -130,29 +130,29 @@ ignoreRegExpList:
   - wildcard-fragments
 
 # The default locale for this documentation is US English.
-language: "en,en-US"
+language: 'en,en-US'
 
 # These settings are applied to combinations of language (file type) and locale. For any given file
 # and locale, all matching dictionaries are applied.
 languageSettings:
   # Any file written in English
-  - languageId: "*"
+  - languageId: '*'
     locale: en
     dictionaries:
       - wordsEn
   # Any file written in US English
-  - languageId: "*"
+  - languageId: '*'
     locale: en-US
     dictionaries:
       - wordsEn
   # Any file written in British English
-  - languageId: "*"
+  - languageId: '*'
     locale: en-GB
     dictionaries:
       - wordsEnGb
   # Any Markdown file
   - languageId: markdown
-    locale: "*"
+    locale: '*'
     dictionaries:
       - externalCommands
       - fictionalCorps
@@ -161,7 +161,7 @@ languageSettings:
       - pwshAliases
   # Any Text file
   - languageId: txt
-    locale: "*"
+    locale: '*'
     dictionaries:
       - externalCommands
       - fictionalCorps
@@ -170,7 +170,7 @@ languageSettings:
       - pwshAliases
   # Any yml file
   - languageId: yaml
-    locale: "*"
+    locale: '*'
     dictionaries:
       - externalCommands
       - fictionalCorps

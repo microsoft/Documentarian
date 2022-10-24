@@ -1,0 +1,95 @@
+taxonomy:
+  taxonomyCloud:
+    - tags
+    - categories
+  taxonomyCloudTitle:
+    - Tag Cloud
+    - Categories
+  taxonomyPageHeader:
+    - tags
+    - categories
+  pygmentsCodeFences: true
+  pygmentsUseClasses: false
+  pygmentsUseClassic: false
+  pygmentsStyle: tango
+copyright: Microsoft
+version_menu: Releases
+archived_version: false
+version: 0.1.0
+url_latest_version: 'https://github.com/microsoft/Documentarian/releases'
+github_repo: 'https://github.com/microsoft/Documentarian'
+github_project_repo: 'https://github.com/microsoft/Documentarian'
+github_branch: main
+github_feedback:
+  - name: post_create_issue # maps to i18n/*.yaml
+    temp: issues/new?assignees=&labels=bug%2Cdocumentation%2Cneeds-triage&template=docs-bug.yml
+    type: issues
+    icon: flag
+    params:
+      labels:
+        - bug
+        - documentation
+        - needs-triage
+      template: docs-bug.yml
+  - name: post_propose_idea # maps to i18n/*.yaml
+    temp: discussions/new?category=docs-proposals
+    type: discussions
+    icon: pen-nib
+    params:
+      category: docs-proposals
+  - name: post_create_project_issue # maps to i18n/*.yaml
+    temp: issues/new?assignees=&labels=bug%2Cneeds-triage&template=code-bug.yml
+    type: issues
+    icon: bug
+    params:
+      labels:
+        - bug
+        - needs-triage
+      template: code-bug.yml
+  - name: post_propose_project_idea # maps to i18n/*.yaml
+    temp: discussions/new?category=code-proposals
+    type: discussions
+    icon: lightbulb
+    params:
+      category: code-proposals
+offlineSearch: true
+prism_syntax_highlighting: false
+ui:
+  breadcrumb_disable: false
+  footer_about_disable: true
+  navbar_logo: false
+  navbar_translucent_over_cover_disable: true
+  sidebar_menu_compact: true
+  sidebar_menu_foldable: true
+  sidebar_search_disable: true
+  feedback:
+    enable: false
+  readingtime:
+    enable: true
+links:
+  user:
+    - name: Authoring Guide
+      url: '/docs/authoring'
+      icon: fa fa-book
+      desc: >-
+        Read the authoring guide to get started with the Documentarian modules. The guide includes
+        tutorials, concepts, and practices you can use when writing and maintaining documentation.
+    - name: GitHub Discussions
+      url: 'https://github.com/microsoft/Documentarian/discussions'
+      icon: fa fa-comments
+      desc: >-
+        The project discussions on GitHub host announcements, Q&A, feature ideas, and more. Head
+        here to talk with other users, developers, and authors about the project and documentation.
+  developer:
+    - name: Contributor Guide
+      url: '/docs/contributing'
+      icon: fa fa-book
+      desc: >-
+        Read the contributing guide to get started contributing directly. The guide includes
+        everything you need to know about building, testing, extending, and documenting the project.
+    - name: GitHub Repository
+      url: 'https://github.com/microsoft/Documentarian'
+      icon: fab fa-github
+      desc: >-
+        GitHub is where the project is hosted and developed. This repository has the source files
+        for the project and this documentation site. It's also where all of the work gets tracked.

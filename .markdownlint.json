@@ -9,24 +9,12 @@
     "style": "backtick"
   },
   "commands-show-output": true,
-  "docsmd.alert": true,
-  "docsmd.codesnippet": true,
-  "docsmd.column": true,
-  "docsmd.image": true,
-  "docsmd.moniker": true,
-  "docsmd.no-loc": true,
-  "docsmd.row": true,
-  "docsmd.securelinks": true,
-  "docsmd.syntax": true,
-  "docsmd.video": true,
-  "docsmd.xref": true,
-  "docsmd.zone": true,
   "emphasis-style": {
     "style": "underscore"
   },
   "fenced-code-language": false,
   "first-line-h1": {
-    "front_matter_title": ""
+    "front_matter_title": "^\\s*title\\s*[:=]"
   },
   "header-increment": true,
   "header-start-left": true,

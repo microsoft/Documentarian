@@ -1,0 +1,8 @@
+{{- $filePath := . -}}
+{{- $open     := `<p style="color: #D74848"><b><i>The file <code>` -}}
+{{- $close    := `</code> was not found.</i></b></p>` -}}
+{{- $render   := printf "%s%s%s" $open $filePath $close -}}
+{{- return $render -}}
+
+{{/*  This is the value from docsy's readfile shortcode  */}}
+{{/*  <p style="color: #D74848"><b><i>The file <code>{{ $.Scratch.Get "filepath" }}</code> was not found.</i></b></p>  */}}

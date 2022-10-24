@@ -1,0 +1,31 @@
+@mixin pwshLight {
+  $pwshForeground: Black;
+  $pwshBackground: White;
+  // Tokens:
+  $pwshAttribute: DeepSkyBlue #00bfff;
+  $pwshCommand: Blue #0000ff;
+  $pwshCommandArgument: BlueViolet #8a2be2;
+  $pwshCommandParameter: Navy #000080;
+  $pwshComment: DarkGreen #006400;
+  $pwshGroupEnd: Black;
+  $pwshGroupStart: Black;
+  $pwshKeyword: DarkBlue #00008b;
+  $pwshBack-tick: Black;
+  $pwshLoopLable: DarkBlue #00008b;
+  $pwshMember: Black;
+  $pwshNumber: Purple #800080;
+  $pwshOperator: DarkGray #a9a9a9;
+  $pwshStatementSeparator: Black;
+  $pwshString: DarkRed #8b0000;
+  $pwshType: Teal #008080;
+  $pwshVariable: OrangeRed #ff4500;
+  // Output Streams
+  $pwshErrorBackground: Transparent;
+  $pwshErrorForeground: #e50000;
+  $pwshWarningBackground: Transparent;
+  $pwshWarningForeground: #b26200;
+  $pwshVerboseBackground: Transparent;
+  $pwshVerboseForeground: #007f7f;
+  $pwshDebugBackground: Transparent;
+  $pwshDebugForeground: #007f7f;
+}

@@ -12,5 +12,18 @@
     "reflowMarkdown.preferredLineLength": 99,
     "vale.valeCLI.config": "${workspaceFolder}/.vale.ini",
     "yaml.format.singleQuote": true,
-    "files.eol": "\n"
+    "files.eol": "\n",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/.hugo_build.lock": true,
+        "Source/Modules/*/public": true,
+        "Source/Modules/*/resources": true,
+        "Source/Hugo/*/public": true,
+        "Source/Hugo/*/resources": true
+    }
 }

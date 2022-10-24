@@ -1,0 +1,13 @@
+{{/* 
+  Default processor for source code. This step happens before the highlight step and allows you to
+  munge the source code before passing it to the highlighter.
+
+  This processor unescapes the source code and passes it through safeHTML so it can be rendered.
+*/}}
+{{- $params := . -}}
+{{- $sourceCode := $params.sourceCode -}}
+
+{{- $sourceCode = trim $sourceCode "\n" -}}
+{{- $sourceCode = printf "\n%s\n" $sourceCode | htmlUnescape | safeHTML -}}
+
+{{- return $sourceCode -}}

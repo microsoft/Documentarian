@@ -1,0 +1,30 @@
+{{- $params := dict -}}
+{{- if .IsNamedParams -}}
+  {{- $params = merge $params (dict "name" .Params.name) -}}
+  {{- $params = merge $params (dict "target" (default "dotnet" .Params.target)) -}}
+  {{- $params = merge $params (dict "style" .Params.style) -}}
+{{- else -}}
+  {{- $params = merge $params (dict "name" (.Get 0)) -}}
+  {{- $params = merge $params (dict "target" (default "dotnet" (.Get 1))) -}}
+  {{- $params = merge $params (dict "style" (.Get 1)) -}}
+{{- end -}}
+
+{{- with $params.name -}}
+{{/*  {{- warnf "Params: %#v" $params -}}  */}}
+{{- else -}}
+{{- errorf "No name specified for xref!" -}}
+{{- end -}}
+
+{{- $ref := "" -}}
+{{- if eq "dotnet" $params.target -}}
+{{ $ref = partial "pwsh/dotnetref" $params }}
+{{- else -}}
+{{- end -}}
+
+{{- if eq "code" $params.style -}}
+[`{{ $params.name }}`]({{ $ref }})
+{{- else if eq "bold" $params.style -}}
+[**{{ $params.name }}**]({{ $ref }})
+{{- else -}}
+[{{ $params.name }}]({{ $ref }})
+{{- end -}}

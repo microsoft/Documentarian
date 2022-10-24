@@ -1,5 +1,9 @@
 Source/Modules/Documentarian*/[0-9]*.[0-9]*.[0-9]*/
-/Styles/*
-!/Styles/PowerShell-Docs/
-!/Styles/Vocab/
+Source/Styles/*
+!Source/Styles/PowerShell-Docs/
+!Source/Styles/Vocab/
 
+# Hugo ignores
+**/public
+**/resources/_gen
+**/.hugo_build.lock

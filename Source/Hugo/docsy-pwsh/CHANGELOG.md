@@ -2,7 +2,7 @@
 title: Changelog
 weight: 0
 description: |
-  All notable changes to the **Documentarian.DevX** module are documented in this file.
+  All notable changes to the **docsy-pwsh** Hugo module are documented in this file.
 
   This changelog's format is based on [Keep a Changelog][01] and this project adheres to
   [Semantic Versioning][02].
@@ -19,4 +19,4 @@ description: |
 
 ## Unreleased
 
-- Scaffolded initial project.
+- Initial Release

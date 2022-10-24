@@ -1,0 +1,20 @@
+{{- $params := . -}}
+{{- $current := $params.current -}}
+{{- $munging := $params.munging -}}
+
+{{- $keysToSkip := slice "partials" "useDefault" "name" -}}
+
+{{- $return := dict -}}
+{{- with $current -}}
+  {{- $return = $current -}}
+{{- end -}}
+
+{{- with $munging -}}
+  {{- range $key, $value := $munging -}}
+    {{- if not (in $keysToSkip $key) -}}
+      {{- $return = merge $return (dict $key $value) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $return -}}

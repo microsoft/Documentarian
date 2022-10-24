@@ -1,0 +1,15 @@
+module:
+  hugoVersion:
+    extended: true
+    min: 0.75.0
+  imports:
+    - path: github.com/google/docsy
+      disable: false
+    - path: github.com/google/docsy/dependencies
+      disable: false
+
+markup:
+  goldmark:
+    parser:
+      attribute:
+        block: true

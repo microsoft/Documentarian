@@ -1,0 +1,45 @@
+---
+title: Documentarian
+linkTitle: Documentarian
+summary: A toolkit for interactive digital books.
+---
+
+{{< blocks/cover 
+    title="Documentarian: A delightful docs toolkit"
+    image_anchor="top"
+    color="secondary"
+>}}
+<div class="mx-auto">
+    <p class="lead mt-5">
+        This is the landing page for Documentarian, an open source toolkit for documentarians and
+        community contributors to reduce friction and provide a delightful experience for
+        contributing to and maintaining documentation.
+    </p>
+    <a class="btn btn-lg btn-primary mr-3 mb-4" href="{{< ref "/docs" >}}">
+        Learn More <i class="fa fa-book ml-2 "></i>
+    </a>
+    <a class="btn btn-lg btn-primary mr-3 mb-4" target="_blank" href="https://github.com/microsoft/Documentarian/discussions">
+        Start a Discussion <i class="fab fa-github ml-2 "></i>
+    </a>
+    {{< blocks/link-down color="info" >}}
+</div>
+{{< /blocks/cover >}}
+
+{{< blocks/section color="primary" >}}
+
+{{% blocks/feature icon="fa-terminal" title="PowerShell Modules" %}}
+The **Documentarian** modules provide a collection of command-line tools for writing and maintaining
+Markdown files.
+{{% /blocks/feature %}}
+
+{{% blocks/feature icon="fa-code" title="Hugo Theme" %}}
+The **docsy-pwsh** theme for Hugo doesn't just power this site, it's available for you to use when
+documenting your own PowerShell modules.
+{{% /blocks/feature %}}
+
+{{% blocks/feature icon="fa-list-check" title="Linting Packages" %}}
+The **PowerShell-Docs** dictionary for cSpell and package for Vale provides helpful defaults for
+linting the prose of your PowerShell documentation.
+{{% /blocks/feature %}}
+
+{{< /blocks/section >}}

@@ -1,0 +1,13 @@
+@import "pwsh/metadata";
+
+details.pwsh.td-card.card.sourceCode {
+  div.card-body.code {
+    div.highlight {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
