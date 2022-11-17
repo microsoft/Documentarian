@@ -10,3 +10,4 @@ enableGitInfo: true
 permalinks:
   blog: '/:section/:year/:month/:day/:slug/'
 themesDir: ../Source
+publishDir: ../public

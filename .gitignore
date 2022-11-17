@@ -7,3 +7,4 @@ Source/Styles/*
 **/public
 **/resources/_gen
 **/.hugo_build.lock
+**/node_modules
