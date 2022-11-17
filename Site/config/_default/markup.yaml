@@ -1,0 +1,8 @@
+goldmark:
+  renderer:
+    unsafe: true
+  parser:
+    attribute:
+      block: true
+highlight:
+  style: tango

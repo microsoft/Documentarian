@@ -1,0 +1,68 @@
+{{/* Shadowed and modified from docsy source */}}
+{{ if .File }}
+{{ $pathFormatted := replace .File.Path "\\" "/" -}}
+{{ $gh_repo := ($.Param "github_repo") -}}
+{{ $gh_url := ($.Param "github_url") -}}
+{{ $gh_subdir := ($.Param "github_subdir") -}}
+{{ $gh_project_repo := ($.Param "github_project_repo") -}}
+{{ $gh_branch := (default "main" ($.Param "github_branch")) -}}
+
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+{{ if $gh_url -}}
+  {{ warnf "Warning: use of `github_url` is deprecated. For details see https://www.docsy.dev/docs/adding-content/repository-links/#github_url-optional" -}}
+  <a href="{{ $gh_url }}" target="_blank"><i class="fa-solid fa-pen-to-square fa-fw"></i> {{ T "post_edit_this" }}</a>
+{{ else if $gh_repo -}}
+  {{ $gh_repo_path := printf "%s/content/%s" $gh_branch $pathFormatted -}}
+  {{ if and ($gh_subdir) (.Site.Language.Lang) -}}
+    {{ $gh_repo_path = printf "%s/%s/content/%s/%s" $gh_branch $gh_subdir ($.Site.Language.Lang) $pathFormatted -}}
+  {{ else if .Site.Language.Lang -}}
+    {{ $gh_repo_path = printf "%s/content/%s/%s" $gh_branch ($.Site.Language.Lang) $pathFormatted -}}
+  {{ else if $gh_subdir -}}
+    {{ $gh_repo_path = printf "%s/%s/content/%s" $gh_branch $gh_subdir $pathFormatted -}}
+  {{ end -}}
+
+  {{/* Adjust $gh_repo_path based on path_base_for_github_subdir */ -}}
+  {{ $ghs_base := $.Param "path_base_for_github_subdir" -}}
+  {{ $ghs_rename := "" -}}
+  {{ if reflect.IsMap $ghs_base -}}
+    {{ $ghs_rename = $ghs_base.to -}}
+    {{ $ghs_base = $ghs_base.from -}}
+  {{ end -}}
+  {{ with $ghs_base -}}
+    {{ $gh_repo_path = replaceRE . $ghs_rename $gh_repo_path -}}
+  {{ end -}}
+
+  {{ $viewURL := printf "%s/tree/%s" $gh_repo $gh_repo_path -}}
+  {{ $editURL := printf "%s/edit/%s" $gh_repo $gh_repo_path -}}
+  {{ $issuesURL := printf "%s/issues/new?title=%s" $gh_repo (safeURL $.Title ) -}}
+  {{ $project_issueURL := cond (ne nil $gh_project_repo) (printf "%s/issues/new" $gh_project_repo) "" -}}
+  
+  {{/* Uses the custom new GitHub Feedback rework to support discussions */}}
+  {{- $feedback_items := slice -}}
+  {{- with $.Param "github_feedback" -}}
+    {{- $feedback_params := dict "entries" . "gh_repo" $gh_repo "gh_project_repo" $gh_project_repo "context" ($.Param "gh_feedback") -}}
+    {{- $feedback_items = partial "meta-github-feedback.html" $feedback_params -}}
+  {{- end -}}
+
+  <a href="{{ $viewURL }}" class="td-page-meta--view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> {{ T "post_view_this" }}</a>
+  <a href="{{ $editURL }}" class="td-page-meta--edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> {{ T "post_edit_this" }}</a>
+  <hr>
+  {{ if gt (len $feedback_items) 0 -}} {{/* New behavior */}}
+    {{ range $feedback_items -}}
+    <a href="{{ .link_url }}" class="td-page-meta--issue" target="_blank" rel="noopener"><i class="fa-solid fa-{{ .link_icon }} fa-fw"></i> {{ .link_text }}</a>
+    {{ end -}}
+  {{ else -}} {{/* Old behavior */}}
+    <a href="{{ $issuesURL }}" class="td-page-meta--issue" target="_blank" rel="noopener"><i class="fa-solid fa-flag fa-fw"></i> {{ T "post_create_issue" }}</a>
+    {{ with $project_issueURL -}}
+      <a href="{{ . }}" class="td-page-meta--project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-bug fa-fw"></i> {{ T "post_create_project_issue" }}</a>
+    {{ end -}}
+  {{ end -}}
+  <hr>
+{{ end -}}
+
+
+{{ with .CurrentSection.AlternativeOutputFormats.Get "print" -}}
+  <a id="print" href="{{ .Permalink | safeURL }}"><i class="fa-solid fa-print fa-fw"></i> {{ T "print_entire_section" }}</a>
+{{ end }}
+</div>
+{{ end -}}

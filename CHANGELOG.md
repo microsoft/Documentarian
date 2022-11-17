@@ -18,5 +18,5 @@ For releases before `1.0.0`, this project uses the following convention:
 
 [01]: https://keepachangelog.com/en/1.0.0/
 [02]: https://semver.org/spec/v2.0.0.html
-[03]: Modules/Documentarian/CHANGELOG.md
-[04]: Modules/Documentarian.DevX/CHANGELOG.md
+[03]: Source/Modules/Documentarian/CHANGELOG.md
+[04]: Source/Modules/Documentarian.DevX/CHANGELOG.md

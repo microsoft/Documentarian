@@ -1,0 +1,12 @@
+baseURL: https://microsoft.github.io/Documentarian/
+languageCode: en-us
+title: Documentarian
+contentDir: ../Content
+defaultContentLanguage: en
+defaultContentLanguageInSubdir: false
+enableMissingTranslationPlaceholders: true
+enableRobotsTXT: true
+enableGitInfo: true
+permalinks:
+  blog: '/:section/:year/:month/:day/:slug/'
+themesDir: ../Source

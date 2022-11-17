@@ -1,0 +1,103 @@
+{{/*
+    Use this partial to loop over entries defined in params.github_feedback in the site
+    configuration. Those entries are used in place of the default Docsy behavior, allowing you
+    to customize the links, including whether they're for issues or discussions and which query
+    parameters to append to the URL.
+
+    This partial is called from `page-meta-links`.
+
+    This partial expects the following inputs in a dictionary sent as the context dot (`.`):
+
+    - `entries` should be the array of values in `params.github_feedback`.
+    - `gh_repo` should be the URL to the repository for the docs site.
+    - `gh_project_repo` should be the URL to the repository for the project code.
+    - `context` should be the page context for the article where this feedback will be displayed.
+*/}}
+{{- $entries         := .entries -}}
+{{- $gh_repo         := .gh_repo -}}
+{{- $gh_project_repo := .gh_project_repo -}}
+{{- $context         := .context -}}
+
+{{/* Create an empty list of feedback items; valid entries get added and returned. */}}
+{{- $feedback_items := slice -}}
+
+{{- range $feedback_item := $entries -}}
+  {{- $feedback_link_icon := default "list-check" $feedback_item.icon -}}
+  {{- $feedback_link_text := "" -}}
+  {{- $feedback_link_url := "" -}}
+  {{- $skip := false -}}
+
+  {{/* Handle link text; use i18n field if available, else specified name */}}
+  {{- with $feedback_item.name }}
+    {{- $feedback_link_text = default . (T .) -}}
+  {{- else -}}
+    {{- warnf "Invalid GitHub feedback item; must specify a name.\n\t%#v" $feedback_item -}}
+    {{ $skip := true }}
+  {{ end -}}
+
+  {{/* Supports issues and discussions only */}}
+  {{- if in (slice "issues" "discussions") $feedback_item.type -}}
+    {{- if or ($feedback_item.for_project) (in $feedback_item.name "_project_") -}}
+      {{- $feedback_link_url = printf "%s/%s/new"
+          (cond (ne nil $gh_project_repo) $gh_project_repo $gh_repo)
+          $feedback_item.type
+      -}}
+    {{- else -}}
+      {{- $feedback_link_url = printf "%s/%s/new" $gh_repo $feedback_item.type -}}
+    {{- end -}}
+
+    {{/* Combine site params for feedback with page/section */}}
+    {{- with $feedback_item.params -}}
+      {{- $param_hash := . -}}
+      {{- with $context -}}
+        {{- $contextual_params := index . $feedback_item.type -}}
+        {{- range $key, $value := $contextual_params -}}
+          {{- with index $param_hash $key -}}
+            {{- if or (reflect.IsSlice .) (reflect.IsSlice $value) -}}
+              {{- $appended := cond (reflect.IsSlice .) . (slice .) | append $value }}
+              {{- $param_hash = merge $param_hash (dict $key $appended) -}}
+            {{- else if reflect.IsMap . -}}
+              {{- $param_hash = merge $param_hash (dict $key $value) -}}
+            {{- else -}}
+              {{- $param_hash = merge $param_hash (dict $key $value) -}}
+            {{- end -}}
+          {{- else -}}
+            {{- $param_hash = merge $param_hash (dict $key $value) -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{/* Convert parameter map into URL query for GitHub */}}
+      {{- $parameters := slice -}}
+      {{- range $key, $value := $param_hash -}}
+        {{- $munged := "" -}}
+        {{- if reflect.IsSlice $value -}}
+          {{- $munged = delimit $value "," | urlquery }}
+        {{- else -}}
+          {{- $munged = urlquery $value -}}
+        {{- end -}}
+        {{- $parameters = $parameters | append (printf "%s=%s" $key $munged) -}}
+      {{- end -}}
+
+      {{- $feedback_link_url = printf "%s?%s" $feedback_link_url (delimit $parameters "&")}}
+    {{- end -}}
+  {{- else -}}
+    {{- warnf
+        "Invalid GitHub feedback item '%s'; type must be 'issues' or 'discussions' but was '%s'"
+        $feedback_link_text
+        $feedback_item
+      -}}
+    {{ $skip := true }}
+  {{- end -}}
+
+  {{- if ne true $skip }}
+    {{- $feedback_items = $feedback_items | append (dict 
+          "link_icon" $feedback_link_icon
+          "link_text" $feedback_link_text
+          "link_url" $feedback_link_url
+        )
+    -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $feedback_items -}}

@@ -1,0 +1,34 @@
+{{- $params     := . }}
+{{- $sourceCode := $params.sourceCode -}}
+{{- $options    := $params.options -}}
+
+{{- $munged := $sourceCode -}}
+
+{{/* Find, cache, and remove copyright and license notices from the source code */}}
+{{- $notices := findRE `(?mi:^#\s*(copyright|license)(\s|.)+$)` $munged -}}
+{{- range $notice := $notices -}}
+  {{- $munged = replace $munged $notice "" -}}
+{{- end -}}
+
+{{/* Find and remove using statements from the source code */}}
+{{- $usingStatements := findRE `(?m:^using .+$)` $munged -}}
+{{- range $statement := $usingStatements -}}
+  {{- $munged = replace $munged $statement "" -}}
+{{- end -}}
+
+{{/* Find and remove the required functions block from the source code */}}
+{{- $reqFuncsPattern := `(?i:#\s*region\s*RequiredFunctions(\s|.)*#\s*endregion\s*RequiredFunctions)` -}}
+{{- $requiredFunctionsBlocks := findRE $reqFuncsPattern $munged -}}
+{{- range $block := $requiredFunctionsBlocks -}}
+  {{- $munged = replace $munged $block "" -}}
+{{- end -}}
+
+{{/* Trim leading and trailing whitespace */}}
+{{- $munged = trim $munged "\n" -}}
+
+{{/* Put the copyright and license notices back */}}
+{{- with $notices -}}
+  {{- $munged = printf "%s\n\n%s\n" (delimit $notices "\n") $munged -}}
+{{- end -}}
+
+{{- return $munged -}}

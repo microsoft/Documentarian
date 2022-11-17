@@ -1,0 +1,13 @@
+dl.pwsh-metadata {
+  dt {
+    float: left;
+    clear: left;
+    width: 20%;
+    text-align: right;
+
+    &::after {
+      content: ":";
+      padding-right: 1em;
+    }
+  }
+}

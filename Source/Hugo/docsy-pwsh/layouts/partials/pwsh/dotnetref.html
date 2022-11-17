@@ -1,0 +1,4 @@
+{{- $params := . -}}
+{{- $base_url := default "https://learn.microsoft.com/dotnet/api" $params.base_url -}}
+{{- $url := printf "%s/%s" $base_url $params.name -}}
+{{- return $url -}}

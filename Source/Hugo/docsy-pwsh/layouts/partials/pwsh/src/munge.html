@@ -1,0 +1,48 @@
+{{- $params     := . }}
+{{- $sourceCode := $params.sourceCode -}}
+{{- $options    := $params.options -}}
+{{- $passableOptions := partial "pwsh/src/munge/options" (dict "munging" $options) -}}
+
+{{/*  {{- warnf "munging with options: %#v" $options -}}  */}}
+
+{{- with $options.partials -}}
+  {{- $partials := cond (reflect.IsSlice .) . (slice .) -}}
+  {{/*  {{- warnf "partials: %#v" $partials -}}  */}}
+  {{- $weightedPartials := slice -}}
+  {{- $unweightedPartials := slice -}}
+  {{- $stringPartials := slice -}}
+  {{- range $partials -}}
+    {{- if reflect.IsMap . -}}
+      {{- if isset . "weight" -}}
+        {{- $weightedPartials = $weightedPartials | append . -}}
+      {{- else -}}
+        {{- $unweightedPartials = $unweightedPartials | append . -}}
+      {{- end -}}
+    {{- else -}}
+      {{- $stringPartials = $stringPartials | append . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- range $partial := sort $weightedPartials "weight" -}}
+    {{- $optionParams := dict "current" $passableOptions "munging" $partial -}}
+    {{- $passingOptions := partial "pwsh/src/munge/options" $optionParams -}}
+    {{- $mungingParams := dict "sourceCode" $sourceCode "options" $passingOptions -}}
+    {{- $sourceCode = partial $partial.name $mungingParams -}}
+  {{- end -}}
+  {{- range $partial := sort $unweightedPartials -}}
+    {{- $optionParams := dict "current" $passableOptions "munging" $partial -}}
+    {{- $passingOptions := partial "pwsh/src/munge/options" $optionParams -}}
+    {{- $mungingParams := dict "sourceCode" $sourceCode "options" $passingOptions -}}
+    {{- $sourceCode = partial $partial.name $mungingParams -}}
+  {{- end -}}
+  {{- range $partial := $stringPartials -}}
+    {{- $mungingParams := dict "sourceCode" $sourceCode "options" $passableOptions }}
+    {{- $sourceCode = partial $partial $mungingParams -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Finally, apply the default munging unless disabled */}}
+{{- if $options.useDefault -}}
+  {{- $sourceCode = partial "pwsh/src/munge/default" (dict "sourceCode" $sourceCode) -}}
+{{- end -}}
+
+{{- return $sourceCode -}}

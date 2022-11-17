@@ -1,0 +1,262 @@
+{{/* Store ordinal, to be retrieved by parent element */}}
+{{ if ge hugo.Version "0.93.0" }}
+  {{ .Page.Store.Add "Ordinal" 1 }}
+{{ end }}
+
+{{/* Build list of valid parameters */}}
+{{- $validParams := slice -}}
+{{/* root
+
+    Settable by: page, named parameter
+
+    Used as a prefix for the path. Usually set on a per project basis for convenience to avoid
+    needing to continually specify '/import/source/modules/mymodule/path/to/file.ps1'
+
+    Like path, a leading `/` indicates that this is relative to the root of the content folder.
+*/}}
+{{- $validParams = $validParams | append "root" -}}
+{{/* path
+
+    Settable by: page, named parameter, positional parameter
+
+    Path to the source file to render. This is the only parameter that can be passed directly to
+    the shortcode without using named parameters. For example:
+
+    ```
+    {{% src "some/path/to/file.ps1" %}}
+    {{% src path="some/path/to/file.ps1" %}}
+    ```
+
+    If this value has a leading `/`, the path is interpreted as relative to the root of the content
+    folder. With a leading `/`, the root parameter is ignored. Without a leading `/`, this value is
+    concatenated to the value of the root parameter, if specified.
+
+    If this value does not have a leading `/`, the path is interpreted as relative to the page this
+    shortcode is used on, so `foo/bar.ps1` in `content/module/baz/some-page.md` would try to find
+    and render the file `content/module/baz/foo/bar.ps1`.
+
+    You can use module mounts to add your source code to the content folder with hugo's virtual
+    filesystem. For more information, see the theme docs.
+*/}}
+{{- $validParams = $validParams | append "path" -}}
+{{/* lang
+
+    Settable by: page, named parameter
+
+    Specifies the language syntax to highlight in the file. If this value isn't specified, the
+    highlighter is called with the **guessSntax** option set to `true`.
+*/}}
+{{- $validParams = $validParams | append "lang" -}}
+{{/* title
+
+    Settable by: page, named parameter
+
+    Sets the title for the details element when **asDetails** is true. If this value isn't
+    specified, the file's name (including extension) is used instead.
+*/}}
+{{- $validParams = $validParams | append "title" -}}
+{{/* asDetails
+
+    Settable by: page, named parameter
+
+    Determines whether to render the code inside of a details element, making it collapsible.
+    Defaults to `true`.
+*/}}
+{{- $validParams = $validParams | append "asDetails" -}}
+
+{{- $dictParams := slice -}}
+{{/* munging
+
+    Settable by: page, named parameter
+
+    Determines the munging behavior for the source code, which preprocesses it before highlighting.
+    By default, munging calls the `pwsh/src/munging/default` partial, which unescapes HTML code and
+    calls safeHTML on the text.
+
+    Two parameters are passed to every munging partial:
+
+    1. The source code, as `.sourceCode`
+    2. All of the munging options, as `.options`
+
+    Predefined options include:
+
+    -   partials: an array of partials to pass the text of the source code through before
+                  highlighting. If this value is specified and you don't want the default munging
+                  applied, you must set useDefault to false
+
+                  You can specify these partials as an array of strings or maps. If you specify a
+                  string, it must be the name of a partial that exists.
+
+                  If you specify a map, it must include the `name` key, which must be the name of a
+                  partial that exists. You may also specify the `weight` key, which controls the
+                  order the partials are applied to the source code. You may also specify any other
+                  key-value pairs, which are merged into the options for that partial only.
+
+                  The order of applied partials is this:
+
+                  1. Mapped entries that specify the weight key from lowest to highest weight.
+                  2. Mapped entries that don't specify the weight key in alphabetical order.
+                  3. String entries in alphabetical order.
+                  4. The default partial, unless useDefault is false.
+
+    - useDefault: a boolean value, defaults to true. Controls whether the default munging is
+                  applied to the source code. If this value is true, the default munging is applied
+                  last, after any other munging.
+
+    To pass from the page parameters, specify pwsh.munging as a dictionary of options. You may use
+    the partials or useDefault options, or add any other key-value pairs. Any options other than
+    partials and useDefault are passed as options to the munging partials.
+
+    Examples:
+
+    ```yaml
+    pwsh:
+      source:
+        munging:
+          partials:
+            - foo
+            - name: bar
+              weight: 0
+              stripLicense: true
+            - name: baz
+            - name: alpha
+            - name: bravo
+              weight: 1
+          someSetting: true
+    ```
+
+    In this example, the bar partial will be applied first, with stripLicense merged into the
+    options for that partial only. The bravo partial will be applied next, then alpha, then baz,
+    and then foo. Finally, because useDefault isn't set to false, the default munging partial is
+    used. For all partials, someSetting is also merged into the options dictionary.
+
+    To pass from the shortcode, specify the options in the inner text as JSON, YAML, or TOML. This
+    uses hugos transform.Unmarshal function.
+
+    ```
+    {{\% src path="foo/bar.ps1" \%}}
+    munging:
+      partials:
+        - foo
+        - name: bar
+          stripLicense: true
+      useDefault: false
+      someSetting: true
+    {{\% /src \%}}
+    ```
+*/}}
+{{- $dictParams = $dictParams | append "munging" -}}
+
+
+{{/* Initialize the params dictionary and rendering string */}}
+{{- $params := dict -}}
+{{- $render := "" -}}
+
+{{/* First, grab the page-level parameters, if any */}}
+{{- $params = merge $params (dict "root"         .Page.Params.pwsh.source.root)         -}}
+{{- $params = merge $params (dict "name"         .Page.Params.pwsh.source.path)         -}}
+{{- $params = merge $params (dict "lang"         .Page.Params.pwsh.source.lang)         -}}
+{{- $params = merge $params (dict "title"        .Page.Params.pwsh.source.title)        -}}
+{{- $params = merge $params (dict "asDetails"    .Page.Params.pwsh.source.asDetails)    -}}
+{{- $params = merge $params (dict "munging"      .Page.Params.pwsh.source.munging)      -}}
+{{- $params = merge $params (dict "highlighting" .Page.Params.pwsh.source.highlighting) -}}
+
+{{/*  {{- warnf "src - Page params: %#v" $params -}}  */}}
+
+{{/* Merge the params passed to the shortcode directly */}}
+{{- if .IsNamedParams -}}
+  {{- $passedParams := .Params -}}
+  {{- range $param := $validParams -}}
+    {{- with (index $passedParams $param) -}}
+      {{- $params = merge $params (dict $param .) -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- with .Get 0 -}}
+    {{- $params = merge $params (dict "path" .) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Merge the dictionary params in the inner text of the shortcode, if any */}}
+{{- with .Inner -}}
+  {{- $options :=  . | unmarshal -}}
+  {{- with $options.munging -}}
+    {{- $munging := merge $params.munging .}}
+    {{- $params = merge $params (dict "munging" $munging) -}}
+  {{- end -}}
+  {{- with $options.highlighting -}}
+    {{- $highlighting := merge $params.highlighting .}}
+    {{- $params = merge $params (dict "highlighting" $highlighting) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Set the useDefault to true unless it's already set */}}
+{{- with $params.munging -}}
+  {{- if not (isset . "useDefault") -}}
+    {{- $munging := merge . (dict "useDefault" true) -}}
+    {{- $params = merge $params (dict "munging" $munging) -}}
+  {{- end -}}
+{{- else -}}
+  {{- $params = merge $params (dict "munging" (dict "useDefault" true)) -}}
+{{- end -}}
+
+{{/* Set defaults for title and asDetails if not specified */}}
+{{- if eq nil $params.title -}}
+  {{- $params = merge $params (dict "title" (path.Base $params.path)) -}}
+{{- end -}}
+{{- if eq nil $params.asDetails -}}
+  {{- $params = merge $params (dict "asDetails" true) -}}
+{{- end -}}
+
+{{/*  {{- warnf "src - Merged params: %#v" $params -}}  */}}
+
+{{/* Initialize the value of filePath to the path parameter */}}
+{{- $filePath := $params.path -}}
+
+{{/*
+  Since a user can specify a root path, join the root and the path unless it's an absolute path,
+  which always starts with a `/`
+*/}}
+{{- if and (ne nil $params.root) (not (hasPrefix $filePath "/")) -}}
+  {{- $filePath = printf "%s/%s" $params.root $filePath -}}
+{{- end -}}
+
+{{/*
+  If the first character is "/", the path is absolute from the site's `baseURL`. Otherwise,
+  construct an absolute path using the current directory
+*/}}
+{{- if not (hasPrefix $filePath "/") -}}
+  {{- $filePath = printf "/%s/%s" $.Page.File.Dir $filePath -}}
+{{- end -}}
+
+{{/* Determine the highlighter options */}}
+{{- $lang := default "" $params.lang -}}
+{{- $opts := "" -}}
+{{- if eq "" $lang -}}
+  {{- $opts = "guessSyntax=true" -}}
+{{- end -}}
+{{/* TODO: Handle more options */}}
+{{/*  {{- warnf "highlighting as %s with opts: %s" $lang $opts -}}  */}}
+
+{{/* If the file exists, read, process, and highlight it. */}}
+{{- if fileExists $filePath -}}
+  {{- $sourceCode := readFile $filePath -}}
+  {{/* TODO: Process it with a partial */}}
+  {{- $mungingParams := dict "sourceCode" $sourceCode "options" $params.munging -}}
+  {{- $sourceCode = partial "pwsh/src/munge" $mungingParams -}}
+  {{- $sourceCode = highlight $sourceCode $lang $opts -}}
+  {{- if $params.asDetails -}}
+    {{- $detailsParams := dict
+                          "title" $params.title
+                          "body" $sourceCode
+                          "class" "sourceCode"
+    -}}
+    {{ $render = partial "pwsh/render/details" $detailsParams -}}
+  {{- else -}}
+    {{- $render = $sourceCode -}}
+  {{- end -}}
+{{- else -}}
+  {{- $render = partial "pwsh/render/fileNotFound" $filePath -}}
+{{- end }}
+
+{{ safeHTML $render }}
