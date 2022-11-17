@@ -48,9 +48,12 @@ jobs:
           npm ls
           cd ..
       - name: Build the Site
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
         run: |
           cd ./Site
-          hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+          hugo --minify --baseURL "https://microsoft.github.io/Documentarian/"
           cd ..
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
