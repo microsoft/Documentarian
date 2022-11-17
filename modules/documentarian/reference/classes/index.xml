@@ -1,0 +1,60 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Documentarian – Classes</title><link>https://microsoft.github.io/Documentarian/modules/documentarian/reference/classes/</link><description>Recent content in Classes on Documentarian</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://microsoft.github.io/Documentarian/modules/documentarian/reference/classes/index.xml" rel="self" type="application/rss+xml"/><item><title>Modules: ParsedDocument</title><link>https://microsoft.github.io/Documentarian/modules/documentarian/reference/classes/parseddocument/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/modules/documentarian/reference/classes/parseddocument/</guid><description>
+&lt;h2 id="definition">Definition&lt;/h2>
+&lt;details class="pwsh td-card card sourceCode">
+&lt;summary class="card-header">Source Code&lt;/summary>
+&lt;div class="card-body code">
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Copyright (c) Microsoft Corporation.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Licensed under the MIT License.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">class&lt;/span> &lt;span style="color:#000">ParsedDocument&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">[System.IO.FileInfo]&lt;/span>&lt;span style="color:#000">$FileInfo&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">[string]&lt;/span>&lt;span style="color:#000">$RawContent&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">[Markdig.Syntax.MarkdownDocument]&lt;/span>&lt;span style="color:#000">$ParsedMarkdown&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">[System.Collections.Specialized.OrderedDictionary]&lt;/span>&lt;span style="color:#000">$FrontMatter&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">[string]&lt;/span>&lt;span style="color:#000">$Body&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">ParsedDocument&lt;/span>&lt;span style="color:#000;font-weight:bold">()&lt;/span> &lt;span style="color:#000;font-weight:bold">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">[string]&lt;/span> &lt;span style="color:#000">ToDecoratedString&lt;/span>&lt;span style="color:#000;font-weight:bold">()&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">return&lt;/span> &lt;span style="color:#000">$this&lt;/span>&lt;span style="color:#000;font-weight:bold">.&lt;/span>&lt;span style="color:#000">Body&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">|&lt;/span> &lt;span style="color:#204a87">ConvertFrom-Markdown&lt;/span> &lt;span style="color:#000">-AsVT100EncodedString&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">|&lt;/span> &lt;span style="color:#204a87">Select-Object&lt;/span> &lt;span style="color:#000">-ExpandProperty&lt;/span> &lt;span style="color:#000">VT100EncodedString&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/details>
+&lt;p>The &lt;strong>ParsedDocument&lt;/strong> class&amp;hellip;&lt;/p>
+&lt;h2 id="examples">Examples&lt;/h2>
+&lt;h3 id="example-1">Example 1&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="constructors">Constructors&lt;/h2>
+&lt;h3 id="parseddocument">&lt;code>ParsedDocument()&lt;/code>&lt;/h3>
+&lt;p>The default constructor takes no input.&lt;/p>
+&lt;h2 id="methods">Methods&lt;/h2>
+&lt;h3 id="todecoratedstring">&lt;code>ToDecoratedString()&lt;/code>&lt;/h3>
+&lt;h2 id="properties">Properties&lt;/h2>
+&lt;h3 id="fileinfo">&lt;code>FileInfo&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Type&lt;/dt>
+&lt;dd>&lt;a href="https://learn.microsoft.com/dotnet/api/System.IO.FileInfo">System.IO.FileInfo&lt;/a>&lt;/dd>
+&lt;/dl>
+&lt;h3 id="rawcontent">&lt;code>RawContent&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Type&lt;/dt>
+&lt;dd>&lt;a href="https://learn.microsoft.com/dotnet/api/System.String">System.String&lt;/a>&lt;/dd>
+&lt;/dl>
+&lt;h3 id="parsedmarkdown">&lt;code>ParsedMarkdown&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Type&lt;/dt>
+&lt;dd>&lt;a href="https://learn.microsoft.com/dotnet/api/Markdig.Syntax.MarkdownDocument">Markdig.Syntax.MarkdownDocument&lt;/a>&lt;/dd>
+&lt;/dl>
+&lt;h3 id="frontmatter">&lt;code>FrontMatter&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Type&lt;/dt>
+&lt;dd>&lt;a href="https://learn.microsoft.com/dotnet/api/System.Collections.Specialized.OrderedDictionary">System.Collections.Specialized.OrderedDictionary&lt;/a>&lt;/dd>
+&lt;/dl>
+&lt;h3 id="body">&lt;code>Body&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Type&lt;/dt>
+&lt;dd>&lt;a href="https://learn.microsoft.com/dotnet/api/System.String">System.String&lt;/a>&lt;/dd>
+&lt;/dl></description></item></channel></rss>

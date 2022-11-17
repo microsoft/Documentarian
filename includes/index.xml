@@ -1,0 +1,413 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Documentarian – Includes</title><link>https://microsoft.github.io/Documentarian/includes/</link><description>Recent content in Includes on Documentarian</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://microsoft.github.io/Documentarian/includes/index.xml" rel="self" type="application/rss+xml"/><item><title>Includes:</title><link>https://microsoft.github.io/Documentarian/includes/source/devx/private/readme/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/includes/source/devx/private/readme/</guid><description>
+&lt;h1 id="private-source">Private Source&lt;/h1>
+&lt;p>This folder contains the private classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>Documentarian.DevX.Private.psm1&lt;/code> file.&lt;/p>
+&lt;ul>
+&lt;li>[Classes]&lt;/li>
+&lt;li>[Enums]&lt;/li>
+&lt;li>[Functions]&lt;/li>
+&lt;/ul>
+&lt;h2 id="classes">Classes&lt;/h2>
+&lt;p>This folder contains the private classes used by this module and their unit tests.&lt;/p>
+&lt;p>The &lt;a href="Classes/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the classes should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more classes are added, this comment should be replaced with a list of the current
+classes with a synopsis and any important notes for maintainers. For example:
+- [`Foo`](Classes/Foo.ps1): Used to represent the foo datatype for processing.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h2 id="enums">Enums&lt;/h2>
+&lt;p>This folder contains the private enums used by this module and their unit tests.&lt;/p>
+&lt;p>The &lt;a href="Enums/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the enums should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more enums are added, this comment should be replaced with a list of the current enums
+with a synopsis and any important notes for maintainers. For example:
+- [`Bar`](Enums/Bar.ps1): Used for the known-valid values for the Bar property of the Foo datatype.
+- Needs to be updated periodically as the upstream datatype is modified.
+-->
+&lt;h2 id="functions">Functions&lt;/h2>
+&lt;p>This folder contains the private functions used by this module and their unit tests.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- [`Get-Foo`](Functions/Foo.ps1): Used to retrieve Foo objects for processing.
+- Currently experimental and unstable, excluded from the build process.
+--></description></item><item><title>Includes:</title><link>https://microsoft.github.io/Documentarian/includes/source/devx/public/readme/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/includes/source/devx/public/readme/</guid><description>
+&lt;h1 id="public-source">Public Source&lt;/h1>
+&lt;p>This folder contains the public classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>Documentarian.DevX.psm1&lt;/code> file.&lt;/p>
+&lt;ul>
+&lt;li>[Classes]&lt;/li>
+&lt;li>[Enums]&lt;/li>
+&lt;li>[Functions]
+&lt;ul>
+&lt;li>[Completion]&lt;/li>
+&lt;li>[Configuration]&lt;/li>
+&lt;li>[General]&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="classes">Classes&lt;/h2>
+&lt;p>This folder contains the public classes used by this module and their unit tests. During
+composition, these classes are also included in the generated &lt;code>Init.ps1&lt;/code> file, which enables
+automatic import of the public classes into the caller&amp;rsquo;s session for direct use.&lt;/p>
+&lt;p>The &lt;a href="Classes/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the classes should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more classes are added, this comment should be replaced with a list of the current
+classes with a synopsis and any important notes for maintainers. For example:
+- [`Foo`](Classes/Foo.ps1): Used to represent the foo datatype for processing.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h2 id="enums">Enums&lt;/h2>
+&lt;p>This folder contains the public enums used by this module and their unit tests. During composition,
+these enums are also included in the generated &lt;code>Init.ps1&lt;/code> file, which enables automatic import of
+the public enums into the caller&amp;rsquo;s session for direct use.&lt;/p>
+&lt;p>The &lt;a href="Enums/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the classes should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more enums are added, this comment should be replaced with a list of the current enums
+with a synopsis and any important notes for maintainers. For example:
+- [`Bar`](Enums/Bar.ps1): Used for the known-valid values for the Bar property of the Foo datatype.
+- Needs to be updated periodically as the upstream datatype is modified.
+-->
+&lt;h2 id="functions">Functions&lt;/h2>
+&lt;p>This folder contains the public functions used by this module and their unit tests. The public
+functions are broken down into a few groups: &lt;code>Completion&lt;/code>, &lt;code>Configuration&lt;/code>, and &lt;code>General&lt;/code>.&lt;/p>
+&lt;h3 id="completion">Completion&lt;/h3>
+&lt;p>This folder contains functions for registering argument completers so users do not need to assemble
+their own scriptblocks and call &lt;code>Register-ArgumentCompleter&lt;/code>.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- [`Register-FooCompleter`](Functions/Completion/Register-FooCompleter.ps1): Used to improve the
+UX when users are calling a function that utilizes Foo datatypes.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h3 id="configuration">Configuration&lt;/h3>
+&lt;p>This folder contains functions for interacting with this module&amp;rsquo;s configuration state. Unless there
+is a good reason, they should always come in a trio: &lt;code>Get&lt;/code>, &lt;code>Set&lt;/code>, and &lt;code>Remove&lt;/code>.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- `Foo`: Used to [get][Get-Foo], [set][Set-Foo], and [remove][Remove-Foo] the Foo setting from the
+configuration context.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h3 id="general">General&lt;/h3>
+&lt;p>This folder contains functions which do not fit into another category. These functions are &amp;ldquo;normal&amp;rdquo;
+PowerShell functions you might find in any other module.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- [`Test-GitHubToken`](Functions/General/Test-GitHubToken.ps1): Used to validate a github token.
+- Makes live calls to GitHub; be mindful when testing.
+--></description></item><item><title>Includes:</title><link>https://microsoft.github.io/Documentarian/includes/source/devx/readme/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/includes/source/devx/readme/</guid><description>
+&lt;h1 id="source">Source&lt;/h1>
+&lt;p>The files and folders here contain the content that is pulled together for publishing to the
+PowerShell Gallery. Information on the files and folders are included below.&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="#private">&lt;code>Private&lt;/code>&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#public">&lt;code>Public&lt;/code>&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#templates">&lt;code>Templates&lt;/code>&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="private">Private&lt;/h2>
+&lt;p>This folder contains the private classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>Documentarian.DevX.Private.psm1&lt;/code> file.&lt;/p>
+&lt;p>For more information, see &lt;a href="Private/readme.md">the folder&amp;rsquo;s readme&lt;/a>.&lt;/p>
+&lt;h2 id="public">Public&lt;/h2>
+&lt;p>This folder contains the public classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>Documentarian.DevX.psm1&lt;/code> file.&lt;/p>
+&lt;p>For more information, see &lt;a href="Public/readme.md">the folder&amp;rsquo;s readme&lt;/a>.&lt;/p>
+&lt;h2 id="templates">Templates&lt;/h2>
+&lt;p>This folder contains the templated files and folders this module provides for users. It is copied
+alongside the generated module manifest, root module, private module, and init script during
+composition.&lt;/p>
+&lt;p>For more information, see &lt;a href="Templates/readme.md">the folder&amp;rsquo;s readme&lt;/a>.&lt;/p></description></item><item><title>Includes:</title><link>https://microsoft.github.io/Documentarian/includes/source/devx/templates/module/readme/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/includes/source/devx/templates/module/readme/</guid><description>
+&lt;h1 id="documentarian">Documentarian&lt;/h1>
+&lt;p>A PowerShell module for maintaining documentation in a repository.&lt;/p>
+&lt;h2 id="requirements">Requirements&lt;/h2>
+&lt;ul>
+&lt;li>PowerShell 7.2+&lt;/li>
+&lt;/ul></description></item><item><title>Includes:</title><link>https://microsoft.github.io/Documentarian/includes/source/devx/templates/module/source/private/readme/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/includes/source/devx/templates/module/source/private/readme/</guid><description>
+&lt;h1 id="private-source">Private Source&lt;/h1>
+&lt;p>This folder contains the private classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>{{TEMPLATE__MODULE__NAME}}.Private.psm1&lt;/code> file.&lt;/p>
+&lt;ul>
+&lt;li>[Classes]&lt;/li>
+&lt;li>[Enums]&lt;/li>
+&lt;li>[Functions]&lt;/li>
+&lt;/ul>
+&lt;h2 id="classes">Classes&lt;/h2>
+&lt;p>This folder contains the private classes used by this module and their unit tests.&lt;/p>
+&lt;p>The &lt;a href="Classes/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the classes should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more classes are added, this comment should be replaced with a list of the current
+classes with a synopsis and any important notes for maintainers. For example:
+- [`Foo`](Classes/Foo.ps1): Used to represent the foo datatype for processing.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h2 id="enums">Enums&lt;/h2>
+&lt;p>This folder contains the private enums used by this module and their unit tests.&lt;/p>
+&lt;p>The &lt;a href="Enums/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the enums should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more enums are added, this comment should be replaced with a list of the current enums
+with a synopsis and any important notes for maintainers. For example:
+- [`Bar`](Enums/Bar.ps1): Used for the known-valid values for the Bar property of the Foo datatype.
+- Needs to be updated periodically as the upstream datatype is modified.
+-->
+&lt;h2 id="functions">Functions&lt;/h2>
+&lt;p>This folder contains the private functions used by this module and their unit tests.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- [`Get-Foo`](Functions/Foo.ps1): Used to retrieve Foo objects for processing.
+- Currently experimental and unstable, excluded from the build process.
+--></description></item><item><title>Includes:</title><link>https://microsoft.github.io/Documentarian/includes/source/devx/templates/module/source/public/readme/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/includes/source/devx/templates/module/source/public/readme/</guid><description>
+&lt;h1 id="public-source">Public Source&lt;/h1>
+&lt;p>This folder contains the public classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>{{TEMPLATE__MODULE__NAME}}.psm1&lt;/code> file.&lt;/p>
+&lt;ul>
+&lt;li>[Classes]&lt;/li>
+&lt;li>[Enums]&lt;/li>
+&lt;li>[Functions]
+&lt;ul>
+&lt;li>[Completion]&lt;/li>
+&lt;li>[Configuration]&lt;/li>
+&lt;li>[General]&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="classes">Classes&lt;/h2>
+&lt;p>This folder contains the public classes used by this module and their unit tests. During
+composition, these classes are also included in the generated &lt;code>Init.ps1&lt;/code> file, which enables
+automatic import of the public classes into the caller&amp;rsquo;s session for direct use.&lt;/p>
+&lt;p>The &lt;a href="Classes/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the classes should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more classes are added, this comment should be replaced with a list of the current
+classes with a synopsis and any important notes for maintainers. For example:
+- [`Foo`](Classes/Foo.ps1): Used to represent the foo datatype for processing.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h2 id="enums">Enums&lt;/h2>
+&lt;p>This folder contains the public enums used by this module and their unit tests. During composition,
+these enums are also included in the generated &lt;code>Init.ps1&lt;/code> file, which enables automatic import of
+the public enums into the caller&amp;rsquo;s session for direct use.&lt;/p>
+&lt;p>The &lt;a href="Enums/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the classes should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more enums are added, this comment should be replaced with a list of the current enums
+with a synopsis and any important notes for maintainers. For example:
+- [`Bar`](Enums/Bar.ps1): Used for the known-valid values for the Bar property of the Foo datatype.
+- Needs to be updated periodically as the upstream datatype is modified.
+-->
+&lt;h2 id="functions">Functions&lt;/h2>
+&lt;p>This folder contains the public functions used by this module and their unit tests. The public
+functions are broken down into a few groups: &lt;code>Completion&lt;/code>, &lt;code>Configuration&lt;/code>, and &lt;code>General&lt;/code>.&lt;/p>
+&lt;h3 id="completion">Completion&lt;/h3>
+&lt;p>This folder contains functions for registering argument completers so users do not need to assemble
+their own scriptblocks and call &lt;code>Register-ArgumentCompleter&lt;/code>.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- [`Register-FooCompleter`](Functions/Completion/Register-FooCompleter.ps1): Used to improve the
+UX when users are calling a function that utilizes Foo datatypes.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h3 id="configuration">Configuration&lt;/h3>
+&lt;p>This folder contains functions for interacting with this module&amp;rsquo;s configuration state. Unless there
+is a good reason, they should always come in a trio: &lt;code>Get&lt;/code>, &lt;code>Set&lt;/code>, and &lt;code>Remove&lt;/code>.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- `Foo`: Used to [get][Get-Foo], [set][Set-Foo], and [remove][Remove-Foo] the Foo setting from the
+configuration context.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h3 id="general">General&lt;/h3>
+&lt;p>This folder contains functions which do not fit into another category. These functions are &amp;ldquo;normal&amp;rdquo;
+PowerShell functions you might find in any other module.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- [`Test-GitHubToken`](Functions/General/Test-GitHubToken.ps1): Used to validate a github token.
+- Makes live calls to GitHub; be mindful when testing.
+--></description></item><item><title>Includes:</title><link>https://microsoft.github.io/Documentarian/includes/source/devx/templates/module/source/readme/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/includes/source/devx/templates/module/source/readme/</guid><description>
+&lt;h1 id="source">Source&lt;/h1>
+&lt;p>The files and folders here contain the content that is pulled together for publishing to the
+PowerShell Gallery. Information on the files and folders are included below.&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="#private">&lt;code>Private&lt;/code>&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#public">&lt;code>Public&lt;/code>&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#templates">&lt;code>Templates&lt;/code>&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="private">Private&lt;/h2>
+&lt;p>This folder contains the private classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>{{TEMPLATE__MODULE__NAME}}.Private.psm1&lt;/code> file.&lt;/p>
+&lt;p>For more information, see &lt;a href="Private/readme.md">the folder&amp;rsquo;s readme&lt;/a>.&lt;/p>
+&lt;h2 id="public">Public&lt;/h2>
+&lt;p>This folder contains the public classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>{{TEMPLATE__MODULE__NAME}}.psm1&lt;/code> file.&lt;/p>
+&lt;p>For more information, see &lt;a href="Public/readme.md">the folder&amp;rsquo;s readme&lt;/a>.&lt;/p>
+&lt;h2 id="templates">Templates&lt;/h2>
+&lt;p>This folder contains the templated files and folders this module provides for users. It is copied
+alongside the generated module manifest, root module, private module, and init script during
+composition.&lt;/p>
+&lt;p>For more information, see &lt;a href="Templates/readme.md">the folder&amp;rsquo;s readme&lt;/a>.&lt;/p></description></item><item><title>Includes:</title><link>https://microsoft.github.io/Documentarian/includes/source/devx/templates/readme/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/includes/source/devx/templates/readme/</guid><description>
+&lt;h1 id="templates">Templates&lt;/h1>
+&lt;p>This folder contains the templated files and folders this module provides for users. It is copied
+alongside the generated module manifest, root module, private module, and init script during
+composition.&lt;/p>
+&lt;!-- Notes on how this is organized, etc. --></description></item><item><title>Includes:</title><link>https://microsoft.github.io/Documentarian/includes/source/documentarian/private/readme/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/includes/source/documentarian/private/readme/</guid><description>
+&lt;h1 id="private-source">Private Source&lt;/h1>
+&lt;p>This folder contains the private classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>Documentarian.Private.psm1&lt;/code> file.&lt;/p>
+&lt;ul>
+&lt;li>[Classes]&lt;/li>
+&lt;li>[Enums]&lt;/li>
+&lt;li>[Functions]&lt;/li>
+&lt;/ul>
+&lt;h2 id="classes">Classes&lt;/h2>
+&lt;p>This folder contains the private classes used by this module and their unit tests.&lt;/p>
+&lt;p>The &lt;a href="Classes/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the classes should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more classes are added, this comment should be replaced with a list of the current
+classes with a synopsis and any important notes for maintainers. For example:
+- [`Foo`](Classes/Foo.ps1): Used to represent the foo datatype for processing.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h2 id="enums">Enums&lt;/h2>
+&lt;p>This folder contains the private enums used by this module and their unit tests.&lt;/p>
+&lt;p>The &lt;a href="Enums/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the enums should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more enums are added, this comment should be replaced with a list of the current enums
+with a synopsis and any important notes for maintainers. For example:
+- [`Bar`](Enums/Bar.ps1): Used for the known-valid values for the Bar property of the Foo datatype.
+- Needs to be updated periodically as the upstream datatype is modified.
+-->
+&lt;h2 id="functions">Functions&lt;/h2>
+&lt;p>This folder contains the private functions used by this module and their unit tests.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- [`Get-Foo`](Functions/Foo.ps1): Used to retrieve Foo objects for processing.
+- Currently experimental and unstable, excluded from the build process.
+--></description></item><item><title>Includes:</title><link>https://microsoft.github.io/Documentarian/includes/source/documentarian/public/readme/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/includes/source/documentarian/public/readme/</guid><description>
+&lt;h1 id="public-source">Public Source&lt;/h1>
+&lt;p>This folder contains the public classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>Documentarian.psm1&lt;/code> file.&lt;/p>
+&lt;ul>
+&lt;li>[Classes]&lt;/li>
+&lt;li>[Enums]&lt;/li>
+&lt;li>[Functions]
+&lt;ul>
+&lt;li>[Completion]&lt;/li>
+&lt;li>[Configuration]&lt;/li>
+&lt;li>[General]&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="classes">Classes&lt;/h2>
+&lt;p>This folder contains the public classes used by this module and their unit tests. During
+composition, these classes are also included in the generated &lt;code>Init.ps1&lt;/code> file, which enables
+automatic import of the public classes into the caller&amp;rsquo;s session for direct use.&lt;/p>
+&lt;p>The &lt;a href="Classes/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the classes should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more classes are added, this comment should be replaced with a list of the current
+classes with a synopsis and any important notes for maintainers. For example:
+- [`Foo`](Classes/Foo.ps1): Used to represent the foo datatype for processing.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h2 id="enums">Enums&lt;/h2>
+&lt;p>This folder contains the public enums used by this module and their unit tests. During composition,
+these enums are also included in the generated &lt;code>Init.ps1&lt;/code> file, which enables automatic import of
+the public enums into the caller&amp;rsquo;s session for direct use.&lt;/p>
+&lt;p>The &lt;a href="Enums/.LoadOrder.jsonc">&lt;code>.LoadOrder.jsonc&lt;/code>&lt;/a> file determines the order the classes should be
+loaded during composition; this is critical to ensure nothing breaks.&lt;/p>
+&lt;!--
+When one or more enums are added, this comment should be replaced with a list of the current enums
+with a synopsis and any important notes for maintainers. For example:
+- [`Bar`](Enums/Bar.ps1): Used for the known-valid values for the Bar property of the Foo datatype.
+- Needs to be updated periodically as the upstream datatype is modified.
+-->
+&lt;h2 id="functions">Functions&lt;/h2>
+&lt;p>This folder contains the public functions used by this module and their unit tests. The public
+functions are broken down into a few groups: &lt;code>Completion&lt;/code>, &lt;code>Configuration&lt;/code>, and &lt;code>General&lt;/code>.&lt;/p>
+&lt;h3 id="completion">Completion&lt;/h3>
+&lt;p>This folder contains functions for registering argument completers so users do not need to assemble
+their own scriptblocks and call &lt;code>Register-ArgumentCompleter&lt;/code>.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- [`Register-FooCompleter`](Functions/Completion/Register-FooCompleter.ps1): Used to improve the
+UX when users are calling a function that utilizes Foo datatypes.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h3 id="configuration">Configuration&lt;/h3>
+&lt;p>This folder contains functions for interacting with this module&amp;rsquo;s configuration state. Unless there
+is a good reason, they should always come in a trio: &lt;code>Get&lt;/code>, &lt;code>Set&lt;/code>, and &lt;code>Remove&lt;/code>.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- `Foo`: Used to [get][Get-Foo], [set][Set-Foo], and [remove][Remove-Foo] the Foo setting from the
+configuration context.
+- Currently experimental and unstable, excluded from the build process.
+-->
+&lt;h3 id="general">General&lt;/h3>
+&lt;p>This folder contains functions which do not fit into another category. These functions are &amp;ldquo;normal&amp;rdquo;
+PowerShell functions you might find in any other module.&lt;/p>
+&lt;!--
+When one or more functions are added, this comment should be replaced with a list of the current
+functions with a synopsis and any important notes for maintainers. For example:
+- [`Test-GitHubToken`](Functions/General/Test-GitHubToken.ps1): Used to validate a github token.
+- Makes live calls to GitHub; be mindful when testing.
+--></description></item><item><title>Includes:</title><link>https://microsoft.github.io/Documentarian/includes/source/documentarian/readme/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/includes/source/documentarian/readme/</guid><description>
+&lt;h1 id="source">Source&lt;/h1>
+&lt;p>The files and folders here contain the content that is pulled together for publishing to the
+PowerShell Gallery. Information on the files and folders are included below.&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="#documentarianpsd1">&lt;code>Documentarian.psd1&lt;/code>&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#documentarianpsm1">&lt;code>Documentarian.psm1&lt;/code>&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#Private">&lt;code>Private&lt;/code>&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#Public">&lt;code>Public&lt;/code>&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="private">Private&lt;/h2>
+&lt;p>This folder contains the private classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>Documentarian.Private.psm1&lt;/code> file.&lt;/p>
+&lt;p>For more information, see &lt;a href="Private/readme.md">the folder&amp;rsquo;s readme&lt;/a>.&lt;/p>
+&lt;h2 id="public">Public&lt;/h2>
+&lt;p>This folder contains the public classes, enums, and functions used by this module as well as their
+unit tests.&lt;/p>
+&lt;p>During module composition, the code in this folder (except for the tests) is placed into the
+generated &lt;code>Documentarian.psm1&lt;/code> file.&lt;/p>
+&lt;p>For more information, see &lt;a href="Public/readme.md">the folder&amp;rsquo;s readme&lt;/a>.&lt;/p></description></item></channel></rss>

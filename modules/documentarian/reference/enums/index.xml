@@ -1,0 +1,63 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Documentarian – Enums</title><link>https://microsoft.github.io/Documentarian/modules/documentarian/reference/enums/</link><description>Recent content in Enums on Documentarian</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://microsoft.github.io/Documentarian/modules/documentarian/reference/enums/index.xml" rel="self" type="application/rss+xml"/><item><title>Modules: MarkdownExtension</title><link>https://microsoft.github.io/Documentarian/modules/documentarian/reference/enums/markdownextension/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/modules/documentarian/reference/enums/markdownextension/</guid><description>
+&lt;h2 id="definition">Definition&lt;/h2>
+&lt;details class="pwsh td-card card sourceCode">
+&lt;summary class="card-header">Source Code&lt;/summary>
+&lt;div class="card-body code">
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Copyright (c) Microsoft Corporation.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Licensed under the MIT License.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">enum&lt;/span> &lt;span style="color:#000">MarkdownExtension&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Advanced&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">PipeTables&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">GfmPipeTables&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">EmphasisExtras&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">ListExtras&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">HardLineBreak&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Footnotes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Footers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Citations&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Attributes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">GridTables&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Abbreviations&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Emojis&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">DefinitionLists&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">CustomContainers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Figures&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Mathematics&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Bootstrap&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">MediaLinks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">SmartyPants&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">AutoIdentifiers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">TaskLists&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Diagrams&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NoFollowLinks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NoOpenerLinks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NoReferrerLinks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NoHtml&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Yaml&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NonAsciiNoEscape&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">AutoLinks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Globalization&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/details>
+&lt;h2 id="fields">Fields&lt;/h2>
+&lt;h3 id="class">&lt;code>Class&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Value&lt;/dt>
+&lt;dd>0&lt;/dd>
+&lt;/dl>
+&lt;p>Indicates that the source file or folder is for a PowerShell classes.&lt;/p>
+&lt;h3 id="enum">&lt;code>Enum&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Value&lt;/dt>
+&lt;dd>1&lt;/dd>
+&lt;/dl>
+&lt;p>Indicates that the source file or folder is for a PowerShell enums.&lt;/p>
+&lt;h3 id="function">&lt;code>Function&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Value&lt;/dt>
+&lt;dd>2&lt;/dd>
+&lt;/dl>
+&lt;p>Indicates that the source file or folder is for a PowerShell functions.&lt;/p></description></item></channel></rss>

@@ -1,0 +1,117 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Documentarian – Attributes</title><link>https://microsoft.github.io/Documentarian/modules/devx/reference/attributes/</link><description>Recent content in Attributes on Documentarian</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://microsoft.github.io/Documentarian/modules/devx/reference/attributes/index.xml" rel="self" type="application/rss+xml"/><item><title>Modules: ValidatePowerShellScriptPath</title><link>https://microsoft.github.io/Documentarian/modules/devx/reference/attributes/validatepowershellscriptpath/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/modules/devx/reference/attributes/validatepowershellscriptpath/</guid><description>
+&lt;h2 id="definition">Definition&lt;/h2>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Inherits From&lt;/dt>
+&lt;dd>&lt;a href="https://learn.microsoft.com/dotnet/api/System.Management.Automation.ValidateArgumentsAttribute">System.Management.Automation.ValidateArgumentsAttribute&lt;/a>&lt;/dd>
+&lt;/dl>
+&lt;details class="pwsh td-card card sourceCode">
+&lt;summary class="card-header">Source Code&lt;/summary>
+&lt;div class="card-body code">
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Copyright (c) Microsoft Corporation.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Licensed under the MIT License.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">using&lt;/span> &lt;span style="color:#000">namespace&lt;/span> &lt;span style="color:#000">System&lt;/span>&lt;span style="color:#000;font-weight:bold">.&lt;/span>&lt;span style="color:#000">Management&lt;/span>&lt;span style="color:#000;font-weight:bold">.&lt;/span>&lt;span style="color:#000">Automation&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">class&lt;/span> &lt;span style="color:#000">ValidatePowerShellScriptPath&lt;/span> &lt;span style="color:#a40000">:&lt;/span> &lt;span style="color:#000">ValidateArgumentsAttribute&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">[void]&lt;/span> &lt;span style="color:#000">Validate&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#000">[object]&lt;/span>&lt;span style="color:#000">$arguments&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span> &lt;span style="color:#000">[EngineIntrinsics]&lt;/span>&lt;span style="color:#000">$engineIntrinsics&lt;/span>&lt;span style="color:#000;font-weight:bold">)&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">$Path&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span> &lt;span style="color:#000">$arguments&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#000">[string]&lt;/span>&lt;span style="color:#000;font-weight:bold">::&lt;/span>&lt;span style="color:#000">IsNullOrWhiteSpace&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#000">$path&lt;/span>&lt;span style="color:#000;font-weight:bold">))&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">throw&lt;/span> &lt;span style="color:#000">[System.ArgumentNullException]&lt;/span>&lt;span style="color:#000;font-weight:bold">::&lt;/span>&lt;span style="color:#000">new&lt;/span>&lt;span style="color:#000;font-weight:bold">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">try&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">$Item&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span> &lt;span style="color:#204a87">Get-Item&lt;/span> &lt;span style="color:#000">-Path&lt;/span> &lt;span style="color:#000">$Path&lt;/span> &lt;span style="color:#000">-ErrorAction&lt;/span> &lt;span style="color:#000">Stop&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">}&lt;/span> &lt;span style="color:#204a87;font-weight:bold">catch&lt;/span> &lt;span style="color:#000">[ItemNotFoundException]&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">throw&lt;/span> &lt;span style="color:#000">[System.IO.FileNotFoundException]&lt;/span>&lt;span style="color:#000;font-weight:bold">::&lt;/span>&lt;span style="color:#000">new&lt;/span>&lt;span style="color:#000;font-weight:bold">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">$MessagePrefix&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span> &lt;span style="color:#4e9a06">&amp;#39;Path must be the file path to a PowerShell file&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">$Provider&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span> &lt;span style="color:#000">$Item&lt;/span>&lt;span style="color:#000;font-weight:bold">.&lt;/span>&lt;span style="color:#000">PSProvider&lt;/span>&lt;span style="color:#000;font-weight:bold">.&lt;/span>&lt;span style="color:#000">Name&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#000">$Provider&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">-ne&lt;/span> &lt;span style="color:#4e9a06">&amp;#39;FileSystem&amp;#39;&lt;/span>&lt;span style="color:#000;font-weight:bold">)&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">throw&lt;/span> &lt;span style="color:#000">[System.ArgumentException]&lt;/span>&lt;span style="color:#000;font-weight:bold">::&lt;/span>&lt;span style="color:#000">new&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;$MessagePrefix; specified provider &amp;#39;$Provider&amp;#39; is invalid.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">$Extension&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span> &lt;span style="color:#000">$Item&lt;/span>&lt;span style="color:#000;font-weight:bold">.&lt;/span>&lt;span style="color:#000">Extension&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">$ValidExtensions&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span> &lt;span style="color:#000;font-weight:bold">@(&lt;/span>&lt;span style="color:#4e9a06">&amp;#39;.psd1&amp;#39;&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span> &lt;span style="color:#4e9a06">&amp;#39;.ps1&amp;#39;&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span> &lt;span style="color:#4e9a06">&amp;#39;.psm1&amp;#39;&lt;/span>&lt;span style="color:#000;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">$isNotPowerShellFile&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span> &lt;span style="color:#000">$Extension&lt;/span> &lt;span style="color:#000">-notin&lt;/span> &lt;span style="color:#000">$ValidExtensions&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#000">$isNotPowerShellFile&lt;/span>&lt;span style="color:#000;font-weight:bold">)&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">$Message&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span> &lt;span style="color:#000;font-weight:bold">@(&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;Specified file &amp;#39;$Path&amp;#39; has extension &amp;#39;$extension&amp;#39;,&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#39;but it must be one of the following:&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#000">$ValidExtensions&lt;/span> &lt;span style="color:#000">-join&lt;/span> &lt;span style="color:#4e9a06">&amp;#39;, &amp;#39;&lt;/span>&lt;span style="color:#000;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">)&lt;/span> &lt;span style="color:#000">-join&lt;/span> &lt;span style="color:#4e9a06">&amp;#39; &amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">throw&lt;/span> &lt;span style="color:#000">[System.ArgumentException]&lt;/span>&lt;span style="color:#000;font-weight:bold">::&lt;/span>&lt;span style="color:#000">new&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;$MessagePrefix; $Message&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/details>
+&lt;p>The &lt;strong>ValidatePowerShellScriptPath&lt;/strong> attribute ensures that a specified argument points to a
+PowerShell file that exists. It&amp;rsquo;s used for commands and scripts that need to act on a PowerShell
+code file.&lt;/p>
+&lt;p>This attribute rejects values when:&lt;/p>
+&lt;ul>
+&lt;li>The value is &lt;code>$null&lt;/code>.&lt;/li>
+&lt;li>The value is for a path to a file that doesn&amp;rsquo;t exist.&lt;/li>
+&lt;li>The value is for a path to a file that isn&amp;rsquo;t recognized as a PowerShell code file. The attribute
+only recognizes files with the &lt;code>ps1&lt;/code>, &lt;code>psd1&lt;/code>, and &lt;code>psm1&lt;/code> extensions as PowerShell code files.&lt;/li>
+&lt;/ul>
+&lt;h2 id="examples">Examples&lt;/h2>
+&lt;h3 id="example-1-validating-a-variable">Example 1: Validating a variable&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">[&lt;/span>&lt;span style="color:#000">ValidatePowerShellScriptPath&lt;/span>&lt;span style="color:#000;font-weight:bold">()]&lt;/span>&lt;span style="color:#000">$Test&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span> &lt;span style="color:#4e9a06">&amp;#39;not-a-pwsh-file.txt&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="example-2-validating-a-parameter">Example 2: Validating a parameter&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">function&lt;/span> &lt;span style="color:#204a87">Get-PwshContent&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">[&lt;/span>&lt;span style="color:#204a87;font-weight:bold">cmdletbinding&lt;/span>&lt;span style="color:#000;font-weight:bold">()]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">param&lt;/span> &lt;span style="color:#000;font-weight:bold">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">[&lt;/span>&lt;span style="color:#000">ValidatePowerShellScriptPath&lt;/span>&lt;span style="color:#000;font-weight:bold">()]&lt;/span>&lt;span style="color:#000">$Path&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">process&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">Get-Content&lt;/span> &lt;span style="color:#000">-Path&lt;/span> &lt;span style="color:#000">$Path&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="constructors">Constructors&lt;/h2>
+&lt;h3 id="validatepowershellscriptpath">&lt;code>ValidatePowerShellScriptPath()&lt;/code>&lt;/h3>
+&lt;p>The default constructor takes no input.&lt;/p>
+&lt;h2 id="methods">Methods&lt;/h2>
+&lt;h3 id="validateobject-engineintrinsics">&lt;code>Validate(Object, EngineIntrinsics)&lt;/code>&lt;/h3>
+&lt;h4 id="parameters">Parameters&lt;/h4>
+&lt;h5 id="arguments">&lt;code>Arguments&lt;/code>&lt;/h5>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Type&lt;/dt>
+&lt;dd>&lt;a href="https://learn.microsoft.com/dotnet/api/System.Object">System.Object&lt;/a>&lt;/dd>
+&lt;/dl>
+&lt;p>The value of the argument to validate as a PowerShell script file path.&lt;/p>
+&lt;h5 id="engineintrinsics">&lt;code>EngineIntrinsics&lt;/code>&lt;/h5>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Type&lt;/dt>
+&lt;dd>&lt;a href="https://learn.microsoft.com/dotnet/api/System.Management.Automation.EngineIntrinsics">System.Management.Automation.EngineIntrinsics&lt;/a>&lt;/dd>
+&lt;/dl>
+&lt;p>The PowerShell engine APIs for the context under which the prerequisite is being evaluated.&lt;/p>
+&lt;h4 id="exceptions">Exceptions&lt;/h4>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;a href="https://learn.microsoft.com/dotnet/api/System.ArgumentNullException">System.ArgumentNullException&lt;/a>&lt;/p>
+&lt;p>&lt;strong>Validate&lt;/strong> raises this exception when the argument is null.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://learn.microsoft.com/dotnet/api/System.ArgumentNullException">System.ArgumentNullException&lt;/a>&lt;/p>
+&lt;p>&lt;strong>Validate&lt;/strong> raises this exception when the argument is null.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://learn.microsoft.com/dotnet/api/System.IO.FileNotFoundException">System.IO.FileNotFoundException&lt;/a>&lt;/p>
+&lt;p>&lt;strong>Validate&lt;/strong> raises this exception when the argument points to a file that doesn&amp;rsquo;t exist.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://learn.microsoft.com/dotnet/api/System.ArgumentException">System.ArgumentException&lt;/a>&lt;/p>
+&lt;p>&lt;strong>Validate&lt;/strong> raises this exception when the argument points to a file that doesn&amp;rsquo;t have a valid
+extension for a PowerShell code file.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="properties">Properties&lt;/h2>
+&lt;p>None.&lt;/p></description></item></channel></rss>

@@ -1,0 +1,39 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Documentarian – Enums</title><link>https://microsoft.github.io/Documentarian/modules/devx/reference/enums/</link><description>Recent content in Enums on Documentarian</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://microsoft.github.io/Documentarian/modules/devx/reference/enums/index.xml" rel="self" type="application/rss+xml"/><item><title>Modules: SourceCategory</title><link>https://microsoft.github.io/Documentarian/modules/devx/reference/enums/sourcecategory/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/modules/devx/reference/enums/sourcecategory/</guid><description>
+&lt;h2 id="definition">Definition&lt;/h2>
+&lt;p style="color: #D74848">&lt;b>&lt;i>The file &lt;code>/includes/source/devx/Public/Classes/SourceCategory.psm1&lt;/code> was not found.&lt;/i>&lt;/b>&lt;/p>
+&lt;h2 id="fields">Fields&lt;/h2>
+&lt;h3 id="class">&lt;code>Class&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Value&lt;/dt>
+&lt;dd>0&lt;/dd>
+&lt;/dl>
+&lt;p>Indicates that the source file or folder is for a PowerShell classes.&lt;/p>
+&lt;h3 id="enum">&lt;code>Enum&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Value&lt;/dt>
+&lt;dd>1&lt;/dd>
+&lt;/dl>
+&lt;p>Indicates that the source file or folder is for a PowerShell enums.&lt;/p>
+&lt;h3 id="function">&lt;code>Function&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Value&lt;/dt>
+&lt;dd>2&lt;/dd>
+&lt;/dl>
+&lt;p>Indicates that the source file or folder is for a PowerShell functions.&lt;/p></description></item><item><title>Modules: SourceScope</title><link>https://microsoft.github.io/Documentarian/modules/devx/reference/enums/sourcescope/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/modules/devx/reference/enums/sourcescope/</guid><description>
+&lt;h2 id="definition">Definition&lt;/h2>
+&lt;p style="color: #D74848">&lt;b>&lt;i>The file &lt;code>/includes/source/devx/Public/Classes/SourceScope.psm1&lt;/code> was not found.&lt;/i>&lt;/b>&lt;/p>
+&lt;h2 id="fields">Fields&lt;/h2>
+&lt;h3 id="private">&lt;code>Private&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Value&lt;/dt>
+&lt;dd>0&lt;/dd>
+&lt;/dl>
+&lt;p>Indicates that the source file or folder is for private code, which is used only inside the module.
+Private code isn&amp;rsquo;t imported or visible when a user imports the module.&lt;/p>
+&lt;h3 id="public">&lt;code>Public&lt;/code>&lt;/h3>
+&lt;dl class="pwsh-metadata">
+&lt;dt>Value&lt;/dt>
+&lt;dd>1&lt;/dd>
+&lt;/dl>
+&lt;p>Indicates that the source file or folder is for public code, which is automatically imported and
+visible when a user imports the module.&lt;/p></description></item></channel></rss>

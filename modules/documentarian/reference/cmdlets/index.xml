@@ -1,0 +1,35 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Documentarian – Cmdlet Reference</title><link>https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/</link><description>Recent content in Cmdlet Reference on Documentarian</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/index.xml" rel="self" type="application/rss+xml"/><item><title>Modules: Get-Document</title><link>https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/get-document/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/get-document/</guid><description>
+&lt;h1 id="get-document">Get-Document&lt;/h1>
+&lt;h2 id="synopsis">Synopsis&lt;/h2>
+&lt;p>{{ Fill in the Synopsis }}&lt;/p>
+&lt;h2 id="syntax">Syntax&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">Get-Document&lt;/span> &lt;span style="color:#000;font-weight:bold">[&lt;/span>&lt;span style="color:#000">-Path&lt;/span> &lt;span style="color:#000">[string[]]]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="description">Description&lt;/h2>
+&lt;p>{{ Fill in the Description }}&lt;/p>
+&lt;h2 id="examples">Examples&lt;/h2>
+&lt;h3 id="example-1">Example 1&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">{{&lt;/span> &lt;span style="color:#000">Add&lt;/span> &lt;span style="color:#000">example&lt;/span> &lt;span style="color:#000">code&lt;/span> &lt;span style="color:#000">here&lt;/span> &lt;span style="color:#000;font-weight:bold">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{{ Add example description here }}&lt;/p>
+&lt;h2 id="parameters">Parameters&lt;/h2>
+&lt;h3 id="-path">&lt;code>-Path&lt;/code>&lt;/h3>
+&lt;p>{{ Fill Path Description }}&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">Type&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">Parameter Sets&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">(All)&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">Aliases&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">Required&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">True&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">Position&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">Named&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">Default value&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">None&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">Accept pipeline input&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">False&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">Accept wildcard characters&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">False&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="commonparameters">CommonParameters&lt;/h3>
+&lt;p>This cmdlet supports the common parameters: &lt;code>-Debug&lt;/code>, &lt;code>-ErrorAction&lt;/code>, &lt;code>-ErrorVariable&lt;/code>,
+-InformationAction, &lt;code>-InformationVariable&lt;/code>, &lt;code>-OutVariable&lt;/code>, &lt;code>-OutBuffer&lt;/code>, &lt;code>-PipelineVariable&lt;/code>,
+&lt;code>-Verbose&lt;/code>, &lt;code>-WarningAction&lt;/code>, and &lt;code>-WarningVariable&lt;/code>. For more information, see
+&lt;a href="http://go.microsoft.com/fwlink/?LinkID=113216">about_CommonParameters&lt;/a>.&lt;/p>
+&lt;h2 id="inputs">Inputs&lt;/h2>
+&lt;h3 id="none">None&lt;/h3>
+&lt;h2 id="outputs">Outputs&lt;/h2>
+&lt;h3 id="parseddocument">&lt;code>ParsedDocument&lt;/code>&lt;/h3>
+&lt;h2 id="notes">Notes&lt;/h2>
+&lt;h2 id="related-links">Related Links&lt;/h2></description></item></channel></rss>
