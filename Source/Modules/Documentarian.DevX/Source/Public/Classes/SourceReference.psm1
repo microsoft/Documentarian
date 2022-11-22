@@ -29,24 +29,64 @@ class SourceReference {
   }
 
   hidden [void] WriteMungedContentWithReferencePreamble() {
-    $LineEnding = [System.Environment]::NewLine
+    $LineEnding = $this.SourceFile.LineEnding
+
+    if ([string]::IsNullOrEmpty($LineEnding)) {
+      $LineEnding = [System.Environment]::NewLine
+    }
+
+    $Sections = New-Object -TypeName System.Collections.Generic.List[String]
+
+    foreach ($notice in $this.SourceFile.CopyrightNotices) {
+      $Sections.Add($notice)
+    }
+
+    foreach ($notice in $this.SourceFile.LicenseNotices) {
+      $Sections.Add($notice)
+    }
 
     if ($this.ReferencePreamble.Count) {
-      @(
-        $this.ReferencePreamble
-        ''
-        $this.SourceFile.MungedContent
-      ) | Join-String -Separator $LineEnding | Set-Content -Path $this.SourceFile.FileInfo.FullName
+      if ($sections.Count) {
+        $Sections.Add('')
+      }
+      foreach ($preamble in $this.ReferencePreamble) {
+        $Sections.Add($preamble)
+      }
+      $Sections.Add('')
+      $Sections.Add($this.SourceFile.MungedContent)
+      $Sections.Add('')
+
+      $Sections
+      | Join-String -Separator $LineEnding
+      | Set-Content -Path $this.SourceFile.FileInfo.FullName -NoNewline
     }
   }
 
   hidden [void] WriteMungedContentWithReferencePreamble([string]$LineEnding) {
+    $Sections = New-Object -TypeName System.Collections.Generic.List[String]
+
+    foreach ($notice in $this.SourceFile.CopyrightNotices) {
+      $Sections.Add($notice)
+    }
+
+    foreach ($notice in $this.SourceFile.LicenseNotices) {
+      $Sections.Add($notice)
+    }
+
     if ($this.ReferencePreamble.Count) {
-      @(
-        $this.ReferencePreamble
-        ''
-        $this.SourceFile.MungedContent
-      ) | Join-String -Separator $LineEnding | Set-Content -Path $this.SourceFile.FileInfo.FullName
+      if ($sections.Count) {
+        $Sections.Add('')
+      }
+      foreach ($preamble in $this.ReferencePreamble) {
+        $Sections.Add($preamble)
+      }
+      $Sections.Add('')
+      $Sections.Add($this.SourceFile.MungedContent)
+      $Sections.Add('')
+
+      $Sections
+      | Join-String -Separator $LineEnding
+      | Set-Content -Path $this.SourceFile.FileInfo.FullName -NoNewline
     }
   }
 
@@ -57,6 +97,10 @@ class SourceReference {
 
   [void] SetReferencePreamble() {
     $this.WriteMungedContentWithReferencePreamble()
+  }
+
+  [void] SetReferencePreamble([string]$LineEnding) {
+    $this.WriteMungedContentWithReferencePreamble($LineEnding)
   }
 
   [string[]] ResolveReferencePreamble() {
@@ -96,6 +140,13 @@ class SourceReference {
         if ($Lines) {
           $Lines += ''
         }
+        # Find the source folder so we can truncate the segment for the preamble.
+        # It needs to reference the determined source folder and not a full path
+        # or the import breaks across systems.
+        $SourceFolder = Get-Location | Select-Object -ExpandProperty Path
+        while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
+          $SourceFolder = Split-Path -Parent -Path $SourceFolder
+        }
 
         $Lines += @(
           '#region    RequiredFunctions'
@@ -107,11 +158,10 @@ class SourceReference {
           '$RequiredFunctions = @('
           $CommandReferences | ForEach-Object -Process {
             $FilePath = $_.FileInfo.FullName
-            if ($FilePath -match '(\\|\/)Source(\\|\/)(?<ChildPath>.+)$') {
-              "  Resolve-Path -Path `"`$SourceFolder/$($Matches.ChildPath -replace '\\', '/')`""
-            } else {
-              "  Resolve-Path -Path $FilePath"
+            if ($FilePath -match "^$([regex]::Escape($SourceFolder))(?<ChildPath>.+)$") {
+              $FilePath = "`$SourceFolder/$($Matches.ChildPath.Trim('\/') -replace '\\', '/')"
             }
+            "  Resolve-Path -Path `"$FilePath`""
           }
           ')'
           'foreach ($RequiredFunction in $RequiredFunctions) {'

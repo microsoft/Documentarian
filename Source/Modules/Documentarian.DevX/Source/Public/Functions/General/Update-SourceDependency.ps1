@@ -39,6 +39,7 @@ function Update-SourceDependency {
         "'$($_.SourceFile.FileInfo.FullName)'"
       ) -join ' '
       Write-Verbose $Message
+
       $_.SetReferencePreamble()
     }
   }

@@ -25,6 +25,9 @@ class SourceFile {
   [SourceScope]$Scope
   [string]$NameSpace
   [System.IO.FileInfo]$FileInfo
+  [string]$LineEnding
+  [string[]]$CopyrightNotices
+  [string[]]$LicenseNotices
   [string]$RawContent
   [string]$MungedContent
 
@@ -40,12 +43,19 @@ class SourceFile {
     '(?<Definition>(.|\s)+)'
   ) -join ''
 
+  static [string]$CopyrightNoticePattern = '^# Copyright (.+)$'
+
+  static [string]$LicenseNoticePattern = '^# Licensed under (.+)$'
+
   SourceFile([string]$ParentNameSpace, [string]$Path) {
     $this.NameSpace = Resolve-NameSpace -Path $Path -ParentNameSpace $ParentNameSpace
     $this.ResolveCategoryAndScopeFromNameSpace()
     $this.FileInfo = $Path
     $this.SetRawContent()
     $this.MungeContent()
+    $this.DefineCopyrightNotice()
+    $this.DefineLicenseNotice()
+    $this.DefineLineEnding()
   }
 
   SourceFile(
@@ -56,6 +66,9 @@ class SourceFile {
     $this.FileInfo = $Path
     $this.SetRawContent()
     $this.MungeContent()
+    $this.DefineCopyrightNotice()
+    $this.DefineLicenseNotice()
+    $this.DefineLineEnding()
   }
 
   [void] SetRawContent() {
@@ -87,6 +100,54 @@ class SourceFile {
 
   [void] MungeContent() {
     $this.MungedContent = [SourceFile]::MungeContent($this.RawContent)
+  }
+
+  static [string] GetLineEnding([string]$Content) {
+    if ($content -match '\r\n') {
+      return "`r`n"
+    } else {
+      return "`n"
+    }
+  }
+
+  [void] DefineLineEnding() {
+    $this.LineEnding = [SourceFile]::GetLineEnding($this.RawContent)
+  }
+
+  static [string[]] SplitContent([string]$content) {
+    return $Content -split '(\r\n|\n|\r)'
+  }
+
+  static [string] FindCopyrightNotice([string]$content) {
+    return [SourceFile]::SplitContent($content) -match [SourceFile]::CopyrightNoticePattern
+  }
+
+  static [string] FindCopyrightNotice([string]$content, [string]$pattern) {
+    return [SourceFile]::SplitContent($content) -match $pattern
+  }
+
+  [void] DefineCopyrightNotice() {
+    $this.CopyrightNotices = [SourceFile]::FindCopyrightNotice($this.RawContent)
+  }
+
+  [void] DefineCopyrightNotice([string]$pattern = [SourceFile]::CopyrightNoticePattern) {
+    $this.CopyrightNotices = [SourceFile]::FindCopyrightNotice($this.RawContent, $pattern)
+  }
+
+  static [string] FindLicenseNotice([string]$content) {
+    return [SourceFile]::SplitContent($content) -match [SourceFile]::LicenseNoticePattern
+  }
+
+  static [string] FindLicenseNotice([string]$content, [string]$pattern) {
+    return [SourceFile]::SplitContent($content) -match $pattern
+  }
+
+  [void] DefineLicenseNotice() {
+    $this.LicenseNotices = [SourceFile]::FindLicenseNotice($this.RawContent)
+  }
+
+  [void] DefineLicenseNotice([string]$pattern) {
+    $this.LicenseNotices = [SourceFile]::FindLicenseNotice($this.RawContent, $pattern)
   }
 
   [void] ResolveCategoryAndScopeFromNameSpace() {
