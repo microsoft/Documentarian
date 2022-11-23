@@ -37,5 +37,10 @@
         "Name": "SourceReference",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
+    },
+    {
+        "Name": "ModuleComposer",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
     }
 ]
