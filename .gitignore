@@ -4,7 +4,8 @@ Source/Styles/*
 !Source/Styles/Vocab/
 
 # Hugo ignores
-**/public
+site/public
+Source/Hugo/**/public
 **/resources/_gen
 **/.hugo_build.lock
 **/node_modules

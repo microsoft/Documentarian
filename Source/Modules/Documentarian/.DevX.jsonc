@@ -1,0 +1,39 @@
+// Documentarian.DevX JSON Configuration File
+{
+  "ManifestData": {
+    "RootModule": "Documentarian.psm1",
+    "ModuleVersion": "0.0.1",
+    "CompatiblePSEditions": "Core",
+    "GUID": "2422ec90-815c-4c1d-8ec1-4c9b082f2909",
+    "Author": "PowerShell Docs Team",
+    "CompanyName": "Microsoft",
+    "Copyright": "(c) Microsoft. All rights reserved.",
+    "PowerShellVersion": "7.2",
+    "RequiredModules": [
+      "PowerShell-Yaml"
+    ],
+    "ScriptsToProcess": "Init.ps1",
+    "VariablesToExport": "*",
+    "Tags": [
+      "Markdown",
+      "Documentation"
+    ],
+    "ProjectUri": "https://github.com/microsoft/Documentarian",
+    "LicenseUri": "https://github.com/microsoft/Documentarian/blob/main/LICENSE-CODE"
+  },
+  "ModuleCopyrightNotice": "Copyright (c) Microsoft Corporation.",
+  "ModuleLicenseNotice": "Licensed under the MIT License.",
+  "ModuleLineEnding": "\n",
+  "ModuleName": "Documentarian",
+  "ModuleVersion": "0.0.1",
+  "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
+  // "OutputInitScriptPath": "",
+  // "OutputManifestPath": "",
+  // "OutputPrivateModulePath": "",
+  // "OutputRootModulePath": "",
+  "SourceFolderPath": "./Source",
+  "SourceInitScriptPath": "./Source/Init.ps1"
+  // "SourceManifestPath": "./Manifest.psd1"
+  // "SourcePrivateFolderPath": "",
+  // "SourcePublicFolderPath": ""
+}
