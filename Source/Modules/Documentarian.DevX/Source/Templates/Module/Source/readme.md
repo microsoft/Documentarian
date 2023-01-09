@@ -13,7 +13,7 @@ This folder contains the private classes, enums, and functions used by this modu
 unit tests.
 
 During module composition, the code in this folder (except for the tests) is placed into the
-generated `{{TEMPLATE__MODULE__NAME}}.Private.psm1` file.
+generated `[[Name]].Private.psm1` file.
 
 For more information, see [the folder's readme](Private/readme.md).
 
@@ -23,7 +23,7 @@ This folder contains the public classes, enums, and functions used by this modul
 unit tests.
 
 During module composition, the code in this folder (except for the tests) is placed into the
-generated `{{TEMPLATE__MODULE__NAME}}.psm1` file.
+generated `[[Name]].psm1` file.
 
 For more information, see [the folder's readme](Public/readme.md).
 

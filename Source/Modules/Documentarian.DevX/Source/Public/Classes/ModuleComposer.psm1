@@ -34,11 +34,13 @@ class ModuleComposer {
   [string]    $OutputManifestPath
   [string]    $OutputPrivateModulePath
   [string]    $OutputRootModulePath
+  [string]    $OutputTemplateFolderPath
   [string]    $SourceFolderPath
   [string]    $SourceInitScriptPath
   [string]    $SourceManifestPath
   [string]    $SourcePrivateFolderPath
   [string]    $SourcePublicFolderPath
+  [string]    $SourceTemplateFolderPath
 
   #endregion Configurable Settings
 
@@ -181,6 +183,10 @@ class ModuleComposer {
       $this.ManifestData ??= @{}
     }
 
+    if ([string]::IsNullOrEmpty($this.SourceTemplateFolderPath)) {
+      $this.SourceTemplateFolderPath = Join-Path -Path $this.SourceFolderPath -ChildPath 'Templates'
+    }
+
     if ([string]::IsNullOrEmpty($this.ManifestData.ModuleVersion)) {
       $this.ManifestData.ModuleVersion = '0.0.1'
     }
@@ -212,6 +218,10 @@ class ModuleComposer {
 
     if ([string]::IsNullOrEmpty($this.OutputInitScriptPath)) {
       $this.OutputInitScriptPath = Join-Path -Path $this.OutputFolderPath -ChildPath 'Init.ps1'
+    }
+
+    if ([string]::IsNullOrEmpty($this.OutputTemplateFolderPath)) {
+      $this.OutputTemplateFolderPath = Join-Path -Path $this.OutputFolderPath -ChildPath 'Templates'
     }
 
     $this.InitializeSourceFolders()
@@ -417,6 +427,10 @@ class ModuleComposer {
     $this.ComposePrivateModuleContent()
     $this.ComposeRootModuleContent()
     $this.ComposeInitScriptContent()
+
+    if ($TemplateFolder = Get-Item -Path $this.SourceTemplateFolderPath -ErrorAction SilentlyContinue) {
+      Copy-Item -Path $TemplateFolder -Destination $this.OutputFolderPath -Container -Recurse
+    }
 
     if ($this.PrivateModuleContent) {
       $this.PrivateModuleContent

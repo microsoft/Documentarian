@@ -31,9 +31,11 @@
   // "OutputManifestPath": "",
   // "OutputPrivateModulePath": "",
   // "OutputRootModulePath": "",
+  // "OutputTemplateFolderPath": "",
   "SourceFolderPath": "./Source",
-  "SourceInitScriptPath": "./Source/Init.ps1"
+  "SourceInitScriptPath": "./Source/Init.ps1",
   // "SourceManifestPath": "./Manifest.psd1"
   // "SourcePrivateFolderPath": "",
   // "SourcePublicFolderPath": ""
+  "SourceTemplateFolderPath": "./Source/Templates"
 }
