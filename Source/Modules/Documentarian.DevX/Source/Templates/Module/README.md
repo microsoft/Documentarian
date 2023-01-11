@@ -1,6 +1,6 @@
-# Documentarian
+# [[Name]]
 
-A PowerShell module for maintaining documentation in a repository.
+<!-- Replace with your module description. -->
 
 ## Requirements
 
