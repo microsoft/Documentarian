@@ -12,5 +12,10 @@
         "Name": "MarkdownExtension",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
+    },
+    {
+        "Name": "LinkKind",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
     }
 ]

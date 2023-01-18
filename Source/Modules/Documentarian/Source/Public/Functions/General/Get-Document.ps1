@@ -38,7 +38,8 @@ function Get-Document {
       }
     }
 
-    foreach ($File in $Files) {
+    $Files | ForEach-Object -Process {
+      $File = $_
       if ($File.Extension -ne '.md') {
         continue
       }

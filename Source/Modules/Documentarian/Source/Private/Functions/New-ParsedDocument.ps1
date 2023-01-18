@@ -37,6 +37,8 @@ function New-ParsedDocument {
     }
     $Document.Body = $Body
 
+    $Document.ParseLinksFromBody()
+
     $Document
   }
 }
