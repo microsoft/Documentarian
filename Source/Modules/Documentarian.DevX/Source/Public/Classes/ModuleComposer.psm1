@@ -83,7 +83,7 @@ class ModuleComposer {
 
   ModuleComposer(
     [string]$ProjectRootFolderPath,
-    [System.Management.Automation.OrderedHashtable]$ConfigurationSettings
+    [hashtable]$ConfigurationSettings
   ) {
     $this.ProjectRootFolderPath = $ProjectRootFolderPath
 

@@ -1,0 +1,56 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main # Set a branch that will trigger a deployment
+  pull_request:
+    paths:
+      - 'Source/Modules/*/Source/**'
+      - 'Source/Modules/*/.DevX.jsonc'
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  build_modules:
+    name: PowerShell
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - Documentarian
+          - Documentarian.DevX
+        include:
+          - module: Documentarian
+            version: 0.0.1
+          - module: Documentarian.DevX
+            version: 0.0.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup PowerShell module cache
+        id: cacher
+        uses: actions/cache@v3
+        with:
+          path: '~/.local/share/powershell/Modules'
+          key: ${{ runner.os }}-SqlServer-PSScriptAnalyzer
+      - name: Install required PowerShell modules
+        if: steps.cacher.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module InvokeBuild, PowerShell-Yaml -ErrorAction Stop
+      - name: InvokeBuild
+        run: |
+          $PSVersionTable
+          Push-Location ./Source/Modules
+          Invoke-Build -Module ${{ matrix.module }}
+      - name: Archive ${{ matrix.module }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.module }}
+          path: |
+            Source/Modules/${{ matrix.module }}/${{ matrix.version }}
