@@ -34,23 +34,23 @@ function Get-ModuleRelativePath {
       $SourceLocation = $SourceLocation.Parent
     }
 
-    Push-Location -Path $SourceLocation
+    try {
+      Push-Location -Path $SourceLocation
 
-    if (Resolve-Path -Path *.psd1 -Relative -ErrorAction SilentlyContinue) {
-      $ResolvedPath = Join-Path -Path $SourceLocation -ChildPath $Path
-    } else {
-      $SourceFolderPath = Resolve-SourceFolderPath -Path $SourceLocation
-      $ResolvedPath = Join-Path $SourceFolderPath -ChildPath $Path
+      if (Resolve-Path -Path *.psd1 -Relative -ErrorAction SilentlyContinue) {
+        $ResolvedPath = Join-Path -Path $SourceLocation -ChildPath $Path
+      } else {
+        $SourceFolderPath = Resolve-SourceFolderPath -Path $SourceLocation
+        $ResolvedPath = Join-Path $SourceFolderPath -ChildPath $Path
+      }
+
+      if ($Resolve) {
+        Resolve-Path -Path $ResolvedPath
+      } else {
+        $ResolvedPath
+      }
+    } finally {
+      Pop-Location
     }
-
-    if ($Resolve) {
-      Resolve-Path -Path $ResolvedPath
-    } else {
-      $ResolvedPath
-    }
-  }
-
-  clean {
-    Pop-Location
   }
 }

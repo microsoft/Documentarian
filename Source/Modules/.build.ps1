@@ -20,8 +20,7 @@
 param(
   [ValidateSet(
     'Documentarian',
-    'Documentarian.DevX' # ,
-    # 'Documentarian.Vale'
+    'Documentarian.DevX'
   )]
   [string[]]$Module
 )
@@ -30,45 +29,35 @@ if (!$Module) {
   $Module = @(
     'Documentarian.DevX'
     'Documentarian'
-    # 'Documentarian.Vale'
   )
 }
 
 $LoadedDevXModule = Get-Module -Name Documentarian.DevX -ErrorAction SilentlyContinue
 $NonDevXModules = $Module | Where-Object -FilterScript { $_ -ne 'Documentarian.DevX' }
+$DevXModulePath = Join-Path -Path $PSScriptRoot -ChildPath 'Documentarian.DevX'
+$BuildScripts = @{}
 
 if ($NonDevXModules.Count -gt 0 -and !$LoadedDevXModule) {
-  try {
-    $DevXModulePath = Join-Path -Path $PSScriptRoot -ChildPath 'Documentarian.DevX'
+  $DevXModulePath = Join-Path -Path $PSScriptRoot -ChildPath 'Documentarian.DevX'
+  if (!(Import-Module -Name $DevXModulePath -ErrorAction SilentlyContinue)) {
+    $null = Invoke-Build -File (Join-Path -Path $DevXModulePath -ChildPath '.build.ps1')
     Import-Module -Name $DevXModulePath -ErrorAction Stop
-  } catch {
-    throw 'Could not import Documentarian.DevX module; Make sure it is composed first.'
   }
 }
 
 foreach ($Item in $Module) {
-  $BuildScript = Join-Path -Path $PSScriptRoot -ChildPath $Item -AdditionalChildPath '.build.ps1'
-  if ($Item -notmatch 'DevX') {
-    if (!(Get-Module -Name Documentarian.DevX -ErrorAction SilentlyContinue)) {
-      try {
-        $DevXModulePath = Join-Path -Path $PSScriptRoot -ChildPath 'Documentarian.DevX'
-        Import-Module -Name $DevXModulePath -ErrorAction Stop
-      } catch {
-        throw 'Could not import Documentarian.DevX module; Make sure it is composed first.'
-      }
-    }
-  }
+  $BuildScripts.$Item = Join-Path -Path $PSScriptRoot -ChildPath $Item -AdditionalChildPath '.build.ps1'
 }
 
 task Compose {
   foreach ($Item in $Module) {
-    Invoke-Build -File $BuildScript
+    Invoke-Build -File $BuildScripts.$Item
   }
 }
 
 task TestUnit Compose, {
   foreach ($Item in $Module) {
-    Invoke-Build -File $BuildScript -Task TestUnit
+    Invoke-Build -File $BuildScripts.$Item -Task TestUnit
   }
 }
 
