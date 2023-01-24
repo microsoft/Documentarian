@@ -9,6 +9,26 @@
     //     "IgnoreForTest": false
     // }
     {
+        "Name": "ParsingPatterns",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "Position",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DocumentLink",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "LinkKindTransformAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "ParsedDocument",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
