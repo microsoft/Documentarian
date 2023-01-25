@@ -27,6 +27,14 @@ class ParsedDocument {
     $this.HasParsedLinks = $true
   }
 
+  [DocumentLink[]] ParsedLinks() {
+    if (!$this.HasParsedLinks) {
+      $this.ParseLinksFromBody()
+    }
+
+    return $this.Links
+  }
+
   [DocumentLink[]] ParsedLinks([bool]$Force) {
     if (!$this.HasParsedLinks -or $Force) {
       $this.ParseLinksFromBody()
