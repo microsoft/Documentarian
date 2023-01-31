@@ -7,6 +7,12 @@ class Position {
   [int]$StartColumn
 
   [string] ToString() {
-    return "$($this.FileInfo):$($this.LineNumber):$($this.StartColumn)"
+    $StringValue = "$($this.LineNumber):$($this.StartColumn)"
+
+    if ($null -ne $this.FileInfo) {
+      $StringValue = "$($this.FileInfo):$StringValue"
+    }
+
+    return $StringValue
   }
 }

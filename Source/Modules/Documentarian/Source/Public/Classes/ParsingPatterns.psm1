@@ -31,17 +31,17 @@ class ParsingPatterns {
     $OpenGroup = "Open$BalanceGroupName"
     $CloseGroup = [string]::IsNullOrWhiteSpace($BalanceGroupName) ? 'Close' : $BalanceGroupName
     return @(
-      '(?:'                                                       # Open bracket group finder
-        '(?:'                                                     #
-          "(?<$OpenGroup>\[)"                        # Open balance group starts with [
-          '(?:`` .* ``|`[^`]*`|[^\[\]])*'                         # Anything inside inline code or not-[]
-        ')+'                                                    # At least one
-        '(?:'                                                     #
-          "(?<$CloseGroup-$OpenGroup>\])" # Push to stack on ]
-          '(?:`` .* ``|`[^`]*`|[^\[\]])*?'                         # Anything inside inline code or not-[]
-        ')+?'                                                    # At least one
-      ')+?'                                                      # Must match at least once
-      "(?($OpenGroup)(?!))"                          # If open exists (ie not-matching # of ]), fail
+      '(?:'                                # Open bracket group finder
+        '(?:'                              #
+          "(?<$OpenGroup>\[)"              # Open balance group starts with [
+          '(?:`` .* ``|`[^`]*`|[^\[\]])*'  # Anything inside inline code or not-[]
+        ')+'                               # At least one
+        '(?:'                              #
+          "(?<$CloseGroup-$OpenGroup>\])"  # Push to stack on ]
+          '(?:`` .* ``|`[^`]*`|[^\[\]])*?' # Anything inside inline code or not-[]
+        ')+?'                              # At least one
+      ')+?'                                # Must match at least once
+      "(?($OpenGroup)(?!))"                # If open exists (ie not-matching # of ]), fail
     ) -join ''
   }
 
