@@ -16,7 +16,7 @@ body:
       options:
         - label: >-
             **Accepted Idea:** Proposals in this project are created based on ideas that have been
-            marked as `Accepted` in their [Discussion](https://github.com/michaeltlombardi/DocumentarianModules/discussions/categories/ideas).
+            marked as `Accepted` in their [Discussion](https://github.com/microsoft/Documentarian/discussions/categories/docs-proposals).
             Before you file an issue for new document or a rewrite, create a discussion. If you file
             an issue without a discussion, the team may convert it into one.
           required: true
@@ -101,4 +101,4 @@ body:
         the permalink to the lines for the most relevant section of the source or the anchor link to
         the nearest header for the relevant content instead of the page itself.
       placeholder: |
-        - https://github.com/michaeltlombardi/DocumentarianModules/blob/211f4d77e387c52659428be15f208a3e137ff1cc/Documentarian.Vale/Docs/Reference/Test-Vale.md
+        - https://github.com/microsoft/Documentarian/blob/7acedbe93f3f5a40d03217fd6c1f0da1d062a2ae/Content/docs/authoring/_index.md

@@ -1,0 +1,68 @@
+title: '[Docs Proposal] '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest a new document or major rewrite of an existing one. For the Documentarian modules,
+        we convert docs proposal discussions into issues once we understand them well enough to
+        decide whether they should be implemented.
+
+        Sometimes this requires further discussion and investigation, sometimes a proposal may be
+        accepted as it was submitted.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: >-
+        Write a clear and concise description of the proposed document or change. Why is it needed?
+        What gap will it fill? Who is the intended audience? What scenarios will it address?
+      placeholder: |
+        Try formulating the need for this documentation as a user story.
+
+        > As a user of <module>, I want a document about <topic> so that <synopsis of value>.
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    validations:
+      required: true
+    attributes:
+      label: Details
+      description: >-
+        Please provide extended details that will add context and help the team understand the
+        proposed documentation. You can use this space to explain how existing docs don't meet your
+        needs, describe ideas in detail, and prompt for additional thoughts or investigation.
+  - type: dropdown
+    id: type
+    validations:
+      required: true
+    attributes:
+      label: Proposed Content Type
+      description: >-
+        Choose the type or types of documentation required.
+      multiple: true
+      options:
+        - Cmdlet Reference
+        - About Topic
+        - Concept
+        - Other / Unknown
+  - type: input
+    id: title
+    validations:
+      required: false
+    attributes:
+      label: Proposed Title
+  - type: textarea
+    id: related_documents
+    validations:
+      required: false
+    attributes:
+      label: Related Articles
+      description: >-
+        Provide a list of links to the documentation page(s) that are related to this request. Use
+        the markdown list syntax for each item. If the entire article is relevant, just link to the
+        permalink for its source or the live page. If only a section of the article is relevant, use
+        the permalink to the lines for the most relevant section of the source or the anchor link to
+        the nearest header for the relevant content instead of the page itself.
+      placeholder: |
+        - https://github.com/microsoft/Documentarian/blob/7acedbe93f3f5a40d03217fd6c1f0da1d062a2ae/Content/docs/authoring/_index.md
