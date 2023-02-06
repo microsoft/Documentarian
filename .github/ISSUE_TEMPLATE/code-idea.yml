@@ -15,7 +15,7 @@ body:
       options:
         - label: >-
             **Accepted Idea:** Proposals in this project are created based on ideas that have been
-            marked as `Accepted` in their [Discussion](https://github.com/michaeltlombardi/DocumentarianModules/discussions/categories/ideas).
+            marked as `Accepted` in their [Discussion](https://github.com/microsoft/Documentarian/discussions/categories/code-proposals).
             Before you file an issue for a feature or change, create a discussion. If you file an
             issue without a discussion, the team may convert it into one.
           required: true

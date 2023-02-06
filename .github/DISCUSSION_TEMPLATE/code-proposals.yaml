@@ -1,0 +1,34 @@
+title: '[Code Proposal] '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest a new feature or change to an existing one. For the Documentarian modules, we
+        convert code proposal discussions into issues once we understand them well enough to decide
+        whether they should be implemented.
+
+        Sometimes this requires further discussion and investigation, sometimes a proposal may be
+        accepted as it was submitted.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: >-
+        Write a clear and concise description of the proposed feature or change. Why is it needed?
+        What gap will it fill? Who is the intended user? What scenarios will it address?
+      placeholder: |
+        Try formulating the need for this feature or change as a user story.
+
+        > As a user of <module>, I want <feature or change> so that <synopsis of value>.
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    validations:
+      required: true
+    attributes:
+      label: Details
+      description: >-
+        Please provide extended details that will add context and help the team understand the
+        proposed feature or change. You can use this space to show a possible UX, describe ideas in
+        detail, and prompt for additional thoughts or investigation.
