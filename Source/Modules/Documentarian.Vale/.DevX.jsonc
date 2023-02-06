@@ -1,0 +1,28 @@
+{
+  "ManifestData": {
+    "Guid": "9cdfc0a5-8893-4e2f-a2ff-5ebd3b013f40",
+    "ModuleVersion": "0.0.1",
+    "RootModule": "Documentarian.Vale.psm1",
+    "ScriptsToProcess": "Init.ps1",
+    "VariablesToExport": "*",
+    "Author": "PowerShell Docs Team",
+    "CompanyName": "Microsoft",
+    "Copyright": "(c) Microsoft. All rights reserved.",
+    "PowerShellVersion": "7.2",
+    "Tags": [
+      "Markdown",
+      "Documentation",
+      "vale"
+    ],
+    "ProjectUri": "https://github.com/microsoft/Documentarian",
+    "LicenseUri": "https://github.com/microsoft/Documentarian/blob/main/LICENSE-CODE"
+  },
+  "ModuleCopyrightNotice": "Copyright (c) Microsoft Corporation.",
+  "ModuleLicenseNotice": "Licensed under the MIT License.",
+  "ModuleLineEnding": "\n",
+  "ModuleName": "Documentarian.Vale",
+  "ModuleVersion": "0.0.1",
+  "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
+  "SourceFolderPath": "./Source",
+  "SourceInitScriptPath": "./Source/Init.ps1"
+}
