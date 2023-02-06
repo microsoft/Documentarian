@@ -1,0 +1,37 @@
+title: '[Blog Proposal] '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest a new blog post or major rewrite of an existing one. For the Documentarian modules,
+        we convert blog proposal discussions into issues once we understand them well enough to
+        decide whether they should be written.
+
+        Sometimes this requires further discussion and investigation, sometimes a proposal may be
+        accepted as it was submitted.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: >-
+        Write a clear and concise description of the proposed post or change. Why is it needed?
+        What gap will it fill? Who is the intended audience? What scenarios will it address?
+      placeholder: |
+        Try formulating the need for this post as a user story.
+
+        > As a user of <module>, I want a document about <topic> so that <synopsis of value>.
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    validations:
+      required: true
+    attributes:
+      label: Details
+      description: >-
+        Please provide extended details that will add context and help the team understand the
+        proposed blog.
+  - type: dropdown
+    id: type
+    validations:
+      required: true
