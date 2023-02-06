@@ -41,11 +41,11 @@ body:
       options:
         - Documentarian
         - Documentarian.DevX
-        # - Documentarian.MarkdownLint
-        # - Documentarian.MicrosoftDocs
-        # - Documentarian.MicrosoftDocs.PSDocs
-        # - Documentarian.ModuleAuthor
-        # - Documentarian.Vale
+        - Documentarian.MarkdownLint
+        - Documentarian.MicrosoftDocs
+        - Documentarian.MicrosoftDocs.PSDocs
+        - Documentarian.ModuleAuthor
+        - Documentarian.Vale
   - type: textarea
     id: summary
     validations:
