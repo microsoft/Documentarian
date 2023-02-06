@@ -41,9 +41,11 @@ function Get-DocumentLink {
     [Parameter(ParameterSetName = 'FilterByOnly', ValueFromPipeline)]
     [ParsedDocument[]]$Document,
     [Parameter(ParameterSetName = 'FilterByKind')]
+    [SupportsWildcards()]
     [LinkKindTransformAttribute()]
     [LinkKind[]]$IncludeKind,
     [Parameter(ParameterSetName = 'FilterByKind')]
+    [SupportsWildcards()]
     [LinkKindTransformAttribute()]
     [LinkKind[]]$ExcludeKind,
     [Parameter(ParameterSetName = 'FilterByOnly')]
@@ -55,13 +57,21 @@ function Get-DocumentLink {
       'ValidReferences'
     )]
     [string]$Only,
+    [SupportsWildcards()]
     [regex]$MatchMarkdown,
+    [SupportsWildcards()]
     [regex]$MatchText,
+    [SupportsWildcards()]
     [regex]$MatchDestination,
+    [SupportsWildcards()]
     [regex]$MatchReferenceID,
+    [SupportsWildcards()]
     [regex]$NotMatchMarkdown,
+    [SupportsWildcards()]
     [regex]$NotMatchText,
+    [SupportsWildcards()]
     [regex]$NotMatchDestination,
+    [SupportsWildcards()]
     [regex]$NotMatchReferenceID
   )
 
