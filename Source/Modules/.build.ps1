@@ -20,7 +20,12 @@
 param(
   [ValidateSet(
     'Documentarian',
-    'Documentarian.DevX'
+    'Documentarian.DevX',
+    'Documentarian.MarkdownLint',
+    'Documentarian.MicrosoftDocs',
+    'Documentarian.MicrosoftDocs.PSDocs',
+    'Documentarian.ModuleAuthor',
+    'Documentarian.Vale'
   )]
   [string[]]$Module
 )
@@ -29,6 +34,12 @@ if (!$Module) {
   $Module = @(
     'Documentarian.DevX'
     'Documentarian'
+    # Can't enable these until there's code to build
+    # 'Documentarian.MarkdownLint'
+    # 'Documentarian.MicrosoftDocs'
+    # 'Documentarian.MicrosoftDocs.PSDocs'
+    # 'Documentarian.ModuleAuthor'
+    # 'Documentarian.Vale'
   )
 }
 
