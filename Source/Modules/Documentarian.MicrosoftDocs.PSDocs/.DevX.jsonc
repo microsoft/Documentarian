@@ -1,0 +1,33 @@
+{
+  "ManifestData": {
+    "Guid": "e0a1dd47-0118-4138-b9f4-8de5314090db",
+    "ModuleVersion": "0.0.1",
+    "RootModule": "Documentarian.MicrosoftDocs.PSDocs.psm1",
+    "ScriptsToProcess": "Init.ps1",
+    "VariablesToExport": "*",
+    "Author": "PowerShell Docs Team",
+    "CompanyName": "Microsoft",
+    "Copyright": "(c) Microsoft. All rights reserved.",
+    "PowerShellVersion": "7.2",
+    "RequiredModules": [
+      "Documentarian.MicrosoftDocs"
+    ],
+    "Tags": [
+      "Markdown",
+      "Documentation",
+      "Microsoft",
+      "Learn",
+      "PowerShell"
+    ],
+    "ProjectUri": "https://github.com/microsoft/Documentarian",
+    "LicenseUri": "https://github.com/microsoft/Documentarian/blob/main/LICENSE-CODE"
+  },
+  "ModuleCopyrightNotice": "Copyright (c) Microsoft Corporation.",
+  "ModuleLicenseNotice": "Licensed under the MIT License.",
+  "ModuleLineEnding": "\n",
+  "ModuleName": "Documentarian.MicrosoftDocs.PSDocs",
+  "ModuleVersion": "0.0.1",
+  "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
+  "SourceFolderPath": "./Source",
+  "SourceInitScriptPath": "./Source/Init.ps1"
+}
