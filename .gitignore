@@ -2,6 +2,7 @@ Source/Modules/Documentarian*/[0-9]*.[0-9]*.[0-9]*/
 Source/Styles/*
 !Source/Styles/PowerShell-Docs/
 !Source/Styles/Vocab/
+.vscode/styles
 
 # Hugo ignores
 site/public
