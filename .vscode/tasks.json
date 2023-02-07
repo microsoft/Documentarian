@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Vale Sync",
+      "command": "Invoke-Build -Task SyncVale",
+      "type": "shell",
+      "args": [],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"
+      },
+      "group": "none"
+    }
+  ]
+}
