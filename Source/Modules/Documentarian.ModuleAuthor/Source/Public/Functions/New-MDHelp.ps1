@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 function New-MDHelp {
 
     ### Runs New-MarkdownHelp with the parameters we use most often.
