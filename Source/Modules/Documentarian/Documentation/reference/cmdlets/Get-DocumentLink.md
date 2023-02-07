@@ -1,10 +1,11 @@
-﻿---
-title: Get-DocumentLink
-summary: Retrieves links from a Markdown document with their metadata.
+---
 external help file: Documentarian-help.xml
 Module Name: Documentarian
+ms.date: 02/07/2023
 online version: https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/get-documentlink
 schema: 2.0.0
+summary: Retrieves links from a Markdown document with their metadata.
+title: Get-DocumentLink
 ---
 
 # Get-DocumentLink
@@ -506,7 +507,7 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: True
 ```
 
-### CommonParameters
+### COMMONPARAMETERS
 
 This cmdlet supports the common parameters: `-Debug`, `-ErrorAction`, `-ErrorVariable`,
 `-InformationAction`, `-InformationVariable`, `-OutVariable`, `-OutBuffer`, `-PipelineVariable`,

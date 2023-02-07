@@ -1,0 +1,29 @@
+<!--
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT License.
+-->
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+  <Type>
+    <Name>DocumentLocaleInfo</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>locpath</Name>
+              <Name>locale</Name>
+              <Name>ms.contentlocale</Name>
+              <Name>ms.translationtype</Name>
+              <Name>ms.date</Name>
+              <Name>loc_version</Name>
+              <Name>updated_at</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+</Types>
