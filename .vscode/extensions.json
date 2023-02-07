@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "darkriszty.markdown-table-prettify",
+    "davidanson.vscode-markdownlint",
+    "eamodio.gitlens",
+    "jock.svg",
+    "marvhen.reflow-markdown",
+    "ms-vscode.powershell",
+    "ms-vscode.wordcount",
+    "nhoizey.gremlins",
+    "redhat.vscode-yaml",
+    "tyriar.sort-lines",
+    "usernamehw.errorlens",
+    "wmaurer.change-case",
+  ]
+}
