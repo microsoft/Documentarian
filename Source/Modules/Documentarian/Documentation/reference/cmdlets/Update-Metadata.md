@@ -1,27 +1,28 @@
 ---
-external help file: sdwheeler.DocsHelpers-help.xml
-Module Name: sdwheeler.DocsHelpers
-ms.date: 09/09/2021
+external help file: Documentarian-help.xml
+Module Name: Documentarian
+ms.date: 02/07/2023
 schema: 2.0.0
+title: Update-Metadata
 ---
 
 # Update-Metadata
 
-## Synopsis
+## SYNOPSIS
 Updates or adds metadata to a Markdown file.
 
-## Syntax
+## SYNTAX
 
 ```
 Update-Metadata [[-Path] <String>] [[-NewMetadata] <Hashtable>] [-Recurse] [<CommonParameters>]
 ```
 
-## Description
+## DESCRIPTION
 
 Updates or adds metadata to a Markdown file. The existing keys in the frontmatter are update with
 the new values. New keys are added to the frontmatter.
 
-## Examples
+## EXAMPLES
 
 ### Example 1 - Update the **ms.date** metadata for all Markdown files
 
@@ -29,7 +30,7 @@ the new values. New keys are added to the frontmatter.
 Update-Metadata *.md -NewMetadata @{'ms.date' = Get-Date -Format 'MM/dd/yyyy' }
 ```
 
-## Parameters
+## PARAMETERS
 
 ### -NewMetadata
 
@@ -81,24 +82,24 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
+### COMMONPARAMETERS
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,
 -WarningAction, and -WarningVariable. For more information, see
 [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
-## Inputs
+## INPUTS
 
 ### None
 
-## Outputs
+## OUTPUTS
 
 ### System.Object
 
-## Notes
+## NOTES
 
-## Related links
+## RELATED LINKS
 
 [Get-Metadata](Get-Metadata.md)
 

@@ -1,27 +1,28 @@
 ---
-external help file: sdwheeler.DocsHelpers-help.xml
-Module Name: sdwheeler.DocsHelpers
-ms.date: 09/09/2021
+external help file: Documentarian-help.xml
+Module Name: Documentarian
+ms.date: 02/07/2023
 schema: 2.0.0
+title: Get-YamlBlock
 ---
 
 # Get-YamlBlock
 
-## Synopsis
+## SYNOPSIS
 Gets the YAML frontmatter from a Markdown file.
 
-## Syntax
+## SYNTAX
 
 ```
 Get-YamlBlock [[-Path] <String>] [<CommonParameters>]
 ```
 
-## Description
+## DESCRIPTION
 
 The cmdlet returns the YAML frontmatter from a Markdown file. The output is returned as plain text
 and does not include the `---` document separator lines.
 
-## Examples
+## EXAMPLES
 
 ### Example 1
 
@@ -35,7 +36,7 @@ description: Information about installing PowerShell on Windows
 ms.date: 08/02/2021
 ```
 
-## Parameters
+## PARAMETERS
 
 ### -Path
 
@@ -53,24 +54,24 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
+### COMMONPARAMETERS
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,
 -WarningAction, and -WarningVariable. For more information, see
 [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
-## Inputs
+## INPUTS
 
 ### None
 
-## Outputs
+## OUTPUTS
 
 ### System.Object
 
-## Notes
+## NOTES
 
-## Related links
+## RELATED LINKS
 
 [Get-Metadata](Get-Metadata.md)
 

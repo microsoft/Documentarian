@@ -1,22 +1,23 @@
 ---
 external help file: sdwheeler.DocsHelpers-help.xml
 Module Name: sdwheeler.DocsHelpers
-ms.date: 09/09/2021
+ms.date: 02/07/2023
 schema: 2.0.0
+title: Get-ShortDescription
 ---
 
 # Get-ShortDescription
 
-## Synopsis
+## SYNOPSIS
 Creates Markdown source listing each of cmdlet files in the folder and their **SYNOPSIS** text.
 
-## Syntax
+## SYNTAX
 
 ```
 Get-ShortDescription
 ```
 
-## Description
+## DESCRIPTION
 
 The cmdlet creates Markdown source listing each of cmdlet files in the folder and their **SYNOPSIS**
 text. This text is useful for updating the module Markdown file created by PlatyPS.
@@ -24,7 +25,7 @@ text. This text is useful for updating the module Markdown file created by Platy
 The cmdlet must be run in the folder containing the Markdown files for all the cmdlets in the
 module. The output can be sent to the clipboard for easy pasting into the `module.md` file.
 
-## Examples
+## EXAMPLES
 
 ### Example 1 - Get the short descriptions for all cmdlets
 
@@ -36,18 +37,18 @@ Get-ShortDescription | Set-Clipboard
 
 The output is copied to the Clipboard for easy pasting into the `module.md` file.
 
-## Parameters
+## PARAMETERS
 
-## Inputs
+## INPUTS
 
 ### None
 
-## Outputs
+## OUTPUTS
 
 ### System.Object
 
-## Notes
+## NOTES
 
 There are no parameter for this cmdlet.
 
-## Related links
+## RELATED LINKS

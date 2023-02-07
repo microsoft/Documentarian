@@ -1,26 +1,27 @@
 ---
 external help file: sdwheeler.DocsHelpers-help.xml
 Module Name: sdwheeler.DocsHelpers
-online version:
+ms.date: 02/07/2023
 schema: 2.0.0
+title: Update-Headings
 ---
 
 # Update-Headings
 
-## Synopsis
-Changes the standard headings in `about_` files and cmdlet reference so title case.
+## SYNOPSIS
+Changes the standard headings in `about_` files and cmdlet reference to title case.
 
-## Syntax
+## SYNTAX
 
 ```
 Update-Headings [-Path] <String> [-Recurse] [<CommonParameters>]
 ```
 
-## Description
+## DESCRIPTION
 
-Changes the standard headings in `about_` files and cmdlet reference so title case.
+Changes the standard headings in `about_` files and cmdlet reference to title case.
 
-## Examples
+## EXAMPLES
 
 ### Example 1 - Update the heading for all files in a folder tree
 
@@ -28,11 +29,11 @@ Changes the standard headings in `about_` files and cmdlet reference so title ca
 Update-Headings -Path ./reference/5.1/Microsoft.PowerShell.Core/*.md -Recurse
 ```
 
-## Parameters
+## PARAMETERS
 
 ### -Path
 
-The path the the Markdown files to be updated. Wildards are supported.
+The path to the Markdown files to be updated. Wildards are supported.
 
 ```yaml
 Type: String
@@ -62,21 +63,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
+### COMMONPARAMETERS
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,
 -WarningAction, and -WarningVariable. For more information, see
 [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
-## Inputs
+## INPUTS
 
 ### None
 
-## Outputs
+## OUTPUTS
 
 ### System.Object
 
-## Notes
+## NOTES
 
-## Related links
+## RELATED LINKS

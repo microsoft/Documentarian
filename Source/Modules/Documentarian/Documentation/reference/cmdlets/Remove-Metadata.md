@@ -1,27 +1,28 @@
 ---
-external help file: sdwheeler.DocsHelpers-help.xml
-Module Name: sdwheeler.DocsHelpers
-ms.date: 09/09/2021
+external help file: Documentarian-help.xml
+Module Name: Documentarian
+ms.date: 02/07/2023
 schema: 2.0.0
+title: Remove-Metadata
 ---
 
 # Remove-Metadata
 
-## Synopsis
+## SYNOPSIS
 Removes metadata key-value pairs from the YAML frontmatter of a Markdown file.
 
-## Syntax
+## SYNTAX
 
 ```
 Remove-Metadata [[-Path] <String>] [[-KeyName] <String[]>] [-Recurse] [<CommonParameters>]
 ```
 
-## Description
+## DESCRIPTION
 
 Removes metadata key-value pairs from the YAML frontmatter of a Markdown file. List the keys names
 you want to remove from the frontmatter. This is useful for removing obsolete metadata values.
 
-## Examples
+## EXAMPLES
 
 ### Example 1 - Remove obsolete metadata values
 
@@ -55,7 +56,7 @@ title                          Installing PowerShell on Windows
 ms.date                        08/02/2021
 ```
 
-## Parameters
+## PARAMETERS
 
 ### -KeyName
 
@@ -107,24 +108,24 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
+### COMMONPARAMETERS
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,
 -WarningAction, and -WarningVariable. For more information, see
 [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
-## Inputs
+## INPUTS
 
 ### None
 
-## Outputs
+## OUTPUTS
 
 ### System.Object
 
-## Notes
+## NOTES
 
-## Related links
+## RELATED LINKS
 
 [Get-Metadata](Get-Metadata.md)
 

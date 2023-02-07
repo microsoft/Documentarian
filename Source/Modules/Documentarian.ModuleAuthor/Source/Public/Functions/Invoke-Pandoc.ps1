@@ -4,6 +4,7 @@
 function Invoke-Pandoc {
 
     param(
+        [Parameter(Mandatory)]
         [string[]]$Path,
         [string]$OutputPath = '.',
         [switch]$Recurse
@@ -19,6 +20,6 @@ function Invoke-Pandoc {
             '--quiet'
         )
         Get-ContentWithoutHeader $_ | & $pandocExe $pandocArgs
+        Get-ChildItem $outfile
     }
-
 }

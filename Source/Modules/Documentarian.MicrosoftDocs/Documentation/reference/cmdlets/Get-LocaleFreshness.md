@@ -1,28 +1,29 @@
 ---
-external help file: sdwheeler.DocsHelpers-help.xml
-Module Name: sdwheeler.DocsHelpers
-ms.date: 09/15/2022
+external help file: Documentarian.MicrosoftDocs-help.xml
+Module Name: Documentarian.MicrosoftDocs
+ms.date: 02/07/2023
 schema: 2.0.0
+title: Get-LocaleFreshness
 ---
 
 # Get-LocaleFreshness
 
-## Synopsis
+## SYNOPSIS
 Gets the `ms.date` metadata information of a Docs article for every locale.
 
-## Syntax
+## SYNTAX
 
 ```
 Get-LocaleFreshness [[-Uri] <uri>] [[-Locales] <string[]>] [<CommonParameters>]
 ```
 
-## Description
+## DESCRIPTION
 
 Gets the `ms.date` metadata information of a Docs article for every locale. The output includes the
 locale information and the translation method. This is useful to see whether or not the localization
 process has picked up the latest changes made to the English version of the article.
 
-## Examples
+## EXAMPLES
 
 ### Example 1 - Get the freshness data for an article
 
@@ -106,7 +107,7 @@ original_content_git_url : https://github.com/MicrosoftDocs/PowerShell-Docs/blob
                            /Installing-PowerShell-on-Linux.md
 ```
 
-## Parameters
+## PARAMETERS
 
 ### -Locales
 
@@ -163,18 +164,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
+### COMMONPARAMETERS
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,
 -WarningAction, and -WarningVariable. For more information, see
 [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
-## Inputs
+## INPUTS
 
 ### None
 
-## Outputs
+## OUTPUTS
 
 ### DocumentLocaleInfo
 
@@ -184,6 +185,6 @@ The **locpath** property is the target path in the URL. The values of **locpath*
 The other properties are values of HTML `<meta>` tags in the published articles. The values of these
 tags are set by the build system when the article is published.
 
-## Notes
+## NOTES
 
-## Related links
+## RELATED LINKS

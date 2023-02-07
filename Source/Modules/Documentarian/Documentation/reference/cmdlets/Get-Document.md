@@ -1,10 +1,11 @@
-﻿---
-title: Get-Document
-summary: Get-Document...
+---
 external help file: Documentarian-help.xml
 Module Name: Documentarian
+ms.date: 02/07/2023
 online version: https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/get-document
 schema: 2.0.0
+summary: Parses a document as Markdown and returns it as a usable object.
+title: Get-Document
 ---
 
 # Get-Document
@@ -148,7 +149,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
+### COMMONPARAMETERS
 
 This cmdlet supports the common parameters: `-Debug`, `-ErrorAction`, `-ErrorVariable`,
 `-InformationAction`, `-InformationVariable`, `-OutVariable`, `-OutBuffer`, `-PipelineVariable`,

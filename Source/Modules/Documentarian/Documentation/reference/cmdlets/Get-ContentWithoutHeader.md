@@ -1,27 +1,28 @@
 ---
-external help file: sdwheeler.DocsHelpers-help.xml
-Module Name: sdwheeler.DocsHelpers
-ms.date: 09/09/2021
+external help file: Documentarian-help.xml
+Module Name: Documentarian
+ms.date: 02/07/2023
 schema: 2.0.0
+title: Get-ContentWithoutHeader
 ---
 
 # Get-ContentWithoutHeader
 
-## Synopsis
+## SYNOPSIS
 Gets the content of a Markdown file without the YAML frontmatter.
 
-## Syntax
+## SYNTAX
 
 ```
 Get-ContentWithoutHeader [[-Path] <String>] [<CommonParameters>]
 ```
 
-## Description
+## DESCRIPTION
 
 The cmdlet gets the content of a Markdown file without the YAML frontmatter. This is useful when
 updating the metadata of the file or for passing Markdown text to another command for processing.
 
-## Examples
+## EXAMPLES
 
 ### Example 1 - Render the Markdown file as HTML
 
@@ -33,7 +34,7 @@ Get-ContentWithoutHeader .\Update-Metadata.md |
     Select-Object -ExpandProperty Html
 ```
 
-## Parameters
+## PARAMETERS
 
 ### -Path
 
@@ -51,23 +52,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
+### COMMONPARAMETERS
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,
 -WarningAction, and -WarningVariable. For more information, see
 [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
-## Inputs
+## INPUTS
 
 ### None
 
-## Outputs
+## OUTPUTS
 
 ### System.Object
 
-## Notes
+## NOTES
 
 See the source code for `Update-Metadata` for another example.
 
-## Related links
+## RELATED LINKS

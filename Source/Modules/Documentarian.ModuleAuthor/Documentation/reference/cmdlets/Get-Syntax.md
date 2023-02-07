@@ -1,26 +1,27 @@
 ---
 external help file: sdwheeler.DocsHelpers-help.xml
 Module Name: sdwheeler.DocsHelpers
-ms.date: 09/09/2021
+ms.date: 02/07/2023
 schema: 2.0.0
+title: Get-Syntax
 ---
 
 # Get-Syntax
 
-## Synopsis
+## SYNOPSIS
 Displays the syntax of a cmdlet.
 
-## Syntax
+## SYNTAX
 
 ```
 Get-Syntax [-CmdletName] <String> [-Markdown] [<CommonParameters>]
 ```
 
-## Description
+## DESCRIPTION
 
 The cmdlet is similar to the output you get from `Get-Command -Syntax`. By default, the syntax information is returned as an object. You can also return it as formatted Markdown source that can be easily pasted into a cmdlet Markdown file.
 
-## Examples
+## EXAMPLES
 
 ### Example 1 - Get the syntax of a command as Markdown text
 
@@ -68,7 +69,7 @@ Get-Command AllCommandSet        False [[-Name] <string[]>] [[-ArgumentList] <Ob
                                        [-UseAbbreviationExpansion] [<CommonParameters>]
 ```
 
-## Parameters
+## PARAMETERS
 
 ### -CmdletName
 
@@ -103,21 +104,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
+### COMMONPARAMETERS
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,
 -WarningAction, and -WarningVariable. For more information, see
 [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
-## Inputs
+## INPUTS
 
 ### None
 
-## Outputs
+## OUTPUTS
 
 ### System.Object
 
-## Notes
+## NOTES
 
-## Related links
+## RELATED LINKS
