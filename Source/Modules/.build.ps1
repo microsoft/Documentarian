@@ -36,9 +36,9 @@ if (!$Module) {
     'Documentarian'
     # Can't enable these until there's code to build
     # 'Documentarian.MarkdownLint'
-    # 'Documentarian.MicrosoftDocs'
+    'Documentarian.MicrosoftDocs'
     # 'Documentarian.MicrosoftDocs.PSDocs'
-    # 'Documentarian.ModuleAuthor'
+    'Documentarian.ModuleAuthor'
     # 'Documentarian.Vale'
   )
 }
