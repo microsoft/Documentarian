@@ -28,6 +28,16 @@ jobs:
             version: 0.0.1
           - module: Documentarian.DevX
             version: 0.0.1
+          # - module: Documentarian.MarkdownLint
+          #   version: 0.0.1
+          - module: Documentarian.MicrosoftDocs
+            version: 0.0.1
+          # - module: Documentarian.MicrosoftDocs.PSDocs
+          #   version: 0.0.1
+          - module: Documentarian.ModuleAuthor
+            version: 0.0.1
+          # - module: Documentarian.Vale
+          #   version: 0.0.1
     steps:
       - name: Checkout
         uses: actions/checkout@v3

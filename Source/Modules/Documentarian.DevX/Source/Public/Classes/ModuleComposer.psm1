@@ -2,6 +2,7 @@
 # Licensed under the MIT License.
 
 using module ./SourceFolder.psm1
+using module ../Enums/SourceCategory.psm1
 
 #region    RequiredFunctions
 
@@ -30,17 +31,21 @@ class ModuleComposer {
   [string]    $ModuleName
   [version]   $ModuleVersion
   [string]    $OutputFolderPath
+  [string]    $OutputFormatsFilePath
   [string]    $OutputInitScriptPath
   [string]    $OutputManifestPath
   [string]    $OutputPrivateModulePath
   [string]    $OutputRootModulePath
   [string]    $OutputTemplateFolderPath
+  [string]    $OutputTypesFilePath
   [string]    $SourceFolderPath
   [string]    $SourceInitScriptPath
+  [string]    $SourceFormatFolderPath
   [string]    $SourceManifestPath
   [string]    $SourcePrivateFolderPath
   [string]    $SourcePublicFolderPath
   [string]    $SourceTemplateFolderPath
+  [string]    $SourceTypeFolderPath
 
   #endregion Configurable Settings
 
@@ -56,8 +61,10 @@ class ModuleComposer {
   #region Composed Module Content Properties
 
   [string]$InitScriptContent
+  [string]$FormatContent
   [string]$PrivateModuleContent
   [string]$RootModuleContent
+  [string]$TypeContent
 
   #endregion Composed Module Content Properties
 
@@ -224,6 +231,22 @@ class ModuleComposer {
       $this.OutputTemplateFolderPath = Join-Path -Path $this.OutputFolderPath -ChildPath 'Templates'
     }
 
+    if ([string]::IsNullOrEmpty($this.OutputFormatsFilePath)) {
+      $OutputFormatsFilePathParams = @{
+        Path      = $this.OutputFolderPath
+        ChildPath = "$($this.ModuleName).Format.ps1xml"
+      }
+      $this.OutputFormatsFilePath = Join-Path @OutputFormatsFilePathParams
+    }
+
+    if ([string]::IsNullOrEmpty($this.OutputTypesFilePath)) {
+      $OutputTypesFilePathParams = @{
+        Path      = $this.OutputFolderPath
+        ChildPath = "$($this.ModuleName).Types.ps1xml"
+      }
+      $this.OutputTypesFilePath = Join-Path @OutputTypesFilePathParams
+    }
+
     $this.InitializeSourceFolders()
     $this.InitializePublicFunctions()
 
@@ -335,6 +358,9 @@ class ModuleComposer {
 
     # Add source definitions
     $this.PublicSourceFolders
+    | Where-Object -FilterScript {
+      $_.Category -notin @([SourceCategory]::Type, [SourceCategory]::Format)
+    }
     | ForEach-Object {
       $Source = $_.ComposeSourceFiles().trim()
       $null = $ContentBuilder.Append($Source)
@@ -421,12 +447,74 @@ class ModuleComposer {
     $this.InitScriptContent = $this.MungeComposedContent($ContentBuilder.ToString())
   }
 
+  [void] ComposeTypeFileContent() {
+    if (!([string]::IsNullOrEmpty($this.OutputTypesFilePath))) {
+      [string[]]$Types = $this.PublicSourceFolders.SourceFiles
+      | Where-Object { $_.Category -eq 'Type' }
+      | ForEach-Object {
+        $TypeXML = ([xml]$_.RawContent).Types.Type.OuterXML
+        if ($null -ne $TypeXML) {
+          [System.Xml.Linq.XElement]::Parse($TypeXML).ToString() -split '\r?\n'
+          | ForEach-Object -Process { "    $_" }
+          | Join-String -Separator $this.ModuleLineEnding
+        }
+      }
+
+      if ($Types.Count -gt 0) {
+        $this.TypeContent = @(
+          '<?xml version="1.0" encoding="utf-8"?>'
+          '<!--'
+          '    Copyright (c) Microsoft Corporation.'
+          '    Licensed under the MIT License.'
+          '-->'
+          '<Types>'
+          $Types
+          '</Types>'
+        ) -join $this.ModuleLineEnding
+      }
+    }
+  }
+
+  [void] ComposeFormatFileContent() {
+    if (!([string]::IsNullOrEmpty($this.OutputFormatsFilePath))) {
+      [string[]]$Views = $this.PublicSourceFolders.SourceFiles
+      | Where-Object { $_.Category -eq 'Format' }
+      | ForEach-Object {
+        $ViewXml = ([xml]$_.RawContent).Configuration.ViewDefinitions.View.OuterXML
+        foreach ($View in $ViewXml) {
+          [System.Xml.Linq.XElement]::Parse($View).ToString() -split '\r?\n'
+          | ForEach-Object -Process { "        $_" }
+          | Join-String -Separator $this.ModuleLineEnding
+        }
+      }
+
+      if ($Views.Count -gt 0) {
+        $this.FormatContent = @(
+          '<?xml version="1.0" encoding="utf-8"?>'
+          '<!--'
+          "    $($this.ModuleCopyrightNotice)"
+          "    $($this.ModuleLicenseNotice)"
+          '-->'
+          '<Configuration>'
+          '    <ViewDefinitions>'
+          $Views
+          '    </ViewDefinitions>'
+          '</Configuration>'
+        ) -join $this.ModuleLineEnding
+      }
+    }
+  }
+
   [void] ExportComposedModule() {
     $this.CleanOutputFolder()
     $this.CreateOutputFolder()
     $this.ComposePrivateModuleContent()
     $this.ComposeRootModuleContent()
     $this.ComposeInitScriptContent()
+    $this.ComposeFormatFileContent()
+    $this.ComposeTypeFileContent()
+
+    $ManifestParameters = $this.ManifestData
 
     if ($TemplateFolder = Get-Item -Path $this.SourceTemplateFolderPath -ErrorAction SilentlyContinue) {
       Copy-Item -Path $TemplateFolder -Destination $this.OutputFolderPath -Container -Recurse
@@ -443,7 +531,20 @@ class ModuleComposer {
     $this.InitScriptContent
     | Out-File -FilePath $this.OutputInitScriptPath -Encoding utf8 -NoNewline
 
-    $ManifestParameters = $this.ManifestData
+    if ($this.TypeContent) {
+      $this.TypeContent
+      | Out-File -FilePath $this.OutputTypesFilePath -Encoding utf8 -NoNewline
+
+      $ManifestParameters.TypesToProcess = Split-Path -Leaf $this.OutputTypesFilePath
+    }
+
+    if ($this.FormatContent) {
+      $this.FormatContent
+      | Out-File -FilePath $this.OutputFormatsFilePath -Encoding utf8 -NoNewline
+
+      $ManifestParameters.FormatsToProcess = Split-Path -Leaf $this.OutputFormatsFilePath
+    }
+
     $ManifestParameters.Path = $this.OutputManifestPath
     $ManifestParameters.FunctionsToExport = $this.PublicFunctions
     New-ModuleManifest @ManifestParameters

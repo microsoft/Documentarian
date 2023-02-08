@@ -44,8 +44,10 @@ class SourceFile {
   ) -join ''
 
   static [string]$CopyrightNoticePattern = '^# Copyright (.+)$'
+  static [string]$CopyrightNoticePatternXml = 'Copyright .+'
 
   static [string]$LicenseNoticePattern = '^# Licensed under (.+)$'
+  static [string]$LicenseNoticePatternXml = 'Licensed under .+'
 
   SourceFile([string]$ParentNameSpace, [string]$Path) {
     $this.NameSpace = Resolve-NameSpace -Path $Path -ParentNameSpace $ParentNameSpace
@@ -122,12 +124,20 @@ class SourceFile {
     return [SourceFile]::SplitContent($content) -match [SourceFile]::CopyrightNoticePattern
   }
 
+  static [string] FindCopyrightNoticeXml([string]$content) {
+    return [SourceFile]::SplitContent($content) -match [SourceFile]::CopyrightNoticePatternXml
+  }
+
   static [string] FindCopyrightNotice([string]$content, [string]$pattern) {
     return [SourceFile]::SplitContent($content) -match $pattern
   }
 
   [void] DefineCopyrightNotice() {
-    $this.CopyrightNotices = [SourceFile]::FindCopyrightNotice($this.RawContent)
+    if ($this.FileInfo.Extension -eq '.ps1xml') {
+      $this.CopyrightNotices = [SourceFile]::FindCopyrightNoticeXml($this.RawContent)
+    } else {
+      $this.CopyrightNotices = [SourceFile]::FindCopyrightNotice($this.RawContent)
+    }
   }
 
   [void] DefineCopyrightNotice([string]$pattern = [SourceFile]::CopyrightNoticePattern) {
@@ -138,12 +148,20 @@ class SourceFile {
     return [SourceFile]::SplitContent($content) -match [SourceFile]::LicenseNoticePattern
   }
 
+  static [string] FindLicenseNoticeXml([string]$content) {
+    return [SourceFile]::SplitContent($content) -match [SourceFile]::LicenseNoticePatternXml
+  }
+
   static [string] FindLicenseNotice([string]$content, [string]$pattern) {
     return [SourceFile]::SplitContent($content) -match $pattern
   }
 
   [void] DefineLicenseNotice() {
-    $this.LicenseNotices = [SourceFile]::FindLicenseNotice($this.RawContent)
+    if ($this.FileInfo.Extension -eq '.ps1xml') {
+      $this.LicenseNotices = [SourceFile]::FindLicenseNoticeXml($this.RawContent)
+    } else {
+      $this.LicenseNotices = [SourceFile]::FindLicenseNotice($this.RawContent)
+    }
   }
 
   [void] DefineLicenseNotice([string]$pattern) {

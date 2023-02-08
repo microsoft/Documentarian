@@ -5,4 +5,6 @@ enum SourceCategory {
   Class
   Enum
   Function
+  Format
+  Type
 }
