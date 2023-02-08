@@ -11,6 +11,17 @@
         "reveal": "always"
       },
       "group": "none"
+    },
+    {
+      "label": "Vale Package",
+      "command": "Invoke-Build -Task PackageVale",
+      "type": "shell",
+      "args": [],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"
+      },
+      "group": "none"
     }
   ]
 }
