@@ -9,12 +9,13 @@ title: Set-Metadata
 # Set-Metadata
 
 ## SYNOPSIS
+
 Overwrites the metadata frontmatter in a Markdown file.
 
 ## SYNTAX
 
 ```
-Set-Metadata [[-Path] <String>] [[-NewMetadata] <Hashtable>] [-Recurse] [<CommonParameters>]
+Set-Metadata [-Path] <string> [-NewMetadata] <hashtable> [-Recurse] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -45,7 +46,7 @@ Type: System.Collections.Hashtable
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 1
 Default value: None
 Accept pipeline input: False
@@ -62,7 +63,7 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
@@ -86,7 +87,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### COMMONPARAMETERS
+### CommonParameters
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,

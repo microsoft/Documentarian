@@ -9,25 +9,40 @@ title: Get-Metadata
 # Get-Metadata
 
 ## SYNOPSIS
+
 Get the metadata frontmatter from a Markdown file.
 
 ## SYNTAX
 
+### AsHash
+
 ```
-Get-Metadata [[-Path] <String>] [-Recurse] [-AsObject] [<CommonParameters>]
+Get-Metadata [-Path] <string> [-Recurse] [<CommonParameters>]
+```
+
+### AsObject
+
+```
+Get-Metadata [-Path] <string> -AsObject [-Recurse] [<CommonParameters>]
+```
+
+### AsYaml
+
+```
+Get-Metadata [-Path] <string> -AsYaml [-Recurse] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
 Get the metadata frontmatter from a Markdown file. By default the data is returned as a
-**hashtable** object. It can also be returned as a **PSObject**.
+**hashtable** object. It can also be returned as a **PSObject** or as raw Yaml formatted text.
 
 ## EXAMPLES
 
 ### Example 1 - Get the metadata header as a hashtable
 
 ```powershell
-Get-Metadata .\install\Installing-PowerShell-Core-on-Windows.md
+Get-Metadata .\install\Installing-PowerShell-on-Windows.md
 ```
 
 ```Output
@@ -41,29 +56,57 @@ ms.date                        08/02/2021
 ### Example 2 - Get the metadata header as an object
 
 ```powershell
-Get-Metadata .\install\Installing-PowerShell-Core-on-Windows.md -AsObject | Format-list
+Get-Metadata .\install\Installing-PowerShell-on-Windows.md -AsObject | Format-list
 ```
 
 ```Output
 description : Information about installing PowerShell on Windows
-file        : C:\Git\PS-Docs\PowerShell-Docs\reference\docs-conceptual\install\Installing-PowerShell-Core-on-Windows.md
+file        : C:\Git\PS-Docs\PowerShell-Docs\reference\docs-conceptual\install\Installing-PowerShell-on-Windows.md
 title       : Installing PowerShell on Windows
 ms.date     : 08/02/2021
+```
+
+### Example 3 - Get the metadata header as raw Yaml
+
+```powershell
+Get-Metadata .\install\Installing-PowerShell-on-Windows.md -AsYaml
+```
+
+```Output
+description: Information about installing PowerShell on Windows
+ms.date: 01/09/2023
+title: Installing PowerShell on Windows
 ```
 
 ## PARAMETERS
 
 ### -AsObject
 
-Returns the metadata as a **PSObject**. Unlike the hashtable, the object include the original file
+Returns the metadata as a **PSObject**. Unlike the hashtable, the object includes the original file
 path as a property.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: AsObject
 Aliases:
 
-Required: False
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AsYaml
+
+Returns the raw Yaml metadata frontmatter.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: AsYaml
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -80,7 +123,7 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
@@ -104,7 +147,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### COMMONPARAMETERS
+### CommonParameters
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,
@@ -123,12 +166,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[Get-YamlBlock](Get-YamlBlock.md)
-
 [Remove-Metadata](Remove-Metadata.md)
 
 [Set-Metadata](Set-Metadata.md)
 
 [Update-Metadata](Update-Metadata.md)
-
-[hash2yaml](hash2yaml.md)

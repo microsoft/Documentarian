@@ -9,12 +9,13 @@ title: Get-ContentWithoutHeader
 # Get-ContentWithoutHeader
 
 ## SYNOPSIS
+
 Gets the content of a Markdown file without the YAML frontmatter.
 
 ## SYNTAX
 
 ```
-Get-ContentWithoutHeader [[-Path] <String>] [<CommonParameters>]
+Get-ContentWithoutHeader [-Path] <string> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -45,14 +46,14 @@ Type: System.Object
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### COMMONPARAMETERS
+### CommonParameters
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,

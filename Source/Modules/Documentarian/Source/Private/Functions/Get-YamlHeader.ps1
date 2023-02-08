@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-function Get-YamlBlock {
+function Get-YamlHeader {
 
     [CmdletBinding()]
     param([string]$Path)
@@ -13,7 +13,7 @@ function Get-YamlBlock {
 
     if ($hasFrontmatter) {
         $start = $hasFrontmatter[0].LineNumber
-        $end = $hasFrontmatter[1].LineNumber-2
+        $end = $hasFrontmatter[1].LineNumber - 2
     }
     $doc[$start..$end]
 

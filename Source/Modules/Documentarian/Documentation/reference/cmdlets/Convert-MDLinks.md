@@ -9,12 +9,13 @@ title: Convert-MDLinks
 # Convert-MDLinks
 
 ## SYNOPSIS
+
 Converts Markdown hyperlinks to numbered link references.
 
 ## SYNTAX
 
 ```
-Convert-MDLinks [[-Path] <String[]>] [-PassThru] [<CommonParameters>]
+Convert-MDLinks [-Path] <string[]> [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -119,14 +120,14 @@ Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: True
 ```
 
-### COMMONPARAMETERS
+### CommonParameters
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,

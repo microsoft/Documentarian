@@ -4,10 +4,13 @@
 function Set-Metadata {
 
     param(
-        [Parameter()]
+        [Parameter(Mandatory, Position = 0)]
         [SupportsWildcards()]
         [string]$Path,
+
+        [Parameter(Mandatory, Position = 1)]
         [hashtable]$NewMetadata,
+
         [switch]$Recurse
     )
 

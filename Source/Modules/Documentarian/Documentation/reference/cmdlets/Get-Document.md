@@ -11,6 +11,7 @@ title: Get-Document
 # Get-Document
 
 ## SYNOPSIS
+
 Parses a document as Markdown and returns it as a usable object.
 
 ## SYNTAX
@@ -149,7 +150,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### COMMONPARAMETERS
+### CommonParameters
 
 This cmdlet supports the common parameters: `-Debug`, `-ErrorAction`, `-ErrorVariable`,
 `-InformationAction`, `-InformationVariable`, `-OutVariable`, `-OutBuffer`, `-PipelineVariable`,
