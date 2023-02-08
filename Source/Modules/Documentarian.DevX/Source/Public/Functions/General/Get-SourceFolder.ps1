@@ -54,6 +54,8 @@ function Get-SourceFolder {
   )
 
   process {
+    $Category ??= @('Classes', 'Enums', 'Formats', 'Functions', 'Types')
+    $CategoryPattern = "\b$($Category -join '|')\b"
     if ($SourceFolder) {
       $PublicFolder = Join-Path -Path $SourceFolder -ChildPath 'Public'
       | Resolve-Path -ErrorAction Stop
@@ -111,6 +113,12 @@ function Get-SourceFolder {
         }
       }
     }
-    $FolderPaths | ForEach-Object -Process { New-SourceFolder -Path $_ }
+    $FolderPaths
+    | Where-Object -FilterScript { $_ -match $CategoryPattern }
+    | ForEach-Object -Process {
+      if (Test-Path -Path $_) {
+        New-SourceFolder -Path $_
+      }
+    }
   }
 }
