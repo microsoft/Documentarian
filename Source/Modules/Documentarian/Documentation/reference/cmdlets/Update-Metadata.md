@@ -9,12 +9,13 @@ title: Update-Metadata
 # Update-Metadata
 
 ## SYNOPSIS
+
 Updates or adds metadata to a Markdown file.
 
 ## SYNTAX
 
 ```
-Update-Metadata [[-Path] <String>] [[-NewMetadata] <Hashtable>] [-Recurse] [<CommonParameters>]
+Update-Metadata [-Path] <string> [-NewMetadata] <hashtable> [-Recurse] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,7 +42,7 @@ Type: System.Collections.Hashtable
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 1
 Default value: None
 Accept pipeline input: False
@@ -58,7 +59,7 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False

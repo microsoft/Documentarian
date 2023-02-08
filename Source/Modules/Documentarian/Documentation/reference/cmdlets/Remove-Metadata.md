@@ -9,12 +9,13 @@ title: Remove-Metadata
 # Remove-Metadata
 
 ## SYNOPSIS
+
 Removes metadata key-value pairs from the YAML frontmatter of a Markdown file.
 
 ## SYNTAX
 
 ```
-Remove-Metadata [[-Path] <String>] [[-KeyName] <String[]>] [-Recurse] [<CommonParameters>]
+Remove-Metadata [-Path] <string> [-KeyName] <string[]> [-Recurse] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -67,7 +68,7 @@ Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 1
 Default value: None
 Accept pipeline input: False
@@ -84,7 +85,7 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
@@ -108,7 +109,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### COMMONPARAMETERS
+### CommonParameters
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,

@@ -4,10 +4,13 @@
 function Remove-Metadata {
 
     param(
-        [Parameter()]
+        [Parameter(Mandatory, Position = 0)]
         [SupportsWildcards()]
         [string]$Path,
+
+        [Parameter(Mandatory, Position = 1)]
         [string[]]$KeyName,
+
         [switch]$Recurse
     )
 
