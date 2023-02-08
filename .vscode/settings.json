@@ -10,6 +10,16 @@
     "powershell.codeFormatting.useCorrectCasing": true,
     "powershell.integratedConsole.suppressStartupBanner": true,
     "reflowMarkdown.preferredLineLength": 99,
+    "xml.fileAssociations": [
+        {
+            "systemId": "https://raw.githubusercontent.com/PowerShell/PowerShell/master/src/Schemas/Format.xsd",
+            "pattern": "**/*.Format.ps1xml"
+        },
+        {
+            "systemId": "https://raw.githubusercontent.com/PowerShell/PowerShell/master/src/Schemas/Types.xsd",
+            "pattern": "**/*.Types.ps1xml"
+        }
+    ],
     "yaml.format.singleQuote": true,
     "files.eol": "\n",
     "files.exclude": {
