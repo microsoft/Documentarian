@@ -3,6 +3,7 @@ Source/Styles/*
 !Source/Styles/PowerShell-Docs/
 !Source/Styles/Vocab/
 .vscode/styles
+PackagedStyles
 
 # Hugo ignores
 site/public

@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main # Set a branch that will trigger a deployment
+  pull_request:
+    paths:
+      - 'Source/Styles/**'
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  build_styles:
+    name: PowerShell
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        style:
+          - PowerShell-Docs
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Archive ${{ matrix.style }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: Style.${{ matrix.style }}
+          path: |
+            Source/Styles/${{ matrix.style }}
