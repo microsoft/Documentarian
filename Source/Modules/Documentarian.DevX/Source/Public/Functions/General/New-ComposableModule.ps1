@@ -35,6 +35,8 @@ function New-ComposableModule {
       @{ Path = 'Source/Public/Enums'      ; LoadOrder = $true }
       @{ Path = 'Source/Private/Functions' ; GitKeep = $true }
       @{ Path = 'Source/Public/Functions'  ; GitKeep = $true }
+      @{ Path = 'Source/Public/Formats'    ; GitKeep = $true }
+      @{ Path = 'Source/Public/Types'      ; GitKeep = $true }
     )
   }
 

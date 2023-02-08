@@ -85,7 +85,7 @@ class SourceFolder {
         }
       }
       $false {
-        Get-ChildItem -Path $this.DirectoryInfo.FullName -Include '*.ps1' -Exclude '*.Tests.ps1' -Recurse
+        Get-ChildItem -Path $this.DirectoryInfo.FullName -Include '*.ps1*' -Exclude '*.Tests.ps1' -Recurse
         | ForEach-Object -Process {
           [SourceFile]::new($this.NameSpace, $_.FullName)
         }

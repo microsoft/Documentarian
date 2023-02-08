@@ -24,7 +24,7 @@ function Get-SourceFolder {
   param(
     [Parameter(Mandatory, ParameterSetName = 'ByOption')]
     [Parameter(ParameterSetName = 'WithSpecificFolders')]
-    [ValidateSet('Classes', 'Enums', 'Functions')]
+    [ValidateSet('Classes', 'Enums', 'Formats', 'Functions', 'Types')]
     [string[]]$Category,
 
     [Parameter(Mandatory, ParameterSetName = 'ByOption')]
@@ -34,7 +34,7 @@ function Get-SourceFolder {
 
     [Parameter(ParameterSetName = 'ByPreset')]
     [Parameter(ParameterSetName = 'WithSpecificFolders')]
-    [ValidateSet('Ordered', 'Functions', 'All')]
+    [ValidateSet('Ordered', 'Functions', 'PS1Xmls', 'All')]
     [string]$Preset = 'All',
 
     [Parameter(ParameterSetName = 'ByPreset')]
@@ -87,6 +87,13 @@ function Get-SourceFolder {
         )
       }
 
+      'PS1Xmls' {
+        @(
+          Join-Path -Path $PublicFolder -ChildPath Formats
+          Join-Path -Path $PublicFolder -ChildPath Types
+        )
+      }
+
       'All' {
         @(
           Join-Path -Path $PrivateFolder -ChildPath Enums
@@ -95,6 +102,8 @@ function Get-SourceFolder {
           Join-Path -Path $PublicFolder -ChildPath Classes
           Join-Path -Path $PrivateFolder -ChildPath Functions
           Join-Path -Path $PublicFolder -ChildPath Functions
+          Join-Path -Path $PublicFolder -ChildPath Formats
+          Join-Path -Path $PublicFolder -ChildPath Types
         )
       }
 
