@@ -1,9 +1,11 @@
 ---
 title: Documentarian.ModuleAuthor
-linkTitle: 
-summary: The development experience toolkit for authoring and maintaining modern PowerShell modules
+linkTitle:
+summary: >-
+  A module for writing and maintaining PowerShell module documentation as a supplement to
+  **PlatyPS**.
 description: >-
-  The development experience toolkit for modern PowerShell modules.
+  Commands for writing and maintaining PowerShell modules documentation.
 weight: 99
 cascade:
   pwsh:

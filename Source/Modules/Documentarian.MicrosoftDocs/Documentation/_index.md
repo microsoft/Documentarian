@@ -1,9 +1,10 @@
 ---
 title: Documentarian.MicrosoftDocs
-linkTitle: 
-summary: The development experience toolkit for authoring and maintaining modern PowerShell modules
-description: >-
-  The development experience toolkit for modern PowerShell modules.
+linkTitle:
+summary: >-
+  A PowerShell module for maintainers and contributors to Microsoft documentation.
+description: |
+  Commands for maintainers and contributors to Microsoft documentation.
 weight: 99
 cascade:
   pwsh:

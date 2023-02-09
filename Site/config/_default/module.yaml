@@ -1,7 +1,9 @@
 replacements: >-
   github.com/microsoft/Documentarian/Source/Hugo/docsy-pwsh -> Hugo/docsy-pwsh,
   github.com/microsoft/Documentarian/Source/Modules/Documentarian -> Modules/Documentarian,
-  github.com/microsoft/Documentarian/Source/Modules/Documentarian.DevX -> Modules/Documentarian.DevX
+  github.com/microsoft/Documentarian/Source/Modules/Documentarian.DevX -> Modules/Documentarian.DevX,
+  github.com/microsoft/Documentarian/Source/Modules/Documentarian.MicrosoftDocs -> Modules/Documentarian.MicrosoftDocs,
+  github.com/microsoft/Documentarian/Source/Modules/Documentarian.ModuleAuthor -> Modules/Documentarian.ModuleAuthor
 imports:
   - path: github.com/microsoft/Documentarian/Source/Modules/Documentarian
     mounts:
@@ -19,6 +21,22 @@ imports:
         target: content/modules/devx/changelog.md
       - source: Source
         target: content/includes/source/devx
+  - path: github.com/microsoft/Documentarian/Source/Modules/Documentarian.MicrosoftDocs
+    mounts:
+      - source: Documentation
+        target: content/modules/microsoftdocs
+      - source: CHANGELOG.md
+        target: content/modules/microsoftdocs/changelog.md
+      - source: Source
+        target: content/includes/source/microsoftdocs
+  - path: github.com/microsoft/Documentarian/Source/Modules/Documentarian.ModuleAuthor
+    mounts:
+      - source: Documentation
+        target: content/modules/moduleauthor
+      - source: CHANGELOG.md
+        target: content/modules/moduleauthor/changelog.md
+      - source: Source
+        target: content/includes/source/moduleauthor
   - path: github.com/microsoft/Documentarian/Source/Hugo/docsy-pwsh
   - path: github.com/google/docsy
   - path: github.com/google/docsy/dependencies
