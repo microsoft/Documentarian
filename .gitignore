@@ -4,6 +4,7 @@ Source/Styles/*
 !Source/Styles/Vocab/
 .vscode/styles
 PackagedStyles
+.vale
 
 # Hugo ignores
 site/public

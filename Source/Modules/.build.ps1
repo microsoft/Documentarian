@@ -39,7 +39,7 @@ if (!$Module) {
     'Documentarian.MicrosoftDocs'
     # 'Documentarian.MicrosoftDocs.PSDocs'
     'Documentarian.ModuleAuthor'
-    # 'Documentarian.Vale'
+    'Documentarian.Vale'
   )
 }
 
