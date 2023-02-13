@@ -1,6 +1,6 @@
 ---
 title: Documentarian.MicrosoftDocs
-linkTitle:
+linkTitle: MicrosoftDocs
 summary: >-
   A PowerShell module for maintainers and contributors to Microsoft documentation.
 description: |

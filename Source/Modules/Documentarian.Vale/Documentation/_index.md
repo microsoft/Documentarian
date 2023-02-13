@@ -1,6 +1,6 @@
 ---
 title: Documentarian.Vale
-linkTitle: 
+linkTitle: Vale
 summary: The development experience toolkit for authoring and maintaining modern PowerShell modules
 description: >-
   The development experience toolkit for modern PowerShell modules.
