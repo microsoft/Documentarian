@@ -3,7 +3,8 @@ replacements: >-
   github.com/microsoft/Documentarian/Source/Modules/Documentarian -> Modules/Documentarian,
   github.com/microsoft/Documentarian/Source/Modules/Documentarian.DevX -> Modules/Documentarian.DevX,
   github.com/microsoft/Documentarian/Source/Modules/Documentarian.MicrosoftDocs -> Modules/Documentarian.MicrosoftDocs,
-  github.com/microsoft/Documentarian/Source/Modules/Documentarian.ModuleAuthor -> Modules/Documentarian.ModuleAuthor
+  github.com/microsoft/Documentarian/Source/Modules/Documentarian.ModuleAuthor -> Modules/Documentarian.ModuleAuthor,
+  github.com/microsoft/Documentarian/Source/Modules/Documentarian.Vale -> Modules/Documentarian.Vale
 imports:
   - path: github.com/microsoft/Documentarian/Source/Modules/Documentarian
     mounts:
@@ -37,6 +38,14 @@ imports:
         target: content/modules/moduleauthor/changelog.md
       - source: Source
         target: content/includes/source/moduleauthor
+  - path: github.com/microsoft/Documentarian/Source/Modules/Documentarian.Vale
+    mounts:
+      - source: Documentation
+        target: content/modules/vale
+      - source: CHANGELOG.md
+        target: content/modules/vale/changelog.md
+      - source: Source
+        target: content/includes/source/vale
   - path: github.com/microsoft/Documentarian/Source/Hugo/docsy-pwsh
   - path: github.com/google/docsy
   - path: github.com/google/docsy/dependencies

@@ -14,5 +14,7 @@ github.com/google/docsy/dependencies v0.5.1-0.20221021171456-dd2e2b94852a h1:YE6
 github.com/google/docsy/dependencies v0.5.1-0.20221021171456-dd2e2b94852a/go.mod h1:EDGc2znMbGUw0RW5kWwy2oGgLt0iVXBmoq4UOqstuNE=
 github.com/google/docsy/dependencies v0.6.0 h1:BFXDCINbp8ZuUGl/mrHjMfhCg+b1YX+hVLAA5fGW7Pc=
 github.com/google/docsy/dependencies v0.6.0/go.mod h1:EDGc2znMbGUw0RW5kWwy2oGgLt0iVXBmoq4UOqstuNE=
+github.com/microsoft/Documentarian/Source/Modules/Documentarian.Vale v0.0.0-20230209181605-10e4a2a0875e h1:t78GXewYedrb2roRToOh9ryjzw5OAwTAEal8VBlvdAw=
+github.com/microsoft/Documentarian/Source/Modules/Documentarian.Vale v0.0.0-20230209181605-10e4a2a0875e/go.mod h1:qUuq1+7PGYs2eF5oMO27nggehcVujBU18n4NZxiD23g=
 github.com/twbs/bootstrap v4.6.1+incompatible/go.mod h1:fZTSrkpSf0/HkL0IIJzvVspTt1r9zuf7XlZau8kpcY0=
 github.com/twbs/bootstrap v4.6.2+incompatible/go.mod h1:fZTSrkpSf0/HkL0IIJzvVspTt1r9zuf7XlZau8kpcY0=
