@@ -1,6 +1,6 @@
 ---
 title: Documentarian.ModuleAuthor
-linkTitle:
+linkTitle: ModuleAuthor
 summary: >-
   A module for writing and maintaining PowerShell module documentation as a supplement to
   **PlatyPS**.

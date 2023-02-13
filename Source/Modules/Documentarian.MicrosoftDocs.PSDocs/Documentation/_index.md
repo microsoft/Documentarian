@@ -1,6 +1,6 @@
 ---
 title: Documentarian.MicrosoftDocs.PSDocs
-linkTitle: 
+linkTitle: MicrosoftDocs.PSDocs
 summary: The development experience toolkit for authoring and maintaining modern PowerShell modules
 description: >-
   The development experience toolkit for modern PowerShell modules.
