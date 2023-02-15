@@ -14,12 +14,12 @@ Gets all of the HTML `<meta>` elements of a web page.
 ## SYNTAX
 
 ```
-Get-HtmlMetaTags [[-ArticleUrl] <Uri>] [-ShowRequiredMetadata] [<CommonParameters>]
+Get-HtmlMetaTags [-ArticleUrl] <Uri> [-ShowRequiredMetadata] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
-Gets all of the HTML `<meta>` elements of a web page. This is use to see the Docs metadata in the
+Gets all the HTML `<meta>` elements of a web page. This can be used to see the Docs metadata in the
 published article.
 
 ## EXAMPLES
@@ -76,7 +76,7 @@ Type: System.Uri
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
@@ -94,12 +94,12 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### COMMONPARAMETERS
+### CommonParameters
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,

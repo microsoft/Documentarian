@@ -12,7 +12,7 @@
     "RequiredModules": [
       // "Documentarian.Vale",
       // "Documentarian.MarkdownLint",
-      "Documentarian"
+      // "Documentarian"
     ],
     "Tags": [
       "Markdown",

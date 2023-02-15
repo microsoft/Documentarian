@@ -57,8 +57,8 @@ changes to or from either file. When you save and close the file, the cmdlet the
 
 ### -Path
 
-The path the updated file that is the base for your comparison. The file path must contain the
-version portion of the path as defined in the `monikerMapping.json`.
+The path to the updated file to use as the base for your comparison. The path must contain the
+version part of the path as defined in the `monikerMapping.json`.
 
 ```yaml
 Type: System.String

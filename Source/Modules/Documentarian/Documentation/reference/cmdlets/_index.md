@@ -17,10 +17,29 @@ documents.
 
 ## Documentarian Cmdlets
 
-### [Get-Document](Get-Document)
+### [Convert-MDLinks](Convert-MDLinks.md)
+Converts Markdown hyperlinks to numbered link references.
 
+### [Get-ContentWithoutHeader](Get-ContentWithoutHeader.md)
+Gets the content of a Markdown file without the YAML frontmatter.
+
+### [Get-Document](Get-Document.md)
 Parses a document as Markdown and returns it as a usable object.
 
-### [Get-DocumentLink](Get-DocumentLink)
-
+### [Get-DocumentLink](Get-DocumentLink.md)
 Retrieves links from a Markdown document with their metadata.
+
+### [Get-Metadata](Get-Metadata.md)
+Get the metadata frontmatter from a Markdown file.
+
+### [Get-YamlBlock](Get-YamlBlock.md)
+Gets the YAML frontmatter from a Markdown file.
+
+### [Remove-Metadata](Remove-Metadata.md)
+Removes metadata key-value pairs from the YAML frontmatter of a Markdown file.
+
+### [Set-Metadata](Set-Metadata.md)
+Overwrites the metadata frontmatter in a Markdown file.
+
+### [Update-Metadata](Update-Metadata.md)
+Updates or adds metadata to a Markdown file.

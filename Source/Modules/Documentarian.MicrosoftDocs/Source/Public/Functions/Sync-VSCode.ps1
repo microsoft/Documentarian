@@ -3,7 +3,12 @@
 
 function Sync-VSCode {
 
-    param([string]$path)
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [string]$Path
+    )
+
+    ### Get-GitStatus comes from the posh-git module.
     $gitStatus = Get-GitStatus
     if ($gitStatus) {
         $reponame = $GitStatus.RepoName
@@ -11,14 +16,14 @@ function Sync-VSCode {
         'Not a git repo.'
         return
     }
-    $repoPath  = $global:git_repos[$reponame].path
-    $ops       = Get-Content $repoPath\.openpublishing.publish.config.json | ConvertFrom-Json -Depth 10 -AsHashtable
+    $repoPath = $global:git_repos[$reponame].path
+    $ops = Get-Content $repoPath\.openpublishing.publish.config.json | ConvertFrom-Json -Depth 10 -AsHashtable
     $srcPath = $ops.docsets_to_publish.build_source_folder
-    if ($srcPath -eq '.') {$srcPath = ''}
-    $basePath  = Join-Path $repoPath $srcPath '\'
-    $mapPath   = Join-Path $basePath $ops.docsets_to_publish.monikerPath
-    $monikers  = Get-Content $mapPath | ConvertFrom-Json -Depth 10 -AsHashtable
-    $startPath = (Get-Item $path).fullname
+    if ($srcPath -eq '.') { $srcPath = '' }
+    $basePath = Join-Path $repoPath $srcPath '\'
+    $mapPath = Join-Path $basePath $ops.docsets_to_publish.monikerPath
+    $monikers = Get-Content $mapPath | ConvertFrom-Json -Depth 10 -AsHashtable
+    $startPath = (Get-Item $Path).fullname
 
     $vlist = $monikers.keys | ForEach-Object { $monikers[$_].packageRoot }
     if ($startpath) {
@@ -33,7 +38,7 @@ function Sync-VSCode {
             }
         }
     } else {
-        "Invalid path: $path"
+        "Invalid path: $Path"
     }
 
 }

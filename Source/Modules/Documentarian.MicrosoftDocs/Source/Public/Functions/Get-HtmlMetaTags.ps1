@@ -5,7 +5,7 @@ function Get-HtmlMetaTags {
 
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, Position = 0)]
         [uri]$ArticleUrl,
 
         [switch]$ShowRequiredMetadata
@@ -22,8 +22,7 @@ function Get-HtmlMetaTags {
         if ($line -match $pattern) {
             if ($hash.Contains($Matches.key)) {
                 $hash[($Matches.key)] += ',' + $Matches.value
-            }
-            else {
+            } else {
                 $hash.Add($Matches.key, $Matches.value)
             }
         }
@@ -32,8 +31,7 @@ function Get-HtmlMetaTags {
     $result = New-Object -type psobject -prop ($hash)
     if ($ShowRequiredMetadata) {
         $result | Select-Object title, 'og:title', description, 'ms.manager', 'ms.author', author, 'ms.service', 'ms.date', 'ms.topic', 'ms.subservice', 'ms.prod', 'ms.technology', 'ms.custom', 'ROBOTS'
-    }
-    else {
+    } else {
         $result
     }
 
