@@ -14,7 +14,7 @@ function Sync-BeyondCompare {
     if ($gitStatus) {
         $reponame = $GitStatus.RepoName
     } else {
-        'Not a git repo.'
+        Write-Warning 'Not a git repo.'
         return
     }
     $repoPath = $global:git_repos[$reponame].path
@@ -41,7 +41,7 @@ function Sync-BeyondCompare {
             }
         }
     } else {
-        "Invalid path: $Path"
+        Write-Error "Invalid path: $Path"
     }
 
 }

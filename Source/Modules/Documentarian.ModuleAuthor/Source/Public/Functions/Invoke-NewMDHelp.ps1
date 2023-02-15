@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-function New-MDHelp {
+function Invoke-NewMDHelp {
 
     ### Runs New-MarkdownHelp with the parameters we use most often.
 
@@ -13,13 +13,13 @@ function New-MDHelp {
         [string]$OutPath
     )
     $parameters = @{
-        Module = $Module
-        OutputFolder = $OutPath
+        Module                = $Module
+        OutputFolder          = $OutPath
         AlphabeticParamsOrder = $true
-        UseFullTypeName = $true
-        WithModulePage = $true
-        ExcludeDontShow = $false
-        Encoding = [System.Text.Encoding]::UTF8
+        UseFullTypeName       = $true
+        WithModulePage        = $true
+        ExcludeDontShow       = $false
+        Encoding              = [System.Text.Encoding]::UTF8
     }
     New-MarkdownHelp @parameters
 
