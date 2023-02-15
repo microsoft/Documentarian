@@ -3,18 +3,19 @@ external help file: Documentarian.ModuleAuthor-help.xml
 Module Name: Documentarian.ModuleAuthor
 ms.date: 02/07/2023
 schema: 2.0.0
-title: New-MDHelp
+title: Invoke-NewMDHelp
 ---
 
-# New-MDHelp
+# Invoke-NewMDHelp
 
 ## SYNOPSIS
+
 Creates Markdown help files for the cmdlets in a module.
 
 ## SYNTAX
 
 ```
-New-MDHelp [-Module] <Object> [-OutPath] <Object>
+Invoke-NewMDHelp [-Module] <Object> [-OutPath] <Object>
 ```
 
 ## DESCRIPTION
@@ -30,7 +31,7 @@ installed.
 ### Example 1
 
 ```powershell
-New-MDHelp -Module Documentarian -OutPath .\Documentarian
+Invoke-NewMDHelp -Module Documentarian -OutPath .\Documentarian
 ```
 
 ## PARAMETERS

@@ -87,3 +87,15 @@ functions with a synopsis and any important notes for maintainers. For example:
 - [`Test-GitHubToken`](Functions/General/Test-GitHubToken.ps1): Used to validate a github token.
   - Makes live calls to GitHub; be mindful when testing.
 -->
+
+### Tests - TBD
+<!--
+
+Need to write Pester tests for our functions.
+
+Here are some test cases for Get-ParameterInfo
+Get-ParameterInfo -ParameterName Path -CmdletName Get-Metadata -Markdown
+Get-ParameterInfo -ParameterName LiteralPath, Stream -CmdletName Remove-Item -Markdown
+Get-ParameterInfo -ParameterName CodeSigningCert -CmdletName Get-ChildItem -RestMethod -Markdown
+Get-ParameterInfo -ParameterName foo -CmdletName Get-ChildItem -RestMethod -Markdown
+-->
