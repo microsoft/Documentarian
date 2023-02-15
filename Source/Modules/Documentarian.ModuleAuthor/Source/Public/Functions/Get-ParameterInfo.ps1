@@ -1,4 +1,7 @@
-﻿function Get-ParameterInfo {
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+function Get-ParameterInfo {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory, Position = 0)]
