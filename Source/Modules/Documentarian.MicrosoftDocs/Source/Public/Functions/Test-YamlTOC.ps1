@@ -5,7 +5,7 @@ function Test-YamlTOC {
 
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, Position = 0)]
         [string]$Path
     )
 

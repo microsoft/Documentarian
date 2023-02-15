@@ -14,14 +14,14 @@ Gets the `ms.date` metadata information of a Docs article for every locale.
 ## SYNTAX
 
 ```
-Get-LocaleFreshness [[-Uri] <uri>] [[-Locales] <string[]>] [<CommonParameters>]
+Get-LocaleFreshness [-Uri] <uri> [[-Locales] <string[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
 Gets the `ms.date` metadata information of a Docs article for every locale. The output includes the
-locale information and the translation method. This is useful to see whether or not the localization
-process has picked up the latest changes made to the English version of the article.
+locale information and the translation method. This is useful to see that the localization process
+has picked up the latest changes made to the English version of the article.
 
 ## EXAMPLES
 
@@ -142,7 +142,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: 1
 Default value: en-us, cs-cz, de-de, es-es, fr-fr, hu-hu, id-id, it-it, ja-jp, ko-kr, nl-nl, pl-pl, pt-br, pt-pt, ru-ru, sv-se, tr-tr, zh-cn, zh-tw
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -157,14 +157,14 @@ Type: System.Uri
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### COMMONPARAMETERS
+### CommonParameters
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
 -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,
