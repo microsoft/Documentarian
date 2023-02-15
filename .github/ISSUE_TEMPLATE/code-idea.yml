@@ -43,7 +43,6 @@ body:
         - Documentarian.DevX
         - Documentarian.MarkdownLint
         - Documentarian.MicrosoftDocs
-        - Documentarian.MicrosoftDocs.PSDocs
         - Documentarian.ModuleAuthor
         - Documentarian.Vale
   - type: textarea
