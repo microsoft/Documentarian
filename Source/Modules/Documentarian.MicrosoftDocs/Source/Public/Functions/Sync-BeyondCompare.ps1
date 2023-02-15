@@ -3,6 +3,7 @@
 
 function Sync-BeyondCompare {
 
+    [cmdletbinding()]
     param (
         [Parameter(Mandatory, Position = 0)]
         [string]$Path
