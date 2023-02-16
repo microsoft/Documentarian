@@ -3,12 +3,23 @@
 <a name="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
+
+<div align="center">
+
 [![Contributors][14]][contributors-url]
 [![Forks][15]][forks-url]
 [![Stargazers][17]][stars-url]
+[![GitHub Discussions][26]][discussions-url]
 [![Issues][16]][issues-url]
+
+</div>
+
+<div align="center">
+
 [![Code License: MIT][12]][license-code-url]
 [![Docs License: CC-BY][13]][license-docs-url]
+
+</div>
 
 <br />
 <div align="center">
@@ -17,47 +28,32 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
   -->
-
   <h3 align="center">Documentarian Modules</h3>
 
-  <p align="center">
-    An open source toolkit for documentarians and community contributors to reduce friction and
-    provide a delightful experience for contributing to and maintaining documentation.
-    <br />
-    <a href="https://github.com/microsoft/Documentarian"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/microsoft/Documentarian/issues">Report a problem</a>
-    ·
-    <a href="https://github.com/microsoft/Documentarian/issues">Ask a question</a>
-    ·
-    <a href="https://github.com/microsoft/Documentarian/issues">Propose an improvement</a>
-  </p>
+An open source toolkit for documentarians and community contributors to reduce friction and provide
+a delightful experience for contributing to and maintaining documentation.
+
+[**Explore the docs »**][h0]
+
+<br />
+
+[Report a problem][h1] · [Ask a question][h2] · [Propose an improvement][h3]
+
 </div>
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About the project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <!-- <li><a href="#usage">Usage</a></li> -->
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#legal-notices">Legal Notices</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
+<summary>Table of Contents</summary>
+
+1. [About the Project](#about-the-project)
+   - [Built With](#built-with)
+1. [Getting Started](#getting-started)
+   - [Prerequisites](#prerequisites)
+   - [Installation](#installation)
+1. [Roadmap](#roadmap)
+1. [Contributing](#contributing)
+1. [Legal Notices](#legal-notices)
+
 </details>
 
 ## About The Project
@@ -175,15 +171,21 @@ patents, or trademarks, whether by implication, estoppel or otherwise.
 [forks-url]: https://github.com/microsoft/Documentarian/network/members
 [stars-url]: https://github.com/microsoft/Documentarian/stargazers
 [issues-url]: https://github.com/microsoft/Documentarian/issues
+[discussions-url]: https://github.com/microsoft/Documentarian/discussions
 [license-code-url]: https://github.com/microsoft/Documentarian/blob/main/LICENSE-CODE
 [license-docs-url]: https://github.com/microsoft/Documentarian/blob/main/LICENSE
 [pwsh-url]: https://learn.microsoft.com/powershell
+<!-- Heading Link References -->
+[h0]: https://microsoft.github.io/Documentarian
+[h1]: https://github.com/microsoft/Documentarian/issues/new?assignees=&labels=bug%2Cneeds-triage&template=code-bug.yml
+[h2]: https://github.com/microsoft/Documentarian/discussions/new?category=q-a
+[h3]: https://github.com/microsoft/Documentarian/discussions/new?category=code-proposals
 <!-- Link References -->
 [01]: #contributing
 [02]: https://creativecommons.org/licenses/by/4.0/legalcode
 [06]: https://github.com/microsoft/Documentarian/issues
 [07]: https://github.com/microsoft/Documentarian/labels/bug
-[08]: https://github.com/microsoft/Documentarian/labels/enhancement
+[08]: https://github.com/microsoft/Documentarian/discussions/categories/code-proposals
 [11]: https://img.shields.io/badge/PowerShell-v7.2-blue?logo=powershell
 [12]: https://img.shields.io/badge/License%20(Code)-MIT-green?style=for-the-badge
 [13]: https://img.shields.io/badge/License%20(Docs)-CC--BY--4.0-green?style=for-the-badge
@@ -198,3 +200,4 @@ patents, or trademarks, whether by implication, estoppel or otherwise.
 [23]: LICENSE
 [24]: LICENSE-CODE
 [25]: mailto:opencode@microsoft.com
+[26]: https://img.shields.io/github/discussions/microsoft/Documentarian?style=for-the-badge
