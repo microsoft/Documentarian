@@ -26,15 +26,21 @@ Aliases: {4}
 Required: {5}
 Position: {6}
 Default value: None
-Value From Remaining: {7}
 Accept pipeline input: {8}
-Dynamic: {9}
 Accept wildcard characters: {10}
 ```
 
 '@
 
+<#
+Had to remove these two lines from the template because they are not supported by PlatyPS.
+
+Value From Remaining: {7}
+Dynamic: {9}
+#>
+
     $providerList = Get-PSProvider
+    ## TODO: Add support for dynamic parameters that are in multiple providers.
 
     foreach ($pname in $ParameterName) {
         try {
@@ -46,27 +52,31 @@ Accept wildcard characters: {10}
                     $paraminfo = [PSCustomObject]@{
                         Name          = $param.Name
                         HelpText      = if ($null -eq $param.Attributes.HelpMessage) {
-                            '{{Placeholder}}}'
-                        } else {
-                            $param.Attributes.HelpMessage
-                        }
+                                            '{{Placeholder}}'
+                                        } else {
+                                            $param.Attributes.HelpMessage
+                                        }
                         Type          = $param.ParameterType.FullName
                         ParameterSet  = if ($param.Attributes.ParameterSetName -eq '__AllParameterSets') {
-                            '(All)'
-                        } else {
-                            $param.Attributes.ParameterSetName -join ', '
-                        }
+                                            '(All)'
+                                        } else {
+                                            $param.Attributes.ParameterSetName -join ', '
+                                        }
                         Aliases       = $param.Aliases -join ', '
                         Required      = $param.Attributes.Mandatory
-                        Position      = $param.Attributes.Position -lt 0 ? 'Named' : $param.Position
+                        Position      = if ($param.Attributes.Position -lt 0) {
+                                            'Named'
+                                        } else {
+                                            $param.Position
+                                        }
                         FromRemaining = $param.Attributes.ValueFromRemainingArguments
                         Pipeline      = 'ByValue ({0}), ByName ({1})' -f $param.Attributes.ValueFromPipeline,
-                        $param.Attributes.ValueFromPipelineByPropertyName
+                                            $param.Attributes.ValueFromPipelineByPropertyName
                         Dynamic       = if ($param.IsDynamic) {
-                            'True ({0} provider)' -f $provider.Name
-                        } else {
-                            'False'
-                        }
+                                            'True ({0} provider)' -f $provider.Name
+                                        } else {
+                                            'False'
+                                        }
                         Wildcard      = $param.Attributes.TypeId.Name -contains 'SupportsWildcardsAttribute'
                     }
                     Pop-Location
