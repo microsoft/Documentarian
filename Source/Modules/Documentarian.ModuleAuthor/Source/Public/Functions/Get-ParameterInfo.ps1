@@ -1,8 +1,13 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+using module ../Enums/ProviderFlags.psm1
+using module ../Classes/ParameterInfo.psm1
+
 function Get-ParameterInfo {
     [CmdletBinding()]
+    [OutputType([ParameterInfo])]
+    [OutputType([System.String])]
     param(
         [Parameter(Mandatory, Position = 0)]
         [string[]]$ParameterName,
@@ -13,96 +18,43 @@ function Get-ParameterInfo {
         [switch]$AsObject
     )
 
-    $mdtext = @'
-### -{0}
-
-{1}
-
-```yaml
-Type: {2}
-Parameter Sets: {3}
-Aliases: {4}
-
-Required: {5}
-Position: {6}
-Default value: None
-Accept pipeline input: {8}
-Accept wildcard characters: {10}
-```
-
-'@
-
-<#
-Had to remove these two lines from the template because they are not supported by PlatyPS.
-
-Value From Remaining: {7}
-Dynamic: {9}
-#>
-
+    $cmdlet = Get-Command -Name $CmdletName -ErrorAction Stop
     $providerList = Get-PSProvider
-    ## TODO: Add support for dynamic parameters that are in multiple providers.
 
     foreach ($pname in $ParameterName) {
         try {
+            $paraminfo = $null
+            $param = $null
             foreach ($provider in $providerList) {
                 Push-Location $($provider.Drives[0].Name + ':')
-                $cmdlet = Get-Command -Name $CmdletName -ErrorAction Stop
                 $param = $cmdlet.Parameters.Values | Where-Object Name -EQ $pname
                 if ($param) {
-                    $paraminfo = [PSCustomObject]@{
-                        Name          = $param.Name
-                        HelpText      = if ($null -eq $param.Attributes.HelpMessage) {
-                                            '{{Placeholder}}'
-                                        } else {
-                                            $param.Attributes.HelpMessage
-                                        }
-                        Type          = $param.ParameterType.FullName
-                        ParameterSet  = if ($param.Attributes.ParameterSetName -eq '__AllParameterSets') {
-                                            '(All)'
-                                        } else {
-                                            $param.Attributes.ParameterSetName -join ', '
-                                        }
-                        Aliases       = $param.Aliases -join ', '
-                        Required      = $param.Attributes.Mandatory
-                        Position      = if ($param.Attributes.Position -lt 0) {
-                                            'Named'
-                                        } else {
-                                            $param.Position
-                                        }
-                        FromRemaining = $param.Attributes.ValueFromRemainingArguments
-                        Pipeline      = 'ByValue ({0}), ByName ({1})' -f $param.Attributes.ValueFromPipeline,
-                                            $param.Attributes.ValueFromPipelineByPropertyName
-                        Dynamic       = if ($param.IsDynamic) {
-                                            'True ({0} provider)' -f $provider.Name
-                                        } else {
-                                            'False'
-                                        }
-                        Wildcard      = $param.Attributes.TypeId.Name -contains 'SupportsWildcardsAttribute'
+                    if ($paraminfo) {
+                        $paraminfo.ProviderFlags = $paraminfo.ProviderFlags -bor [ProviderFlags]($provider.Name)
+                    } else {
+                        $paraminfo = [ParameterInfo]::new(
+                            $param,
+                            [ProviderFlags]($provider.Name)
+                        )
                     }
-                    Pop-Location
-                    break
-                } else {
-                    Pop-Location
                 }
+                Pop-Location
             }
         } catch {
             Write-Error "Cmdlet $CmdletName not found."
             return
         }
 
-        if ($param) {
+        if ($paraminfo) {
             if ($AsObject) {
                 $paraminfo
             } else {
-                $newtext = $mdtext
-                [array]$props = $paraminfo.psobject.Properties
-                for ($y = 0; $y -lt $props.Count; $y++) {
-                    $newtext = $newtext.replace("{$y}", $props[$y].Value)
-                }
-                $newtext
+                $paraminfo.ToMarkdown()
             }
         } else {
             Write-Error "Parameter $pname not found."
         }
     }
 }
+
+# Get-ParameterInfo path, Options set-item
