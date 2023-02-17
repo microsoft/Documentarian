@@ -6,4 +6,9 @@
     //     "IgnoreForBuild": false,
     //     "IgnoreForTest": false
     // }
+    {
+        "Name": "ParameterInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    }
 ]
