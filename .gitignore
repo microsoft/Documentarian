@@ -12,3 +12,6 @@ Source/Hugo/**/public
 **/resources/_gen
 **/.hugo_build.lock
 **/node_modules
+
+# Test ignores
+Source/Modules/**/*.Results.xml

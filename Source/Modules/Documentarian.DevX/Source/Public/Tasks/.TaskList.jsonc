@@ -2,13 +2,24 @@
   { // Becomes 'DevX.Task.ComposeModule'
     "Name": "Task.ComposeModule",
     "Include": [
+      "Configuration",
       "ComposeModule"
+    ]
+  },
+  {
+    "Name": "Tasks.Testing",
+    "Include": [
+      "Configuration",
+      "ComposeModule",
+      "Testing"
     ]
   },
   {
     "Name": "Tasks",
     "Include": [
-      "ComposeModule"
+      "Configuration",
+      "ComposeModule",
+      "Testing"
     ]
   }
 ]
