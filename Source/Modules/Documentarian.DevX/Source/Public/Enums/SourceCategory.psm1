@@ -6,5 +6,6 @@ enum SourceCategory {
   Enum
   Function
   Format
+  Task
   Type
 }

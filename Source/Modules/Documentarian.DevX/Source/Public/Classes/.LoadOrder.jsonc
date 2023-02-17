@@ -39,6 +39,11 @@
         "IgnoreForTest": false
     },
     {
+        "Name": "TaskDefinition",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "ModuleComposer",
         "IgnoreForBuild": false,
         "IgnoreForTest": false

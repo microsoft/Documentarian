@@ -3,6 +3,7 @@
 
 using module ./SourceFolder.psm1
 using module ../Enums/SourceCategory.psm1
+using module ./TaskDefinition.psm1
 
 #region    RequiredFunctions
 
@@ -36,6 +37,7 @@ class ModuleComposer {
   [string]    $OutputManifestPath
   [string]    $OutputPrivateModulePath
   [string]    $OutputRootModulePath
+  [string]    $OutputTaskFolderPath
   [string]    $OutputTemplateFolderPath
   [string]    $OutputTypesFilePath
   [string]    $SourceFolderPath
@@ -44,8 +46,10 @@ class ModuleComposer {
   [string]    $SourceManifestPath
   [string]    $SourcePrivateFolderPath
   [string]    $SourcePublicFolderPath
+  [string]    $SourceTaskFolderPath
   [string]    $SourceTemplateFolderPath
   [string]    $SourceTypeFolderPath
+  [string]    $TaskAliasPrefix
 
   #endregion Configurable Settings
 
@@ -55,6 +59,7 @@ class ModuleComposer {
   [SourceFolder[]]$PrivateSourceFolders
   [SourceFolder[]]$PublicSourceFolders
   [string[]]$PublicFunctions
+  [TaskDefinition[]]$TaskList
 
   #endregion Module Source Properties
 
@@ -227,6 +232,10 @@ class ModuleComposer {
       $this.OutputInitScriptPath = Join-Path -Path $this.OutputFolderPath -ChildPath 'Init.ps1'
     }
 
+    if ([string]::IsNullOrEmpty($this.OutputTaskFolderPath)) {
+      $this.OutputTaskFolderPath = Join-Path -Path $this.OutputFolderPath -ChildPath 'Tasks'
+    }
+
     if ([string]::IsNullOrEmpty($this.OutputTemplateFolderPath)) {
       $this.OutputTemplateFolderPath = Join-Path -Path $this.OutputFolderPath -ChildPath 'Templates'
     }
@@ -247,12 +256,18 @@ class ModuleComposer {
       $this.OutputTypesFilePath = Join-Path @OutputTypesFilePathParams
     }
 
+    if ([string]::IsNullOrEmpty($this.TaskAliasPrefix)) {
+      $this.TaskAliasPrefix = $this.ModuleName
+    }
+
     $this.InitializeSourceFolders()
     $this.InitializePublicFunctions()
 
     if ($this.PrivateSourceFolders.Count -and [string]::IsNullOrEmpty($this.OutputPrivateModulePath)) {
       $this.OutputPrivateModulePath = $this.OutputRootModulePath -replace 'psm1$', 'Private.psm1'
     }
+
+    $this.InitializeTaskList()
 
     $this.InitializeModuleLineEnding()
   }
@@ -302,6 +317,28 @@ class ModuleComposer {
     $this.PublicFunctions = $this.SourceFolders
     | Where-Object { $_.Scope -eq 'Public' -and $_.Category -eq 'Function' }
     | ForEach-Object { Split-Path -Path $_.SourceFiles.FileInfo.FullName -LeafBase }
+  }
+
+  [void] InitializeTaskList() {
+    $TaskSourceFolder = $this.SourceFolders | Where-Object { $_.Category -eq 'Task' }
+    if ($TaskSourceFolder.SourceFiles.Count -gt 0) {
+      $TaskSourceFolderPath = $TaskSourceFolder.DirectoryInfo.FullName
+      $TaskListPath = Join-Path -Path $TaskSourceFolderPath -ChildPath '.TaskList.jsonc'
+      try {
+        $TaskListSettings = Get-Content -Path $TaskListPath -Raw -ErrorAction Stop
+        | ConvertFrom-Json -ErrorAction Stop
+      } catch {
+        throw "Unable to retrieve task list settings from '$TaskListPath' - does it exist? Is it valid?"
+      }
+      foreach ($TaskInfo in $TaskListSettings) {
+        $this.TaskList += [TaskDefinition]@{
+          Name        = $TaskInfo.Name
+          SourceFiles = $TaskSourceFolder.SourceFiles | Where-Object -FilterScript {
+            $_.FileInfo.BaseName -in $TaskInfo.Include
+          }
+        }
+      }
+    }
   }
 
   [void] CleanOutputFolder() {
@@ -359,13 +396,29 @@ class ModuleComposer {
     # Add source definitions
     $this.PublicSourceFolders
     | Where-Object -FilterScript {
-      $_.Category -notin @([SourceCategory]::Type, [SourceCategory]::Format)
+      $_.Category -notin @(
+        [SourceCategory]::Format
+        [SourceCategory]::Task
+        [SourceCategory]::Type
+      )
     }
     | ForEach-Object {
       $Source = $_.ComposeSourceFiles().trim()
       $null = $ContentBuilder.Append($Source)
       $null = $ContentBuilder.Append($this.ModuleLineEnding)
       $null = $ContentBuilder.Append($this.ModuleLineEnding)
+    }
+
+    # Handle Task List
+    if ($this.TaskList.Count -gt 0) {
+      foreach ($Task in $this.TaskList) {
+        $TaskName = $Task.GetTaskName($this.TaskAliasPrefix)
+        $TaskPath = $Task.GetTaskPath($this.TaskAliasPrefix)
+
+        $ContentBuilder.Append("Set-Alias -Name $TaskName -Value $TaskPath")
+        $ContentBuilder.Append($this.ModuleLineEnding)
+      }
+      $ContentBuilder.Append($this.ModuleLineEnding)
     }
 
     # Add the export statement
@@ -543,6 +596,19 @@ class ModuleComposer {
       | Out-File -FilePath $this.OutputFormatsFilePath -Encoding utf8 -NoNewline
 
       $ManifestParameters.FormatsToProcess = Split-Path -Leaf $this.OutputFormatsFilePath
+    }
+
+    if ($this.TaskList.Count -gt 0) {
+      if (-not(Test-Path -Path $this.OutputTaskFolderPath)) {
+        New-Item -Path $this.OutputTaskFolderPath -ItemType Directory -Force
+      }
+
+      foreach ($Task in $this.TaskList) {
+        $TaskPath = $Task.GetTaskPath($this.TaskAliasPrefix) -replace '\$PSScriptRoot', $this.OutputFolderPath
+        Write-Warning "Task Path: $TaskPath"
+        $this.MungeComposedContent($Task.ComposeContent())
+        | Out-File -FilePath $TaskPath -Encoding utf8 -NoNewline
+      }
     }
 
     $ManifestParameters.Path = $this.OutputManifestPath
