@@ -65,15 +65,15 @@ class ParameterInfo {
     $sbMarkdown.AppendLine('Default value: None')
     $sbMarkdown.AppendLine("Accept pipeline input: $($this.Pipeline)")
     $sbMarkdown.AppendLine("Accept wildcard characters: $($this.Wildcard)")
-    $sbMarkdown.AppendLine("DontShow: $($this.DontShow)")
     <#
-      $ProviderName = if ($this.ProviderFlags -eq 0xFF) {
-          'All'
-      } else {
-          $this.ProviderFlags.ToString()
-      }
-      $sbMarkdown.AppendLine("Providers: $ProviderName")
-      #>
+    $sbMarkdown.AppendLine("DontShow: $($this.DontShow)")
+    $ProviderName = if ($this.ProviderFlags -eq 0xFF) {
+        'All'
+    } else {
+        $this.ProviderFlags.ToString()
+    }
+    $sbMarkdown.AppendLine("Providers: $ProviderName")
+    #>
     $sbMarkdown.AppendLine('```')
     $sbMarkdown.AppendLine()
     return $sbMarkdown.ToString()
