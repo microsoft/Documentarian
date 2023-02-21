@@ -1,12 +1,10 @@
-name: Build Modules
+name: Test Modules
 
 on:
-  push:
-    branches:
-      - main # Set a branch that will trigger a deployment
   pull_request:
     paths:
       - 'Source/Modules/*/Source/**'
+      - 'Source/Modules/*/Tests/**'
       - 'Source/Modules/*/.DevX.jsonc'
 
 defaults:
@@ -14,7 +12,7 @@ defaults:
     shell: pwsh
 
 jobs:
-  build_modules:
+  test_modules:
     name: PowerShell
     runs-on: ubuntu-latest
     strategy:
@@ -23,19 +21,9 @@ jobs:
         module:
           - Documentarian
           - Documentarian.DevX
-        include:
-          - module: Documentarian
-            version: 0.0.1
-          - module: Documentarian.DevX
-            version: 0.0.1
-          # - module: Documentarian.MarkdownLint
-          #   version: 0.0.1
-          - module: Documentarian.MicrosoftDocs
-            version: 0.0.1
-          - module: Documentarian.ModuleAuthor
-            version: 0.0.1
-          - module: Documentarian.Vale
-            version: 0.0.1
+          - Documentarian.MicrosoftDocs
+          - Documentarian.ModuleAuthor
+          - Documentarian.Vale
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -47,18 +35,13 @@ jobs:
           key: ${{ runner.os }}-SqlServer-PSScriptAnalyzer
       - name: Install required PowerShell modules
         if: steps.cacher.outputs.cache-hit != 'true'
-        shell: pwsh
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
           Install-Module InvokeBuild, PowerShell-Yaml -ErrorAction Stop
-      - name: InvokeBuild
+      - name: Test ${{ matrix.module }}
         run: |
           $PSVersionTable
           Push-Location ./Source/Modules
-          Invoke-Build -Module ${{ matrix.module }}
-      - name: Archive ${{ matrix.module }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.module }}
-          path: |
-            Source/Modules/${{ matrix.module }}/${{ matrix.version }}
+          Invoke-Build
+          Push-Location ./${{ matrix.module }}
+          Invoke-Build -Task Test
