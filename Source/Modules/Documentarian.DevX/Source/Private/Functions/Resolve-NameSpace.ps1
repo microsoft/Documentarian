@@ -96,6 +96,7 @@ function Resolve-NameSpace {
         Enum { "Enums.$Scope" }
         Function { "Functions.$Scope" }
         Format { "Formats.$Scope" }
+        Task { "Tasks.$Scope" }
         Type { "Types.$Scope" }
       }
     }

@@ -15,14 +15,8 @@ param(
   $Configuration = 'Test'
 )
 
-# Compose the Documentarian.DevX.psm1 file from source.
-task ComposeModule {
-  Build-ComposedModule -ProjectRootFolderPath $PSScriptRoot
-}
-
-task CheckDependencies {
-  Get-Module -ListAvailable
-}
+# Import the bundled tasks from Documentarian.DevX
+. DevX.Tasks
 
 # Default task composes the module and writes the manifest
 task . ComposeModule

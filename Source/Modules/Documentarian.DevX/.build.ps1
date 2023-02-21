@@ -26,24 +26,24 @@ $FunctionFinderParams = @{
   Include = '*.ps1'
   Exclude = '*.Tests.ps1'
 }
+$TemplateFolder = Join-Path -Path 'Source' -ChildPath 'Templates'
+$TasksFolder = Join-Path -Path 'Source' -ChildPath 'Public' -AdditionalChildPath 'Tasks'
+
 $Functions = Get-ChildItem @FunctionFinderParams
 | Where-Object -FilterScript {
-  $_.FullName -notmatch [regex]::Escape((Join-Path -Path 'Source' -ChildPath 'Templates'))
+  $_.FullName -notmatch [regex]::Escape($TemplateFolder) -and
+  $_.FullName -notmatch [regex]::Escape($TasksFolder)
 }
 
 foreach ($Function in $Functions) {
-  Write-Verbose $Function.FullName
+  Write-Verbose "Loading function: $($Function.FullName)"
   . $Function.FullName
 }
 
-# Compose the Documentarian.DevX.psm1 file from source.
-task ComposeModule {
-  Build-ComposedModule -ProjectRootFolderPath $PSScriptRoot
+foreach ($TaskFile in (Get-ChildItem -Path $TasksFolder -Filter '*.ps1')) {
+  Write-Verbose "Loading task: $($TaskFile.BaseName)"
+  . $TaskFile
 }
 
-task CheckDependencies {
-  Get-Module -ListAvailable
-}
-
-# Default task composes the module and writes the manifest
+# Synopsis: Default task composes the module and writes the manifest
 task . ComposeModule

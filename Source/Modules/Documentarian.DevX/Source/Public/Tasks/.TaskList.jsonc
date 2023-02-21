@@ -1,0 +1,14 @@
+[
+  { // Becomes 'DevX.Task.ComposeModule'
+    "Name": "Task.ComposeModule",
+    "Include": [
+      "ComposeModule"
+    ]
+  },
+  {
+    "Name": "Tasks",
+    "Include": [
+      "ComposeModule"
+    ]
+  }
+]
