@@ -9,8 +9,8 @@ class ValeStyle {
     [ValeRule[]]$Rules
 
     ValeStyle([string]$Name, [string]$Path) {
-      $this.Name = $Name
-      $this.Path = $Path
-      $this.Rules = @()
+        $this.Name = $Name
+        $this.Path = $Path
+        $this.Rules = @()
     }
   }
