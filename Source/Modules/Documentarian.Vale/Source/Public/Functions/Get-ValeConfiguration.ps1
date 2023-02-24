@@ -34,6 +34,11 @@ function Get-ValeConfiguration {
     if ($Path) {
       $ConfigParameters += '--config', $Path
     }
-    & $Vale @ConfigParameters | ConvertFrom-Json
+    $result = & $Vale @ConfigParameters 2>&1 | ConvertFrom-Json
+    if ($null -eq $result.Code) {
+      $result
+    } else {
+      throw 'Vale configuration not found.'
+    }
   }
 }
