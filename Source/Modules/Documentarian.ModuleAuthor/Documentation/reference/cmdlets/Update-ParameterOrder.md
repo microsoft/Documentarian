@@ -1,12 +1,12 @@
 ---
 external help file: sdwheeler.DocsHelpers-help.xml
 Module Name: sdwheeler.DocsHelpers
-ms.date: 02/07/2023
+ms.date: 02/24/2023
 schema: 2.0.0
 title: Sort-Parameters
 ---
 
-# Sort-Parameters
+# Update-ParameterOrder
 
 ## SYNOPSIS
 Sorts the H3 parameter blocks of a cmdlet Markdown file.
@@ -14,7 +14,7 @@ Sorts the H3 parameter blocks of a cmdlet Markdown file.
 ## SYNTAX
 
 ```
-Sort-Parameters [[-Path] <String[]>] [<CommonParameters>]
+Sort-Parameters [-Path] <string[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -66,7 +66,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### System.Object
+### System.IO.FileInfo
+
+This cmdlet returns the **FileInfo** object for each Markdown file processed.
 
 ## NOTES
 

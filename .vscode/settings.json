@@ -1,7 +1,7 @@
 {
     "editor.formatOnSave": true,
     "editor.insertSpaces": true,
-    "editor.tabSize": 2,
+    "editor.tabSize": 4,
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true,
     "powershell.codeFormatting.autoCorrectAliases": true,
