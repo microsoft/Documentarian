@@ -13,4 +13,4 @@ class ValeStyle {
         $this.Path = $Path
         $this.Rules = @()
     }
-  }
+}
