@@ -78,7 +78,7 @@ add-ons/plugins for the acknowledgements section.
 ## Getting Started
 
 The Documentarian modules aren't yet available on the [PowerShell Gallery][22]. For now, you'll
-need to clone this repository and build them locally.
+need to [manually download and install them][27].
 
 ### Prerequisites
 
@@ -201,3 +201,4 @@ patents, or trademarks, whether by implication, estoppel or otherwise.
 [24]: LICENSE-CODE
 [25]: mailto:opencode@microsoft.com
 [26]: https://img.shields.io/github/discussions/microsoft/Documentarian?style=for-the-badge
+[27]: https://microsoft.github.io/Documentarian/docs/authoring/install-tools/
