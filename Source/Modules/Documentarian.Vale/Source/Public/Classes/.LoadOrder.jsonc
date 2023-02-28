@@ -6,4 +6,14 @@
     //     "IgnoreForBuild": false,
     //     "IgnoreForTest": false
     // }
+    {
+        "Name": "ValeRule",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeStyle",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    }
 ]

@@ -8,7 +8,7 @@ while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
   $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/Get-Vale.ps1"
+  Resolve-Path -Path "$SourceFolder/Public/Functions/Invoke-Vale.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
   . $RequiredFunction
@@ -24,7 +24,6 @@ function Test-Prose {
   )
 
   begin {
-    $Vale = Get-Vale
     $TestParameters = @(
       '--output', 'JSON'
     )
@@ -36,9 +35,11 @@ function Test-Prose {
 
   process {
     foreach ($TestPath in $Path) {
-      $Result = & $Vale @TestParameters $TestPath | ConvertFrom-Json -AsHashtable
-      foreach ($Key in $Result.Keys) {
-        $Result.$Key | ForEach-Object -Process {
+      $Result = Invoke-Vale -ArgumentList @($TestParameters + $TestPath)
+      $Properties = $Result | Get-Member -MemberType Properties
+      | Select-Object -ExpandProperty Name
+      foreach ($Property in $Properties) {
+        $Result.$Property | ForEach-Object -Process {
           [PSCustomObject]@{
             Action      = [pscustomobject]@{
               Name   = $_.Action.Name
@@ -52,7 +53,7 @@ function Test-Prose {
             Severity    = $_.Severity
             Match       = $_.Match
             Line        = $_.Line
-            FileInfo    = Get-Item $Key
+            FileInfo    = Get-Item $Property
           }
         }
       }

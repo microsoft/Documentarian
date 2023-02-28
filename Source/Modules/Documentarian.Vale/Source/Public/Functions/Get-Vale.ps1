@@ -7,10 +7,10 @@ function Get-Vale {
   param()
 
   process {
-    $ValeCommand = Get-Command -Name vale -ErrorAction SilentlyContinue
+    $ValeCommand = Get-Command -Name vale -ErrorAction Ignore
 
     if ($null -eq $ValeCommand) {
-      $ValeCommand = Get-Command "$(Get-Location)/.vale/vale" -ErrorAction SilentlyContinue
+      $ValeCommand = Get-Command "$(Get-Location)/.vale/vale" -ErrorAction Ignore
     }
 
     if ($null -eq $ValeCommand) {
