@@ -1,8 +1,6 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: existence
-message: "Don't start a sentence with '%s'."
+description: "Don't start a sentence with 'So'."
+message: "Consider striking '%s' or replacing it with 'Therefore'."
 level: error
 raw:
   - '(?:[;-]\s)so[\s,]|\bSo[\s,]'

@@ -1,7 +1,6 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: existence
+description: "Make every word count. Concise, clear sentences save space, are easy to understand, and facilitate scanning."
+link: https://learn.microsoft.com/en-us/style-guide/word-choice/use-simple-words-concise-sentences
 message: "'%s' is too wordy."
 ignorecase: true
 level: warning
@@ -203,10 +202,8 @@ tokens:
   - took advantage of
   - transmit
   - transpire
-  - type of
   - until such time as
   - utilization
-  - utilize
   - various different
   - what I mean to say is
   - whether or not

@@ -1,12 +1,11 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: substitution
+description: "Make every word count. Concise, clear sentences save space, are easy to understand, and facilitate scanning."
 message: "Consider using '%s' instead of '%s'."
-link: https://docs.microsoft.com/en-us/style-guide/word-choice/use-simple-words-concise-sentences
+link: https://docs.microsoft.com/style-guide/word-choice/use-simple-words-concise-sentences
 ignorecase: true
 level: warning
 action:
   name: replace
 swap:
   by using: using
+  utilize: use

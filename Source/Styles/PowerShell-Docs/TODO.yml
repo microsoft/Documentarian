@@ -1,0 +1,9 @@
+extends: existence
+description: "Make sure all temporary markers have been removed before publishing."
+message: "'%s' left in text."
+ignorecase: false
+level: error
+tokens:
+  - XXX
+  - FIXME
+  - TODO

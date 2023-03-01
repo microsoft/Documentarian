@@ -1,9 +1,7 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: existence
+description: "Don't hyphenate compound words that precede and modify a noun as a unit."
 message: "'%s' doesn't need a hyphen."
-link: 'https://developers.google.com/style/hyphens'
+link: 'https://learn.microsoft.com/style-guide/punctuation/dashes-hyphens/hyphens#noun-modifiers'
 level: error
 ignorecase: false
 nonword: true

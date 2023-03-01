@@ -1,0 +1,9 @@
+---
+extends: existence
+description: "Checks that anchor fragments on internal links are in lower-case."
+message: 'Links to subheadings in docs must be in lower-case: "%s"'
+link: https://docs.gitlab.com/ee/development/documentation/styleguide/index.html#links-within-the-same-repository
+level: error
+scope: raw
+raw:
+  - '[^\`]\[[^\[\]]+\]\((https?:){0}[\w\/\.]*?#[^\s]*?[A-Z][^\) ]*\)[^\`]'

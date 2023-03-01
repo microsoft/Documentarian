@@ -1,0 +1,9 @@
+---
+extends: existence
+description: "Markdown is limited to 6 levels, but format differences are lost after 4 levels."
+message: 'The subheading "%s" is nested too deeply. Headings deeper than H4 suggest the section or page should be refactored.'
+link: https://docs.gitlab.com/ee/development/documentation/styleguide/index.html#headings-in-markdown
+level: warning
+scope: raw
+raw:
+  - '(?<=\n)#{5,}\s.*'

@@ -1,9 +1,7 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: existence
+description: "Use exclamation points sparingly. Save them for when they count."
 message: "Don't use exclamation points in text."
-link: 'https://developers.google.com/style/exclamation-points'
+link: 'https://learn.microsoft.com/en-us/style-guide/punctuation/exclamation-points'
 nonword: true
 level: error
 tokens:

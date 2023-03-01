@@ -1,9 +1,7 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: existence
+description: "Use an em dash (—) to set off a parenthetical phrase with more emphasis than parentheses provide."
 message: "Don't put a space before or after a dash."
-link: 'https://developers.google.com/style/dashes'
+link: 'https://learn.microsoft.com/style-guide/punctuation/dashes-hyphens/emes'
 nonword: true
 level: error
 action:

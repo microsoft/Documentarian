@@ -1,6 +1,3 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: substitution
 message: "Use '%s' instead of '%s'."
 link: 'https://developers.google.com/style/word-list'
@@ -33,11 +30,12 @@ swap:
   click on: click|click in
   content type: media type
   curated roles: predefined roles
-  disabled?: turn off|off
+  #disabled?: turn off|off
   ephemeral IP address: ephemeral external IP address
   fewer data: less data
   file name: filename
   firewalls: firewall rules
+  folder name: foldername
   functionality: capability|feature
   grayed-out: unavailable
   HTTPs: HTTPS
@@ -52,9 +50,8 @@ swap:
   sign into: sign in to
   sign-?on: single sign-on
   synch: sync
-  folder name: foldername
   tablet: device
   touch: tap
-  url: URL
+  url:  URL
   vs\.: versus
   World Wide Web: web

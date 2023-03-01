@@ -1,0 +1,8 @@
+---
+extends: existence
+description: "Spaces on the end of the line can break line continuation or imply `</br>` for Markdown."
+message: "End of Line should not have spaces."
+level: warning
+scope: raw
+raw:
+  - ' +\n'

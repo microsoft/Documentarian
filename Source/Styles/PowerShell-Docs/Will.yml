@@ -1,7 +1,5 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: existence
+description: "Using 'will' signals passive voice or future tense. Rewrite it in active present."
 message: "Avoid using '%s'."
 link: 'https://developers.google.com/style/tense'
 ignorecase: true

@@ -1,0 +1,8 @@
+---
+extends: repetition
+description: "Checks for duplicate words, like `the the` or `and and`."
+message: '"%s" is repeated.'
+level: error
+alpha: true
+tokens:
+  - '[^\s]+'
