@@ -1,9 +1,7 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: existence
+description: "Don't use periods with acronyms or initialisms"
 message: "Don't use periods with acronyms or initialisms such as '%s'."
-link: 'https://developers.google.com/style/abbreviations'
+link: 'https://developers.google.com/style/abbreviations#periods'
 level: error
 nonword: true
 tokens:

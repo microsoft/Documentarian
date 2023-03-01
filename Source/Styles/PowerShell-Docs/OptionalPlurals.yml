@@ -1,9 +1,7 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: existence
+description: "Don't add (s) or (es) to a singular noun to indicate that it can be singular or plural."
 message: "Don't use plurals in parentheses such as in '%s'."
-link: 'https://developers.google.com/style/plurals-parentheses'
+link: 'https://learn.microsoft.com/style-guide/a-z-word-list-term-collections/s/s-es'
 level: error
 nonword: true
 action:

@@ -1,18 +1,9 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
+---
 extends: existence
+description: "Use 'that' for restrictive clauses. Use 'which' for non-restrictive clauses."
 link: 'https://owl.purdue.edu/owl/general_writing/grammar/that_vs_which.html'
-message: "Did you really mean to use 'which' instead of 'that'?"
+message: "Did you mean to use 'that' instead of 'which'?"
 ignorecase: true
-nonword: true
-level: suggestion
-raw:
-  - '(\w+|,)\s*(which)\s*'
-exceptions:
-  - of which
-  - on which
-  - to which
-  - for which
-  - from which
-  - with which
+level: warning
+tokens:
+  - '(?<!,|of|on|to|for|from|with|about|in)\s+(which)'

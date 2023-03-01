@@ -1,11 +1,22 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: existence
+description: "When the spelling of English words varies by locale, use the US spelling. See http://www.tysto.com/uk-us-spelling-list.html for a comprehensive list."
 message: "In general, use American spelling instead of '%s'."
-link: 'https://developers.google.com/style/spelling'
+link: 'https://learn.microsoft.com/style-guide/word-choice/use-us-spelling-avoid-non-english-words'
 ignorecase: true
 level: warning
 tokens:
-  - '(?:\w+)nised?'
+  - '(?:\w+)isabl[ey]?'
+  - '(?:\w+)ising?'
+  - '(?:\w+)isation?'
+  - '(?:\w+)ise[drs]?'
   - '(?:\w+)logue'
+  - 'armour'
+  - 'behaviour'
+  - 'colour'
+  - 'endeavour'
+  - 'favour'
+  - 'honour'
+  - 'neighbour'
+  - 'labour'
+exceptions:
+  - 'otherwise'

@@ -1,9 +1,7 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: existence
-message: 'Use semicolons judiciously.'
-link: 'https://developers.google.com/style/semicolons'
+description: "Sentences that contain semicolons are often complex. Try to simplify the sentence—break it into multiple sentences or a list—to eliminate the semicolon."
+message: "Use semicolons judiciously."
+link: 'https://learn.microsoft.com/style-guide/punctuation/semicolons'
 nonword: true
 scope: sentence
 level: suggestion

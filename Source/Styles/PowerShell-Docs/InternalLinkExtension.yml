@@ -1,0 +1,9 @@
+---
+extends: existence
+description: "Checks that internal links have .md extension"
+message: 'Link "%s" must link directly to a file and use the .md file extension.'
+link: https://docs.gitlab.com/ee/development/documentation/styleguide/index.html#links-within-the-same-repository
+level: error
+scope: raw
+raw:
+  - '\[[^\]]+\]\([^:\)]+(\/(#[^\)]+)?\)|\.html(#.+)?\))'

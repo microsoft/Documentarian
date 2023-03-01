@@ -1,9 +1,7 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 extends: substitution
+description: "Don't use Latin abbreviations."
 message: "Use '%s' instead of '%s'."
-link: 'https://developers.google.com/style/abbreviations'
+link: 'https://learn.microsoft.com/style-guide/a-z-word-list-term-collections/e/eg'
 ignorecase: true
 level: error
 nonword: true
