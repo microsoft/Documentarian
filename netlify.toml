@@ -1,8 +1,8 @@
 [build]
 base = "Site/"
 publish = "public"
-command = "hugo --gc --minify -b https://quiet-snickerdoodle-38a82c.netlify.app/"
-ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF . ../Content/ ../Source"
+command = "../netlify.sh"
+ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF . ./Content ./Source"
 
 [context.production.environment]
 HUGO_VERSION = "0.110.0"
@@ -10,20 +10,20 @@ HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
 
 [context.split1]
-command = "hugo --gc --minify --enableGitInfo -b https://quiet-snickerdoodle-38a82c.netlify.app/"
+command = "../netlify.sh"
 
 [context.split1.environment]
 HUGO_VERSION = "0.110.0"
 HUGO_ENV = "production"
 
 [context.deploy-preview]
-command = "hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"
+command = "../netlify.sh"
 
 [context.deploy-preview.environment]
 HUGO_VERSION = "0.110.0"
 
 [context.branch-deploy]
-command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
+command = "../netlify.sh"
 
 [context.branch-deploy.environment]
 HUGO_VERSION = "0.110.0"
