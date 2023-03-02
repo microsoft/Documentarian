@@ -1,0 +1,51 @@
+{{/*  Shortcode: vale/package
+
+    Use this shortcode to publish (or re-publish) Vale style package zips to the docs
+    site. This gives users an easier place to find the packages and makes it simpler
+    to point to a specific package from the documentation.
+*/}}
+{{- $Context  := .    -}}
+{{- $resource := dict -}}
+{{- $params   := dict -}}
+
+{{/*  Handle shortcode parameters:
+
+    source - where the style package zip is located. It can be in the assets folder,
+             like "vale/PowerShell-Docs.zip", or saved to a web URL like a GitHub
+             release.
+    url    - where the style package should be published on the site. By default,
+             this path is the same as source value. This likely works weirdly for
+             remote assets.
+    text   - the text to use inside the link anchor. By default, displays the full
+             link to the published package.
+*/}}
+{{- if $Context.IsNamedParams -}}
+  {{- $params = merge $params (dict "source" $Context.Params.source) -}}
+  {{- $params = merge $params (dict "url"    $Context.Params.url)    -}}
+  {{- $params = merge $params (dict "text"   $Context.Params.text)   -}}
+{{- else -}}
+  {{- $params = merge $params (dict "source" (.Get 0)) -}}
+  {{- $params = merge $params (dict "url"   (.Get 1))  -}}
+  {{- $params = merge $params (dict "text"  (.Get 2))  -}}
+{{- end -}}
+
+{{/*  We need to fetch the resources differently if they're local or remote  */}}
+{{- $isRemote := or (hasPrefix $params.source "http://")
+                    (hasPrefix $params.source "https://")
+-}}
+{{- if $isRemote -}}
+  {{- $resource = resources.GetRemote $params.source -}}
+{{- else -}}
+  {{- $resource = resources.GetMatch $params.source -}}
+{{- end -}}
+
+{{/*  If specified, the resource needs to be copied to the canonical URL  */}}
+{{- with $params.url -}}
+  {{- $resource = $resource | resources.Copy . -}}
+{{- end -}}
+
+{{/*  Set the text to the full link if not passed as a parameter  */}}
+{{- $text := $params.text | default $resource.Permalink -}}
+
+{{/*  Render the markdown link  */}}
+{{- printf "[%s](%s)" $text $resource.RelPermalink | $Context.Page.RenderString -}}

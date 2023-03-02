@@ -4,7 +4,8 @@ replacements: >-
   github.com/microsoft/Documentarian/Source/Modules/Documentarian.DevX -> Modules/Documentarian.DevX,
   github.com/microsoft/Documentarian/Source/Modules/Documentarian.MicrosoftDocs -> Modules/Documentarian.MicrosoftDocs,
   github.com/microsoft/Documentarian/Source/Modules/Documentarian.ModuleAuthor -> Modules/Documentarian.ModuleAuthor,
-  github.com/microsoft/Documentarian/Source/Modules/Documentarian.Vale -> Modules/Documentarian.Vale
+  github.com/microsoft/Documentarian/Source/Modules/Documentarian.Vale -> Modules/Documentarian.Vale,
+  github.com/microsoft/Documentarian/Source/Styles/PowerShell-Docs -> Styles/PowerShell-Docs
 imports:
   - path: github.com/microsoft/Documentarian/Source/Modules/Documentarian
     mounts:
@@ -46,6 +47,19 @@ imports:
         target: content/modules/vale/changelog.md
       - source: Source
         target: content/includes/source/vale
+  - path: github.com/microsoft/Documentarian/Source/Styles/PowerShell-Docs
+    mounts:
+      - source: Documentation
+        target: content/styles/powershell-docs
+      - source: Rules/.vale.ini
+        target: content/includes/source/styles/psdocs/.vale.ini
+      - source: CHANGELOG.md
+        target: content/styles/powershell-docs/changelog.md
+      # Due to a bug in hugo, this currently mounts the rules to the root of the data folder instead
+      # of the correct dotpath (in this case 'Rules/Avoid.yml' is mounted to 'site.Data.Avoid'
+      # instead of site.Data.styles.psdocs.Avoid').
+      - source: Rules
+        target: data/styles/psdocs
   - path: github.com/microsoft/Documentarian/Source/Hugo/docsy-pwsh
   - path: github.com/google/docsy
   - path: github.com/google/docsy/dependencies

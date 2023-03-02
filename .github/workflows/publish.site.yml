@@ -47,14 +47,25 @@ jobs:
           npm ci
           npm ls
           cd ..
+      - name: Setup PowerShell module cache
+        id: cacher
+        uses: actions/cache@v3
+        with:
+          path: '~/.local/share/powershell/Modules'
+          key: ${{ runner.os }}-SqlServer-PSScriptAnalyzer
+      - name: Install required PowerShell modules
+        if: steps.cacher.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module InvokeBuild, PowerShell-Yaml -ErrorAction Stop
       - name: Build the Site
+        shell: pwsh
         env:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
         run: |
-          cd ./Site
-          hugo --minify --baseURL "https://microsoft.github.io/Documentarian/"
-          cd ..
+          Invoke-Build -Task BuildSite -SiteBaseUrl https://microsoft.github.io/Documentarian/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

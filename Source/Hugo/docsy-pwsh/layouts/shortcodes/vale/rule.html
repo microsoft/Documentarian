@@ -1,0 +1,29 @@
+{{- $Context := . -}}
+{{- $params := dict -}}
+{{- if .IsNamedParams -}}
+  {{- $params = merge $params (dict "path" .Params.path) -}}
+{{- else -}}
+  {{- $params = merge $params (dict "path" (.Get 0)) -}}
+{{- end -}}
+
+{{- with $params.path -}}
+  {{- $segments := split . "." -}}
+  {{- $data := site.Data -}}
+  {{- range $segment := $segments -}}
+    {{- $data = index $data $segment -}}
+  {{- end -}}
+
+  {{- with $data -}}
+    {{- $yaml := . | transform.Remarshal "yaml" -}}
+    {{- printf `<details class="pwsh td-card card sourceCode">` | safeHTML }}
+    {{- printf `<summary class="card-header">Definition</summary>` | safeHTML }}
+    {{- printf `<div class="card-body code">` | safeHTML }}
+    {{- highlight $yaml "yaml"  -}}
+    {{- printf "\n</div>" | safeHTML -}}
+    {{- printf "\n</details>" | safeHTML -}}
+  {{- else -}}
+    {{- warnf "Unable to find a vale rule defined with dot path '%s'." $params.path -}}
+  {{- end -}}
+{{- else -}}
+  {{- warnf "Not dotpath provided for the Vale rule definition. Specify the dotpath for the rule definition in the data folder." -}}
+{{- end -}}
