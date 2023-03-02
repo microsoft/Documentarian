@@ -8,7 +8,7 @@ while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
   $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/Get-Vale.ps1"
+  Resolve-Path -Path "$SourceFolder/Public/Functions/Invoke-Vale.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
   . $RequiredFunction
@@ -21,12 +21,11 @@ function Sync-Vale {
   param()
 
   begin {
-    $Vale = Get-Vale
     $SyncParameters = @(
       'sync'
     )
   }
   process {
-    & $Vale @SyncParameters
+    Invoke-Vale -ArgumentList $SyncParameters
   }
 }

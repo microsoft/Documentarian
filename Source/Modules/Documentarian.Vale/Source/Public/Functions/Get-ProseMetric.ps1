@@ -8,7 +8,7 @@ while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
   $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/Get-Vale.ps1"
+  Resolve-Path -Path "$SourceFolder/Public/Functions/Invoke-Vale.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
   . $RequiredFunction
@@ -23,7 +23,6 @@ function Get-ProseMetric {
   )
 
   begin {
-    $Vale = Get-Vale
     $MetricsParameters = @(
       'ls-metrics'
       '--output', 'JSON'
@@ -42,8 +41,7 @@ function Get-ProseMetric {
     }
 
     foreach ($Document in $DocumentList) {
-      & $Vale @MetricsParameters $Document
-      | ConvertFrom-Json
+      Invoke-Vale -ArgumentList ($MetricsParameters + $Document)
       | Add-Member -MemberType NoteProperty -Name 'FileName' -Value $Document -PassThru
     }
   }
