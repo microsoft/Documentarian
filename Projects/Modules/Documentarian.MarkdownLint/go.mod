@@ -1,3 +1,3 @@
-module github.com/microsoft/Documentarian/Source/Modules/Documentarian.MarkdownLint
+module github.com/microsoft/Documentarian/Projects/Modules/Documentarian.MarkdownLint
 
 go 1.19

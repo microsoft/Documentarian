@@ -1,3 +1,3 @@
-module github.com/microsoft/Documentarian/Source/Styles/PowerShell-Docs
+module github.com/microsoft/Documentarian/Projects/Styles/PowerShell-Docs
 
 go 1.18

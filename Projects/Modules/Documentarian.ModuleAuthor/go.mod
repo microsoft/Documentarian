@@ -1,3 +1,3 @@
-module github.com/microsoft/Documentarian/Source/Modules/Documentarian.ModuleAuthor
+module github.com/microsoft/Documentarian/Projects/Modules/Documentarian.ModuleAuthor
 
 go 1.19

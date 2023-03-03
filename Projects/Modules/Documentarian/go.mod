@@ -1,3 +1,3 @@
-module github.com/microsoft/Documentarian/Source/Modules/Documentarian
+module github.com/microsoft/Documentarian/Projects/Modules/Documentarian
 
 go 1.18

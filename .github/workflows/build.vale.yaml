@@ -29,4 +29,4 @@ jobs:
         with:
           name: Style.${{ matrix.style }}
           path: |
-            Source/Styles/${{ matrix.style }}
+            Projects/Styles/${{ matrix.style }}
