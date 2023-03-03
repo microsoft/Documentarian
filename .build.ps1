@@ -8,52 +8,6 @@ param(
   [string]$SiteBaseUrl
 )
 
-
-# function Format-ValeStyleSourceFolder {
-#   [CmdletBinding()]
-#   param(
-#     [System.IO.DirectoryInfo]$StyleProjectFolder
-#   )
-
-#   $Name = $StyleProjectFolder.BaseName
-#   $SourceFolder = Join-Path -Path $StyleProjectFolder -ChildPath 'Source'
-#   $ModdedFolder = Rename-Item -Path $SourceFolder -NewName $Name -PassThru
-#   $RulesFolder = Join-Path -Path $ModdedFolder -ChildPath 'Rules'
-#   $StylesFolder = Join-Path -Path $ModdedFolder -ChildPath 'styles'
-#   $SubbedFolder = Join-Path -Path $StylesFolder -ChildPath $Name
-
-#   # Rename the folder and move the files to where they need to be
-#   $null = New-Item -Path $SubbedFolder -ItemType Directory -Force
-#   Get-ChildItem -Path $RulesFolder -File
-#   | Move-Item -Destination $SubbedFolder
-#   Remove-Item -Path $RulesFolder
-
-#   return @{
-#     SourceFolder = $SourceFolder
-#     ModdedFolder = $ModdedFolder
-#     RulesFolder  = $RulesFolder
-#     StylesFolder = $StylesFolder
-#     SubbedFolder = $SubbedFolder
-#   }
-# }
-
-# function Reset-ValeStyleSourceFolder {
-#   [cmdletbinding()]
-#   param (
-#     [parameter(Mandatory)][string] $SourceFolder,
-#     [parameter(Mandatory)][string] $ModdedFolder,
-#     [parameter(Mandatory)][string] $RulesFolder,
-#     [parameter(Mandatory)][string] $StylesFolder,
-#     [parameter(Mandatory)][string] $SubbedFolder
-#   )
-
-#   # Restore the folder to previous state
-#   $null = New-Item -Path $RulesFolder -ItemType Directory -Force
-#   Move-Item -Path "$SubbedFolder/*" -Destination $RulesFolder
-#   Remove-Item -Path $StylesFolder -Recurse -Force
-#   Rename-Item -Path $ModdedFolder -NewName 'Source'
-# }
-
 task SyncVale PackageVale, {
   if (Get-Command -Name vale -ErrorAction Ignore) {
     vale sync
@@ -69,7 +23,7 @@ task SyncVale PackageVale, {
 }
 
 task PackageVale {
-  $ValeProjectsFolder = Get-Item -Path $BuildRoot/Source/Styles
+  $ValeProjectsFolder = Get-Item -Path "$BuildRoot/Projects/Styles"
   $PackagedStylesFolder = Join-Path $BuildRoot -ChildPath 'PackagedStyles'
 
   if (Test-Path -Path $PackagedStylesFolder) {

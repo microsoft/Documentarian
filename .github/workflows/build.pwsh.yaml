@@ -6,8 +6,8 @@ on:
       - main # Set a branch that will trigger a deployment
   pull_request:
     paths:
-      - 'Source/Modules/*/Source/**'
-      - 'Source/Modules/*/.DevX.jsonc'
+      - 'Projects/Modules/*/Source/**'
+      - 'Projects/Modules/*/.DevX.jsonc'
 
 defaults:
   run:
@@ -54,11 +54,11 @@ jobs:
       - name: InvokeBuild
         run: |
           $PSVersionTable
-          Push-Location ./Source/Modules
+          Push-Location ./Projects/Modules
           Invoke-Build -Module ${{ matrix.module }}
       - name: Archive ${{ matrix.module }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.module }}
           path: |
-            Source/Modules/${{ matrix.module }}/${{ matrix.version }}
+            Projects/Modules/${{ matrix.module }}/${{ matrix.version }}

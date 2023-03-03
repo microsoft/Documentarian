@@ -1,4 +1,4 @@
-module github.com/microsoft/Documentarian/Source/Hugo/docsy-pwsh
+module github.com/microsoft/Documentarian/Projects/Hugo/docsy-pwsh
 
 go 1.18
 

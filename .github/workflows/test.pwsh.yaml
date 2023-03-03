@@ -3,9 +3,9 @@ name: Test Modules
 on:
   pull_request:
     paths:
-      - 'Source/Modules/*/Source/**'
-      - 'Source/Modules/*/Tests/**'
-      - 'Source/Modules/*/.DevX.jsonc'
+      - 'Projects/Modules/*/Source/**'
+      - 'Projects/Modules/*/Tests/**'
+      - 'Projects/Modules/*/.DevX.jsonc'
 
 defaults:
   run:
@@ -41,7 +41,7 @@ jobs:
       - name: Test ${{ matrix.module }}
         run: |
           $PSVersionTable
-          Push-Location ./Source/Modules
+          Push-Location ./Projects/Modules
           Invoke-Build
           Push-Location ./${{ matrix.module }}
           Invoke-Build -Task Test

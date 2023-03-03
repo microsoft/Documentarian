@@ -1,13 +1,13 @@
 replacements: >-
-  github.com/microsoft/Documentarian/Source/Hugo/docsy-pwsh -> Hugo/docsy-pwsh,
-  github.com/microsoft/Documentarian/Source/Modules/Documentarian -> Modules/Documentarian,
-  github.com/microsoft/Documentarian/Source/Modules/Documentarian.DevX -> Modules/Documentarian.DevX,
-  github.com/microsoft/Documentarian/Source/Modules/Documentarian.MicrosoftDocs -> Modules/Documentarian.MicrosoftDocs,
-  github.com/microsoft/Documentarian/Source/Modules/Documentarian.ModuleAuthor -> Modules/Documentarian.ModuleAuthor,
-  github.com/microsoft/Documentarian/Source/Modules/Documentarian.Vale -> Modules/Documentarian.Vale,
-  github.com/microsoft/Documentarian/Source/Styles/PowerShell-Docs -> Styles/PowerShell-Docs
+  github.com/microsoft/Documentarian/Projects/Hugo/docsy-pwsh -> Hugo/docsy-pwsh,
+  github.com/microsoft/Documentarian/Projects/Modules/Documentarian -> Modules/Documentarian,
+  github.com/microsoft/Documentarian/Projects/Modules/Documentarian.DevX -> Modules/Documentarian.DevX,
+  github.com/microsoft/Documentarian/Projects/Modules/Documentarian.MicrosoftDocs -> Modules/Documentarian.MicrosoftDocs,
+  github.com/microsoft/Documentarian/Projects/Modules/Documentarian.ModuleAuthor -> Modules/Documentarian.ModuleAuthor,
+  github.com/microsoft/Documentarian/Projects/Modules/Documentarian.Vale -> Modules/Documentarian.Vale,
+  github.com/microsoft/Documentarian/Projects/Styles/PowerShell-Docs -> Styles/PowerShell-Docs
 imports:
-  - path: github.com/microsoft/Documentarian/Source/Modules/Documentarian
+  - path: github.com/microsoft/Documentarian/Projects/Modules/Documentarian
     mounts:
       - source: Documentation
         target: content/modules/documentarian
@@ -15,7 +15,7 @@ imports:
         target: content/modules/documentarian/changelog.md
       - source: Source
         target: content/includes/source/documentarian
-  - path: github.com/microsoft/Documentarian/Source/Modules/Documentarian.DevX
+  - path: github.com/microsoft/Documentarian/Projects/Modules/Documentarian.DevX
     mounts:
       - source: Documentation
         target: content/modules/devx
@@ -23,7 +23,7 @@ imports:
         target: content/modules/devx/changelog.md
       - source: Source
         target: content/includes/source/devx
-  - path: github.com/microsoft/Documentarian/Source/Modules/Documentarian.MicrosoftDocs
+  - path: github.com/microsoft/Documentarian/Projects/Modules/Documentarian.MicrosoftDocs
     mounts:
       - source: Documentation
         target: content/modules/microsoftdocs
@@ -31,7 +31,7 @@ imports:
         target: content/modules/microsoftdocs/changelog.md
       - source: Source
         target: content/includes/source/microsoftdocs
-  - path: github.com/microsoft/Documentarian/Source/Modules/Documentarian.ModuleAuthor
+  - path: github.com/microsoft/Documentarian/Projects/Modules/Documentarian.ModuleAuthor
     mounts:
       - source: Documentation
         target: content/modules/moduleauthor
@@ -39,7 +39,7 @@ imports:
         target: content/modules/moduleauthor/changelog.md
       - source: Source
         target: content/includes/source/moduleauthor
-  - path: github.com/microsoft/Documentarian/Source/Modules/Documentarian.Vale
+  - path: github.com/microsoft/Documentarian/Projects/Modules/Documentarian.Vale
     mounts:
       - source: Documentation
         target: content/modules/vale
@@ -47,7 +47,7 @@ imports:
         target: content/modules/vale/changelog.md
       - source: Source
         target: content/includes/source/vale
-  - path: github.com/microsoft/Documentarian/Source/Styles/PowerShell-Docs
+  - path: github.com/microsoft/Documentarian/Projects/Styles/PowerShell-Docs
     mounts:
       - source: Documentation
         target: content/styles/powershell-docs
@@ -60,6 +60,6 @@ imports:
       # instead of site.Data.styles.psdocs.Avoid').
       - source: Source/Rules
         target: data/styles/psdocs
-  - path: github.com/microsoft/Documentarian/Source/Hugo/docsy-pwsh
+  - path: github.com/microsoft/Documentarian/Projects/Hugo/docsy-pwsh
   - path: github.com/google/docsy
   - path: github.com/google/docsy/dependencies
