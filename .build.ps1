@@ -8,19 +8,53 @@ param(
   [string]$SiteBaseUrl
 )
 
-task SyncVale {
-  $SourceStyleFolder = Get-Item -Path $PSScriptRoot/Source/Styles
-  Get-ChildItem -Path $SourceStyleFolder -Directory | ForEach-Object -Process {
-    $SubFolder = Join-Path -Path $_.FullName -ChildPath $_.BaseName
-    $RulesFolder = Join-Path -Path $_.FullName -ChildPath Rules
-    if (Test-Path -Path $SubFolder) {
-      Remove-Item -Path $SubFolder -Recurse -Force
-    }
-    $null = New-Item -Path $SubFolder -ItemType Directory
 
-    $null = Get-ChildItem $RulesFolder -File | Copy-Item -Destination $SubFolder -Force
-  }
+# function Format-ValeStyleSourceFolder {
+#   [CmdletBinding()]
+#   param(
+#     [System.IO.DirectoryInfo]$StyleProjectFolder
+#   )
 
+#   $Name = $StyleProjectFolder.BaseName
+#   $SourceFolder = Join-Path -Path $StyleProjectFolder -ChildPath 'Source'
+#   $ModdedFolder = Rename-Item -Path $SourceFolder -NewName $Name -PassThru
+#   $RulesFolder = Join-Path -Path $ModdedFolder -ChildPath 'Rules'
+#   $StylesFolder = Join-Path -Path $ModdedFolder -ChildPath 'styles'
+#   $SubbedFolder = Join-Path -Path $StylesFolder -ChildPath $Name
+
+#   # Rename the folder and move the files to where they need to be
+#   $null = New-Item -Path $SubbedFolder -ItemType Directory -Force
+#   Get-ChildItem -Path $RulesFolder -File
+#   | Move-Item -Destination $SubbedFolder
+#   Remove-Item -Path $RulesFolder
+
+#   return @{
+#     SourceFolder = $SourceFolder
+#     ModdedFolder = $ModdedFolder
+#     RulesFolder  = $RulesFolder
+#     StylesFolder = $StylesFolder
+#     SubbedFolder = $SubbedFolder
+#   }
+# }
+
+# function Reset-ValeStyleSourceFolder {
+#   [cmdletbinding()]
+#   param (
+#     [parameter(Mandatory)][string] $SourceFolder,
+#     [parameter(Mandatory)][string] $ModdedFolder,
+#     [parameter(Mandatory)][string] $RulesFolder,
+#     [parameter(Mandatory)][string] $StylesFolder,
+#     [parameter(Mandatory)][string] $SubbedFolder
+#   )
+
+#   # Restore the folder to previous state
+#   $null = New-Item -Path $RulesFolder -ItemType Directory -Force
+#   Move-Item -Path "$SubbedFolder/*" -Destination $RulesFolder
+#   Remove-Item -Path $StylesFolder -Recurse -Force
+#   Rename-Item -Path $ModdedFolder -NewName 'Source'
+# }
+
+task SyncVale PackageVale, {
   if (Get-Command -Name vale -ErrorAction Ignore) {
     vale sync
   } elseif ($Vale = Get-Command "$PSScriptRoot/.vale/vale") {
@@ -32,41 +66,55 @@ task SyncVale {
     ) -join ' '
     Write-Error -Message $Message
   }
-
-  $SyncedStylesFolder = Get-Item -Path $PSScriptRoot/.vscode/styles
-  Get-ChildItem -Path $SourceStyleFolder -Directory | ForEach-Object -Process {
-    $SubFolder = Join-Path -Path $_.FullName -ChildPath $_.BaseName
-    Remove-Item -Path $SubFolder -Recurse -Force
-
-    $RulesFolder = Join-Path -Path $_.FullName -ChildPath 'Rules'
-    $SyncedStyleFolder = Join-Path -Path $SyncedStylesFolder -ChildPath $_.BaseName
-
-    if (Test-Path -Path $SyncedStyleFolder) {
-      Remove-Item -Path $SyncedStyleFolder -Recurse -Force
-    }
-    $null = New-Item -Path $SyncedStyleFolder -ItemType Directory
-
-    Get-ChildItem -Path $RulesFolder
-    | Copy-Item -Destination $SyncedStyleFolder -Force -Recurse
-  }
 }
 
 task PackageVale {
-  $SourceStyleFolder = Get-Item -Path $BuildRoot/Source/Styles
-  $PackagedStyleFolder = Join-Path $BuildRoot -ChildPath 'PackagedStyles'
+  $ValeProjectsFolder = Get-Item -Path $BuildRoot/Source/Styles
+  $PackagedStylesFolder = Join-Path $BuildRoot -ChildPath 'PackagedStyles'
 
-  if (Test-Path -Path $PackagedStyleFolder) {
-    Remove-Item -Path $PackagedStyleFolder -Recurse -Force
+  if (Test-Path -Path $PackagedStylesFolder) {
+    Remove-Item -Path $PackagedStylesFolder -Recurse -Force
   }
-  $null = New-Item -Path $PackagedStyleFolder -ItemType Directory
+  $null = New-Item -Path $PackagedStylesFolder -ItemType Directory
 
-  Get-ChildItem -Path $SourceStyleFolder -Directory | ForEach-Object -Process {
-    $CompressionParameters = @{
-      Path            = $_.FullName
-      DestinationPath = Join-Path -Path $PackagedStyleFolder -ChildPath "$($_.BaseName).zip"
-      Force           = $true
-    }
-    Compress-Archive @CompressionParameters
+  Get-ChildItem -Path $ValeProjectsFolder -Directory | ForEach-Object -Process {
+    # This process is complicated because vale's requirements for 'complete' packages with
+    # a configuration file and defined styles is very specific. This block:
+    #
+    # 1. Renames the 'Source' folder to the same as the package, because the archive *must* include
+    #    the package's name as the folder in the zip that contains the config/etc
+    # 2. Creates the '<PackageName>/styles/<PackageName>' folder, which is where the actual rule
+    #    definitions need to go
+    # 3. Moves the rule definitions into that temporary subfolder
+    # 4. Creates a new zip archive for the style package
+    # 5. Cleans up by putting the rules back, deleting the temp folder, and renaming Source again.
+    $SourceFolder = Join-Path -Path $_.FullName -ChildPath 'Source'
+    $ModdedFolder = Rename-Item -Path $SourceFolder -NewName $_.BaseName -PassThru
+    $RulesFolder = Join-Path -Path $ModdedFolder -ChildPath 'Rules'
+    $StylesFolder = Join-Path -Path $ModdedFolder -ChildPath 'styles'
+    $SubbedFolder = Join-Path -Path $StylesFolder -ChildPath $_.BaseName
+    # Rename the folder and move the files to where they need to be
+    $null = New-Item -Path $SubbedFolder -ItemType Directory -Force
+    Get-ChildItem -Path $RulesFolder -File
+    | Move-Item -Destination $SubbedFolder
+    Remove-Item -Path $RulesFolder
+
+    # Create the zip file - we need to use the .NET method instead of the cmdlet
+    # because the cmdlet ignores hidden files, which `.vale.ini` is considered
+    # on unix systems.
+    $ZipFilePath = Join-Path -Path $PackagedStylesFolder -ChildPath "$($_.BaseName).zip"
+    [System.IO.Compression.ZipFile]::CreateFromDirectory(
+      $ModdedFolder,
+      $ZipFilePath,
+      [System.IO.Compression.CompressionLevel]::Optimal,
+      $true
+    )
+
+    # Restore the folder to previous state
+    $null = New-Item -Path $RulesFolder -ItemType Directory -Force
+    Move-Item -Path "$SubbedFolder/*" -Destination $RulesFolder
+    Remove-Item -Path $StylesFolder -Recurse -Force
+    Rename-Item -Path $ModdedFolder -NewName 'Source'
   }
 }
 
