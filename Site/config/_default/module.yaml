@@ -51,14 +51,14 @@ imports:
     mounts:
       - source: Documentation
         target: content/styles/powershell-docs
-      - source: Rules/.vale.ini
+      - source: Source/.vale.ini
         target: content/includes/source/styles/psdocs/.vale.ini
       - source: CHANGELOG.md
         target: content/styles/powershell-docs/changelog.md
       # Due to a bug in hugo, this currently mounts the rules to the root of the data folder instead
       # of the correct dotpath (in this case 'Rules/Avoid.yml' is mounted to 'site.Data.Avoid'
       # instead of site.Data.styles.psdocs.Avoid').
-      - source: Rules
+      - source: Source/Rules
         target: data/styles/psdocs
   - path: github.com/microsoft/Documentarian/Source/Hugo/docsy-pwsh
   - path: github.com/google/docsy
