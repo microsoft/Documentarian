@@ -1,6 +1,8 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+using module ../Classes/ValeMetrics.psm1
+
 #region    RequiredFunctions
 
 $SourceFolder = $PSScriptRoot
@@ -18,6 +20,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 function Get-ProseMetric {
   [CmdletBinding()]
+  [OutputType([ValeMetrics])]
   param(
     [string[]]$Path
   )
@@ -41,8 +44,8 @@ function Get-ProseMetric {
     }
 
     foreach ($Document in $DocumentList) {
-      Invoke-Vale -ArgumentList ($MetricsParameters + $Document)
-      | Add-Member -MemberType NoteProperty -Name 'FileName' -Value $Document -PassThru
+      $Info = Invoke-Vale -ArgumentList ($MetricsParameters + $Document)
+      [ValeMetrics]::new($Info, $Document)
     }
   }
 }

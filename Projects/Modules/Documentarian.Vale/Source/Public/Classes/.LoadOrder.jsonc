@@ -7,6 +7,16 @@
     //     "IgnoreForTest": false
     // }
     {
+        "Name": "ValeMetricHeadingCount",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeMetrics",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "ValeRule",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
