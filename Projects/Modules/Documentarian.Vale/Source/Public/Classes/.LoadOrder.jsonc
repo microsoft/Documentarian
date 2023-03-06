@@ -7,6 +7,11 @@
     //     "IgnoreForTest": false
     // }
     {
+        "Name": "ValeApplicationInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "ValeMetricHeadingCount",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
