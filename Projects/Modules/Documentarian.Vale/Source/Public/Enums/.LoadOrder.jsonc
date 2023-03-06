@@ -6,4 +6,9 @@
     //     "IgnoreForBuild": false,
     //     "IgnoreForTest": false
     // }
+    {
+        "Name": "ValeAlertLevel",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    }
 ]

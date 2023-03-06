@@ -22,18 +22,18 @@ class ValeMetrics {
     }
 
     # From PSCustomObject, as with Invoke-Vale
-    ValeMetrics([pscustomobject]$Info) {
+    ValeMetrics([hashtable]$Info) {
         $this.SetFromMetricInfo($Info)
     }
 
     # From PSCustomObject with known file info
-    ValeMetrics([pscustomobject]$Info, [System.IO.FileInfo]$File) {
+    ValeMetrics([hashtable]$Info, [System.IO.FileInfo]$File) {
         $this.SetFromMetricInfo($Info)
         $this.FileInfo = $File
     }
 
     # Reusable method for converting from JSON properties to class properties
-    [void] SetFromMetricInfo([pscustomobject]$Info) {
+    [void] SetFromMetricInfo([hashtable]$Info) {
         $this.HeadingCounts = [ValeMetricHeadingCount]::new()
         $this.CharacterCount = $Info.characters
         $this.ComplexWordCount = $info.complex_words

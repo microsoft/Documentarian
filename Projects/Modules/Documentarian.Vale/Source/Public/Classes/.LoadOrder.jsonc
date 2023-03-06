@@ -12,6 +12,31 @@
         "IgnoreForTest": false
     },
     {
+        "Name": "ValeConfigurationIgnore",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeConfigurationFormatTypeAssociation",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeConfigurationFormatLanguageAssociation",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeConfigurationFormatTransform",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeEffectiveConfiguration",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "ValeMetricHeadingCount",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
