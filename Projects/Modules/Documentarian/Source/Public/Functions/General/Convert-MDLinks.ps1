@@ -30,7 +30,10 @@ function Convert-MDLinks {
 
         function GetMDLinks {
             foreach ($mdlink in $mdlinks.Matches) {
-                if (-not $mdlink.Value.Trim().StartsWith('[!INCLUDE')) {
+                # Skip INCLUDE and tab links
+                if (-not $mdlink.Value.Trim().StartsWith('[!INCLUDE') -and
+                    -not $mdlink.Value.Trim().Contains('#tab/')
+                ) {
                     $linkitem = [pscustomobject]([ordered]@{
                             mdlink = ''
                             target = ''
