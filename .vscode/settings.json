@@ -34,5 +34,6 @@
         "Source/Modules/*/resources": true,
         "Source/Hugo/*/public": true,
         "Source/Hugo/*/resources": true
-    }
+    },
+    "vale.valeCLI.config": "${workspaceFolder}/.vale.ini"
 }

@@ -55,5 +55,20 @@
         "Name": "ValeStyle",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeViolationAction",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeViolationPosition",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeViolation",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
     }
 ]
