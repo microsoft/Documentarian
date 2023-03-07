@@ -102,9 +102,10 @@ This cmdlet doesn't support any pipeline input.
 
 ## OUTPUTS
 
-### System.Object
+### ValeMetrics
 
-This cmdlet returns a custom object with the metrics returned for a document's prose by Vale.
+This cmdlet returns a **ValeMetrics** object containing various counts for different components of
+the prose, like words and paragraphs.
 
 ## NOTES
 

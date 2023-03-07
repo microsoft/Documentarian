@@ -125,9 +125,9 @@ This cmdlet doesn't support any pipeline input.
 
 ## OUTPUTS
 
-### System.Object
+### ValeViolation
 
-This cmdlet returns an object representing a rule violation for a document's prose.
+This cmdlet returns a **ValeViolation** representing each rule violation for a document's prose.
 
 ## NOTES
 

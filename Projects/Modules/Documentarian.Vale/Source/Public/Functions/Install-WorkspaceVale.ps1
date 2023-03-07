@@ -3,6 +3,7 @@
 
 function Install-WorkspaceVale {
   [CmdletBinding()]
+  [OutputType([System.IO.FileInfo])]
   param(
     [string]$Version = 'latest',
     [switch]$PassThru

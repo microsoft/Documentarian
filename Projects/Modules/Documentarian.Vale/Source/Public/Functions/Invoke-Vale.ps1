@@ -18,7 +18,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 function Invoke-Vale {
   [CmdletBinding()]
-  [OutputType([PSCustomObject])]
+  [OutputType([System.Management.Automation.OrderedHashtable])]
   [OutputType([String])]
   param(
     [parameter(Mandatory)]

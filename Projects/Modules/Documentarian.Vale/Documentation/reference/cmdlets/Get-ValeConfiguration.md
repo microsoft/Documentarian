@@ -115,9 +115,11 @@ This cmdlet doesn't support any pipeline input.
 
 ## OUTPUTS
 
-### System.Object
+### ValeEffectiveConfiguration
 
-This cmdlet returns a custom object with the Vale configuration's properties.
+This cmdlet returns an object reflecting the effective configuration defined in the `.vale.ini`
+configuration file. An effective configuration merges the settings from any packages that include
+a configuration with the root configuration.
 
 ## NOTES
 

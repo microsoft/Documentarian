@@ -102,9 +102,9 @@ This cmdlet returns a string when the argument list includes the flags for displ
 version (`-v` and `--version`) or help (`-h` and `--help`). When any of those flags are used, Vale
 returns strings instead of JSON.
 
-### PSCustomObject
+### System.Management.Automation.OrderedHashtable
 
-This cmdlet returns a **PSCustomObject** for the structured output from Vale.
+This cmdlet returns an **OrderedHashtable** for the structured output from Vale.
 
 ## NOTES
 
