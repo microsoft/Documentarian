@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) Microsoft Corporation.
+    Licensed under the MIT License.
+-->
+<Configuration>
+    <ViewDefinitions>
+        <View>
+            <Name>Default</Name>
+            <ViewSelectedBy>
+                <TypeName>ValeConfigurationEffective</TypeName>
+            </ViewSelectedBy>
+            <TableControl>
+                <TableHeaders>
+                    <TableColumnHeader>
+                        <Label>RootIniPath</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>StylesPath</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>MinimumAlertLevel</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>GlobalBaseStyles</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>Vocabularies</Label>
+                    </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>RootIniPath</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>StylesPath</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>MinimumAlertLevel</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>GlobalBaseStyles</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Vocabularies</PropertyName>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+    </ViewDefinitions>
+</Configuration>

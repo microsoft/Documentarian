@@ -1,6 +1,8 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+using module ../Classes/ValeConfigurationEffective.psm1
+
 #region    RequiredFunctions
 
 $SourceFolder = $PSScriptRoot
@@ -18,6 +20,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 function Get-ValeConfiguration {
   [CmdletBinding()]
+  [OutputType([ValeConfigurationEffective])]
   param(
     [string]$Path
   )
@@ -32,6 +35,8 @@ function Get-ValeConfiguration {
     if ($Path) {
       $ConfigParameters += '--config', $Path
     }
-    Invoke-Vale -ArgumentList $ConfigParameters
+    $ConfigurationJson = Invoke-Vale -ArgumentList $ConfigParameters
+
+    return [ValeConfigurationEffective]::new($ConfigurationJson)
   }
 }

@@ -1,6 +1,8 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+using module ../Classes/ValeViolationInfo.psm1
+
 #region    RequiredFunctions
 
 $SourceFolder = $PSScriptRoot
@@ -18,9 +20,11 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 function Test-Prose {
   [CmdletBinding()]
+  [OutputType([ValeViolationInfo])]
   param(
     [string[]]$Path,
-    [string]$ConfigurationPath
+    [string]$ConfigurationPath,
+    [ValeAlertLevel]$MinimumAlertLevel
   )
 
   begin {
@@ -36,25 +40,10 @@ function Test-Prose {
   process {
     foreach ($TestPath in $Path) {
       $Result = Invoke-Vale -ArgumentList @($TestParameters + $TestPath)
-      $Properties = $Result | Get-Member -MemberType Properties
-      | Select-Object -ExpandProperty Name
-      foreach ($Property in $Properties) {
-        $Result.$Property | ForEach-Object -Process {
-          [PSCustomObject]@{
-            Action      = [pscustomobject]@{
-              Name   = $_.Action.Name
-              Params = $_.Action.Params
-            }
-            Span        = $_.Span
-            Check       = $_.Check
-            Description = $_.Description
-            Link        = $_.Link
-            Message     = $_.Message
-            Severity    = $_.Severity
-            Match       = $_.Match
-            Line        = $_.Line
-            FileInfo    = Get-Item $Property
-          }
+      foreach ($FilePath in $Result.Keys) {
+        $FileInfo = Get-Item -Path $FilePath
+        $Result.$FilePath | ForEach-Object {
+          [ValeViolationInfo]::new($_, $FileInfo)
         }
       }
     }

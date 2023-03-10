@@ -18,7 +18,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 function Invoke-Vale {
   [CmdletBinding()]
-  [OutputType([PSCustomObject])]
+  [OutputType([System.Management.Automation.OrderedHashtable])]
   [OutputType([String])]
   param(
     [parameter(Mandatory)]
@@ -127,7 +127,7 @@ function Invoke-Vale {
     # stdout from json to object. If this fails, it's because Vale hasn't
     # implemented a JSON output for the command or subcommand.
     try {
-      $Result = $ValeOutput | ConvertFrom-Json
+      $Result = $ValeOutput | ConvertFrom-Json -Depth 99 -AsHashtable
     } catch [System.ArgumentException] {
       # Version is a basic string, even with '--output JSON'
       if ($ArgumentList -contains '-v' -or $ArgumentList -contains '--version') {

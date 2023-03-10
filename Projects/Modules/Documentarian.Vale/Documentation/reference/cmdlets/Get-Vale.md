@@ -56,9 +56,11 @@ This cmdlet doesn't support any pipeline input.
 
 ## OUTPUTS
 
-### {{% xref "System.Management.Automation.ApplicationInfo" %}}
+### ValeApplicationInfo
 
-This cmdlet returns an **ApplicationInfo** object for the Vale binary, if found.
+This cmdlet returns a **ValeApplicationInfo** object, representing the same information as the
+**{{% xref "System.Management.Automation.ApplicationInfo" %}}** type but with the **Version**
+property correctly reflecting Vale's version.
 
 ## NOTES
 

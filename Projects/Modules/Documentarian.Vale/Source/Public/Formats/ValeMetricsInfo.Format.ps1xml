@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) Microsoft Corporation.
+    Licensed under the MIT License.
+-->
+<Configuration>
+    <ViewDefinitions>
+        <View>
+            <Name>Default</Name>
+            <ViewSelectedBy>
+                <TypeName>ValeMetricsInfo</TypeName>
+            </ViewSelectedBy>
+            <TableControl>
+                <TableHeaders>
+                    <TableColumnHeader>
+                        <Label>FileInfo</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>WordCount</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>SentenceCount</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>ParagraphCount</Label>
+                    </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>FileInfo</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>WordCount</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>SentenceCount</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>ParagraphCount</PropertyName>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+    </ViewDefinitions>
+</Configuration>

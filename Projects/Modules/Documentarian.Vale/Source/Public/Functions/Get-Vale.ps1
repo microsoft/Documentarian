@@ -1,9 +1,11 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+using module ../Classes/ValeApplicationInfo.psm1
+
 function Get-Vale {
   [CmdletBinding()]
-  [OutputType([System.Management.Automation.ApplicationInfo])]
+  [OutputType([ValeApplicationInfo])]
   param()
 
   process {
@@ -21,6 +23,6 @@ function Get-Vale {
       throw  $Message
     }
 
-    return $ValeCommand
+    return [ValeApplicationInfo]::new($ValeCommand)
   }
 }

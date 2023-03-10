@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) Microsoft Corporation.
+    Licensed under the MIT License.
+-->
+<Configuration>
+    <ViewDefinitions>
+        <View>
+            <Name>Default</Name>
+            <ViewSelectedBy>
+                <TypeName>ValeViolationInfo</TypeName>
+            </ViewSelectedBy>
+            <GroupBy>
+                <ScriptBlock>
+                    $_.Position.FileInfo.FullName
+                </ScriptBlock>
+                <Label>File</Label>
+            </GroupBy>
+            <TableControl>
+                <TableHeaders>
+                    <TableColumnHeader>
+                        <Label>RuleName</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>AlertLevel</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>Position</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>MatchingText</Label>
+                    </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>RuleName</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>AlertLevel</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    $_.Position.ToRelativeString()
+                                </ScriptBlock>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>MatchingText</PropertyName>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+    </ViewDefinitions>
+</Configuration>

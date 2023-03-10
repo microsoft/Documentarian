@@ -88,10 +88,14 @@ This cmdlet doesn't support any pipeline input.
 
 ## OUTPUTS
 
-### System.Object
+### None
 
-By default, this cmdlet returns no output. If the **PassThru** parameter is specified, the cmdlet
-returns the **FileInfo** for the installed binary.
+By default, this cmdlet returns no output.
+
+### {{< xref "System.IO.FileInfo" >}}
+
+If the **PassThru** parameter is specified, the cmdlet returns the **FileInfo** for the installed
+binary.
 
 ## NOTES
 

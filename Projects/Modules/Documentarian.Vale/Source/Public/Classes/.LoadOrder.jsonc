@@ -7,12 +7,67 @@
     //     "IgnoreForTest": false
     // }
     {
+        "Name": "ValeApplicationInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeConfigurationIgnore",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeConfigurationFormatTypeAssociation",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeConfigurationFormatLanguageAssociation",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeConfigurationFormatTransform",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeConfigurationEffective",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeMetricsHeadingCount",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeMetricsInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "ValeRule",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "ValeStyle",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeViolationAction",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeViolationPosition",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeViolationInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     }
