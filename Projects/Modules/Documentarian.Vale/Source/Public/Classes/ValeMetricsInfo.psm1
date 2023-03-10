@@ -1,40 +1,40 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-using module .\ValeMetricHeadingCount.psm1
+using module .\ValeMetricsHeadingCount.psm1
 
-class ValeMetrics {
-    [System.IO.FileInfo]     $FileInfo
-    [int]                    $CharacterCount
-    [int]                    $ComplexWordCount
-    [ValeMetricHeadingCount] $HeadingCounts
-    [int]                    $ListBlockCount
-    [int]                    $LongWordCount
-    [int]                    $ParagraphCount
-    [int]                    $PolysyllabicWordCount
-    [int]                    $SentenceCount
-    [int]                    $SyllableCount
-    [int]                    $WordCount
+class ValeMetricsInfo {
+    [System.IO.FileInfo]      $FileInfo
+    [int]                     $CharacterCount
+    [int]                     $ComplexWordCount
+    [ValeMetricsHeadingCount] $HeadingCounts
+    [int]                     $ListBlockCount
+    [int]                     $LongWordCount
+    [int]                     $ParagraphCount
+    [int]                     $PolysyllabicWordCount
+    [int]                     $SentenceCount
+    [int]                     $SyllableCount
+    [int]                     $WordCount
 
     # Default Constructor
-    ValeMetrics() {
-        $this.HeadingCounts = [ValeMetricHeadingCount]::new()
+    ValeMetricsInfo() {
+        $this.HeadingCounts = [ValeMetricsHeadingCount]::new()
     }
 
     # From PSCustomObject, as with Invoke-Vale
-    ValeMetrics([hashtable]$Info) {
+    ValeMetricsInfo([hashtable]$Info) {
         $this.SetFromMetricInfo($Info)
     }
 
     # From PSCustomObject with known file info
-    ValeMetrics([hashtable]$Info, [System.IO.FileInfo]$File) {
+    ValeMetricsInfo([hashtable]$Info, [System.IO.FileInfo]$File) {
         $this.SetFromMetricInfo($Info)
         $this.FileInfo = $File
     }
 
     # Reusable method for converting from JSON properties to class properties
-    [void] SetFromMetricInfo([hashtable]$Info) {
-        $this.HeadingCounts = [ValeMetricHeadingCount]::new()
+    hidden [void] SetFromMetricInfo([hashtable]$Info) {
+        $this.HeadingCounts = [ValeMetricsHeadingCount]::new()
         $this.CharacterCount = $Info.characters
         $this.ComplexWordCount = $info.complex_words
         $this.HeadingCounts.H1 = $info.heading_h1

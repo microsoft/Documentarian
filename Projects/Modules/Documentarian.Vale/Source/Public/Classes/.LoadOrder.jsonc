@@ -32,17 +32,17 @@
         "IgnoreForTest": false
     },
     {
-        "Name": "ValeEffectiveConfiguration",
+        "Name": "ValeConfigurationEffective",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
-        "Name": "ValeMetricHeadingCount",
+        "Name": "ValeMetricsHeadingCount",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
-        "Name": "ValeMetrics",
+        "Name": "ValeMetricsInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
@@ -67,7 +67,7 @@
         "IgnoreForTest": false
     },
     {
-        "Name": "ValeViolation",
+        "Name": "ValeViolationInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     }

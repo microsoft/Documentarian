@@ -8,45 +8,37 @@
         <View>
             <Name>Default</Name>
             <ViewSelectedBy>
-                <TypeName>ValeViolation</TypeName>
+                <TypeName>ValeMetricsInfo</TypeName>
             </ViewSelectedBy>
-            <GroupBy>
-                <ScriptBlock>
-                    $_.Position.FileInfo.FullName
-                </ScriptBlock>
-                <Label>File</Label>
-            </GroupBy>
             <TableControl>
                 <TableHeaders>
                     <TableColumnHeader>
-                        <Label>RuleName</Label>
+                        <Label>FileInfo</Label>
                     </TableColumnHeader>
                     <TableColumnHeader>
-                        <Label>AlertLevel</Label>
+                        <Label>WordCount</Label>
                     </TableColumnHeader>
                     <TableColumnHeader>
-                        <Label>Position</Label>
+                        <Label>SentenceCount</Label>
                     </TableColumnHeader>
                     <TableColumnHeader>
-                        <Label>MatchingText</Label>
+                        <Label>ParagraphCount</Label>
                     </TableColumnHeader>
                 </TableHeaders>
                 <TableRowEntries>
                     <TableRowEntry>
                         <TableColumnItems>
                             <TableColumnItem>
-                                <PropertyName>RuleName</PropertyName>
+                                <PropertyName>FileInfo</PropertyName>
                             </TableColumnItem>
                             <TableColumnItem>
-                                <PropertyName>AlertLevel</PropertyName>
+                                <PropertyName>WordCount</PropertyName>
                             </TableColumnItem>
                             <TableColumnItem>
-                                <ScriptBlock>
-                                    $_.Position.ToRelativeString()
-                                </ScriptBlock>
+                                <PropertyName>SentenceCount</PropertyName>
                             </TableColumnItem>
                             <TableColumnItem>
-                                <PropertyName>MatchingText</PropertyName>
+                                <PropertyName>ParagraphCount</PropertyName>
                             </TableColumnItem>
                         </TableColumnItems>
                     </TableRowEntry>

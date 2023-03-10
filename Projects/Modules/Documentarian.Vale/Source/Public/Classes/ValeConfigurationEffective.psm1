@@ -8,33 +8,55 @@ using module ./ValeConfigurationFormatTransform.psm1
 using module ../Enums/ValeAlertLevel.psm1
 
 
-class ValeEffectiveConfiguration {
-    [ValeConfigurationIgnore[]] $BlockIgnores
-    [string[]]  $Checks
-    [ValeConfigurationFormatTypeAssociation[]] $FormatTypeAssociations
-    [hashtable] $AsciidoctorAttributes       # A set of key-value pairs for `Asciidoctor` attributes
-    [ValeConfigurationFormatLanguageAssociation] $FormatLanguageAssociations
-    [string[]]  $GlobalBaseStyles  # Maps to `GBaseStyles`
-    [hashtable] $GlobalChecks      # Maps to `GChecks`
-    [string[]]  $IgnoredClasses
-    [string[]]  $IgnoredScopes
-    [ValeAlertLevel]       $MinimumAlertLevel # Maps to `MinAlertLevel`
-    [string[]]  $Vocabularies
-    [hashtable] $RuleToLevel
-    [hashtable] $SyntaxBaseStyles  # Maps to `SBaseStyles`
-    [hashtable] $SyntaxChecks      # Maps to `SChecks`
-    [string[]]  $SkippedScopes
-    [ValeConfigurationFormatTransform[]] $FormatTransformationStylesheets
-    [string]    $StylesPath
-    [ValeConfigurationIgnore[]] $TokenIgnores
-    [string]    $WordTemplate
-    [string]    $RootIniPath
-    [string]    $DictionaryPath
-    [string]    $NlpEndpoint
+class ValeConfigurationEffective {
+    [ValeConfigurationIgnore[]]
+    $BlockIgnores
+    [string[]]
+    $Checks
+    [ValeConfigurationFormatTypeAssociation[]]
+    $FormatTypeAssociations
+    [hashtable]
+    $AsciidoctorAttributes       # A set of key-value pairs for `Asciidoctor` attributes
+    [ValeConfigurationFormatLanguageAssociation[]]
+    $FormatLanguageAssociations
+    [string[]]
+    $GlobalBaseStyles  # Maps to `GBaseStyles`
+    [hashtable]
+    $GlobalChecks      # Maps to `GChecks`
+    [string[]]
+    $IgnoredClasses
+    [string[]]
+    $IgnoredScopes
+    [ValeAlertLevel]
+    $MinimumAlertLevel # Maps to `MinAlertLevel`
+    [string[]]
+    $Vocabularies
+    [hashtable]
+    $RuleToLevel
+    [hashtable]
+    $SyntaxBaseStyles  # Maps to `SBaseStyles`
+    [hashtable]
+    $SyntaxChecks      # Maps to `SChecks`
+    [string[]]
+    $SkippedScopes
+    [ValeConfigurationFormatTransform[]]
+    $FormatTransformationStylesheets
+    [string]
+    $StylesPath
+    [ValeConfigurationIgnore[]]
+    $TokenIgnores
+    [string]
+    $WordTemplate
+    [string]
+    $RootIniPath
+    [string]
+    $DictionaryPath
+    [string]
+    $NlpEndpoint
 
-    ValeEffectiveConfiguration() {}
+    ValeConfigurationEffective() {}
 
-    ValeEffectiveConfiguration([pscustomobject]$Info) {
+    ValeConfigurationEffective([System.Management.Automation.OrderedHashtable]$Info) {
         $Info.BlockIgnores.GetEnumerator() | ForEach-Object -Process {
             $this.BlockIgnores += [ValeConfigurationIgnore]@{
                 GlobPattern    = $_.Key

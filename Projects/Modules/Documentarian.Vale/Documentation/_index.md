@@ -8,11 +8,11 @@ weight: 99
 cascade:
   pwsh:
     source:
-      root: /includes/source/
+      root: /includes/source/vale
       lang: powershell
       munging:
         partials:
-          - pwsh/src/munge/
+          - pwsh/src/munge/devx
   gh_feedback:
     issues:
       # module: Documentarian # ineffective, see: https://github.com/community/community/discussions/5288

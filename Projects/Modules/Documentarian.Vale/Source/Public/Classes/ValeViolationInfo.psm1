@@ -5,7 +5,7 @@ using module ./ValeViolationAction.psm1
 using module ./ValeViolationPosition.psm1
 using module ../Enums/ValeAlertLevel.psm1
 
-class ValeViolation {
+class ValeViolationInfo {
     [ValeViolationPosition] $Position
     [string]                $RuleName
     [ValeAlertLevel]        $AlertLevel
@@ -15,13 +15,13 @@ class ValeViolation {
     [string]                $RuleLink
     [string]                $Description
 
-    ValeViolation() {}
+    ValeViolationInfo() {}
 
-    ValeViolation([hashtable]$Info) {
+    ValeViolationInfo([hashtable]$Info) {
         $this.SetInfo($Info, $null)
     }
 
-    ValeViolation([hashtable]$Info, [System.IO.FileInfo]$File) {
+    ValeViolationInfo([hashtable]$Info, [System.IO.FileInfo]$File) {
         $this.SetInfo($Info, $File)
     }
 

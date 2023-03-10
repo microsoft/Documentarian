@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-using module ../Classes/ValeMetrics.psm1
+using module ../Classes/ValeMetricsInfo.psm1
 
 #region    RequiredFunctions
 
@@ -20,7 +20,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 function Get-ProseMetric {
   [CmdletBinding()]
-  [OutputType([ValeMetrics])]
+  [OutputType([ValeMetricsInfo])]
   param(
     [string[]]$Path
   )
@@ -45,7 +45,7 @@ function Get-ProseMetric {
 
     foreach ($Document in $DocumentList) {
       $Info = Invoke-Vale -ArgumentList ($MetricsParameters + $Document)
-      [ValeMetrics]::new($Info, $Document)
+      [ValeMetricsInfo]::new($Info, $Document)
     }
   }
 }

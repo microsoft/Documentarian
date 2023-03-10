@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-using module ../Classes/ValeViolation.psm1
+using module ../Classes/ValeViolationInfo.psm1
 
 #region    RequiredFunctions
 
@@ -20,7 +20,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 function Test-Prose {
   [CmdletBinding()]
-  [OutputType([ValeViolation])]
+  [OutputType([ValeViolationInfo])]
   param(
     [string[]]$Path,
     [string]$ConfigurationPath,
@@ -43,7 +43,7 @@ function Test-Prose {
       foreach ($FilePath in $Result.Keys) {
         $FileInfo = Get-Item -Path $FilePath
         $Result.$FilePath | ForEach-Object {
-          [ValeViolation]::new($_, $FileInfo)
+          [ValeViolationInfo]::new($_, $FileInfo)
         }
       }
     }

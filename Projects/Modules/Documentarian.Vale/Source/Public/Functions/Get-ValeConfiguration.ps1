@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-using module ../Classes/ValeEffectiveConfiguration.psm1
+using module ../Classes/ValeConfigurationEffective.psm1
 
 #region    RequiredFunctions
 
@@ -20,7 +20,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 function Get-ValeConfiguration {
   [CmdletBinding()]
-  [OutputType([ValeEffectiveConfiguration])]
+  [OutputType([ValeConfigurationEffective])]
   param(
     [string]$Path
   )
@@ -37,6 +37,6 @@ function Get-ValeConfiguration {
     }
     $ConfigurationJson = Invoke-Vale -ArgumentList $ConfigParameters
 
-    return [ValeEffectiveConfiguration]::new($ConfigurationJson)
+    return [ValeConfigurationEffective]::new($ConfigurationJson)
   }
 }
