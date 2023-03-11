@@ -5,16 +5,22 @@ using module ../Enums/ProviderFlags.psm1
 using module ../Classes/ParameterInfo.psm1
 
 function Get-ParameterInfo {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'AsMarkdown')]
     [OutputType([ParameterInfo])]
     [OutputType([System.String])]
     param(
-        [Parameter(Mandatory, Position = 0)]
+        [Parameter(Mandatory, Position = 0, ParameterSetName = 'AsMarkdown')]
+        [Parameter(Mandatory, Position = 0, ParameterSetName = 'AsObject')]
         [string[]]$ParameterName,
 
-        [Parameter(Mandatory, Position = 1)]
+        [Parameter(Mandatory, Position = 1, ParameterSetName = 'AsMarkdown')]
+        [Parameter(Mandatory, Position = 1, ParameterSetName = 'AsObject')]
         [string]$CmdletName,
 
+        [Parameter(ParameterSetName = 'AsMarkdown')]
+        [switch]$ShowAll,
+
+        [Parameter(Mandatory, ParameterSetName = 'AsObject')]
         [switch]$AsObject
     )
 
@@ -49,12 +55,10 @@ function Get-ParameterInfo {
             if ($AsObject) {
                 $paraminfo
             } else {
-                $paraminfo.ToMarkdown()
+                $paraminfo.ToMarkdown($ShowAll)
             }
         } else {
             Write-Error "Parameter $pname not found."
         }
     }
 }
-
-# Get-ParameterInfo path, Options set-item

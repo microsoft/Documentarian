@@ -49,7 +49,7 @@ class ParameterInfo {
     $this.ProviderFlags = $ProviderFlags
   }
 
-  [string]ToMarkdown() {
+  [string]ToMarkdown([bool]$showAll) {
     $sbMarkdown = [System.Text.StringBuilder]::new()
     $sbMarkdown.AppendLine("### -$($this.Name)")
     $sbMarkdown.AppendLine()
@@ -65,15 +65,19 @@ class ParameterInfo {
     $sbMarkdown.AppendLine('Default value: None')
     $sbMarkdown.AppendLine("Accept pipeline input: $($this.Pipeline)")
     $sbMarkdown.AppendLine("Accept wildcard characters: $($this.Wildcard)")
-    <#
-    $sbMarkdown.AppendLine("DontShow: $($this.DontShow)")
-    $ProviderName = if ($this.ProviderFlags -eq 0xFF) {
-        'All'
-    } else {
-        $this.ProviderFlags.ToString()
+    if ($showAll) {
+      $sbMarkdown.AppendLine("Dynamic: $($this.Dynamic)")
+      if ($this.Dynamic -and $this.ProviderFlags) {
+        $ProviderName = if ($this.ProviderFlags -eq 0xFF) {
+          'All'
+        } else {
+          $this.ProviderFlags.ToString()
+        }
+        $sbMarkdown.AppendLine("Providers: $ProviderName")
+      }
+      $sbMarkdown.AppendLine("Values from remaining args: $($this.FromRemaining)")
+      $sbMarkdown.AppendLine("Do not show: $($this.DontShow)")
     }
-    $sbMarkdown.AppendLine("Providers: $ProviderName")
-    #>
     $sbMarkdown.AppendLine('```')
     $sbMarkdown.AppendLine()
     return $sbMarkdown.ToString()

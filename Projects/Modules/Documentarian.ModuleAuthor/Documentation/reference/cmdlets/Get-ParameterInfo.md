@@ -2,7 +2,7 @@
 external help file:
 Module Name: Documentarian.ModuleAuthor
 online version:
-ms.date: 02/15/2023
+ms.date: 03/10/2023
 schema: 2.0.0
 ---
 
@@ -13,6 +13,15 @@ schema: 2.0.0
 Gets information about a cmdlet parameter in Markdown format.
 
 ## SYNTAX
+
+### AsMarkdown (Default)
+
+```
+Get-ParameterInfo [-ParameterName] <String[]> [-CmdletName] <String> [-ShowAll]
+ [<CommonParameters>]
+```
+
+### AsObject
 
 ```
 Get-ParameterInfo [-ParameterName] <String[]> [-CmdletName] <String> [-AsObject]
@@ -59,10 +68,10 @@ parameter that is made available by the **FileSystem** provider.
 Get-ParameterInfo -ParameterName LiteralPath, Stream -CmdletName Remove-Item
 ```
 
-````Output
+~~~Output
 ### -LiteralPath
 
-{{Placeholder}}}
+{{Placeholder}}
 
 ```yaml
 Type: System.String[]
@@ -80,7 +89,7 @@ Accept wildcard characters: False
 
 ### -Stream
 
-{{Placeholder}}}
+{{Placeholder}}
 
 ```yaml
 Type: System.String[]
@@ -95,7 +104,7 @@ Accept pipeline input: ByValue (False), ByName (False)
 Dynamic: True (FileSystem provider)
 Accept wildcard characters: False
 ```
-````
+~~~
 
 ## PARAMETERS
 
@@ -105,10 +114,10 @@ This parameter causes the cmdlet to return a PowerShell object instead of Markdo
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: AsObject
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -147,6 +156,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ShowAll
+
+By default the cmdlet markdown that is compatible with PlatyPS v0.14.x. When you specify this
+parameter the output includes extra parameter metadata that is supported by PlatyPS v2.x.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: AsMarkdown
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
@@ -160,7 +186,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### System.Management.Automation.PSCustomObject
+### ParameterInfo
+
+### System.String
 
 ## NOTES
 
