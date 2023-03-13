@@ -71,6 +71,28 @@ function Invoke-Vale {
               )
 
               $PSCmdlet.ThrowTerminatingError($ErrorRecord)
+            } elseif ($Result.Text -match 'is a syntax-specific option') {
+              $Message = @(
+                "Invalid value at '$($Result.Path):$($Result.Line):$($Result.Span)'."
+                $Result.Text
+              ) -join ' '
+              $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                ([System.Runtime.Serialization.SerializationException]$Message),
+                'Vale.InvalidConfigurationValue',
+                [System.Management.Automation.ErrorCategory]::InvalidData,
+                ($ArgumentList -join ' ')
+              )
+
+              $PSCmdlet.ThrowTerminatingError($ErrorRecord)
+            } else {
+              $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+              ([System.Exception]$_),
+                'Vale.UnhandledError',
+                [System.Management.Automation.ErrorCategory]::FromStdErr,
+              ($ArgumentList -join ' ')
+              )
+
+              $PSCmdlet.WriteError($ErrorRecord)
             }
           }
           # E100 is the code for unexpected errors in Vale
