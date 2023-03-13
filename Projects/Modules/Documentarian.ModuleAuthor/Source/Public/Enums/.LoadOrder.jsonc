@@ -10,5 +10,10 @@
         "Name": "ProviderFlags",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
+    },
+    {
+        "Name": "ParameterAttributeKind",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
     }
 ]
