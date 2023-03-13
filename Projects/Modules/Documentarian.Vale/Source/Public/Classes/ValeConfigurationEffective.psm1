@@ -56,7 +56,7 @@ class ValeConfigurationEffective {
 
     ValeConfigurationEffective() {}
 
-    ValeConfigurationEffective([System.Management.Automation.OrderedHashtable]$Info) {
+    ValeConfigurationEffective([hashtable]$Info) {
         $Info.BlockIgnores.GetEnumerator() | ForEach-Object -Process {
             $this.BlockIgnores += [ValeConfigurationIgnore]@{
                 GlobPattern    = $_.Key
