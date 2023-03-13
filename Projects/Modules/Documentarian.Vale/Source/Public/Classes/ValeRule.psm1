@@ -4,7 +4,7 @@ class ValeRule {
     [string]$Style
     [string]$Name
     [string]$Path
-    [ordered]$Properties
+    [hashtable]$Properties
 
     ValeRule([string]$Style, [string]$Name, [string]$Path) {
         $this.Style = $Style

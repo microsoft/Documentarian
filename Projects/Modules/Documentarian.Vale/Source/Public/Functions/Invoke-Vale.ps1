@@ -18,7 +18,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 function Invoke-Vale {
   [CmdletBinding()]
-  [OutputType([System.Management.Automation.OrderedHashtable])]
+  [OutputType([hashtable])]
   [OutputType([String])]
   param(
     [parameter(Mandatory)]
