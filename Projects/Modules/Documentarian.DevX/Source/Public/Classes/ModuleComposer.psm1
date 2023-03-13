@@ -77,7 +77,7 @@ class ModuleComposer {
     $statement = if ([string]::IsNullOrEmpty($this.OutputPrivateModulePath)) {
       ''
     } else {
-      "using module ./$(Split-Path -Leaf -Path $this.OutputPrivateModulePath)"
+      "using module .\$(Split-Path -Leaf -Path $this.OutputPrivateModulePath)"
     }
 
     return $statement
@@ -472,7 +472,7 @@ class ModuleComposer {
 
   [void] ComposeInitScriptContent() {
     $ContentBuilder = New-Object -TypeName System.Text.StringBuilder
-    $UsingStatement = "using module ./$(Split-Path -Leaf $this.OutputRootModulePath)"
+    $UsingStatement = "using module .\$(Split-Path -Leaf $this.OutputRootModulePath)"
 
     if (
       ![string]::IsNullOrEmpty($this.SourceInitScriptPath) -and
