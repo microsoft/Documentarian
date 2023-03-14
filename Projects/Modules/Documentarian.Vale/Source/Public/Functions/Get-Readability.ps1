@@ -1,4 +1,7 @@
-﻿function Get-Readability {
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+function Get-Readability {
     [CmdletBinding()]
     [OutputType([string])]
     param(
