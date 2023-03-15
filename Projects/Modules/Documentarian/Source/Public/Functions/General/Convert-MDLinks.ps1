@@ -118,7 +118,7 @@ function Convert-MDLinks {
             } else {
                 $bang = ''
             }
-            if ($linkdata[$x].target -match 'https://github.com/\w+/\w+/(pull|issues)/(?<linkid>\d+)') {
+            if ($linkdata[$x].target -match 'https://github.com/\w+/\w+/(pull|issues)/(?<linkid>\d+)$') {
                 $linkid = $matches.linkid
                 $newlinks += '[{0}]: {1}' -f $linkid, $linkdata[$x].target
                 $newlink = '[{0}][{1}]' -f $linkdata[$x].label, $linkid
