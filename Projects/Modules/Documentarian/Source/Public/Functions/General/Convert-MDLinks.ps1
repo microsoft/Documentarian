@@ -11,8 +11,8 @@ function Convert-MDLinks {
         [switch]$PassThru
     )
 
-    $mdlinkpattern = '[\s\n]+(?<link>!?\[(?<label>[^\]]*)\]\((?<target>[^\)]+)\))[\s\n]?'
-    $reflinkpattern = '[\s\n]+(?<link>!?\[(?<label>[^\]]*)\]\[(?<ref>[^\[\]]+)\])[\s\n]?'
+    $mdlinkpattern = '[\s\n]*(?<link>!?\[(?<label>[^\]]*)\]\((?<target>[^\)]+)\))[\s\n]?'
+    $reflinkpattern = '[\s\n]*(?<link>!?\[(?<label>[^\]]*)\]\[(?<ref>[^\[\]]+)\])[\s\n]?'
     $refpattern = '^(?<refdef>\[(?<ref>[^\[\]]+)\]:\s(?<target>.+))$'
 
     $Path = Get-Item $Path # resolve wildcards
@@ -111,19 +111,29 @@ function Convert-MDLinks {
 
         # Calculate new links and references
         $newlinks = @()
+        $index = 0
         for ($x = 0; $x -lt $linkdata.Count; $x++) {
             if ($linkdata[$x].mdlink.StartsWith('!')) {
                 $bang = '!'
             } else {
                 $bang = ''
             }
-            $newlinks += '[{0:d2}]: {1}' -f ($targets.IndexOf($linkdata[$x].target) + 1), $linkdata[$x].target
+            if ($linkdata[$x].target -match 'https://github.com/\w+/\w+/(pull|issues)/(?<linkid>\d+)') {
+                $linkid = $matches.linkid
+                $newlinks += '[{0}]: {1}' -f $linkid, $linkdata[$x].target
+                $newlink = '[{0}][{1}]' -f $linkdata[$x].label, $linkid
+            } else {
+                $index += 1
+                $linkid = $index
+                $newlinks += '[{0:d2}]: {1}' -f $linkid, $linkdata[$x].target
+                $newlink = '{0}[{1}][{2:d2}]' -f $bang, $linkdata[$x].label, $linkid
+            }
 
             $parms = @{
                 InputObject = $linkdata[$x]
                 MemberType  = 'NoteProperty'
                 Name        = 'newlink'
-                Value       = '{0}[{1}][{2:d2}]' -f $bang, $linkdata[$x].label, ($targets.IndexOf($linkdata[$x].target) + 1)
+                Value       = $newlink
             }
             Add-Member @parms
         }
@@ -132,11 +142,11 @@ function Convert-MDLinks {
         foreach ($link in $linkdata) {
             $mdtext = $mdtext -replace [regex]::Escape($link.mdlink), $link.newlink
         }
-        $mdtext += '<!-- updated link references -->'
-        $mdtext += $newlinks | Sort-Object -Unique
         if ($PassThru) {
             $linkdata
         } else {
+            $mdtext += '<!-- updated link references -->'
+            $mdtext += $newlinks | Sort-Object -Unique
             Set-Content -Path $mdfile -Value $mdtext -Encoding utf8 -Force
         }
     }

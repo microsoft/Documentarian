@@ -13,7 +13,7 @@ function ConvertTo-Contraction {
     )
 
     ### This function converts common word pairs to contractions. It doesn't handle all possible
-    ### cases and it is not aware of code blocks.
+    ### cases and it's not aware of code blocks.
 
     $contractions = @{
         lower = @{
@@ -68,7 +68,7 @@ function ConvertTo-Contraction {
             foreach ($key in $contractions.upper.keys) {
                 $mdtext = $mdtext -creplace $key, $contractions.upper[$key]
             }
-            Set-Content -Path $_ -Value $mdtext -Encoding utf8 -Force
+            Set-Content -Path $_ -Value $mdtext -NoNewline -Encoding utf8 -Force
         }
     }
 
