@@ -1,7 +1,8 @@
 ---
 external help file: Documentarian-help.xml
+Locale: en-US
 Module Name: Documentarian
-ms.date: 02/07/2023
+online version: https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/convert-mdlinks/
 schema: 2.0.0
 title: Convert-MDLinks
 ---
@@ -9,7 +10,6 @@ title: Convert-MDLinks
 # Convert-MDLinks
 
 ## SYNOPSIS
-
 Converts Markdown hyperlinks to numbered link references.
 
 ## SYNTAX
@@ -42,7 +42,7 @@ Convert-MDLinks .\*.md
 ### Example 3 - Show information about the hyperlinks in a file
 
 When you use the **PassThru** parameter, the cmdlet return information about the hyperlinks in the
-Markdown file but does not change the file.
+Markdown file but doesn't change the file.
 
 ```powershell
 Convert-MDLinks .\README.md -PassThru

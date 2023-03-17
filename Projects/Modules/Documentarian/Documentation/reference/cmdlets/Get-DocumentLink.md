@@ -1,7 +1,7 @@
 ---
 external help file: Documentarian-help.xml
+Locale: en-US
 Module Name: Documentarian
-ms.date: 02/07/2023
 online version: https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/get-documentlink
 schema: 2.0.0
 summary: Retrieves links from a Markdown document with their metadata.
@@ -11,7 +11,6 @@ title: Get-DocumentLink
 # Get-DocumentLink
 
 ## SYNOPSIS
-
 Retrieves links from a Markdown document with their metadata.
 
 ## SYNTAX
@@ -56,9 +55,11 @@ Get-DocumentLink
 ## DESCRIPTION
 
 The `Get-DocumentLink` cmdlet gets the links in a Markdown document with their metadata, including
-the [**Kind**][01] of each link and its [**Position**][02]. You can use it to get the links
-directly from one or more files with the **Path** parameter or pass it a set of parsed documents
-(as returned by the [`Get-Document`][03] cmdlet) with the **Document** parameter.
+the [**Kind**](/modules/documentarian/classes/documentlink/properties#kind) of each link and its
+[**Position**](/modules/documentarian/classes/position). You can use it to get the links directly
+from one or more files with the **Path** parameter or pass it a set of parsed documents (as
+returned by the [`Get-Document`](/modules/documentarian/reference/cmdlets/get-documentlink) cmdlet)
+with the **Document** parameter.
 
 You can use the remaining parameters to filter the list of links for the one's you're looking for,
 such as inline links or links with undefined references.
@@ -143,8 +144,8 @@ Markdown    : [04]: Source/Modules/Documentarian.DevX/CHANGELOG.md
 
 ### Example 2: Get count of inline links from a folder
 
-In this example, `Get-DocumentLink` lists all of the inline links from documents in a folder, then
-groups them by filename and lists their count.
+In this example, `Get-DocumentLink` lists the inline links from documents in a folder, then groups
+them by filename and lists their count.
 
 ```powershell
 Get-DocumentLink -Path .\reference\ -Only Inline |
@@ -266,8 +267,10 @@ Markdown    : [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=11
 
 ### -Document { .pwsh-param }
 
-Specify one or more [**ParsedDocument**][04] object, as output by the [`Get-Document`][03] cmdlet,
-to return get links from.
+Specify one or more [**ParsedDocument**](/modules/documentarian/reference/classes/parseddocument/)
+object, as output by the
+[`Get-Document`](/modules/documentarian/reference/cmdlets/get-documentlink) cmdlet, to return get
+links from.
 
 ```yaml
 Type: ParsedDocument[]
@@ -283,11 +286,12 @@ Accept wildcard characters: False
 
 ### -ExcludeKind { .pwsh-param }
 
-Specify one or more [**LinkKind**][05] enums to exclude from the list of returned links. If you
-specify a wildcard character, such as `*`, the cmdlet filters all matching **LinkKind** enums.
+Specify one or more [**LinkKind**](/modules/documentarian/enums/linkkind) enums to exclude from the
+list of returned links. If you specify a wildcard character, such as `*`, the cmdlet filters all
+matching **LinkKind** enums.
 
-Only links whose [**Kind**][01] property is not in the list of enums specified by this parameter
-are returned.
+Only links whose [**Kind**](/modules/documentarian/classes/documentlink/properties#kind) property
+isn't in the list of enums specified by this parameter are returned.
 
 ```yaml
 Type: LinkKind[]
@@ -304,11 +308,12 @@ Accept wildcard characters: True
 
 ### -IncludeKind { .pwsh-param }
 
-Specify one or more [**LinkKind**][05] enums to include for the list of returned links. If you
-specify a wildcard character, such as `*`, the cmdlet filters all matching **LinkKind** enums.
+Specify one or more [**LinkKind**](/modules/documentarian/enums/linkkind) enums to include for the
+list of returned links. If you specify a wildcard character, such as `*`, the cmdlet filters all
+matching **LinkKind** enums.
 
-Only links whose [**Kind**][01] property is in the list of enums specified by this parameter are
-returned.
+Only links whose [**Kind**](/modules/documentarian/classes/documentlink/properties#kind) property
+is in the list of enums specified by this parameter are returned.
 
 ```yaml
 Type: LinkKind[]
@@ -325,7 +330,8 @@ Accept wildcard characters: True
 
 ### -MatchDestination { .pwsh-param }
 
-Specify a regular expression to check against the value of the [**Destination**][06] property for
+Specify a regular expression to check against the value of the
+[**Destination**](/modules/documentarian/classes/documentlink/properties#destination) property for
 the links. Only links with a **Destination** property whose value matches the regular expression
 are returned.
 
@@ -343,7 +349,8 @@ Accept wildcard characters: True
 
 ### -MatchMarkdown { .pwsh-param }
 
-Specify a regular expression to check against the value of the [**Markdown**][07] property for the
+Specify a regular expression to check against the value of the
+[**Markdown**](/modules/documentarian/classes/documentlink/properties#markdown) property for the
 links. Only links with a **Markdown** property whose value matches the regular expression are
 returned.
 
@@ -361,7 +368,8 @@ Accept wildcard characters: True
 
 ### -MatchReferenceID { .pwsh-param }
 
-Specify a regular expression to check against the value of the [**ReferenceID**][08] property for
+Specify a regular expression to check against the value of the
+[**ReferenceID**](/modules/documentarian/classes/documentlink/properties#referenceid) property for
 the links. Only links with a **ReferenceID** property whose value matches the regular expression
 are returned.
 
@@ -379,8 +387,9 @@ Accept wildcard characters: True
 
 ### -MatchText { .pwsh-param }
 
-Specify a regular expression to check against the value of the [**Text**][09] property for the
-links. Only links with a **Text** property whose value matches the regular expression are returned.
+Specify a regular expression to check against the value of the
+[**Text**](/modules/documentarian/classes/documentlink/properties#text) property for the links.
+Only links with a **Text** property whose value matches the regular expression are returned.
 
 ```yaml
 Type: Regex
@@ -396,7 +405,8 @@ Accept wildcard characters: True
 
 ### -NotMatchDestination { .pwsh-param }
 
-Specify a regular expression to check against the value of the [**Destination**][06] property for
+Specify a regular expression to check against the value of the
+[**Destination**](/modules/documentarian/classes/documentlink/properties#destination) property for
 the links. Only links with a **Destination** property whose value doesn't match the regular
 expression are returned.
 
@@ -414,7 +424,8 @@ Accept wildcard characters: True
 
 ### -NotMatchMarkdown { .pwsh-param }
 
-Specify a regular expression to check against the value of the [**Markdown**][07] property for the
+Specify a regular expression to check against the value of the
+[**Markdown**](/modules/documentarian/classes/documentlink/properties#markdown) property for the
 links. Only links with a **Markdown** property whose value doesn't match the regular expression are
 returned.
 
@@ -432,7 +443,8 @@ Accept wildcard characters: True
 
 ### -NotMatchReferenceID { .pwsh-param }
 
-Specify a regular expression to check against the value of the [**ReferenceID**][08] property for
+Specify a regular expression to check against the value of the
+[**ReferenceID**](/modules/documentarian/classes/documentlink/properties#referenceid) property for
 the links. Only links with a **ReferenceID** property whose value doesn't match the regular
 expression are returned.
 
@@ -450,9 +462,9 @@ Accept wildcard characters: True
 
 ### -NotMatchText { .pwsh-param }
 
-Specify a regular expression to check against the value of the [**Text**][09] property for
-the links. Only links with a **Text** property whose value doesn't match the regular
-expression are returned.
+Specify a regular expression to check against the value of the
+[**Text**](/modules/documentarian/classes/documentlink/properties#text) property for the links.
+Only links with a **Text** property whose value doesn't match the regular expression are returned.
 
 ```yaml
 Type: Regex
@@ -512,7 +524,7 @@ Accept wildcard characters: True
 This cmdlet supports the common parameters: `-Debug`, `-ErrorAction`, `-ErrorVariable`,
 `-InformationAction`, `-InformationVariable`, `-OutVariable`, `-OutBuffer`, `-PipelineVariable`,
 `-Verbose`, `-WarningAction`, and `-WarningVariable`. For more information, see
-[about_CommonParameters][99].
+[about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -522,29 +534,18 @@ You can pass a list of file and folder paths to this cmdlet to parse for Markdow
 
 ### ParsedDocument[]
 
-You can pass a list of [**ParsedDocument**][04] objects to this cmdlet to return links from.
+You can pass a list of
+[**ParsedDocument**](/modules/documentarian/reference/classes/parseddocument/) objects to this
+cmdlet to return links from.
 
 ## OUTPUTS
 
 ### DocumentLink
 
-This cmdlet returns [**DocumentLink**][10] objects.
+This cmdlet returns [**DocumentLink**](/modules/documentarian/classes/documentlink) objects.
 
 ## NOTES
 
 ## RELATED LINKS
 
-[Get-Document][03]
-
-<!-- Reference Link Definitions -->
-[01]: ../../classes/documentlink/properties#kind
-[02]: ../../classes/position
-[03]: ../get-documentlink
-[04]: ../../classes/parseddocument/
-[05]: ../../enums/LinkKind.md
-[06]: ../../classes/documentlink/properties#destination
-[07]: ../../classes/documentlink/properties#markdown
-[08]: ../../classes/documentlink/properties#referenceid
-[09]: ../../classes/documentlink/properties#text
-[10]: ../../classes/documentlink
-[99]: http://go.microsoft.com/fwlink/?LinkID=113216
+[Get-Document](/modules/documentarian/reference/cmdlets/get-documentlink)

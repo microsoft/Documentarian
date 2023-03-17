@@ -1,7 +1,7 @@
 ---
 external help file: Documentarian-help.xml
+Locale: en-US
 Module Name: Documentarian
-ms.date: 02/07/2023
 online version: https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/get-document
 schema: 2.0.0
 summary: Parses a document as Markdown and returns it as a usable object.
@@ -11,7 +11,6 @@ title: Get-Document
 # Get-Document
 
 ## SYNOPSIS
-
 Parses a document as Markdown and returns it as a usable object.
 
 ## SYNTAX
@@ -24,8 +23,9 @@ Get-Document
 
 ## DESCRIPTION
 
-The `Get-Document` cmdlet parses one or more Markdown files and returns a [**ParsedDocument**][01]
-object for each of them.
+The `Get-Document` cmdlet parses one or more Markdown files and returns a
+[**ParsedDocument**](/modules/documentarian/reference/classes/parseddocument/) object for each of
+them.
 
 ## EXAMPLES
 
@@ -155,7 +155,7 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: `-Debug`, `-ErrorAction`, `-ErrorVariable`,
 `-InformationAction`, `-InformationVariable`, `-OutVariable`, `-OutBuffer`, `-PipelineVariable`,
 `-Verbose`, `-WarningAction`, and `-WarningVariable`. For more information, see
-[about_CommonParameters][99].
+[about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -167,12 +167,10 @@ This cmdlet doesn't support input from the pipeline.
 
 ### ParsedDocument
 
-This cmdlet returns a [**ParsedDocument**][01] object for every Markdown file specified by the
-**Path** parameter.
+This cmdlet returns a
+[**ParsedDocument**](/modules/documentarian/reference/classes/parseddocument/) object for every
+Markdown file specified by the **Path** parameter.
 
 ## NOTES
 
 ## RELATED LINKS
-
-[01]: ../../classes/parseddocument/
-[99]: http://go.microsoft.com/fwlink/?LinkID=113216
