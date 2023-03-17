@@ -1,9 +1,10 @@
 ﻿---
-external help file:
+external help file: Documentarian.ModuleAuthor-help.xml
+Locale: en-US
 Module Name: Documentarian.ModuleAuthor
-online version:
+online version: https://microsoft.github.io/Documentarian/modules/moduleauthor/reference/cmdlets/find-parameterwithattribute
 schema: 2.0.0
-ms.date: 03/10/2023
+title: Find-ParameterWithAttribute
 ---
 
 # Find-ParameterWithAttribute

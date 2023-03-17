@@ -1,7 +1,8 @@
 ---
 external help file: Documentarian.ModuleAuthor-help.xml
+Locale: en-US
 Module Name: Documentarian.ModuleAuthor
-ms.date: 02/07/2023
+online version: https://microsoft.github.io/Documentarian/modules/moduleauthor/reference/cmdlets/invoke-newmdhelp
 schema: 2.0.0
 title: Invoke-NewMDHelp
 ---

@@ -1,9 +1,10 @@
 ---
-external help file:
+external help file: Documentarian.ModuleAuthor-help.xml
+Locale: en-US
 Module Name: Documentarian.ModuleAuthor
-online version:
-ms.date: 03/10/2023
+online version: https://microsoft.github.io/Documentarian/modules/moduleauthor/reference/cmdlets/get-parameterinfo
 schema: 2.0.0
+title: Get-ParameterInfo
 ---
 
 # Get-ParameterInfo
