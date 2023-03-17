@@ -1,7 +1,8 @@
 ---
 external help file: Documentarian.MicrosoftDocs-help.xml
+Locale: en-US
 Module Name: Documentarian.MicrosoftDocs
-ms.date: 02/07/2023
+online version: https://microsoft.github.io/Documentarian/modules/microsoftdocs/reference/cmdlets/test-yamltoc
 schema: 2.0.0
 title: Test-YamlTOC
 ---
