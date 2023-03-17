@@ -37,7 +37,7 @@ jobs:
         if: steps.cacher.outputs.cache-hit != 'true'
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module InvokeBuild, PowerShell-Yaml -ErrorAction Stop
+          Install-Module InvokeBuild, PlatyPS, PowerShell-Yaml -ErrorAction Stop
       - name: Test ${{ matrix.module }}
         run: |
           $PSVersionTable
