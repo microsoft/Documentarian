@@ -27,20 +27,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup PowerShell module cache
-        id: cacher
-        uses: actions/cache@v3
-        with:
-          path: '~/.local/share/powershell/Modules'
-          key: ${{ runner.os }}-SqlServer-PSScriptAnalyzer
-      - name: Install required PowerShell modules
-        if: steps.cacher.outputs.cache-hit != 'true'
+      - name: Install PowerShell modules
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
           Install-Module InvokeBuild, PlatyPS, PowerShell-Yaml -ErrorAction Stop
       - name: Test ${{ matrix.module }}
         run: |
           $PSVersionTable
+          Get-Module -ListAvailable InvokeBuild, PlatyPS, PowerShell-Yaml |
+            Format-Table -Property Name, Version, Path
           Push-Location ./Projects/Modules
           Invoke-Build
           Push-Location ./${{ matrix.module }}
