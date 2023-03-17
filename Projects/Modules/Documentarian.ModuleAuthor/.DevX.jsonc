@@ -8,6 +8,7 @@
     "Author": "PowerShell Docs Team",
     "CompanyName": "Microsoft",
     "Copyright": "(c) Microsoft. All rights reserved.",
+    "Description": "Collection of tools for creating and documenting PowerShell modules.",
     "PowerShellVersion": "7.2",
     "RequiredModules": [
       "Documentarian.MicrosoftDocs"

@@ -8,6 +8,7 @@
     "Author": "PowerShell Docs Team",
     "CompanyName": "Microsoft",
     "Copyright": "(c) Microsoft. All rights reserved.",
+    "Description": "Collection of general purpose functions for working with Markdown documents.",
     "PowerShellVersion": "7.2",
     "RequiredModules": [
       "PowerShell-Yaml"
