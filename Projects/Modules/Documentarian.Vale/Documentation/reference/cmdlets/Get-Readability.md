@@ -1,5 +1,5 @@
 ---
-external help file:
+external help file: Documentarian.Vale-help.xml
 Module Name: Documentarian.Vale
 online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/get-readability
 schema: 2.0.0

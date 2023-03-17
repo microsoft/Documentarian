@@ -25,5 +25,6 @@
   "ModuleVersion": "0.0.1",
   "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
   "SourceFolderPath": "./Source",
-  "SourceInitScriptPath": "./Source/Init.ps1"
+  "SourceInitScriptPath": "./Source/Init.ps1",
+  "DocumentationFolderPath": "./Documentation"
 }

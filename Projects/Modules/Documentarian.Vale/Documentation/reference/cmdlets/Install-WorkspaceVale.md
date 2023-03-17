@@ -1,13 +1,15 @@
 ---
 external help file: Documentarian.Vale-help.xml
+Locale: en-US
 Module Name: Documentarian.Vale
 online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/Install-WorkspaceVale
 schema: 2.0.0
 title: Install-WorkspaceVale
 ---
 
-## SYNOPSIS
+# Install-WorkspaceVale
 
+## SYNOPSIS
 Installs Vale to the current working directory.
 
 ## SYNTAX
@@ -78,7 +80,7 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: `-Debug`, `-ErrorAction`, `-ErrorVariable`,
 -InformationAction, `-InformationVariable`, `-OutVariable`, `-OutBuffer`, `-PipelineVariable`,
 `-Verbose`, -WarningAction, and `-WarningVariable`. For more information, see
-[about_CommonParameters][acp].
+[about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -92,7 +94,7 @@ This cmdlet doesn't support any pipeline input.
 
 By default, this cmdlet returns no output.
 
-### {{< xref "System.IO.FileInfo" >}}
+### System.IO.FileInfo
 
 If the **PassThru** parameter is specified, the cmdlet returns the **FileInfo** for the installed
 binary.
@@ -100,6 +102,3 @@ binary.
 ## NOTES
 
 ## RELATED LINKS
-
-<!-- Link reference definitions -->
-[acp]: http://go.microsoft.com/fwlink/?LinkID=113216
