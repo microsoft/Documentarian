@@ -40,6 +40,8 @@ class ModuleComposer {
   [string]    $OutputTaskFolderPath
   [string]    $OutputTemplateFolderPath
   [string]    $OutputTypesFilePath
+  [string]    $OutputDocumentationFolderPath
+  [string]    $DocumentationFolderPath
   [string]    $SourceFolderPath
   [string]    $SourceInitScriptPath
   [string]    $SourceFormatFolderPath
@@ -157,6 +159,10 @@ class ModuleComposer {
       $this.ModuleName = Split-Path -Leaf -Path $this.ProjectRootFolderPath
     }
 
+    if ([string]::IsNullOrEmpty($this.DocumentationFolderPath)) {
+      $this.DocumentationFolderPath = Join-Path -Path $this.ProjectRootFolderPath -ChildPath 'Documentation'
+    }
+
     if ([string]::IsNullOrEmpty($this.SourceFolderPath)) {
       $this.SourceFolderPath = Join-Path -Path $this.ProjectRootFolderPath -ChildPath 'Source'
     }
@@ -238,6 +244,10 @@ class ModuleComposer {
 
     if ([string]::IsNullOrEmpty($this.OutputTemplateFolderPath)) {
       $this.OutputTemplateFolderPath = Join-Path -Path $this.OutputFolderPath -ChildPath 'Templates'
+    }
+
+    if ([string]::IsNullOrEmpty($this.OutputDocumentationFolderPath)) {
+      $this.OutputDocumentationFolderPath = Join-Path -Path $this.OutputFolderPath -ChildPath 'en-US'
     }
 
     if ([string]::IsNullOrEmpty($this.OutputFormatsFilePath)) {
@@ -558,6 +568,22 @@ class ModuleComposer {
     }
   }
 
+  [void] ComposeDocumentation() {
+    $ReferenceFolderJoinParams = @{
+      Path                = $this.DocumentationFolderPath
+      ChildPath           = 'reference'
+      AdditionalChildPath = 'cmdlets'
+    }
+    $ReferenceFolder = Join-Path @ReferenceFolderJoinParams
+    $TempIndexName = "$($this.ModuleName).md"
+
+    $Index = Rename-Item -Path "$ReferenceFolder/_index.md" -NewName $TempIndexName -PassThru
+
+    New-ExternalHelp -Path $ReferenceFolder -OutputPath $this.OutputDocumentationFolderPath -Force
+
+    Rename-Item $Index -NewName '_index.md'
+  }
+
   [void] ExportComposedModule() {
     $this.CleanOutputFolder()
     $this.CreateOutputFolder()
@@ -566,6 +592,7 @@ class ModuleComposer {
     $this.ComposeInitScriptContent()
     $this.ComposeFormatFileContent()
     $this.ComposeTypeFileContent()
+    $this.ComposeDocumentation()
 
     $ManifestParameters = $this.ManifestData
 

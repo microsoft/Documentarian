@@ -1,7 +1,8 @@
 ---
 external help file: Documentarian-help.xml
+Locale: en-US
 Module Name: Documentarian
-ms.date: 02/07/2023
+online version: https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/get-contentwithoutheader
 schema: 2.0.0
 title: Get-ContentWithoutHeader
 ---
@@ -9,7 +10,6 @@ title: Get-ContentWithoutHeader
 # Get-ContentWithoutHeader
 
 ## SYNOPSIS
-
 Gets the content of a Markdown file without the YAML frontmatter.
 
 ## SYNTAX

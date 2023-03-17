@@ -1,13 +1,15 @@
 ---
 external help file: Documentarian.Vale-help.xml
+Locale: en-US
 Module Name: Documentarian.Vale
 online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/invoke-vale
 schema: 2.0.0
 title: Invoke-Vale
 ---
 
-## SYNOPSIS
+# Invoke-Vale
 
+## SYNOPSIS
 Calls the vale executable and returns the result as a PowerShell object.
 
 ## SYNTAX
@@ -28,7 +30,7 @@ It also has specific error-handling for common Vale errors, reducing the need fo
 and parsing strings to understand what went wrong.
 
 The cmdlet is capable of calling Vale whether it's installed in the `PATH` environment variable or
-the workspace, as with the [Install-WorkspaceVale][01] cmdlet.
+the workspace, as with the [Install-WorkspaceVale](../install-workspacevale) cmdlet.
 
 ## EXAMPLES
 
@@ -86,7 +88,7 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: `-Debug`, `-ErrorAction`, `-ErrorVariable`,
 `-InformationAction`, `-InformationVariable`, `-OutVariable`, `-OutBuffer`, `-PipelineVariable`,
 `-Verbose`, `-WarningAction`, and `-WarningVariable`. For more information, see
-[about_CommonParameters][acp].
+[about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -96,7 +98,7 @@ This cmdlet doesn't support any pipeline input.
 
 ## OUTPUTS
 
-### {{% xref "System.String" %}}
+### System.String
 
 This cmdlet returns a string when the argument list includes the flags for displaying Vale's
 version (`-v` and `--version`) or help (`-h` and `--help`). When any of those flags are used, Vale
@@ -115,8 +117,4 @@ to use than building an array of arguments.
 
 ## RELATED LINKS
 
-[Install-WorkspaceVale][01]
-
-<!-- Link reference definitions -->
-[01]: ../install-workspacevale
-[acp]: http://go.microsoft.com/fwlink/?LinkID=113216
+[Install-WorkspaceVale](../install-workspacevale)

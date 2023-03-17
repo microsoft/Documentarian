@@ -1,13 +1,15 @@
 ---
 external help file: Documentarian.Vale-help.xml
+Locale: en-US
 Module Name: Documentarian.Vale
 online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/get-valeconfiguration
 schema: 2.0.0
 title: Get-ValeConfiguration
 ---
 
-## SYNOPSIS
+# Get-ValeConfiguration
 
+## SYNOPSIS
 Returns the current configuration for Vale as an object.
 
 ## SYNTAX
@@ -105,7 +107,7 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: `-Debug`, `-ErrorAction`, `-ErrorVariable`,
 -InformationAction, `-InformationVariable`, `-OutVariable`, `-OutBuffer`, `-PipelineVariable`,
 `-Verbose`, -WarningAction, and `-WarningVariable`. For more information, see
-[about_CommonParameters][acp].
+[about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -124,6 +126,3 @@ a configuration with the root configuration.
 ## NOTES
 
 ## RELATED LINKS
-
-<!-- Link reference definitions -->
-[acp]: http://go.microsoft.com/fwlink/?LinkID=113216

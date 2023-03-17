@@ -1,13 +1,15 @@
 ---
 external help file: Documentarian.Vale-help.xml
+Locale: en-US
 Module Name: Documentarian.Vale
 online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/test-prose
 schema: 2.0.0
 title: Test-Prose
 ---
 
-## SYNOPSIS
+# Test-Prose
 
+## SYNOPSIS
 Test a document's prose with Vale rules.
 
 ## SYNTAX
@@ -115,7 +117,7 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: `-Debug`, `-ErrorAction`, `-ErrorVariable`,
 -InformationAction, `-InformationVariable`, `-OutVariable`, `-OutBuffer`, `-PipelineVariable`,
 `-Verbose`, -WarningAction, and `-WarningVariable`. For more information, see
-[about_CommonParameters][acp].
+[about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -132,6 +134,3 @@ This cmdlet returns a **ValeViolation** representing each rule violation for a d
 ## NOTES
 
 ## RELATED LINKS
-
-<!-- Link reference definitions -->
-[acp]: http://go.microsoft.com/fwlink/?LinkID=113216

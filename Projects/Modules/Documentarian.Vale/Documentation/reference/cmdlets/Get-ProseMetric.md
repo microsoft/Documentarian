@@ -1,13 +1,15 @@
 ---
 external help file: Documentarian.Vale-help.xml
+Locale: en-US
 Module Name: Documentarian.Vale
 online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/get-prosemetric
 schema: 2.0.0
 title: Get-ProseMetric
 ---
 
-## SYNOPSIS
+# Get-ProseMetric
 
+## SYNOPSIS
 Returns metrics about the prose in a document.
 
 ## SYNTAX
@@ -92,7 +94,7 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: `-Debug`, `-ErrorAction`, `-ErrorVariable`,
 -InformationAction, `-InformationVariable`, `-OutVariable`, `-OutBuffer`, `-PipelineVariable`,
 `-Verbose`, -WarningAction, and `-WarningVariable`. For more information, see
-[about_CommonParameters][acp].
+[about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -110,6 +112,3 @@ the prose, like words and paragraphs.
 ## NOTES
 
 ## RELATED LINKS
-
-<!-- Link reference definitions -->
-[acp]: http://go.microsoft.com/fwlink/?LinkID=113216

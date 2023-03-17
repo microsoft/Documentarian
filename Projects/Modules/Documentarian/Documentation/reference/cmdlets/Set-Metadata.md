@@ -1,7 +1,8 @@
 ---
 external help file: Documentarian-help.xml
+Locale: en-US
 Module Name: Documentarian
-ms.date: 02/07/2023
+online version: https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/set-metadata
 schema: 2.0.0
 title: Set-Metadata
 ---
@@ -9,7 +10,6 @@ title: Set-Metadata
 # Set-Metadata
 
 ## SYNOPSIS
-
 Overwrites the metadata frontmatter in a Markdown file.
 
 ## SYNTAX

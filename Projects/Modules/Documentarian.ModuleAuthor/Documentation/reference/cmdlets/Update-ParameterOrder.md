@@ -1,7 +1,8 @@
 ---
-external help file: sdwheeler.DocsHelpers-help.xml
-Module Name: sdwheeler.DocsHelpers
-ms.date: 02/24/2023
+external help file: Documentarian.ModuleAuthor-help.xml
+Locale: en-US
+Module Name: Documentarian.ModuleAuthor
+online version: https://microsoft.github.io/Documentarian/modules/moduleauthor/reference/cmdlets/sort-parameters
 schema: 2.0.0
 title: Sort-Parameters
 ---

@@ -1,9 +1,10 @@
 ---
-external help file: sdwheeler.ContentUtils-help.xml
-Module Name: sdwheeler.ContentUtils
-online version:
-ms.date: 02/15/2023
+external help file: Documentarian-help.xml
+Locale: en-US
+Module Name: Documentarian
+online version: https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/convertto-contraction/
 schema: 2.0.0
+title: ConvertTo-Contraction
 ---
 
 # ConvertTo-Contraction
