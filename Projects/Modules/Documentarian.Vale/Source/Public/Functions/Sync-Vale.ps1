@@ -18,7 +18,10 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 function Sync-Vale {
   [CmdletBinding()]
-  param()
+  param(
+    [Parameter(Position = 0)]
+    [string]$Path
+  )
 
   begin {
     $SyncParameters = @(
@@ -26,6 +29,10 @@ function Sync-Vale {
     )
   }
   process {
-    Invoke-Vale -ArgumentList $SyncParameters
+    if (![string]::IsNullOrEmpty($Path)) {
+      $SyncParameters += @('--config', $Path)
+    }
+
+    $null = Invoke-Vale -ArgumentList $SyncParameters
   }
 }

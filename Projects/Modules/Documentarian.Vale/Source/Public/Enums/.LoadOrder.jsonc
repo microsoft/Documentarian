@@ -10,5 +10,10 @@
         "Name": "ValeAlertLevel",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeKnownStylePackage",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
     }
 ]

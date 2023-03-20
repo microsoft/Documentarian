@@ -13,3 +13,26 @@
     obviate the need to remember to call the `using` statement on the
     module and ensures the public classes and enums are available.
 #>
+
+$PackageNameCompleter = {
+  param(
+    $commandName,
+    $parameterName,
+    $wordToComplete,
+    $commandAst,
+    $fakeBoundParameters
+  )
+
+  [ValeKnownStylePackage].GetEnumNames() | Where-Object {
+    $_ -like "$wordToComplete*"
+  } | ForEach-Object {
+    $_
+  }
+}
+
+$PackageNameCompleterParams = @{
+  CommandName   = 'New-ValeConfiguration'
+  ParameterName = 'StylePackage'
+  ScriptBlock   = $PackageNameCompleter
+}
+Register-ArgumentCompleter @PackageNameCompleterParams

@@ -27,6 +27,12 @@ function Invoke-Vale {
 
   begin {
     $Vale = Get-Vale
+    $Patterns = @{
+      MissingConfigFile   = "\[--config\] Runtime error\s+path '(?<ConfigPath>[^']+)' does not exist"
+      MissingStyleFolder  = "The path '(?<StylePath>[^']+)' does not exist"
+      InvalidFlag         = 'unknown flag:\s(?<FlagName>.+)$'
+      InvalidGlobalOption = 'is a syntax-specific option'
+    }
   }
 
   process {
@@ -55,7 +61,7 @@ function Invoke-Vale {
         switch ($Result.Code) {
           # E201 is the code for "well-known" error types from Vale
           'E201' {
-            if ($Result.Text -match "The path '(?<StylePath>[^']+)' does not exist") {
+            if ($Result.Text -match $Patterns.MissingStyleFolder) {
               $StylePath = $Matches.StylePath
               $Message = @(
                 "Vale styles not synced to '$StylePath'"
@@ -71,7 +77,7 @@ function Invoke-Vale {
               )
 
               $PSCmdlet.ThrowTerminatingError($ErrorRecord)
-            } elseif ($Result.Text -match 'is a syntax-specific option') {
+            } elseif ($Result.Text -match $Patterns.InvalidGlobalOption) {
               $Message = @(
                 "Invalid value at '$($Result.Path):$($Result.Line):$($Result.Span)'."
                 $Result.Text
@@ -97,6 +103,23 @@ function Invoke-Vale {
           }
           # E100 is the code for unexpected errors in Vale
           'E100' {
+            if ($Result.Text -match $Patterns.MissingConfigFile) {
+              $Message = @(
+                'Specified Vale configuration file'
+                "'$($Matches.ConfigPath)'"
+                "doesn't exist."
+              ) -join ' '
+
+              $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                ([System.IO.FileNotFoundException]$Message),
+                'Vale.ConfigurationFileNotFound',
+                [System.Management.Automation.ErrorCategory]::ResourceUnavailable,
+                ($ArgumentList -join ' ')
+              )
+
+              $PSCmdlet.ThrowTerminatingError($ErrorRecord)
+            }
+
             $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
               ([System.Exception]$_),
               "Vale.$($Result.Code)",
@@ -106,6 +129,8 @@ function Invoke-Vale {
 
             $PSCmdlet.ThrowTerminatingError($ErrorRecord)
           }
+
+          # Indicates there was a completely unhandled error.
           default {
             $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
               ([System.Exception]$_),
@@ -120,7 +145,7 @@ function Invoke-Vale {
       } catch [System.ArgumentException] {
         # If we're in this catch, it's because there were non-JSON errors.
         # These can only be checked by parsing the stderr strings.
-        if ($ValeErrors -match 'unknown flag:\s(?<FlagName>.+)$') {
+        if ($ValeErrors -match $Patterns.InvalidFlag) {
           $FlagName = $Matches.FlagName
           $Message = "Invalid flag '$FlagName' passed to Vale."
 
@@ -158,6 +183,12 @@ function Invoke-Vale {
       # Help is a basic string, even with '--output JSON'
       if ($ArgumentList -contains '-h' -or $ArgumentList -contains '--help') {
         return $ValeOutput
+      }
+      # Sync doesn't return any stdout, only progress that we can't capture
+      # usefully anyway. This check is naive, but should work as long as there
+      # is no other bare-argument 'sync' included.
+      if ('sync' -in $ArgumentList) {
+        return ''
       }
 
       # If something else happened, we need to throw an error on invalid result

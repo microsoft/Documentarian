@@ -10,6 +10,9 @@
     "Copyright": "(c) Microsoft. All rights reserved.",
     "Description": "Collection of tools for installing and using the Vale prose linter.",
     "PowerShellVersion": "7.2",
+    "RequiredModules": [
+      "PsIni"
+    ],
     "Tags": [
       "Markdown",
       "Documentation",

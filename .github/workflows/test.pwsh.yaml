@@ -30,11 +30,11 @@ jobs:
       - name: Install PowerShell modules
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module InvokeBuild, PlatyPS, PowerShell-Yaml -ErrorAction Stop
+          Install-Module InvokeBuild, PlatyPS, PowerShell-Yaml, PsIni -ErrorAction Stop
       - name: Test ${{ matrix.module }}
         run: |
           $PSVersionTable
-          Get-Module -ListAvailable InvokeBuild, PlatyPS, PowerShell-Yaml |
+          Get-Module -ListAvailable InvokeBuild, PlatyPS, PowerShell-Yaml, PsIni |
             Format-Table -Property Name, Version, Path
           Push-Location ./Projects/Modules
           Invoke-Build
