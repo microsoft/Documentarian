@@ -7,6 +7,16 @@
     //     "IgnoreForTest": false
     // }
     {
+        "Name": "ValeStylePackageTransformAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeStyleNameTransformAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "ValeApplicationInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false

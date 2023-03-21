@@ -2,7 +2,7 @@
 external help file: Documentarian.Vale-help.xml
 Locale: en-US
 Module Name: Documentarian.Vale
-online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/Install-WorkspaceVale
+online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/install-workspacevale
 schema: 2.0.0
 title: Install-WorkspaceVale
 ---
