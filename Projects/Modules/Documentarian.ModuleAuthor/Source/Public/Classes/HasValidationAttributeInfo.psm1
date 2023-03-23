@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 class HasValidationAttributeInfo {
     [string]$Cmdlet
     [string]$Parameter

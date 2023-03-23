@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 class ValueFromPipelineAttributeInfo {
     [string]$Cmdlet
     [string]$Parameter

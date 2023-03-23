@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 class SupportsWildcardsAttributeInfo {
     [string]$Cmdlet
     [string]$Parameter
