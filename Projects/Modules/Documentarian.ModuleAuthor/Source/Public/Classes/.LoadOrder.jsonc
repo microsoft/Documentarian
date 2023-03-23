@@ -10,5 +10,35 @@
         "Name": "ParameterInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
+    },
+    {
+        "Name": "DontShowAttributeInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ExperimentalAttributeInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "HasValidationAttributeInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "SupportsWildcardsAttributeInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValueFromPipelineAttributeInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValueFromRemainingAttributeInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
     }
 ]
