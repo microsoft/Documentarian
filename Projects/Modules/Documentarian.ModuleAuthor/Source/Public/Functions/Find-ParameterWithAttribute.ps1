@@ -129,7 +129,7 @@ function Find-ParameterWithAttribute {
                             break
                         }
                     }
-                    $result #| Sort-Object -Unique
+                    $result
                 }
             }
         }
