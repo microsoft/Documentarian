@@ -117,6 +117,7 @@ function Find-ParameterWithAttribute {
                     }
                 }
                 if ($result) {
+                    # Add a type name to the object so that the correct format gets chosen
                     switch ($GroupBy) {
                         'Cmdlet' {
                             $typename = $result.GetType().Name + '#ByCmdlet'
