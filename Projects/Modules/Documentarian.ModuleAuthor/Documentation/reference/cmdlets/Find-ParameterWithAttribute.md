@@ -16,7 +16,7 @@ Returns a list of cmdlets and parameters that have the specified attribute type.
 
 ```
 Find-ParameterWithAttribute [-AttributeKind] <ParameterAttributeKind> [[-CommandName] <String[]>]
- [<CommonParameters>]
+ [-GroupBy <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -135,6 +135,28 @@ Accept pipeline input: False
 Accept wildcard characters: True
 ```
 
+### -GroupBy
+
+This parameter specifies how the cmdlet groups the results for output. The default value is `None`.
+Possible values are:
+
+- `Cmdlet`
+- `Parameter`
+- `None`
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+Accepted values: Cmdlet, Module, None
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
@@ -148,7 +170,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### System.Object
+### DontShowAttributeInfo
+
+### ExperimentalAttributeInfo
+
+### HasValidationAttributeInfo
+
+### SupportsWildcardsAttributeInfo
+
+### ValueFromPipelineAttributeInfo
+
+### ValueFromRemainingAttributeInfo
 
 ## NOTES
 
