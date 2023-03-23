@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) Microsoft Corporation.
+    Licensed under the MIT License.
+-->
+<Configuration>
+    <ViewDefinitions>
+        <View>
+            <Name>Default</Name>
+            <ViewSelectedBy>
+                <TypeName>ValeReadability</TypeName>
+            </ViewSelectedBy>
+            <TableControl>
+                <TableHeaders>
+                    <TableColumnHeader>
+                        <Label>Rule</Label>
+                        <Width>22</Width>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>Score</Label>
+                        <Width>20</Width>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>Threshold</Label>
+                        <Width>20</Width>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>File</Label>
+                        <Width>40</Width>
+                    </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>Rule</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    if ($_.GradeLevel) {
+                                        $_.GradeLevel
+                                    } else {
+                                        [ValeReadability]::GetRoundedScore($_.Score)
+                                    }
+                                </ScriptBlock>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    if ($_ -is [ValeMetricsAutomatedReadability]) {
+                                        [ValeReadability]::GetGradeLevel($_.Threshold)
+                                    } elseif ($_.GradeLevel) {
+                                        [ValeReadability]::GetGradeLevel($_.Threshold + 1)
+                                    } else {
+                                        $_.Threshold
+                                    }
+                                </ScriptBlock>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    $Relative = Resolve-Path -Relative -Path $_.File
+                                    if ($Relative.Length -lt 30) {
+                                        return $Relative
+                                    }
+
+                                    if ($_.File.Length -gt 30) {
+                                        return $_.Metrics.FileInfo.Name
+                                    }
+
+                                    $_.File
+                                </ScriptBlock>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+        <View>
+            <Name>Default</Name>
+            <ViewSelectedBy>
+                <TypeName>ValeReadability#Grouped</TypeName>
+            </ViewSelectedBy>
+            <GroupBy>
+                <ScriptBlock>
+                    $_.Metrics.FileInfo.Directory
+                </ScriptBlock>
+                <Label>Directory</Label>
+            </GroupBy>
+            <TableControl>
+                <TableHeaders>
+                    <TableColumnHeader>
+                        <Label>Rule</Label>
+                        <Width>22</Width>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>Score</Label>
+                        <Width>20</Width>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>Threshold</Label>
+                        <Width>20</Width>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>File</Label>
+                        <Width>40</Width>
+                    </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>Rule</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    if ($_.GradeLevel) {
+                                        $_.GradeLevel
+                                    } else {
+                                        [ValeReadability]::GetRoundedScore($_.Score)
+                                    }
+                                </ScriptBlock>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    if ($_ -is [ValeMetricsAutomatedReadability]) {
+                                        [ValeReadability]::GetGradeLevel($_.Threshold)
+                                    } elseif ($_.GradeLevel) {
+                                        [ValeReadability]::GetGradeLevel($_.Threshold + 1)
+                                    } else {
+                                        $_.Threshold
+                                    }
+                                </ScriptBlock>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    $_.Metrics.FileInfo.Name
+                                </ScriptBlock>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+        <View>
+            <Name>Summary</Name>
+            <ViewSelectedBy>
+                <TypeName>ValeReadability#ProblemMessage</TypeName>
+            </ViewSelectedBy>
+            <TableControl>
+                <TableHeaders>
+                    <TableColumnHeader>
+                        <Label>Message</Label>
+                        <Width>90</Width>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>File</Label>
+                        <Width>40</Width>
+                    </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>ProblemMessage</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    $Relative = Resolve-Path -Relative -Path $_.File
+                                    if ($Relative.Length -lt 30) {
+                                        return $Relative
+                                    }
+
+                                    if ($_.File.Length -gt 30) {
+                                        return $_.Metrics.FileInfo.Name
+                                    }
+
+                                    $_.File
+                                </ScriptBlock>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+        <View>
+            <Name>Summary</Name>
+            <ViewSelectedBy>
+                <TypeName>ValeReadability#GroupedProblemMessage</TypeName>
+            </ViewSelectedBy>
+            <GroupBy>
+                <ScriptBlock>
+                    $_.Metrics.FileInfo.Directory
+                </ScriptBlock>
+                <Label>Directory</Label>
+            </GroupBy>
+            <TableControl>
+                <TableHeaders>
+                    <TableColumnHeader>
+                        <Label>Message</Label>
+                        <Width>90</Width>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>File</Label>
+                        <Width>40</Width>
+                    </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>ProblemMessage</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    $_.Metrics.FileInfo.Name
+                                </ScriptBlock>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+    </ViewDefinitions>
+</Configuration>

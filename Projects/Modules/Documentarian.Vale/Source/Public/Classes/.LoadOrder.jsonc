@@ -57,6 +57,46 @@
         "IgnoreForTest": false
     },
     {
+        "Name": "ValeReadability",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeMetricsAutomatedReadability",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeMetricsColemanLiau",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeMetricsFleschKincaid",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeMetricsFleschReadingEase",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeMetricsGunningFog",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeMetricsLIX",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeMetricsSMOG",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "ValeRule",
         "IgnoreForBuild": false,
         "IgnoreForTest": false

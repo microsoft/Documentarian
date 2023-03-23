@@ -29,7 +29,14 @@
                     <TableRowEntry>
                         <TableColumnItems>
                             <TableColumnItem>
-                                <PropertyName>FileInfo</PropertyName>
+                                <ScriptBlock>
+                                    $Relative = Resolve-Path -Relative -Path $_.File
+                                    if ($Relative.Length -lt 30) {
+                                        return $Relative
+                                    }
+
+                                    $_.Metrics.FileInfo.Name
+                                </ScriptBlock>
                             </TableColumnItem>
                             <TableColumnItem>
                                 <PropertyName>WordCount</PropertyName>

@@ -15,5 +15,10 @@
         "Name": "ValeKnownStylePackage",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
+    },
+    {
+        "Name": "ValeReadabilityRule",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
     }
 ]
