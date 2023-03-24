@@ -11,7 +11,7 @@ using module ../Classes/ValeMetricsGunningFog.psm1
 using module ../Classes/ValeMetricsLIX.psm1
 using module ../Classes/ValeMetricsSMOG.psm1
 
-function Get-Readability {
+function Get-ProseReadability {
     [CmdletBinding(DefaultParameterSetName = 'ByRule')]
     [OutputType(
         [ValeReadability],
@@ -41,18 +41,14 @@ function Get-Readability {
         [Parameter(ParameterSetName = 'AllRules')]
         [switch]$All,
 
-        [switch]$ProblemsOnly
+        [switch]$ProblemsOnly,
+
+        [switch]$Recurse
     )
 
     begin {
-        $DecoratingType = ''
-
-        $PathIncludesDirectories = $false
-        Get-Item -Path $Path | ForEach-Object -Process {
-            if ($_ -is [System.IO.DirectoryInfo]) {
-                $PathIncludesDirectories = $true
-                return
-            }
+        if ($ProblemsOnly) {
+            $DecoratingType = 'ProblemMessage'
         }
 
         switch ($Preset) {
@@ -68,18 +64,10 @@ function Get-Readability {
                 }
             }
         }
-
-        if ($PathIncludesDirectories) {
-            $DecoratingType += 'Grouped'
-        }
-
-        if ($ProblemsOnly) {
-            $DecoratingType += 'ProblemMessage'
-        }
     }
 
     process {
-        Get-ProseMetric -Path $Path | ForEach-Object {
+        Get-ProseMetric -Path $Path -Recurse:$Recurse | ForEach-Object {
             $Metrics = $_
 
             if ($Metrics.WordCount -eq 0) {
@@ -88,7 +76,7 @@ function Get-Readability {
                     'Word count is 0.'
                 ) -join ' - '
                 Write-Verbose $Message
-                continue
+                return
             }
 
             foreach ($Rule in $ReadabilityRule) {
