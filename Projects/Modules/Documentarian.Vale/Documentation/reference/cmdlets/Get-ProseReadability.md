@@ -1,13 +1,13 @@
 ---
 external help file: Documentarian.Vale-help.xml
 Module Name: Documentarian.Vale
-online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/get-readability
+online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/get-prosereadability
 schema: 2.0.0
 ms.date: 03/13/2023
-title: Get-Readability
+title: Get-ProseReadability
 ---
 
-# Get-Readability
+# Get-ProseReadability
 
 ## SYNOPSIS
 Returns the readability score of a markdown using Vale.
@@ -157,6 +157,22 @@ Accepted values: AutomatedReadability, ColemanLiau, FleschKincaid, FleschReading
 Required: False
 Position: 1
 Default value: AutomatedReadability
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Recurse
+
+Indicates that the cmdlet should get the readability scores for the Markdown files in child folders.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

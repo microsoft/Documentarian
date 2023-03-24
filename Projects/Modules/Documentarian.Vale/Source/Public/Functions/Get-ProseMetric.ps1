@@ -22,7 +22,11 @@ function Get-ProseMetric {
   [CmdletBinding()]
   [OutputType([ValeMetricsInfo])]
   param(
-    [string[]]$Path
+    [SupportsWildcards()]
+    [Parameter(Mandatory, Position = 0)]
+    [string[]]$Path,
+
+    [switch]$Recurse
   )
 
   begin {
@@ -33,19 +37,15 @@ function Get-ProseMetric {
   }
 
   process {
-    $DocumentList = @()
-    foreach ($Item in Get-Item $Path) {
-      if ($Item -is [System.IO.DirectoryInfo]) {
-        $DocumentList += Get-ChildItem -Path $Item.FullName -Recurse -File -Include '*.md'
-        | Select-Object -ExpandProperty FullName
-      } else {
-        $DocumentList += $Item.FullName
+    Get-ChildItem -Path $Path -File -Recurse:$Recurse
+    | ForEach-Object -Process {
+      if ($_.Extension -ne '.md') {
+        return
       }
-    }
 
-    foreach ($Document in $DocumentList) {
-      $Info = Invoke-Vale -ArgumentList ($MetricsParameters + $Document)
-      [ValeMetricsInfo]::new($Info, $Document)
+      $Info = Invoke-Vale -ArgumentList ($MetricsParameters + $_.FullName)
+
+      [ValeMetricsInfo]::new($Info, $_.FullName)
     }
   }
 }
