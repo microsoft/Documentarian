@@ -30,12 +30,12 @@
                         <TableColumnItems>
                             <TableColumnItem>
                                 <ScriptBlock>
-                                    $Relative = Resolve-Path -Relative -Path $_.File
+                                    $Relative = Resolve-Path -Relative -Path $_.FileInfo.FullName
                                     if ($Relative.Length -lt 30) {
                                         return $Relative
                                     }
 
-                                    $_.Metrics.FileInfo.Name
+                                    $_.FileInfo.Name
                                 </ScriptBlock>
                             </TableColumnItem>
                             <TableColumnItem>

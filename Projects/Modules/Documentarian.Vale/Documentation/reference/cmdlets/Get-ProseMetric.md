@@ -15,7 +15,7 @@ Returns metrics about the prose in a document.
 ## SYNTAX
 
 ```
-Get-ProseMetric [[-Path] <String[]>] [<CommonParameters>]
+Get-ProseMetric [-Path] <String[]> [-Recurse] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,7 +49,7 @@ FileName           : C:\code\pwsh\Documentarian\README.md
 
 ### Example 2: Get the word count for files and folders
 
-```pwsh
+```powershell
 Get-ProseMetric .\README.md, .\CHANGELOG.md, .\Documentation\reference\cmdlets\ |
     Format-Table -Property Words, FileName
 ```
@@ -82,8 +82,24 @@ Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: True
+```
+
+### -Recurse
+
+Indicates that the cmdlet should get metrics for the Markdown files in child folders.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
