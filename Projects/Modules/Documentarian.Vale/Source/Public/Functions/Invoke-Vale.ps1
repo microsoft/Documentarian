@@ -21,17 +21,19 @@ function Invoke-Vale {
   [OutputType([hashtable])]
   [OutputType([String])]
   param(
-    [parameter(Mandatory)]
+    [parameter(Mandatory, ValueFromRemainingArguments)]
     [string[]]$ArgumentList
   )
 
   begin {
+    $PriorPreference = $PSNativeCommandUseErrorActionPreference
     $Vale = Get-Vale
     $Patterns = @{
-      MissingConfigFile   = "\[--config\] Runtime error\s+path '(?<ConfigPath>[^']+)' does not exist"
-      MissingStyleFolder  = "The path '(?<StylePath>[^']+)' does not exist"
-      InvalidFlag         = 'unknown flag:\s(?<FlagName>.+)$'
-      InvalidGlobalOption = 'is a syntax-specific option'
+      SpecifiedConfigFileNotFound = "\[--config\] Runtime error\s+path '(?<ConfigPath>[^']+)' does not exist"
+      DefaultConfigFileNotFound   = 'vale\.ini not found'
+      MissingStyleFolder          = "The path '(?<StylePath>[^']+)' does not exist"
+      InvalidFlag                 = 'unknown flag:\s(?<FlagName>.+)$'
+      InvalidGlobalOption         = 'is a syntax-specific option'
     }
   }
 
@@ -45,7 +47,9 @@ function Invoke-Vale {
       $ArgumentList += @('--output', 'JSON')
     }
 
+    $PSNativeCommandUseErrorActionPreference = $false
     $RawResult = & $Vale @ArgumentList 2>&1
+    $PSNativeCommandUseErrorActionPreference = $PriorPreference
 
     $ValeErrors = $RawResult | Where-Object -FilterScript {
       $_ -is [System.Management.Automation.ErrorRecord]
@@ -92,7 +96,7 @@ function Invoke-Vale {
               $PSCmdlet.ThrowTerminatingError($ErrorRecord)
             } else {
               $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
-              ([System.Exception]$_),
+              ([System.Exception]$Result.Text),
                 'Vale.UnhandledError',
                 [System.Management.Automation.ErrorCategory]::FromStdErr,
               ($ArgumentList -join ' ')
@@ -103,7 +107,7 @@ function Invoke-Vale {
           }
           # E100 is the code for unexpected errors in Vale
           'E100' {
-            if ($Result.Text -match $Patterns.MissingConfigFile) {
+            if ($Result.Text -match $Patterns.SpecifiedConfigFileNotFound) {
               $Message = @(
                 'Specified Vale configuration file'
                 "'$($Matches.ConfigPath)'"
@@ -120,8 +124,26 @@ function Invoke-Vale {
               $PSCmdlet.ThrowTerminatingError($ErrorRecord)
             }
 
+            if ($Result.Text -match $Patterns.DefaultConfigFileNotFound) {
+              $Message = @(
+                'Default Vale configuration file'
+                "'.vale.ini' or '_vale.ini' not found in the current directory, parent directories,"
+                "or '$HOME' folder."
+                'Make sure you have a configuration file in one of these locations.'
+              ) -join ' '
+
+              $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                ([System.IO.FileNotFoundException]$Message),
+                'Vale.ConfigurationFileNotFound',
+                [System.Management.Automation.ErrorCategory]::ResourceUnavailable,
+                ($ArgumentList -join ' ')
+              )
+
+              $PSCmdlet.ThrowTerminatingError($ErrorRecord)
+            }
+
             $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
-              ([System.Exception]$_),
+              ([System.Exception]$Result.Text),
               "Vale.$($Result.Code)",
               [System.Management.Automation.ErrorCategory]::FromStdErr,
               ($ArgumentList -join ' ')
@@ -133,7 +155,7 @@ function Invoke-Vale {
           # Indicates there was a completely unhandled error.
           default {
             $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
-              ([System.Exception]$_),
+              ([System.Exception]$Result.Text),
               'Vale.UnhandledError',
               [System.Management.Automation.ErrorCategory]::FromStdErr,
               ($ArgumentList -join ' ')
