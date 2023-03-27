@@ -21,8 +21,9 @@
       "Microsoft",
       "Learn"
     ],
-    "ProjectUri": "https://github.com/microsoft/Documentarian",
-    "LicenseUri": "https://github.com/microsoft/Documentarian/blob/main/LICENSE-CODE"
+    "ProjectUri": "https://microsoft.github.io/Documentarian/modules/microsoftdocs",
+    "LicenseUri": "https://github.com/microsoft/Documentarian/blob/main/LICENSE-CODE",
+    "ReleaseNotes": "https://microsoft.github.io/Documentarian/modules/microsoftdocs/changelog"
   },
   "ModuleCopyrightNotice": "Copyright (c) Microsoft Corporation.",
   "ModuleLicenseNotice": "Licensed under the MIT License.",

@@ -19,4 +19,10 @@ description: |
 
 ## Unreleased
 
-- Scaffolded initial project.
+## [0.0.1] - 2023-03-27
+
+### Added
+
+- Initial release.
+
+[0.0.1]: https://github.com/microsoft/Documentarian/releases/tag/Documentarian.Vale%2Fv0.0.1
