@@ -19,10 +19,15 @@ description: |
 
 ## Unreleased
 
+### Fixed
+
+- Ensure that `Convert-MDLinks` correctly handles all matches found by the regex patterns.
+
 ## [0.0.1] - 2023-03-27
 
 ### Added
 
 - Initial release.
 
+<!-- link references -->
 [0.0.1]: https://github.com/microsoft/Documentarian/releases/tag/Documentarian%2Fv0.0.1
