@@ -1,11 +1,28 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+#region    RequiredFunctions
+
+$SourceFolder = $PSScriptRoot
+while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
+}
+$RequiredFunctions = @(
+    Resolve-Path -Path "$SourceFolder/Private/Functions/GetMDLinks.ps1"
+    Resolve-Path -Path "$SourceFolder/Private/Functions/GetRefTargets.ps1"
+)
+foreach ($RequiredFunction in $RequiredFunctions) {
+    . $RequiredFunction
+}
+
+#endregion RequiredFunctions
+
 function Convert-MDLinks {
 
     [CmdletBinding()]
     param(
         [Parameter(Mandatory, Position = 0)]
+        [SupportsWildcards()]
         [string[]]$Path,
 
         [switch]$PassThru
@@ -24,76 +41,12 @@ function Convert-MDLinks {
         $reflinks = Get-Content $mdfile -Raw | Select-String -Pattern $reflinkpattern -AllMatches
         $refdefs = Select-String -Path $mdfile -Pattern $refpattern -AllMatches
 
-        Write-Verbose ('{0}/{1}: {2} links' -f $mdfile.Directory.Name, $mdfile.Name, $mdlinks.count)
-        Write-Verbose ('{0}/{1}: {2} ref links' -f $mdfile.Directory.Name, $mdfile.Name, $reflinks.count)
-        Write-Verbose ('{0}/{1}: {2} ref defs' -f $mdfile.Directory.Name, $mdfile.Name, $refdefs.count)
+        Write-Verbose ('{0}/{1}: {2} links' -f $mdfile.Directory.Name, $mdfile.Name, $mdlinks.Matches.count)
+        Write-Verbose ('{0}/{1}: {2} ref links' -f $mdfile.Directory.Name, $mdfile.Name, $reflinks.Matches.count)
+        Write-Verbose ('{0}/{1}: {2} ref defs' -f $mdfile.Directory.Name, $mdfile.Name, $refdefs.Matches.count)
 
-        function GetMDLinks {
-            foreach ($mdlink in $mdlinks.Matches) {
-                # Skip INCLUDE and tab links
-                if (-not $mdlink.Value.Trim().StartsWith('[!INCLUDE') -and
-                    -not $mdlink.Value.Trim().Contains('#tab/')
-                ) {
-                    $linkitem = [pscustomobject]([ordered]@{
-                            mdlink = ''
-                            target = ''
-                            ref    = ''
-                            label  = ''
-                        })
-                    switch ($mdlink.Groups) {
-                        { $_.Name -eq 'link' } { $linkitem.mdlink = $_.Value }
-                        { $_.Name -eq 'target' } { $linkitem.target = $_.Value }
-                        { $_.Name -eq 'label' } { $linkitem.label = $_.Value }
-                    }
-                    $linkitem
-                }
-            }
-
-            foreach ($reflink in $reflinks.Matches) {
-                if (-not $reflink.Value.Trim().StartsWith('[!INCLUDE')) {
-                    $linkitem = [pscustomobject]([ordered]@{
-                            mdlink = ''
-                            target = ''
-                            ref    = ''
-                            label  = ''
-                        })
-                    switch ($reflink.Groups) {
-                        { $_.Name -eq 'link' } { $linkitem.mdlink = $_.Value }
-                        { $_.Name -eq 'label' } { $linkitem.label = $_.Value }
-                        { $_.Name -eq 'ref' } { $linkitem.ref = $_.Value }
-                    }
-                    $linkitem
-                }
-            }
-        }
-        function GetRefTargets {
-            foreach ($refdef in $refdefs.Matches) {
-                $refitem = [pscustomobject]([ordered]@{
-                        refdef = ''
-                        target = ''
-                        ref    = ''
-                    })
-
-                switch ($refdef.Groups) {
-                    { $_.Name -eq 'refdef' } { $refitem.refdef = $_.Value }
-                    { $_.Name -eq 'target' } { $refitem.target = $_.Value }
-                    { $_.Name -eq 'ref' } { $refitem.ref = $_.Value }
-                }
-                if (!$RefTargets.ContainsKey($refitem.ref)) {
-                    $RefTargets.Add(
-                        $refitem.ref,
-                        [pscustomobject]@{
-                            target = $refitem.target
-                            ref    = $refitem.ref
-                            refdef = $refitem.refdef
-                        }
-                    )
-                }
-            }
-        }
-
-        $linkdata = GetMDLinks
-        $RefTargets = @{}; GetRefTargets
+        $linkdata = GetMDLinks $mdlinks $reflinks
+        $RefTargets = GetRefTargets $refdefs
 
         # map targets by reference
         if ($RefTargets.Count -gt 0) {
@@ -111,7 +64,6 @@ function Convert-MDLinks {
 
         # Calculate new links and references
         $newlinks = @()
-        $index = 0
         for ($x = 0; $x -lt $linkdata.Count; $x++) {
             if ($linkdata[$x].mdlink.StartsWith('!')) {
                 $bang = '!'
@@ -120,11 +72,12 @@ function Convert-MDLinks {
             }
             if ($linkdata[$x].target -match 'https://github.com/\w+/\w+/(pull|issues)/(?<linkid>\d+)$') {
                 $linkid = $matches.linkid
+                $linkdata[$x].ref = '{0:d2}' -f $linkid
                 $newlinks += '[{0}]: {1}' -f $linkid, $linkdata[$x].target
                 $newlink = '[{0}][{1}]' -f $linkdata[$x].label, $linkid
             } else {
-                $index += 1
-                $linkid = $index
+                $linkid = $targets.IndexOf($linkdata[$x].target) + 1
+                $linkdata[$x].ref = '{0:d2}' -f $linkid
                 $newlinks += '[{0:d2}]: {1}' -f $linkid, $linkdata[$x].target
                 $newlink = '{0}[{1}][{2:d2}]' -f $bang, $linkdata[$x].label, $linkid
             }
@@ -137,6 +90,8 @@ function Convert-MDLinks {
             }
             Add-Member @parms
         }
+
+        Write-Verbose (($newlinks | Sort-Object -Unique) -join "`n")
 
         $mdtext = Get-Content $mdfile
         foreach ($link in $linkdata) {
