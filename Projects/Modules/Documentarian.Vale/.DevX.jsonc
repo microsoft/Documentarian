@@ -18,7 +18,7 @@
       "Documentation",
       "vale"
     ],
-    "ProjectUri": "https://github.com/microsoft/Documentarian",
+    "ProjectUri": "https://microsoft.github.io/Documentarian/modules/vale",
     "LicenseUri": "https://github.com/microsoft/Documentarian/blob/main/LICENSE-CODE",
     "ReleaseNotes": "https://microsoft.github.io/Documentarian/modules/vale/changelog"
   },
