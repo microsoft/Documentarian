@@ -1,11 +1,14 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-function Install-WorkspaceVale {
+using module ../Enums/ValeInstallScope.psm1
+
+function Install-Vale {
   [CmdletBinding()]
   [OutputType([System.IO.FileInfo])]
   param(
     [string]$Version = 'latest',
+    [ValeInstallScope]$Scope = [ValeInstallScope]::Workspace,
     [switch]$PassThru
   )
 
@@ -38,7 +41,12 @@ function Install-WorkspaceVale {
     $PackageNamePattern = "vale_\d+\.\d+\.\d+_${OS}_${Architecture}${Extension}"
     $ChecksumNamePattern = '_checksums.txt$'
 
-    $InstallFolderPath = Join-Path -Path (Get-Location) -ChildPath '.vale'
+    $BaseInstallPath = if ($Scope -eq 'User') {
+      Get-Item -Path ~
+    } else {
+      Get-Location
+    }
+    $InstallFolderPath = Join-Path -Path $BaseInstallPath -ChildPath '.vale'
     $TempFolderPath = Join-Path -Path 'Temp:' -ChildPath (New-Guid).Guid
     $ArchiveFilePath = Join-Path -Path $TempFolderPath -ChildPath "vale${Extension}"
   }

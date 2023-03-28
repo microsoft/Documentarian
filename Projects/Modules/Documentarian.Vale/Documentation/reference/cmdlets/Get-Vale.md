@@ -10,7 +10,7 @@ title: Get-Vale
 # Get-Vale
 
 ## SYNOPSIS
-Gets the command info for Vale installed in a workspace or on a machine.
+Gets the command info for Vale installed in a workspace, user's home folder, or on a machine.
 
 ## SYNTAX
 
@@ -21,11 +21,19 @@ Get-Vale [<CommonParameters>]
 ## DESCRIPTION
 
 The `Get-Vale` cmdlet returns a **System.Management.Automation.ApplicationInfo** object for the
-`vale` binary if it's available. It first checks the `PATH` environment variable and, if `vale`
-isn't available, checks the `.vale` folder in the current working directory.
+`vale` binary if it's available. It first checks for the `vale` application in the following order,
+returning the first discovered application:
 
-This cmdlet is a convenience helper for using Vale when installed to the workspace, as with the
-[Install-WorkspaceVale](/modules/vale/reference/cmdlets/install-workspacevale) cmdlet.
+1. It checks the `.vale` folder in the current working directory.
+1. It walks the directory tree up from the current working directory, checking the `.vale` folder
+   in each parent directory.
+1. It checks the `.vale` folder in the user's home directory.
+1. It checks the folders listed in the `PATH` environment variable.
+
+The cmdlet returns an error if it doesn't find the `vale` application.
+
+This cmdlet is a convenience helper for using Vale when installed to the workspace or user's home
+directory, as with the [Install-Vale](/modules/vale/reference/cmdlets/install-vale) cmdlet.
 
 ## EXAMPLES
 
@@ -68,4 +76,4 @@ reflecting Vale's version.
 
 ## RELATED LINKS
 
-[Install-WorkspaceVale](../install-workspacevale)
+[Install-Vale](../install-vale)
