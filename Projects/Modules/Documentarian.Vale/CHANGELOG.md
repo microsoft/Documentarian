@@ -19,10 +19,24 @@ description: |
 
 ## Unreleased
 
+### Changed
+
+- Renamed `Install-WorkspaceVale` to [`Install-Vale`] and added the **Scope** parameter, enabling
+  users to install Vale to their home directory as well as the workspace. This change ensures that
+  the other module commands are also able to use Vale when installed to your home directory, not
+  just the `PATH` or workspace.
+- Updated the logic for discovering Vale in the workspace to recursively search up the file tree
+  from the current working directory instead of only searching the current directory. This makes
+  the commands available from arbitrarily deep folders when using Vale installed to the workspace.
+
 ## [0.0.1] - 2023-03-27
 
 ### Added
 
 - Initial release.
 
+<!-- Link Reference Definitions -->
+[`Install-Vale`]: /modules/vale/reference/cmdlets/install-vale
+
+<!-- Release Links -->
 [0.0.1]: https://github.com/microsoft/Documentarian/releases/tag/Documentarian.Vale%2Fv0.0.1

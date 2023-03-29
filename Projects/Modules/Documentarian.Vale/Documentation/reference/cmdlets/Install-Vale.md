@@ -2,26 +2,32 @@
 external help file: Documentarian.Vale-help.xml
 Locale: en-US
 Module Name: Documentarian.Vale
-online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/install-workspacevale
+online version: https://microsoft.github.io/Documentarian/modules/vale/reference/cmdlets/install-vale
 schema: 2.0.0
-title: Install-WorkspaceVale
+title: Install-Vale
 ---
 
-# Install-WorkspaceVale
+# Install-Vale
 
 ## SYNOPSIS
-Installs Vale to the current working directory.
+Installs Vale to the current working directory or the user's home folder.
 
 ## SYNTAX
 
 ```
-Install-WorkspaceVale [[-Version] <String>] [-PassThru] [<CommonParameters>]
+Install-Vale
+ [[-Version] <String>]
+ [[-Scope] <ValeInstallScope>]
+ [-PassThru]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
-The `Install-WorkspaceVale` cmdlet is a helper for installing Vale into a project folder. When used,
-it installs Vale into the `.vale` folder of the current directory.
+The `Install-Vale` cmdlet is a helper for installing Vale into a project folder or the user's home
+directory. When used, it installs Vale into the `.vale` folder of the current directory by default.
+You can specify the **Scope** parameter as `User` to install Vale into the `.vale` folder in your
+home directory instead.
 
 This cmdlet is useful for installing Vale in CI or when you only need it for a specific project. It
 isn't a full alternative to using a package manager.
@@ -34,10 +40,16 @@ isn't a full alternative to using a package manager.
 Install-Vale
 ```
 
-### Example 1: Install a specific version of Vale
+### Example 2: Install a specific version of Vale
 
 ```powershell
 Install-Vale -Version 'v2.21.3'
+```
+
+### Example 3: Install Vale in your home folder
+
+```powershell
+Install-Vale -Scope User
 ```
 
 ## PARAMETERS
@@ -49,6 +61,25 @@ default, the cmdlet returns no output.
 
 ```yaml
 Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Scope
+
+Specifies the scope to install Vale to. By default, Vale is installed in the `Workspace` scope.
+
+- `User` - Install Vale to the user's home directory in the `.vale` folder.
+- `Workspace` - Install vale to the current working directory in the `.vale` folder.
+
+```yaml
+Type: ValeInstallScope
 Parameter Sets: (All)
 Aliases:
 
