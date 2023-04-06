@@ -19,6 +19,8 @@ description: |
 
 ## Unreleased
 
+## [0.1.0] - 2023-04-06
+
 ### Changed
 
 - Renamed `Install-WorkspaceVale` to [`Install-Vale`] and added the **Scope** parameter, enabling
@@ -39,4 +41,5 @@ description: |
 [`Install-Vale`]: /modules/vale/reference/cmdlets/install-vale
 
 <!-- Release Links -->
+[0.1.0]: https://github.com/microsoft/Documentarian/releases/tag/Documentarian.Vale%2Fv0.1.0
 [0.0.1]: https://github.com/microsoft/Documentarian/releases/tag/Documentarian.Vale%2Fv0.0.1

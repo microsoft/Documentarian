@@ -35,7 +35,7 @@ jobs:
           - module: Documentarian.ModuleAuthor
             version: 0.0.1
           - module: Documentarian.Vale
-            version: 0.0.1
+            version: 0.1.0
     steps:
       - name: Checkout
         uses: actions/checkout@v3
