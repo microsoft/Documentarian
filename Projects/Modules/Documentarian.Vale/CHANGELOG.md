@@ -28,6 +28,17 @@ release_links:
 Related Links
 : {{< changelog/link/prs after="2023-04-06" >}}
 
+### Added
+
+- Extended verbose output for [`New-ValeConfiguration`]to provide information about the created
+  configuration file and adding messaging for the configuration's initial sync.
+
+### Fixed
+
+- Corrected the scoring for the `GunningFog` rule, ensuring that results for the
+  [`Get-ProseReadability`] command are right. Before this fix, the command would sometimes return
+  an invalid negative score.
+
 ## 0.1.0 - 2023-04-06
 
 Related Links
@@ -54,4 +65,6 @@ Related Links
 - Initial release.
 
 <!-- Link Reference Definitions -->
-[`Install-Vale`]: /modules/vale/reference/cmdlets/install-vale
+[`Install-Vale`]:          /modules/vale/reference/cmdlets/install-vale
+[`New-ValeConfiguration`]: /modules/vale/reference/cmdlets/new-valeconfiguration
+[`Get-ProseReadability`]:  /modules/vale/reference/cmdlets/get-prosereadability

@@ -53,7 +53,9 @@ class ValeMetricsSMOG : ValeReadability {
     }
 
     static [float] GetScore([ValeMetricsInfo]$Metrics) {
-        $Result = 1.043 * [Math]::Sqrt($Metrics.ComplexWordCount * 30 / $Metrics.SentenceCount)
+        $Result = $Metrics.ComplexWordCount * 30 / $Metrics.SentenceCount
+        $Result = [Math]::Sqrt($Result)
+        $Result *= 1.0430
         $Result += 3.1291
 
         return $Result

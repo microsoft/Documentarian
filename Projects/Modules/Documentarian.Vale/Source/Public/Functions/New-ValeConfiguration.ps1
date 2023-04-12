@@ -44,12 +44,16 @@ function New-ValeConfiguration {
             }
         )
         $ConfigExists = Test-Path -Path $FilePath
+
+        # Normalize the path to the configuration file.
+        $FullFilePath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(
+            $FilePath
+        )
     }
 
     process {
         if ($ConfigExists -and -not $Force) {
-            $ResolvedPath = Resolve-Path $FilePath
-            $Message = "Specified Vale configuration file already exists at '$ResolvedPath'."
+            $Message = "Specified Vale configuration file already exists at '$FullFilePath'."
 
             $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
                 ([System.ArgumentException]$Message),
@@ -118,17 +122,30 @@ function New-ValeConfiguration {
         $Configuration['*'].BasedOnStyles = $Configuration['*'].BasedOnStyles -join ', '
 
         try {
+            Write-Verbose (
+                @(
+                    "Writing Vale configuration to '$FullFilePath' with the following values:"
+                    "`tMinimum Alert Level:`t`t$($Configuration._.MinAlertLevel)"
+                    "`tUsing Vale for Spelling:`t$(-not $NoSpelling)"
+                    "`tStyle Path:`t`t`t$($Configuration._.StylesPath)"
+                    "`tStyle Packages:"
+                    "`t`t$($Configuration._.Packages -join "`n`t`t")"
+                ) -join "`n"
+            )
             $OutputParameters = @{
                 InputObject = $Configuration
-                FilePath    = $FilePath
+                FilePath    = $FullFilePath
                 Force       = $Force
                 Passthru    = $PassThru
                 ErrorAction = 'Stop'
             }
             Out-IniFile @OutputParameters
+            Write-Verbose "Successfully created Vale configuration at '$FullFilePath'"
 
             if (!$NoSync) {
-                Sync-Vale -Path $FilePath
+                Write-Verbose "Syncing new Vale configuration at '$FullFilePath' for the first time"
+                Sync-Vale -Path $FilePath -Verbose:$false
+                Write-Verbose 'Successfully synced Vale configuration.'
             }
         } catch {
             $PSCmdlet.ThrowTerminatingError($_)
