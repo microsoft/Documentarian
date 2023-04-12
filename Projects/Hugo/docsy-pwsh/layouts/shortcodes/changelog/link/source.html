@@ -1,0 +1,33 @@
+{{- $Context    := .                                                            -}}
+{{- $Params     := $Context.Params                                              -}}
+{{- $SiteParams := site.Params                                                  -}}
+{{- $PageParams := $Context.Page.Params.release_links                           -}}
+{{- $Tag        := $Params.tag                                           -}}
+{{- $SourcePath := $Params.source_path | default $PageParams.source_path -}}
+{{- $Repo       := $Params.repo
+                   | default $PageParams.repo_url
+                   | default $SiteParams.github_repo
+-}}
+
+{{- with $Tag -}}
+    {{- $url     := ""   -}}
+    {{/*  Get the version, selecting the last item in slash-inclusive tag if needed  */}}
+    {{- $version := $Tag -}}
+    {{- if in $Tag "/" -}}
+        {{- $version = index (last 1 (split $Tag "/")) 0 -}}
+    {{- end -}}
+    {{- $Text := printf "Source at `%s`" $version -}}
+    {{- with $Repo -}}
+        {{- $url = printf "%s/tree" $Repo }}
+    {{- else -}}
+      {{- errorf "Missing mandatory github repository url" -}}
+    {{- end -}}
+    {{- $url = printf "%s/%s" $url $Tag -}}
+    {{- with $SourcePath -}}
+        {{- $url = printf "%s/%s" $url $SourcePath -}}
+    {{- end -}}
+    {{- $Link := printf "[%s](%s)" $Text $url -}}
+    {{- $Link | $Context.Page.RenderString    -}}
+{{- else -}}
+    {{- errorf "Missing mandatory tag definition" -}}
+{{- end -}}

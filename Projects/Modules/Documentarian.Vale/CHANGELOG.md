@@ -15,11 +15,24 @@ description: |
 
   [01]: https://keepachangelog.com/en/1.0.0/
   [02]: https://semver.org/spec/v2.0.0.html
+release_links:
+  source_path: Projects/Modules/Documentarian.Vale
+  with_labels:
+    - Documentarian.Vale
+  skip_labels:
+    - maintenance
 ---
 
 ## Unreleased
 
-## [0.1.0] - 2023-04-06
+Related Links
+: {{< changelog/link/prs after="2023-04-06" >}}
+
+## 0.1.0 - 2023-04-06
+
+Related Links
+: {{< changelog/link/source tag="Documentarian.Vale/v0.1.0" >}}
+: {{< changelog/link/prs after="2023-03-27" before="2023-04-06" >}}
 
 ### Changed
 
@@ -31,7 +44,10 @@ description: |
   from the current working directory instead of only searching the current directory. This makes
   the commands available from arbitrarily deep folders when using Vale installed to the workspace.
 
-## [0.0.1] - 2023-03-27
+## 0.0.1 - 2023-03-27
+
+Related Links
+: {{< changelog/link/source tag="Documentarian.Vale/v0.0.1" >}}
 
 ### Added
 
@@ -39,7 +55,3 @@ description: |
 
 <!-- Link Reference Definitions -->
 [`Install-Vale`]: /modules/vale/reference/cmdlets/install-vale
-
-<!-- Release Links -->
-[0.1.0]: https://github.com/microsoft/Documentarian/releases/tag/Documentarian.Vale%2Fv0.1.0
-[0.0.1]: https://github.com/microsoft/Documentarian/releases/tag/Documentarian.Vale%2Fv0.0.1
