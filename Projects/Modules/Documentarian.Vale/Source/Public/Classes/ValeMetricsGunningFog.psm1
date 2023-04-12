@@ -38,9 +38,9 @@ class ValeMetricsGunningFog : ValeReadability {
     }
 
     static [float] GetScore([ValeMetricsInfo]$Metrics) {
-        $Result = 0.4 * ($Metrics.WordCount / $Metrics.SentenceCount)
+        $Result = $Metrics.WordCount / $Metrics.SentenceCount
         $Result += 100 * ($Metrics.ComplexWordCount / $Metrics.WordCount)
-        $Result -= 15.59
+        $Result *= 0.4
 
         return $Result
     }
