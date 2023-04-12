@@ -15,8 +15,21 @@ description: |
 
   [01]: https://keepachangelog.com/en/1.0.0/
   [02]: https://semver.org/spec/v2.0.0.html
+release_links:
+  source_path: Projects/Styles/PowerShell-Docs
+  with_labels:
+    - style-PowerShell-Docs
+  skip_labels:
+    - maintenance
 ---
 
 ## Unreleased
 
+Related Links
+: {{< changelog/link/prs after="2022-10-14" >}}
+
+### Added
+
 - Scaffolded initial project.
+
+<!-- Link Reference Definitions -->

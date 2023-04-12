@@ -1,0 +1,51 @@
+{{- $Context    := .                                                     -}}
+{{- $Params     := $Context.Params                                       -}}
+{{- $SiteParams := site.Params                                           -}}
+{{- $PageParams := $Context.Page.Params.release_links                    -}}
+{{- $Before     := $Params.before                                        -}}
+{{- $After      := $Params.after                                         -}}
+{{- $withLabels := $Params.with_labels | default $PageParams.with_labels -}}
+{{- $skipLabels := $Params.skip_labels | default $PageParams.skip_labels -}}
+{{- $Repo       := $Params.repo
+                   | default $PageParams.repo_url
+                   | default $SiteParams.github_repo
+-}}
+
+{{- with $Repo -}}
+    {{- $url   := $Repo -}}
+    {{- $query := slice "is:pr" "is:merged" -}}
+    {{- with $withLabels -}}
+        {{- if not (reflect.IsSlice $withLabels) -}}
+            {{- $withLabels = split $withLabels "," -}}
+        {{- end -}}
+        {{- range $Label := $withLabels -}}
+            {{- $query = $query | append (printf "label:%s" (trim $Label " ")) -}}
+        {{- end -}}
+    {{- end -}}
+    {{- with $skipLabels -}}
+        {{- if not (reflect.IsSlice $skipLabels) -}}
+            {{- $skipLabels = split $skipLabels "," -}}
+        {{- end -}}
+        {{- range $Label := $skipLabels -}}
+            {{- $query = $query | append (printf "-label:%s" (trim $Label " ")) -}}
+        {{- end -}}
+    {{- end -}}
+    {{- with $Before -}}
+        {{- $query = $query | append (printf "-merged:>%s" $Before) -}}
+    {{- end -}}
+    {{- with $After -}}
+        {{- $query = $query | append (printf "-merged:<%s" $After) -}}
+    {{- end -}}
+    {{- $query = delimit $query " " -}}
+    {{- with $query -}}
+        {{- $query = querify "q" $query -}}
+        {{- $url   = printf "%s/pulls?%s" $url $query -}}
+    {{- else -}}
+        {{- $url = printf "%s/pulls" $url -}}
+    {{- end -}}
+
+    {{- $Link := printf "[Pull Requests](%s)" $url -}}
+    {{- $Link | $Context.Page.RenderString         -}}
+{{- else -}}
+    {{- errorf "Missing mandatory github repository url" -}}
+{{- end -}}

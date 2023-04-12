@@ -15,14 +15,26 @@ description: |
 
   [01]: https://keepachangelog.com/en/1.0.0/
   [02]: https://semver.org/spec/v2.0.0.html
+release_links:
+  source_path: Projects/Modules/Documentarian.MicrosoftDocs
+  with_labels:
+    - Documentarian.MicrosoftDocs
+  skip_labels:
+    - maintenance
 ---
 
 ## Unreleased
 
-## [0.0.1] - 2023-03-27
+Related Links
+: {{< changelog/link/prs after="2023-03-27" >}}
+
+## 0.0.1 - 2023-03-27
+
+Related Links
+: {{< changelog/link/source tag="Documentarian.MicrosoftDocs/v0.0.1" >}}
 
 ### Added
 
 - Initial release.
 
-[0.0.1]: https://github.com/microsoft/Documentarian/releases/tag/Documentarian.MicrosoftDocs%2Fv0.0.1
+<!-- Link Reference Definitions -->
