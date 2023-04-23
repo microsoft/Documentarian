@@ -9,13 +9,13 @@ class ParameterInfo {
   [string]$Type
   [string]$ParameterSet
   [string]$Aliases
-  [bool]$Required
-  [string]$Position
-  [string]$Pipeline
+  [bool[]]$Required
+  [string[]]$Position
+  [string[]]$Pipeline
   [bool]$Wildcard
   [bool]$Dynamic
-  [bool]$FromRemaining
-  [bool]$DontShow
+  [bool[]]$FromRemaining
+  [bool[]]$DontShow
   [ProviderFlags]$ProviderFlags
 
   ParameterInfo(
@@ -23,10 +23,9 @@ class ParameterInfo {
     [ProviderFlags]$ProviderFlags
   ) {
     $this.Name = $param.Name
-    $this.HelpText = if ($null -eq $param.Attributes.HelpMessage) {
-      '{{Placeholder}}'
-    } else {
-      $param.Attributes.HelpMessage
+    $this.HelpText = $param.Attributes.HelpMessage | Select-Object -First 1
+    if ($this.HelpText.Length -eq 0) {
+      $this.HelpText = '{{Placeholder}}'
     }
     $this.Type = $param.ParameterType.FullName
     $this.ParameterSet = if ($param.Attributes.ParameterSetName -eq '__AllParameterSets') {
@@ -41,7 +40,8 @@ class ParameterInfo {
     } else {
       $param.Attributes.Position
     }
-    $this.Pipeline = 'ByValue ({0}), ByName ({1})' -f $param.Attributes.ValueFromPipeline, $param.Attributes.ValueFromPipelineByPropertyName
+    $this.Pipeline = 'ByValue ({0}), ByName ({1})' -f ($param.Attributes.ValueFromPipeline -join ','),
+      ($param.Attributes.ValueFromPipelineByPropertyName -join ',')
     $this.Wildcard = $param.Attributes.TypeId.Name -contains 'SupportsWildcardsAttribute'
     $this.Dynamic = $param.IsDynamic
     $this.FromRemaining = $param.Attributes.ValueFromRemainingArguments
@@ -60,9 +60,13 @@ class ParameterInfo {
     $sbMarkdown.AppendLine("Parameter Sets: $($this.ParameterSet)")
     $sbMarkdown.AppendLine("Aliases: $($this.Aliases)")
     $sbMarkdown.AppendLine()
-    $sbMarkdown.AppendLine("Required: $($this.Required)")
-    $sbMarkdown.AppendLine("Position: $($this.Position)")
-    $sbMarkdown.AppendLine('Default value: None')
+    $sbMarkdown.AppendLine("Required: $($this.Required -join ', ')")
+    $sbMarkdown.AppendLine("Position: $($this.Position -join ', ')")
+    if ($this.Type -is [System.Management.Automation.SwitchParameter]) {
+      $sbMarkdown.AppendLine('Default value: False')
+    } else {
+      $sbMarkdown.AppendLine('Default value: None')
+    }
     $sbMarkdown.AppendLine("Accept pipeline input: $($this.Pipeline)")
     $sbMarkdown.AppendLine("Accept wildcard characters: $($this.Wildcard)")
     if ($showAll) {
@@ -75,8 +79,8 @@ class ParameterInfo {
         }
         $sbMarkdown.AppendLine("Providers: $ProviderName")
       }
-      $sbMarkdown.AppendLine("Values from remaining args: $($this.FromRemaining)")
-      $sbMarkdown.AppendLine("Do not show: $($this.DontShow)")
+      $sbMarkdown.AppendLine("Values from remaining args: $($this.FromRemaining -join ', ')")
+      $sbMarkdown.AppendLine("Do not show: $($this.DontShow -join ', ')")
     }
     $sbMarkdown.AppendLine('```')
     $sbMarkdown.AppendLine()
