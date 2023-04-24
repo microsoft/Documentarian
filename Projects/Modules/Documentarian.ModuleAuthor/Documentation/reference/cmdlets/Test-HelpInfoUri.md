@@ -5,6 +5,7 @@ Module Name: Documentarian.ModuleAuthor
 ms.date: 04/21/2023
 online version: https://microsoft.github.io/Documentarian/modules/moduleauthor/reference/cmdlets/test-helpinfouri
 schema: 2.0.0
+title: Test-HelpInfoUri
 ---
 # Test-HelpInfoUri
 

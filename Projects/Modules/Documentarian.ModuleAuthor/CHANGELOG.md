@@ -28,6 +28,18 @@ release_links:
 Related Links
 : {{< changelog/link/prs after="2023-03-27" >}}
 
+### Added
+
+- Added the [`Test-HelpInfoUri`] command to validate updateable help XML files for a module. You
+  can use this command to check which modules have updateable help and verify your own published
+  modules.
+
+### Fixed
+
+- Corrected the behavior for [`Get-ParameterInfo`] for parameters that belong to multiple parameter
+  sets. Previously, the `Accept pipeline input` key wrote invalid metadata. Now, the metadata is
+  valid.
+
 ## 0.0.1 - 2023-03-27
 
 Related Links
@@ -38,3 +50,5 @@ Related Links
 - Initial release.
 
 <!-- Link Reference Definitions -->
+[`Test-HelpInfoUri`]:  /modules/moduleauthor/reference/cmdlets/test-helpinfouri/
+[`Get-ParameterInfo`]: /modules/moduleauthor/reference/cmdlets/get-parameterinfo/
