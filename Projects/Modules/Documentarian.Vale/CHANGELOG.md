@@ -28,6 +28,12 @@ release_links:
 Related Links
 : {{< changelog/link/prs after="2023-04-06" >}}
 
+## 0.2.0 - 2023-04-26
+
+Related Links
+: {{< changelog/link/source tag="Documentarian.Vale/v0.2.0" >}}
+: {{< changelog/link/prs after="2023-04-06" before="2023-04-26" >}}
+
 ### Added
 
 - Extended verbose output for [`New-ValeConfiguration`]to provide information about the created
