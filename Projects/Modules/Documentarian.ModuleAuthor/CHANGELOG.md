@@ -30,6 +30,13 @@ Related Links
 
 ### Added
 
+- Update `Get-ParameterInfo` and `Find-ParameterWithAttribute` to support for three more parameter
+  attributes:
+
+  - CredentialAttribute
+  - ObsoleteAttribute
+  - PSDefaultValueAttribute
+
 - Added the [`Test-HelpInfoUri`] command to validate updateable help XML files for a module. You
   can use this command to check which modules have updateable help and verify your own published
   modules.
