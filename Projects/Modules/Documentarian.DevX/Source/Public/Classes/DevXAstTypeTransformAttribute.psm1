@@ -10,7 +10,7 @@ while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
   $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Private/Functions/Test-IsAstType.ps1"
+  Resolve-Path -Path "$SourceFolder/Private/Functions/Test-DevXIsAstType.ps1"
   Resolve-Path -Path "$SourceFolder/Public/Functions/Ast/Get-AstType.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
@@ -19,11 +19,11 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 #endregion RequiredFunctions
 
-class AstTypeTransformAttribute : ArgumentTransformationAttribute {
+class DevXAstTypeTransformAttribute : ArgumentTransformationAttribute {
   [object] Transform([EngineIntrinsics]$engineIntrinsics, [System.Object]$inputData) {
     $outputData = switch ($inputData) {
       { $_ -is [System.Type] } {
-        if (Test-IsAstType -Type $_) {
+        if (Test-DevXIsAstType -Type $_) {
           $_
         } else {
           $Message = @(

@@ -1,5 +1,5 @@
 ---
-title: ValidatePowerShellScriptPath
+title: DevXValidatePowerShellScriptPath
 summary: Validates that a specified value is a path pointing to a PowerShell script file path.
 description: >-
   Ensures that a value is a path pointing to a PowerShell file.
@@ -11,9 +11,9 @@ Inherits From
 : {{% xref "System.Management.Automation.ValidateArgumentsAttribute" %}}
 {.pwsh-metadata}
 
-{{% src path="Public/Classes/ValidatePowerShellScriptPath.psm1" title="Source Code" /%}}
+{{% src path="Public/Classes/DevXValidatePowerShellScriptPath.psm1" title="Source Code" /%}}
 
-The **ValidatePowerShellScriptPath** attribute ensures that a specified argument points to a
+The **DevXValidatePowerShellScriptPath** attribute ensures that a specified argument points to a
 PowerShell file that exists. It's used for commands and scripts that need to act on a PowerShell
 code file.
 
@@ -29,7 +29,7 @@ This attribute rejects values when:
 ### Example 1: Validating a variable
 
 ```powershell
-[ValidatePowerShellScriptPath()]$Test = 'not-a-pwsh-file.txt'
+[DevXValidatePowerShellScriptPath()]$Test = 'not-a-pwsh-file.txt'
 ```
 
 ### Example 2: Validating a parameter
@@ -38,7 +38,7 @@ This attribute rejects values when:
 function Get-PwshContent {
   [cmdletbinding()]
   param (
-    [ValidatePowerShellScriptPath()]$Path
+    [DevXValidatePowerShellScriptPath()]$Path
   )
 
   process {
@@ -49,7 +49,7 @@ function Get-PwshContent {
 
 ## Constructors
 
-### `ValidatePowerShellScriptPath()`
+### `DevXValidatePowerShellScriptPath()`
 
 The default constructor takes no input.
 

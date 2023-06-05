@@ -2,14 +2,14 @@
 # Licensed under the MIT License.
 
 using module ../../Classes/AstInfo.psm1
-using module ../../Classes/ValidatePowerShellScriptPath.psm1
+using module ../../Classes/DevXValidatePowerShellScriptPath.psm1
 
 Function Get-Ast {
   [CmdletBinding()]
   [OutputType([AstInfo])]
   param(
     [Parameter(Mandatory, ParameterSetName = 'ByPath')]
-    [ValidatePowerShellScriptPath()]
+    [DevXValidatePowerShellScriptPath()]
     [string]$Path,
 
     [Parameter(Mandatory, ParameterSetName = 'ByScriptBlock')]

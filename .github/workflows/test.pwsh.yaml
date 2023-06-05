@@ -20,6 +20,7 @@ jobs:
       matrix:
         module:
           - Documentarian
+          - Documentarian.AstInfo
           - Documentarian.DevX
           - Documentarian.MarkdownBuilder
           - Documentarian.MicrosoftDocs

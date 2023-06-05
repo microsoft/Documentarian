@@ -1,0 +1,30 @@
+// Documentarian.DevX JSON Configuration File
+{
+  "ManifestData": {
+    "Author": "PowerShell Docs Team",
+    "CompanyName": "Microsoft",
+    "Copyright": "(c) Microsoft. All rights reserved.",
+    "Description": "Functions for interacting with the PowerShell AST.",
+    "Guid": "49b2f84c-88bb-4d4e-9316-2d3de234698b",
+    "LicenseUri": "https://github.com/microsoft/Documentarian/blob/main/LICENSE-CODE",
+    "ModuleVersion": "0.0.1",
+    "ProjectUri": "https://microsoft.github.io/Documentarian/modules/astinfo",
+    "ReleaseNotes": "https://microsoft.github.io/Documentarian/modules/astinfo/changelog",
+    "RootModule": "Documentarian.AstInfo.psm1",
+    "ScriptsToProcess": "Init.ps1",
+    "Tags": [
+      "AST",
+      "Syntax",
+      "Utility"
+    ],
+    "VariablesToExport": "*"
+  },
+  "ModuleCopyrightNotice": "Copyright (c) Microsoft Corporation.",
+  "ModuleLicenseNotice": "Licensed under the MIT License.",
+  "ModuleLineEnding": "\n",
+  "ModuleName": "Documentarian.AstInfo",
+  "ModuleVersion": "0.0.1",
+  "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
+  "SourceFolderPath": "./Source",
+  "SourceInitScriptPath": "./Source/Init.ps1"
+}

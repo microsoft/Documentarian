@@ -1,13 +1,13 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-using module ../../Classes/AstTypeTransformAttribute.psm1
+using module ../../Classes/DevXAstTypeTransformAttribute.psm1
 
 Function New-AstPredicate {
   [CmdletBinding()]
   [OutputType([ScriptBlock])]
   Param (
-    [AstTypeTransformAttribute()]
+    [DevXAstTypeTransformAttribute()]
     [System.Type[]]$Type
   )
 
