@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) Microsoft Corporation.
+    Licensed under the MIT License.
+-->
+<Configuration>
+    <ViewDefinitions>
+        <View>
+            <Name>Default</Name>
+            <ViewSelectedBy>
+                <TypeName>MarkdownBuilder</TypeName>
+            </ViewSelectedBy>
+            <ListControl>
+                <ListEntries>
+                    <ListEntry>
+                        <ListItems>
+                            <ListItem>
+                                <Label>DefaultLineEnding</Label>
+                                <ScriptBlock> $_.DefaultLineEnding.Value</ScriptBlock>
+                            </ListItem>
+                            <ListItem>
+                                <Label>DefaultFenceCharacter</Label>
+                                <ScriptBlock> $_.DefaultFenceCharacter.Value</ScriptBlock>
+                            </ListItem>
+                            <ListItem>
+                                <Label>DefaultFenceLength</Label>
+                                <PropertyName>DefaultFenceLength</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <Label>StringBuilder</Label>
+                                <PropertyName>StringBuilder</PropertyName>
+                            </ListItem>
+                        </ListItems>
+                    </ListEntry>
+                </ListEntries>
+            </ListControl>
+        </View>
+    </ViewDefinitions>
+</Configuration>

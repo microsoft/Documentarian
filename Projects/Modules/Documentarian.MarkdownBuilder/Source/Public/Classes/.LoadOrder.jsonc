@@ -1,0 +1,24 @@
+// Note: The items in this file are loaded in the order they're specified.
+[
+    // This example exists until a JSON schema is defined.
+    // {
+    //     "Name": "Foo",
+    //     "IgnoreForBuild": false,
+    //     "IgnoreForTest": false
+    // }
+    {
+        "Name": "LineEnding",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "CodeFenceCharacter",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "MarkdownBuilder",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    }
+]

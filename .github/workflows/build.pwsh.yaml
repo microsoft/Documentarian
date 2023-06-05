@@ -28,6 +28,8 @@ jobs:
             version: 0.0.1
           - module: Documentarian.DevX
             version: 0.0.1
+          - module: Documentarian.MarkdownBuilder
+            version: 0.0.1
           # - module: Documentarian.MarkdownLint
           #   version: 0.0.1
           - module: Documentarian.MicrosoftDocs
