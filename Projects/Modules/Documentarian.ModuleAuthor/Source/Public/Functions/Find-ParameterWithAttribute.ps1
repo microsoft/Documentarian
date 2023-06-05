@@ -17,7 +17,10 @@ function Find-ParameterWithAttribute {
         [HasValidationAttributeInfo],
         [SupportsWildcardsAttributeInfo],
         [ValueFromPipelineAttributeInfo],
-        [ValueFromRemainingAttributeInfo]
+        [ValueFromRemainingAttributeInfo],
+        [PSDefaultValueAttributeInfo],
+        [CredentialAttributeInfo],
+        [ObsoleteAttributeInfo]
     )]
     param(
         [Parameter(Mandatory, Position = 0)]
@@ -113,6 +116,40 @@ function Find-ParameterWithAttribute {
                             SupportsWildcards = $true
                             ParameterSetName  = $param.ParameterSets.Keys -join ', '
                             Module            = $cmd.Source
+                        }
+                    } elseif ($attr.TypeId.ToString() -eq 'System.Management.Automation.CredentialAttribute' -and
+                        $AttributeKind -eq 'IsCredential') {
+                        $result = [CredentialAttributeInfo]@{
+                            Cmdlet           = $cmd.Name
+                            Parameter        = $param.Name
+                            ParameterType    = $param.ParameterType.Name
+                            IsCredential     = $true
+                            ParameterSetName = $param.ParameterSets.Keys -join ', '
+                            Module           = $cmd.Source
+                        }
+                    } elseif ($attr.TypeId.ToString() -eq 'System.Management.Automation.PSDefaultValueAttribute' -and
+                        $AttributeKind -eq 'DefaultValue') {
+                        $result = [PSDefaultValueAttributeInfo]@{
+                            Cmdlet           = $cmd.Name
+                            Parameter        = $param.Name
+                            ParameterType    = $param.ParameterType.Name
+                            DefaultValue     = $attr.Help
+                            ParameterSetName = $param.ParameterSets.Keys -join ', '
+                            Module           = $cmd.Source
+                        }
+                    } elseif ($attr.TypeId.ToString() -eq 'System.ObsoleteAttribute' -and
+                        $AttributeKind -eq 'IsObsolete') {
+                        $result = [ObsoleteAttributeInfo]@{
+                            Cmdlet           = $cmd.Name
+                            Parameter        = $param.Name
+                            ParameterType    = $param.ParameterType.Name
+                            IsObsolete       = if ($param.IsObsolete -eq $false) {
+                                $false
+                            } else {
+                                $true
+                            }
+                            ParameterSetName = $param.ParameterSets.Keys -join ', '
+                            Module           = $cmd.Source
                         }
                     }
                 }

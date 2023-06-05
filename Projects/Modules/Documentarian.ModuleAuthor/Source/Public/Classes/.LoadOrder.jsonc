@@ -12,6 +12,11 @@
         "IgnoreForTest": false
     },
     {
+        "Name": "CredentialAttributeInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "DontShowAttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
@@ -23,6 +28,16 @@
     },
     {
         "Name": "HasValidationAttributeInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ObsoleteAttributeInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "PSDefaultValueAttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },

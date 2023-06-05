@@ -10,6 +10,7 @@ title: Find-ParameterWithAttribute
 # Find-ParameterWithAttribute
 
 ## SYNOPSIS
+
 Returns a list of cmdlets and parameters that have the specified attribute type.
 
 ## SYNTAX
@@ -104,12 +105,15 @@ Specifies the type of attribute you want to find. Possible values are:
 - `SupportsWildcards`
 - `ValueFromPipeline`
 - `ValueFromRemaining`
+- `DefaultValue`
+- `IsCredential`
+- `IsObsolete`
 
 ```yaml
 Type: ParameterAttributeKind
 Parameter Sets: (All)
 Aliases:
-Accepted values: DontShow, Experimental, HasValidation, SupportsWildcards, ValueFromPipeline, ValueFromRemaining
+Accepted values: DontShow, Experimental, HasValidation, SupportsWildcards, ValueFromPipeline, ValueFromRemaining, DefaultValue, IsCredential, IsObsolete
 
 Required: True
 Position: 0

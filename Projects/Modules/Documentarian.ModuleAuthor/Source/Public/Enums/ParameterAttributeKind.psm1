@@ -8,4 +8,7 @@ enum ParameterAttributeKind {
     SupportsWildcards
     ValueFromPipeline
     ValueFromRemaining
+    DefaultValue
+    IsCredential
+    IsObsolete
 }

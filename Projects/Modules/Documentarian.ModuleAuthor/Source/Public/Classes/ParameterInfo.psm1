@@ -16,6 +16,9 @@ class ParameterInfo {
   [bool]$Dynamic
   [bool[]]$FromRemaining
   [bool[]]$DontShow
+  [string[]]$DefaultValue
+  [bool[]]$IsCredential
+  [psobject]$IsObsolete
   [ProviderFlags]$ProviderFlags
 
   ParameterInfo(
@@ -46,6 +49,24 @@ class ParameterInfo {
     $this.Dynamic = $param.IsDynamic
     $this.FromRemaining = $param.Attributes.ValueFromRemainingArguments
     $this.DontShow = $param.Attributes.DontShow
+    if ($param.Attributes.TypeId.Name -contains 'PSDefaultValueAttribute') {
+      $this.DefaultValue = $param.Attributes.Help -join ', '
+    } else {
+      $this.DefaultValue = 'None'
+    }
+    if ($param.Attributes.TypeId.Name -contains 'CredentialAttribute') {
+      $this.IsCredential = $true
+    } else {
+      $this.IsCredential = $false
+    }
+    if ($param.Attributes.TypeId.Name -contains 'ObsoleteAttribute') {
+      $this.IsObsolete = [pscustomobject]@{
+        Message = $param.Attributes.Message
+        IsError = $param.Attributes.IsError
+      }
+    } else {
+      $this.IsObsolete = $false
+    }
     $this.ProviderFlags = $ProviderFlags
   }
 
@@ -65,7 +86,7 @@ class ParameterInfo {
     if ($this.Type -is [System.Management.Automation.SwitchParameter]) {
       $sbMarkdown.AppendLine('Default value: False')
     } else {
-      $sbMarkdown.AppendLine('Default value: None')
+      $sbMarkdown.AppendLine("Default value: $($this.DefaultValue)")
     }
     $sbMarkdown.AppendLine("Accept pipeline input: $($this.Pipeline)")
     $sbMarkdown.AppendLine("Accept wildcard characters: $($this.Wildcard)")
@@ -81,6 +102,14 @@ class ParameterInfo {
       }
       $sbMarkdown.AppendLine("Values from remaining args: $($this.FromRemaining -join ', ')")
       $sbMarkdown.AppendLine("Do not show: $($this.DontShow -join ', ')")
+      $sbMarkdown.AppendLine("Is credential: $($this.IsCredential)")
+      if ($this.IsObsolete -ne $false) {
+        $sbMarkdown.AppendLine('Is obsolete: True')
+        $sbMarkdown.AppendLine("  - Message: $($this.IsObsolete.Message)")
+        $sbMarkdown.AppendLine("  - IsError: $($this.IsObsolete.IsError)")
+      } else {
+        $sbMarkdown.AppendLine('Is obsolete: False')
+      }
     }
     $sbMarkdown.AppendLine('```')
     $sbMarkdown.AppendLine()
