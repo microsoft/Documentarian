@@ -21,6 +21,7 @@ jobs:
         module:
           - Documentarian
           - Documentarian.DevX
+          - Documentarian.MarkdownBuilder
           - Documentarian.MicrosoftDocs
           - Documentarian.ModuleAuthor
           - Documentarian.Vale

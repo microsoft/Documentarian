@@ -2,6 +2,7 @@ replacements: >-
   github.com/microsoft/Documentarian/Projects/Hugo/docsy-pwsh -> Hugo/docsy-pwsh,
   github.com/microsoft/Documentarian/Projects/Modules/Documentarian -> Modules/Documentarian,
   github.com/microsoft/Documentarian/Projects/Modules/Documentarian.DevX -> Modules/Documentarian.DevX,
+  github.com/microsoft/Documentarian/Projects/Modules/Documentarian.MarkdownBuilder -> Modules/Documentarian.MarkdownBuilder,
   github.com/microsoft/Documentarian/Projects/Modules/Documentarian.MicrosoftDocs -> Modules/Documentarian.MicrosoftDocs,
   github.com/microsoft/Documentarian/Projects/Modules/Documentarian.ModuleAuthor -> Modules/Documentarian.ModuleAuthor,
   github.com/microsoft/Documentarian/Projects/Modules/Documentarian.Vale -> Modules/Documentarian.Vale,
@@ -23,6 +24,14 @@ imports:
         target: content/modules/devx/changelog.md
       - source: Source
         target: content/includes/source/devx
+  - path: github.com/microsoft/Documentarian/Projects/Modules/Documentarian.MarkdownBuilder
+    mounts:
+      - source: Documentation
+        target: content/modules/markdownbuilder
+      - source: CHANGELOG.md
+        target: content/modules/markdownbuilder/changelog.md
+      - source: Source
+        target: content/includes/source/markdownbuilder
   - path: github.com/microsoft/Documentarian/Projects/Modules/Documentarian.MicrosoftDocs
     mounts:
       - source: Documentation
