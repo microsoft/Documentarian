@@ -44,6 +44,7 @@ function New-ConfigurationJson {
       OutputFolderPath     = './[[ManifestData.ModuleVersion]]'
       SourceFolderPath     = './Source'
       SourceInitScriptPath = './Source/Init.ps1'
+      UsingModuleList      = $false
     }
 
     if ($CopyrightNotice) {

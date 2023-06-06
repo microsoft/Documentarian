@@ -1,9 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-using module ../../Private/Enums/UncommonLineEndingAction.psm1
 using module ./SourceFile.psm1
-using module ./SourceFolder.psm1
 
 class TaskDefinition {
   [string]$Name

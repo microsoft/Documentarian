@@ -133,7 +133,9 @@ function Get-SourceFolder {
     | Where-Object -FilterScript { $_ -match $CategoryPattern }
     | ForEach-Object -Process {
       if (Test-Path -Path $_) {
+        Write-Debug "Processing source folder '$_'..."
         New-SourceFolder -Path $_
+        Write-Debug "Processed source folder '$_'."
       }
     }
   }

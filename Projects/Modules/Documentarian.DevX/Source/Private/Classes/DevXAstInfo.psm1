@@ -3,12 +3,12 @@
 
 using namespace System.Management.Automation.Language
 
-class AstInfo {
+class DevXAstInfo {
   [ScriptBlockAst]$Ast
   [Token[]]$Tokens
   [ParseError[]]$Errors
 
-  AstInfo([ScriptBlock]$ScriptBlock) {
+  DevXAstInfo([ScriptBlock]$ScriptBlock) {
     $t, $e = $null
     $this.Ast = [Parser]::ParseInput(
       $ScriptBlock.ToString(),
@@ -19,7 +19,7 @@ class AstInfo {
     $this.Errors = $e
   }
 
-  AstInfo([string]$Path) {
+  DevXAstInfo([string]$Path) {
     $t, $e = $null
     $this.Ast = [Parser]::ParseFile(
       $Path,
@@ -30,11 +30,11 @@ class AstInfo {
     $this.Errors = $e
   }
 
-  AstInfo([ScriptBlockAst]$ast) {
+  DevXAstInfo([ScriptBlockAst]$ast) {
     $this.Ast = $ast
   }
 
-  AstInfo([ScriptBlockAst]$ast, [Token[]]$tokens, [ParseError[]]$errors) {
+  DevXAstInfo([ScriptBlockAst]$ast, [Token[]]$tokens, [ParseError[]]$errors) {
     $this.Ast = $ast
     $this.Tokens = $tokens
     $this.Errors = $errors

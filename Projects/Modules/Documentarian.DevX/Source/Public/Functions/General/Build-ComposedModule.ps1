@@ -1,6 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+using module ../../../Private/Enums/ClassLogLevels.psm1
 using module ../../Classes/ModuleComposer.psm1
 
 function Build-ComposedModule {
@@ -54,7 +55,10 @@ function Build-ComposedModule {
     [string] $SourcePrivateFolderPath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $SourcePublicFolderPath
+    [string] $SourcePublicFolderPath,
+
+    [Parameter(ParameterSetName = 'WithOptionValues')]
+    [string] $UsingModuleList
   )
 
   process {
@@ -86,34 +90,26 @@ function Build-ComposedModule {
       }
     }
 
+    $LogLevel = if ($DebugPreference -ge 2) {
+      [ClassLogLevels]::Detailed
+    } elseif ($VerbosePreference -ge 2) {
+      [ClassLogLevels]::Basic
+    } else {
+      [ClassLogLevels]::None
+    }
+
     if ($ConfigurationSettings) {
       Write-Verbose "Composing with settings from $ConfigurationFilePath"
       [ModuleComposer]$Composer = [ModuleComposer]::New(
         $ProjectRootFolderPath,
-        $ConfigurationSettings
+        $ConfigurationSettings,
+        $LogLevel
       )
     } else {
       Write-Verbose 'Composing with default settings'
-      [ModuleComposer]$Composer = [ModuleComposer]::New($ProjectRootFolderPath)
+      [ModuleComposer]$Composer = [ModuleComposer]::New($ProjectRootFolderPath, $LogLevel)
     }
 
-    Write-Verbose "Compsing module $($Composer.ModuleName) with settings:"
-    Write-Verbose "`tProjectRootFolderPath:   $($Composer.ProjectRootFolderPath)"
-    Write-Verbose "`tManifestData:            $($Composer.ManifestData | ConvertTo-Json)"
-    Write-Verbose "`tModuleCopyrightNotice:   $($Composer.ModuleCopyrightNotice)"
-    Write-Verbose "`tModuleLicenseNotice:     $($Composer.ModuleLicenseNotice)"
-    Write-Verbose "`tModuleName:              $($Composer.ModuleName)"
-    Write-Verbose "`tModuleVersion:           $($Composer.ModuleVersion)"
-    Write-Verbose "`tOutputFolderPath:        $($Composer.OutputFolderPath)"
-    Write-Verbose "`tOutputInitScriptPath:    $($Composer.OutputInitScriptPath)"
-    Write-Verbose "`tOutputManifestPath:      $($Composer.OutputManifestPath)"
-    Write-Verbose "`tOutputPrivateModulePath: $($Composer.OutputPrivateModulePath)"
-    Write-Verbose "`tOutputRootModulePath:    $($Composer.OutputRootModulePath)"
-    Write-Verbose "`tSourceFolderPath:        $($Composer.SourceFolderPath)"
-    Write-Verbose "`tSourceInitScriptPath:    $($Composer.SourceInitScriptPath)"
-    Write-Verbose "`tSourceManifestPath:      $($Composer.SourceManifestPath)"
-    Write-Verbose "`tSourcePrivateFolderPath: $($Composer.SourcePrivateFolderPath)"
-    Write-Verbose "`tSourcePublicFolderPath:  $($Composer.SourcePublicFolderPath)"
     $Composer.ExportComposedModule()
   }
 }

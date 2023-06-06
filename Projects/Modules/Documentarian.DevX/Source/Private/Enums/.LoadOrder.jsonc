@@ -9,6 +9,11 @@
     //     "IgnoreForTest": false
     // }
     {
+        "Name": "ClassLogLevels",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "UncommonLineEndingAction",
         "IgnoreForBuild": false,
         "IgnoreForTest": false

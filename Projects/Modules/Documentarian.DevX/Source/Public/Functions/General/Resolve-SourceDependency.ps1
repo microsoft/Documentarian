@@ -11,9 +11,9 @@ while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
   $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
+  Resolve-Path -Path "$SourceFolder/Private/Functions/Find-Ast.ps1"
+  Resolve-Path -Path "$SourceFolder/Private/Functions/Get-Ast.ps1"
   Resolve-Path -Path "$SourceFolder/Private/Functions/New-SourceReference.ps1"
-  Resolve-Path -Path "$SourceFolder/Public/Functions/Ast/Find-Ast.ps1"
-  Resolve-Path -Path "$SourceFolder/Public/Functions/Ast/Get-Ast.ps1"
   Resolve-Path -Path "$SourceFolder/Public/Functions/General/Get-SourceFolder.ps1"
   Resolve-Path -Path "$SourceFolder/Public/Functions/General/Resolve-SourceFolderPath.ps1"
 )
@@ -52,7 +52,11 @@ function Resolve-SourceDependency {
     if ($Path) {
       $Path = Resolve-Path $Path -ErrorAction Stop
 
-      $SourceFolder = Resolve-SourceFolderPath -Path $Path | Select-Object -Unique
+      $SourceFolder = Resolve-SourceFolderPath -Path $Path
+      | Select-Object -Unique
+      | Where-Object -FilterScript {
+        $_.Category -notin @('Format', 'Type', 'Task')
+      }
 
       Write-Verbose "Searching for source files in '$SourceFolder'"
       $SourceFile = $SourceFolder | ForEach-Object -Process {
@@ -71,6 +75,8 @@ function Resolve-SourceDependency {
             $_.FileInfo.FullName -match [regex]::Escape($Path)
           }
         }
+      } | Where-Object -FilterScript {
+        $_.Category.ToString() -notin @('Format', 'Type', 'Task')
       }
     } elseif ($Name) {
       if (!$SourceFile) {
@@ -89,18 +95,23 @@ function Resolve-SourceDependency {
     $SourceFile | ForEach-Object -Process {
       if ($_.Category.ToString() -eq 'Function') {
         $FunctionDefinitionSources += $_
-      } else {
+      } elseif ($_.Category.ToString() -notin @('Format', 'Type', 'Task')) {
         $TypeDefinitionSources += $_
       }
     }
 
     foreach ($Source in $SourceToResolve) {
+      if ($Source.FileInfo.Extension -notin @('.ps1', '.psm1')) {
+        Write-Verbose "Skipping source file '$($Source.FileInfo.FullName)' because it is not a PowerShell script file"
+        continue
+      }
+
       $SourceName = $Source.FileInfo.BaseName
-      Write-Verbose "Resolving dependencies '$SourceName' in '$($Source.FileInfo.FullName)'"
-      $AstInfo = Get-Ast -Path $Source.FileInfo.FullName
+      Write-Verbose "Resolving dependencies in '$($Source.FileInfo.FullName)'"
+      $DevXAstInfo = Get-Ast -Path $Source.FileInfo.FullName
       $References = [SourceFile[]]@()
 
-      Find-Ast -AstInfo $AstInfo -Type $TypeReferenceAsts -Recurse
+      Find-Ast -DevXAstInfo $DevXAstInfo -Type $TypeReferenceAsts -Recurse
       | ForEach-Object -Process {
         $TypeName = $_.TypeName.FullName.Trim('[]')
         $TypeDefinitionSources | ForEach-Object -Process {
@@ -112,7 +123,7 @@ function Resolve-SourceDependency {
         }
       }
 
-      Find-Ast -AstInfo $AstInfo -Type $FunctionReferenceAsts -Recurse
+      Find-Ast -DevXAstInfo $DevXAstInfo -Type $FunctionReferenceAsts -Recurse
       | ForEach-Object -Process {
         $CommandName = $_.GetCommandName()
         $FunctionDefinitionSources | ForEach-Object -Process {

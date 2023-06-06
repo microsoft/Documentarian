@@ -3,7 +3,7 @@
 
 using namespace System.Management.Automation
 
-class DevXValidatePowerShellScriptPath : ValidateArgumentsAttribute {
+class DevXValidatePowerShellScriptPathAttribute : ValidateArgumentsAttribute {
   [void]  Validate([object]$arguments, [EngineIntrinsics]$engineIntrinsics) {
     $Path = $arguments
 

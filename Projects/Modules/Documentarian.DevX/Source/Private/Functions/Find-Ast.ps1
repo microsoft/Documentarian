@@ -1,8 +1,8 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-using module ../../Classes/AstInfo.psm1
-using module ../../Classes/DevXAstTypeTransformAttribute.psm1
+using module ../Classes/DevXAstInfo.psm1
+using module ../Classes/DevXAstTypeTransformAttribute.psm1
 
 #region    RequiredFunctions
 
@@ -11,8 +11,8 @@ while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
   $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/Ast/Get-Ast.ps1"
-  Resolve-Path -Path "$SourceFolder/Public/Functions/Ast/New-AstPredicate.ps1"
+  Resolve-Path -Path "$SourceFolder/Private/Functions/Get-Ast.ps1"
+  Resolve-Path -Path "$SourceFolder/Private/Functions/New-AstPredicate.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
   . $RequiredFunction
@@ -26,7 +26,7 @@ Function Find-Ast {
   Param(
     [Parameter(Mandatory, ParameterSetName = 'FromAstInfoWithPredicate')]
     [Parameter(Mandatory, ParameterSetName = 'FromAstInfoWithType')]
-    [AstInfo]$AstInfo,
+    [DevXAstInfo]$DevXAstInfo,
 
     [Parameter(Mandatory, ParameterSetName = 'FromPathWithPredicate')]
     [Parameter(Mandatory, ParameterSetName = 'FromPathWithType')]
@@ -52,9 +52,9 @@ Function Find-Ast {
 
   process {
     if (![string]::isNullOrEmpty($Path)) {
-      $AstInfo = Get-Ast -Path $Path
+      $DevXAstInfo = Get-Ast -Path $Path
     } elseif ($null -ne $ScriptBlock) {
-      $AstInfo = Get-Ast -ScriptBlock $ScriptBlock
+      $DevXAstInfo = Get-Ast -ScriptBlock $ScriptBlock
     }
 
     if ($null -ne $Type) {
@@ -62,7 +62,7 @@ Function Find-Ast {
     }
 
     $Predicate | ForEach-Object -Process {
-      $AstInfo.Ast.FindAll($_, $Recurse)
+      $DevXAstInfo.Ast.FindAll($_, $Recurse)
     }
   }
 }
