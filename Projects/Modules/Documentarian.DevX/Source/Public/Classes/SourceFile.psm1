@@ -39,7 +39,7 @@ class SourceFile {
     '(?m)(?n)'
     # This segment captures everything until the first definition
     '(?<Prefix>(.|\s)+?(?=^(function|class|enum)))?'
-    # This segment grabs the definition(s)
+    # This segment grabs the definitions
     '(?<Definition>(.|\s)+)'
   ) -join ''
 

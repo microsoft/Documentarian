@@ -16,9 +16,6 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 #endregion RequiredFunctions
 
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 function Get-ModuleRelativePath {
   [CmdletBinding()]
   param(

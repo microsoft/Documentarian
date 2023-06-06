@@ -10,8 +10,8 @@ while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
   $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
+  Resolve-Path -Path "$SourceFolder/Private/Functions/Get-AstType.ps1"
   Resolve-Path -Path "$SourceFolder/Private/Functions/Test-DevXIsAstType.ps1"
-  Resolve-Path -Path "$SourceFolder/Public/Functions/Ast/Get-AstType.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
   . $RequiredFunction

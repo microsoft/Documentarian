@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-using module ../../Classes/DevXAstTypeTransformAttribute.psm1
+using module ../Classes/DevXAstTypeTransformAttribute.psm1
 
 Function New-AstPredicate {
   [CmdletBinding()]

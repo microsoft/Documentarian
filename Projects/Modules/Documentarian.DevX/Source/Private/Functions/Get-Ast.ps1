@@ -1,15 +1,15 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-using module ../../Classes/AstInfo.psm1
-using module ../../Classes/DevXValidatePowerShellScriptPath.psm1
+using module ../Classes/DevXAstInfo.psm1
+using module ../Classes/DevXValidatePowerShellScriptPathAttribute.psm1
 
 Function Get-Ast {
   [CmdletBinding()]
-  [OutputType([AstInfo])]
+  [OutputType([DevXAstInfo])]
   param(
     [Parameter(Mandatory, ParameterSetName = 'ByPath')]
-    [DevXValidatePowerShellScriptPath()]
+    [DevXValidatePowerShellScriptPathAttribute()]
     [string]$Path,
 
     [Parameter(Mandatory, ParameterSetName = 'ByScriptBlock')]
@@ -26,13 +26,13 @@ Function Get-Ast {
     switch ($PSCmdlet.ParameterSetName) {
       'ByPath' {
         $Path = Resolve-Path -Path $Path -ErrorAction Stop
-        [AstInfo]::New($Path)
+        [DevXAstInfo]::New($Path)
       }
       'ByScriptBlock' {
-        [AstInfo]::New($ScriptBlock)
+        [DevXAstInfo]::New($ScriptBlock)
       }
       'ByInputText' {
-        [AstInfo]::New([ScriptBlock]::Create($Text))
+        [DevXAstInfo]::New([ScriptBlock]::Create($Text))
       }
     }
   }

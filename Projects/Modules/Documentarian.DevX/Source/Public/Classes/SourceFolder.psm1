@@ -68,24 +68,40 @@ class SourceFolder {
   }
 
   [void] FindSourceFiles() {
+    $BasePath = $this.DirectoryInfo.FullName
     $this.SourceFiles = switch ($this.HasOrderedFiles()) {
       $true {
-        $LoadOrderJson = Join-Path -Path $this.DirectoryInfo.FullName -ChildPath '.LoadOrder.jsonc'
+        $LoadOrderJson = Join-Path -Path $BasePath -ChildPath '.LoadOrder.jsonc'
 
         $LoadOrder = Get-Content -Path $LoadOrderJson
         | Where-Object -FilterScript { $_ -notmatch '^\s*\/\/' }
         | ConvertFrom-Json
 
+        
         foreach ($Item in $LoadOrder) {
-          Join-Path -Path $this.DirectoryInfo.FullName -ChildPath "$($Item.Name).psm1"
-          | Resolve-Path
-          | ForEach-Object {
-            [SourceFile]::new($this.NameSpace, $_.Path)
+          $ItemFileName = "$($Item.Name).psm1"
+          $ItemPath = if ([string]::IsNullOrEmpty($Item.Folder)) {
+            Join-Path -Path $BasePath -ChildPath $ItemFileName
+          } else {
+            Join-Path -Path $BasePath -ChildPath $Item.Folder -AdditionalChildPath $ItemFileName
+          }
+          
+          try {
+            $ItemPath | Resolve-Path | ForEach-Object {
+              [SourceFile]::new($this.NameSpace, $_.Path)
+            }
+          }
+          catch {
+            $Message = @(
+              "Unable to resolve source file from LoadOrder at '$ITemPath'"
+              "from configured options: $($Item | ConvertTo-Json)"
+            ) -join ' '
+            throw [System.IO.FileNotFoundException]::New($Message, $_.Exception)
           }
         }
       }
       $false {
-        Get-ChildItem -Path $this.DirectoryInfo.FullName -Include '*.ps1*' -Exclude '*.Tests.ps1' -Recurse
+        Get-ChildItem -Path $BasePath -Include '*.ps1*' -Exclude '*.Tests.ps1' -Recurse
         | ForEach-Object -Process {
           [SourceFile]::new($this.NameSpace, $_.FullName)
         }

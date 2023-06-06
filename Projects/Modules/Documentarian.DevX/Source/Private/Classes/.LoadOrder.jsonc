@@ -8,4 +8,19 @@
     //     "IgnoreForBuild": false,
     //     "IgnoreForTest": false
     // }
+    {
+        "Name": "DevXAstTypeTransformAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DevXValidatePowerShellScriptPathAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DevXAstInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    }
 ]
