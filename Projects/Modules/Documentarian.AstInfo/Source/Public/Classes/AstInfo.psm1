@@ -5,7 +5,7 @@ using namespace System.Management.Automation.Language
 
 class AstInfo {
     # The abstract syntax tree (AST) of the target.
-    [ScriptBlockAst] $Ast
+    [Ast] $Ast
 
     # The parsed tokens of the target.
     [Token[]]        $Tokens
@@ -53,7 +53,7 @@ class AstInfo {
         $this.Errors = $e
     }
 
-    AstInfo([ScriptBlockAst]$ast) {
+    AstInfo([Ast]$ast) {
         <#
             .SYNOPSIS
             Creates an **AstInfo** object from an already-parsed AST.
@@ -66,7 +66,7 @@ class AstInfo {
         $this.Ast = $ast
     }
 
-    AstInfo([ScriptBlockAst]$ast, [Token[]]$tokens, [ParseError[]]$errors) {
+    AstInfo([Ast]$ast, [Token[]]$tokens, [ParseError[]]$errors) {
         <#
             .SYNOPSIS
             Creates an **AstInfo** object from an already-parsed AST, tokens, and errors.

@@ -9,14 +9,14 @@ using module ../Classes/ValidatePowerShellScriptPathAttribute.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/Get-AstInfo.ps1"
-  Resolve-Path -Path "$SourceFolder/Public/Functions/New-AstPredicate.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/Get-AstInfo.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/New-AstPredicate.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
