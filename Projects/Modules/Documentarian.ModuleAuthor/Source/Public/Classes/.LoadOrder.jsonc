@@ -13,46 +13,133 @@
     },
     {
         "Name": "CredentialAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "DontShowAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "ExperimentalAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "HasValidationAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "ObsoleteAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "PSDefaultValueAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "SupportsWildcardsAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "ValueFromPipelineAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "ValueFromRemainingAttributeInfo",
+        "Folder": "AttributeInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ClassPropertyHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ExampleHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "AttributeHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ClassMethodHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ClassHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "OverloadHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "MethodOverloadHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ConstructorOverloadHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "OverloadSignature",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "OverloadParameterHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "OverloadExceptionHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "EnumValueHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "EnumHelpInfo",
+        "Folder": "HelpInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     }

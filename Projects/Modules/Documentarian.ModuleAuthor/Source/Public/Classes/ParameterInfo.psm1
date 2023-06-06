@@ -1,25 +1,42 @@
-﻿# Copyright (c) Microsoft Corporation.
+# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
 using module ../Enums/ProviderFlags.psm1
 
 class ParameterInfo {
-  [string]$Name
-  [string]$HelpText
-  [string]$Type
-  [string]$ParameterSet
-  [string]$Aliases
-  [bool[]]$Required
-  [string[]]$Position
-  [string[]]$Pipeline
-  [bool]$Wildcard
-  [bool]$Dynamic
-  [bool[]]$FromRemaining
-  [bool[]]$DontShow
-  [string[]]$DefaultValue
-  [bool[]]$IsCredential
-  [psobject]$IsObsolete
-  [ProviderFlags]$ProviderFlags
+  # The name of the parameter
+  [string] $Name
+  # The parameter's help description.
+  [string] $HelpText
+  # The parameter's full type name.
+  [string] $Type
+  # The comma-separated list of parameter sets the parameter belongs to.
+  [string] $ParameterSet
+  # The comma-separated list of aliases for the parameter.
+  [string] $Aliases
+  # Whether the parameter is mandatory.
+  [bool[]] $Required
+  # The position of the parameter in each parameter set.
+  [string[]] $Position
+  # Whether and how the parameter accepts pipeline input by parameter set.
+  [string[]] $Pipeline
+  # Whether the parameter supports wildcard characters.
+  [bool] $Wildcard
+  # Whether the parameter is a dynamic parameter.
+  [bool] $Dynamic
+  # Whether the parameter accepts values from remaining arguments.
+  [bool[]] $FromRemaining
+  # Whether the parameter should be hidden from the user.
+  [bool[]] $DontShow
+  # The default value of the parameter by parameter set.
+  [string[]] $DefaultValue
+  # Whether the parameter is a credential parameter.
+  [bool[]] $IsCredential
+  # Whether the parameter is obsolete.
+  [psobject] $IsObsolete
+  # The provider flags for the parameter, indicating which providers it's
+  # valid for.
+  [ProviderFlags] $ProviderFlags
 
   ParameterInfo(
     [System.Management.Automation.ParameterMetadata]$param,
@@ -71,48 +88,106 @@ class ParameterInfo {
   }
 
   [string]ToMarkdown([bool]$showAll) {
-    $sbMarkdown = [System.Text.StringBuilder]::new()
-    $sbMarkdown.AppendLine("### -$($this.Name)")
-    $sbMarkdown.AppendLine()
-    $sbMarkdown.AppendLine($this.HelpText)
-    $sbMarkdown.AppendLine()
-    $sbMarkdown.AppendLine('```yaml')
-    $sbMarkdown.AppendLine("Type: $($this.Type)")
-    $sbMarkdown.AppendLine("Parameter Sets: $($this.ParameterSet)")
-    $sbMarkdown.AppendLine("Aliases: $($this.Aliases)")
-    $sbMarkdown.AppendLine()
-    $sbMarkdown.AppendLine("Required: $($this.Required -join ', ')")
-    $sbMarkdown.AppendLine("Position: $($this.Position -join ', ')")
+    <#
+      .SYNOPSIS
+        Converts the parameter info to a Markdown section.
+      .DESCRIPTION
+        Converts the parameter info to a Markdown section as expected by the
+        **PlatyPS** module. It includes an H3 for the parameter (with the
+        leading hyphen), the parameter's help text, and a YAML code block
+        containing the parameter's metadata.
+
+        When the $showAll parameter is $true, the parameter's non-PlatyPS
+        compliant metadata is included.
+
+      .PARAMETER showAll
+        Whether to include the parameter's non-PlatyPS compliant metadata.
+    #>
+
+    $builder = New-MarkdownBuilder
+    $Builder | Add-Heading -Level 3 -Content $this.Name
+    $Builder | Add-Line -Content $this.HelpText
+    $Builder | Start-CodeFence -Language yaml
+    $Builder | Add-Line -Content "Type: $($this.Type)"
+    $Builder | Add-Line -Content "Parameter Sets: $($this.ParameterSet)"
+    $Builder | Add-Line -Content "Aliases: $($this.Aliases)"
+    $Builder | Add-Line
+    $Builder | Add-Line -Content "Required: $($this.Required -join ', ')"
+    $Builder | Add-Line -Content "Position: $($this.Position -join ', ')"
     if ($this.Type -is [System.Management.Automation.SwitchParameter]) {
-      $sbMarkdown.AppendLine('Default value: False')
+      $Builder | Add-Line -Content 'Default value: False'
     } else {
-      $sbMarkdown.AppendLine("Default value: $($this.DefaultValue)")
+      $Builder | Add-Line -Content "Default value: $($this.DefaultValue)"
     }
-    $sbMarkdown.AppendLine("Accept pipeline input: $($this.Pipeline)")
-    $sbMarkdown.AppendLine("Accept wildcard characters: $($this.Wildcard)")
+    $Builder | Add-Line -Content "Accept pipeline input: $($this.Pipeline)"
+    $Builder | Add-Line -Content "Accept wildcard characters: $($this.Wildcard)"
     if ($showAll) {
-      $sbMarkdown.AppendLine("Dynamic: $($this.Dynamic)")
+      $Builder | Add-Line -Content "Dynamic: $($this.Dynamic)"
       if ($this.Dynamic -and $this.ProviderFlags) {
         $ProviderName = if ($this.ProviderFlags -eq 0xFF) {
           'All'
         } else {
           $this.ProviderFlags.ToString()
         }
-        $sbMarkdown.AppendLine("Providers: $ProviderName")
+        $Builder | Add-Line -Content "Providers: $ProviderName"
       }
-      $sbMarkdown.AppendLine("Values from remaining args: $($this.FromRemaining -join ', ')")
-      $sbMarkdown.AppendLine("Do not show: $($this.DontShow -join ', ')")
-      $sbMarkdown.AppendLine("Is credential: $($this.IsCredential)")
+      $Builder | Add-Line -Content "Values from remaining args: $($this.FromRemaining -join ', ')"
+      $Builder | Add-Line -Content "Do not show: $($this.DontShow -join ', ')"
+      $Builder | Add-Line -Content "Is credential: $($this.IsCredential)"
       if ($this.IsObsolete -ne $false) {
-        $sbMarkdown.AppendLine('Is obsolete: True')
-        $sbMarkdown.AppendLine("  - Message: $($this.IsObsolete.Message)")
-        $sbMarkdown.AppendLine("  - IsError: $($this.IsObsolete.IsError)")
+        $Builder | Add-Line -Content 'Is obsolete: True'
+        $Builder | Add-Line -Content "  - Message: $($this.IsObsolete.Message)"
+        $Builder | Add-Line -Content "  - IsError: $($this.IsObsolete.IsError)"
       } else {
-        $sbMarkdown.AppendLine('Is obsolete: False')
+        $Builder | Add-Line -Content 'Is obsolete: False'
       }
     }
-    $sbMarkdown.AppendLine('```')
-    $sbMarkdown.AppendLine()
-    return $sbMarkdown.ToString()
+    $Builder | Stop-CodeFence
+    $Builder | Add-Line
+
+    return $Builder.ToString()
+    # $sbMarkdown = [System.Text.StringBuilder]::new()
+    # $sbMarkdown.AppendLine("### -$($this.Name)")
+    # $sbMarkdown.AppendLine()
+    # $sbMarkdown.AppendLine($this.HelpText)
+    # $sbMarkdown.AppendLine()
+    # $sbMarkdown.AppendLine('```yaml')
+    # $sbMarkdown.AppendLine("Type: $($this.Type)")
+    # $sbMarkdown.AppendLine("Parameter Sets: $($this.ParameterSet)")
+    # $sbMarkdown.AppendLine("Aliases: $($this.Aliases)")
+    # $sbMarkdown.AppendLine()
+    # $sbMarkdown.AppendLine("Required: $($this.Required -join ', ')")
+    # $sbMarkdown.AppendLine("Position: $($this.Position -join ', ')")
+    # if ($this.Type -is [System.Management.Automation.SwitchParameter]) {
+    #   $sbMarkdown.AppendLine('Default value: False')
+    # } else {
+    #   $sbMarkdown.AppendLine("Default value: $($this.DefaultValue)")
+    # }
+    # $sbMarkdown.AppendLine("Accept pipeline input: $($this.Pipeline)")
+    # $sbMarkdown.AppendLine("Accept wildcard characters: $($this.Wildcard)")
+    # if ($showAll) {
+    #   $sbMarkdown.AppendLine("Dynamic: $($this.Dynamic)")
+    #   if ($this.Dynamic -and $this.ProviderFlags) {
+    #     $ProviderName = if ($this.ProviderFlags -eq 0xFF) {
+    #       'All'
+    #     } else {
+    #       $this.ProviderFlags.ToString()
+    #     }
+    #     $sbMarkdown.AppendLine("Providers: $ProviderName")
+    #   }
+    #   $sbMarkdown.AppendLine("Values from remaining args: $($this.FromRemaining -join ', ')")
+    #   $sbMarkdown.AppendLine("Do not show: $($this.DontShow -join ', ')")
+    #   $sbMarkdown.AppendLine("Is credential: $($this.IsCredential)")
+    #   if ($this.IsObsolete -ne $false) {
+    #     $sbMarkdown.AppendLine('Is obsolete: True')
+    #     $sbMarkdown.AppendLine("  - Message: $($this.IsObsolete.Message)")
+    #     $sbMarkdown.AppendLine("  - IsError: $($this.IsObsolete.IsError)")
+    #   } else {
+    #     $sbMarkdown.AppendLine('Is obsolete: False')
+    #   }
+    # }
+    # $sbMarkdown.AppendLine('```')
+    # $sbMarkdown.AppendLine()
+    # return $sbMarkdown.ToString()
   }
 }

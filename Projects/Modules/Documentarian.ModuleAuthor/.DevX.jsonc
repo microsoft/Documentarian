@@ -11,6 +11,8 @@
     "Description": "Collection of tools for creating and documenting PowerShell modules.",
     "PowerShellVersion": "7.2",
     "RequiredModules": [
+      "Documentarian.AstInfo",
+      "Documentarian.MarkdownBuilder",
       "Documentarian.MicrosoftDocs"
     ],
     "Tags": [
@@ -29,5 +31,10 @@
   "ModuleVersion": "0.0.1",
   "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
   "SourceFolderPath": "./Source",
-  "SourceInitScriptPath": "./Source/Init.ps1"
+  "SourceInitScriptPath": "./Source/Init.ps1",
+  "UsingModuleList": [
+    "Documentarian.AstInfo",
+    "Documentarian.MarkdownBuilder",
+    "Documentarian.MicrosoftDocs"
+  ]
 }
