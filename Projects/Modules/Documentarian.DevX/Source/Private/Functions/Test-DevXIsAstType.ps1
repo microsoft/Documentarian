@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-Function Test-IsAstType {
+Function Test-DevXIsAstType {
   [CmdletBinding()]
   [OutputType([bool])]
   Param(

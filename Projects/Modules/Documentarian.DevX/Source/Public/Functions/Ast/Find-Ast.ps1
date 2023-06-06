@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 using module ../../Classes/AstInfo.psm1
-using module ../../Classes/AstTypeTransformAttribute.psm1
+using module ../../Classes/DevXAstTypeTransformAttribute.psm1
 
 #region    RequiredFunctions
 
@@ -44,7 +44,7 @@ Function Find-Ast {
     [Parameter(Mandatory, ParameterSetName = 'FromAstInfoWithType')]
     [Parameter(Mandatory, ParameterSetName = 'FromPathWithType')]
     [Parameter(Mandatory, ParameterSetName = 'FromScriptBlockWithType')]
-    [AstTypeTransformAttribute()]
+    [DevXAstTypeTransformAttribute()]
     [System.Type[]]$Type,
 
     [switch]$Recurse

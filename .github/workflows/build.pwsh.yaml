@@ -26,6 +26,8 @@ jobs:
         include:
           - module: Documentarian
             version: 0.0.1
+          - module: Documentarian.AstInfo
+            version: 0.0.1
           - module: Documentarian.DevX
             version: 0.0.1
           - module: Documentarian.MarkdownBuilder

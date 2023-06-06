@@ -1,10 +1,11 @@
 en:
-  title: Documentarian
-  description: >-
-    An open source toolkit for documentarians and community contributors to reduce friction and
-    provide a delightful experience for contributing to and maintaining documentation.
-  languageName: English
-  weight: 1
+  params:
+    title: Documentarian
+    description: >-
+      An open source toolkit for documentarians and community contributors to reduce friction and
+      provide a delightful experience for contributing to and maintaining documentation.
+    languageName: English
+    weight: 1
 # Example additional language support for Farsi
 # fa:
 #   title: اسناد گلدی

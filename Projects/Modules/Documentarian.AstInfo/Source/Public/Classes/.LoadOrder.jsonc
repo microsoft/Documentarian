@@ -1,0 +1,24 @@
+// Note: The items in this file are loaded in the order they're specified.
+[
+    // This example exists until a JSON schema is defined.
+    // {
+    //     "Name": "Foo",
+    //     "IgnoreForBuild": false,
+    //     "IgnoreForTest": false
+    // }
+    {
+        "Name": "AstInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "AstTypeTransformAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValidatePowerShellScriptPathAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    }
+]
