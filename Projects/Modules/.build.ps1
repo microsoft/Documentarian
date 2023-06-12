@@ -20,7 +20,6 @@
 param(
   [ValidateSet(
     'Documentarian',
-    'Documentarian.AstInfo',
     'Documentarian.DevX',
     'Documentarian.MarkdownBuilder',
     'Documentarian.MarkdownLint',
@@ -36,7 +35,6 @@ if (!$Module) {
   $Module = @(
     'Documentarian.DevX'
     'Documentarian'
-    'Documentarian.AstInfo'
     'Documentarian.MarkdownBuilder'
     # Can't enable this until there's code to build
     # 'Documentarian.MarkdownLint'
