@@ -3,6 +3,8 @@
 
 using module ../../Private/Enums/ClassLogLevels.psm1
 using module ../Enums/SourceCategory.psm1
+using module ../Enums/SourceScope.psm1
+using module ./SourceFile.psm1
 using module ./SourceFolder.psm1
 using module ./TaskDefinition.psm1
 
@@ -591,6 +593,27 @@ class ModuleComposer {
       $ContentBuilder.Append($this.ModuleLineEnding)
     }
 
+    # Add type accelerators for the public enums and classes
+    $ContentBuilder.Append('$ExportableTypes =@(').Append($this.ModuleLineEnding)
+    foreach ($PublicEnum in $this.GetPublicEnumSourceFiles()) {
+      $EnumType = $this.GetDefinedTypeName($PublicEnum)
+      $ContentBuilder.Append("  $EnumType").Append($this.ModuleLineEnding)
+    }
+    foreach ($PublicClass in $this.GetPublicClassSourceFiles()) {
+      $ClassType = $this.GetDefinedTypeName($PublicClass)
+      $ContentBuilder.Append("  $ClassType").Append($this.ModuleLineEnding)
+    }
+    $ContentBuilder.Append(')').Append($this.ModuleLineEnding)
+    $ContentBuilder.Append($this.ModuleLineEnding)
+    $ContentBuilder.Append('foreach ($Type in $ExportableTypes) {').Append($this.ModuleLineEnding)
+    $ContentBuilder.Append('  [psobject].Assembly.GetType')
+    $ContentBuilder.Append("('System.Management.Automation.TypeAccelerators')")
+    $ContentBuilder.Append('::Add(').Append($this.ModuleLineEnding)
+    $ContentBuilder.Append('    $Type.FullName,').Append($this.ModuleLineEnding)
+    $ContentBuilder.Append('    $Type').Append($this.ModuleLineEnding)
+    $ContentBuilder.Append('  )').Append($this.ModuleLineEnding)
+    $ContentBuilder.Append('}').Append($this.ModuleLineEnding)
+
     # Add the export statement
     $null = $ContentBuilder.Append('$ExportableFunctions = @(').Append($this.ModuleLineEnding)
     foreach ($PublicFunction in $this.PublicFunctions) {
@@ -601,9 +624,61 @@ class ModuleComposer {
     $null = $ContentBuilder.Append('Export-ModuleMember -Alias * -Function $ExportableFunctions')
     $null = $ContentBuilder.Append($this.ModuleLineEnding)
 
+    # Handle Task List
+    if ($this.TaskList.Count -gt 0) {
+      foreach ($Task in $this.TaskList) {
+        $TaskName = $Task.GetTaskName($this.TaskAliasPrefix)
+        $TaskPath = $Task.GetTaskPath($this.TaskAliasPrefix)
+
+        $ContentBuilder.Append("Set-Alias -Name $TaskName -Value $TaskPath")
+        $ContentBuilder.Append($this.ModuleLineEnding)
+      }
+      $ContentBuilder.Append($this.ModuleLineEnding)
+    }
+
     $this.RootModuleContent = $this.MungeComposedContent($ContentBuilder.ToString())
     Write-Verbose 'Composed root module content.'
   }
+
+  [SourceFolder[]] GetSourceFolder([SourceScope]$Scope) {
+    return $this.SourceFolders | Where-Object -FilterScript {
+      $_.Scope -eq $Scope
+    }
+  }
+
+  [string] GetDefinedTypeName([SourceFile]$sourceFile) {
+    # Replace with AST Lookup later
+    $TypeName = $sourceFile.FileInfo.BaseName
+    return "[$TypeName]"
+  }
+
+  [SourceFolder[]] GetSourceFolder([SourceCategory[]]$Category) {
+    return $this.SourceFolders | Where-Object -FilterScript {
+      $_.Category -in $Category
+    }
+  }
+
+  [SourceFolder[]] GetSourceFolder([SourceScope]$Scope, [SourceCategory[]]$Category) {
+    return $this.SourceFolders | Where-Object -FilterScript {
+      ($_.Scope -eq $Scope) -and ($_.Category -in $Category)
+    }
+  }
+
+  [SourceFile[]] GetPublicEnumSourceFiles() {
+    return $this.GetSourceFolder(
+      [SourceScope]::Public,
+      [SourceCategory]::Enum
+    ).SourceFiles
+  }
+
+  [SourceFile[]] GetPublicClassSourceFiles() {
+    return $this.GetSourceFolder(
+      [SourceScope]::Public,
+      [SourceCategory]::Class
+    ).SourceFiles
+  }
+
+
 
   hidden [string] TrimNotices([string]$Content) {
     foreach ($Notice in @($this.ModuleCopyrightNotice, $this.ModuleLicenseNotice)) {
@@ -657,7 +732,7 @@ class ModuleComposer {
     }
 
     # Always add a using statement for this module.
-    $UsingStatements += "using module .\$(Split-Path -Leaf $this.OutputRootModulePath)"
+    # $UsingStatements += "using module .\$(Split-Path -Leaf $this.OutputRootModulePath)"
 
     if (
       ![string]::IsNullOrEmpty($this.SourceInitScriptPath) -and
