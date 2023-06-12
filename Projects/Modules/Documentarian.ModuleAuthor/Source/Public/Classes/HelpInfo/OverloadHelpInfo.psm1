@@ -1,12 +1,30 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
+using module ../AstInfo.psm1
+using module ../DecoratingComments/DecoratingCommentsRegistry.psm1
 using module ./AttributeHelpInfo.psm1
 using module ./ExampleHelpInfo.psm1
 using module ./OverloadExceptionHelpInfo.psm1
 using module ./OverloadParameterHelpInfo.psm1
 using module ./OverloadSignature.psm1
+
+#region    RequiredFunctions
+
+$SourceFolder = $PSScriptRoot
+while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
+  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+}
+$RequiredFunctions = @(
+  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
+)
+foreach ($RequiredFunction in $RequiredFunctions) {
+  . $RequiredFunction
+}
+
+#endregion RequiredFunctions
 
 class OverloadHelpInfo {
     # The signature for the overload, distinguishing it from other overloads.
@@ -44,7 +62,7 @@ class OverloadHelpInfo {
             presentation.
         #>
 
-        $Metadata = [OrderedDictionary]::new()
+        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
 
         $Metadata.Add('Signature', $this.Signature.ToMetadataDictionary())
         $Metadata.Add('Synopsis', $this.Synopsis.Trim())
@@ -72,5 +90,77 @@ class OverloadHelpInfo {
         }
 
         return $Metadata
+    }
+
+    OverloadHelpInfo() {}
+
+    OverloadHelpInfo([AstInfo]$astInfo) {
+        $this.Initialize($astInfo, [DecoratingCommentsRegistry]::Get())
+    }
+
+    OverloadHelpInfo([AstInfo]$astInfo, [DecoratingCommentsRegistry]$registry) {
+        $this.Initialize($astInfo, $registry)
+    }
+
+    OverloadHelpInfo([FunctionMemberAst]$targetAst) {
+        $this.Initialize($targetAst, [DecoratingCommentsRegistry]::Get())
+    }
+    OverloadHelpInfo([FunctionMemberAst]$targetAst, $registry) {
+        $this.Initialize($targetAst, $registry)
+    }
+
+    hidden [void] Initialize(
+        [FunctionMemberAst]$targetAst,
+        [DecoratingCommentsRegistry]$registry
+    ) {
+        if ($null -eq $registry) {
+            $registry = [DecoratingCommentsRegistry]::Get()
+        }
+
+        $AstInfo = Get-AstInfo -TargetAst $targetAst -Regisistry $registry -ParseDecoratingComment
+
+        $this.Initialize($AstInfo, $registry)
+    }
+
+    hidden [void] Initialize([AstInfo]$astInfo, [DecoratingCommentsRegistry]$registry) {
+        if ($null -eq $registry) {
+            $registry = [DecoratingCommentsRegistry]::Get()
+        }
+
+        [FunctionMemberAst]$OverloadAst = [OverloadHelpInfo]::GetValidatedAstInfo($astInfo)
+
+        $this.IsHidden   = $OverloadAst.IsHidden
+        $this.Signature  = [OverloadSignature]::new($astInfo)
+        $this.Attributes = [AttributeHelpInfo]::Resolve($astInfo)
+        $this.Parameters = [OverloadParameterHelpInfo]::Resolve($astInfo, $registry)
+        $this.Exceptions = [OverloadExceptionHelpInfo]::Resolve($astInfo)
+
+        $Help = $astInfo.DecoratingComment.ParsedValue
+
+        if ($null -ne $Help) {
+            if ($Help.Synopsis) {
+                $this.Synopsis = $Help.Synopsis.Trim()
+            }
+            if ($Help.Description) {
+                $this.Description = $Help.Description.Trim()
+            }
+            $this.Examples = [ExampleHelpInfo]::Resolve($Help)
+        } elseif ($SynopsisHelp = $astInfo.DecoratingComment.MungedValue) {
+            $this.Synopsis = $SynopsisHelp.Trim()
+        }
+    }
+
+    hidden static [FunctionMemberAst] GetValidatedAstInfo([AstInfo]$astInfo) {
+        $TargetAst = $astInfo.Ast -as [FunctionMemberAst]
+        if ($null -eq $TargetAst) {
+            $Message = @(
+                'Invalid AstInfo for OverloadHelpInfo.'
+                'Expected the Ast property to be a FunctionMemberAst,'
+                "but the AST object's type was $($astInfo.Ast.GetType().FullName)."
+            ) -join ' '
+            throw $Message
+        }
+
+        return $TargetAst
     }
 }

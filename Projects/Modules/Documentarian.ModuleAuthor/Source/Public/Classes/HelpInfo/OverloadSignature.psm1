@@ -1,7 +1,24 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
+using module ../AstInfo.psm1
+
+#region    RequiredFunctions
+
+$SourceFolder = $PSScriptRoot
+while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
+  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+}
+$RequiredFunctions = @(
+  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Resolve-TypeName.ps1"
+)
+foreach ($RequiredFunction in $RequiredFunctions) {
+  . $RequiredFunction
+}
+
+#endregion RequiredFunctions
 
 class OverloadSignature {
     <#
@@ -46,11 +63,58 @@ class OverloadSignature {
             presentation.
         #>
 
-        $Metadata = [OrderedDictionary]::new()
+        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
 
         $Metadata.Add('Full', $this.Full.Trim())
         $Metadata.Add('TypeOnly', $this.TypeOnly.Trim())
 
         return $Metadata
+    }
+
+    OverloadSignature() {}
+    
+    OverloadSignature([FunctionMemberAst]$overloadAst) {
+        $this.Initialize($overloadAst)
+    }
+    
+    OverloadSignature([AstInfo]$overloadAstInfo) {
+        $this.Initialize($overloadAstInfo.Ast)
+    }
+
+    hidden [void] Initialize([FunctionMemberAst]$overloadAst) {
+        $this.Full = [OverloadSignature]::GetFullSignature($overloadAst)
+        $this.TypeOnly = [OverloadSignature]::GetTypeOnlySignature($overloadAst)
+    }
+
+    static [string] GetTypeOnlySignature([FunctionMemberAst]$overloadAst) {
+        $Name = $overloadAst.Name
+        $ParameterTypes = $overloadAst.Parameters | ForEach-Object -Process {
+            $Type = $_.StaticType.FullName
+
+            # For custom types the parser doesn't know about, they're listed as an
+            # attribute instead. We should use that as the type name if available.
+            if ($Type -eq 'System.Object' -and $_.Attributes.Count -gt 0) {
+                $Type = Resolve-TypeName -TypeName $_.Attributes[0].TypeName
+            }
+
+            $Type
+        }
+        $Parameters = $ParameterTypes -join ', '
+
+        return "$Name($Parameters)"
+    }
+    
+    static [string] GetTypeOnlySignature([AstInfo]$overloadAstInfo) {
+        return [OverloadSignature]::GetTypeOnlySignature($overloadAstInfo.Ast)
+    }
+    
+    static [string] GetFullSignature([FunctionMemberAst]$overloadAst) {
+        $Name = $overloadAst.Name
+        $Parameters = $overloadAst.Paramters.Extent.Text -join ', '
+        return "$Name($Parameters)"
+    }
+    
+    static [string] GetFullSignature([AstInfo]$overloadAstInfo) {
+        return [OverloadSignature]::GetFullSignature($overloadAstInfo)
     }
 }

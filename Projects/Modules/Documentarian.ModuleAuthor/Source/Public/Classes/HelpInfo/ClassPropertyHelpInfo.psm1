@@ -1,8 +1,27 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
+using module ../AstInfo.psm1
+using module ../DecoratingComments/DecoratingCommentsRegistry.psm1
 using module ./AttributeHelpInfo.psm1
+
+#region    RequiredFunctions
+
+$SourceFolder = $PSScriptRoot
+while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
+  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+}
+$RequiredFunctions = @(
+  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
+  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Resolve-TypeName.ps1"
+)
+foreach ($RequiredFunction in $RequiredFunctions) {
+  . $RequiredFunction
+}
+
+#endregion RequiredFunctions
 
 class ClassPropertyHelpInfo {
     # The name of the defined property.
@@ -43,7 +62,7 @@ class ClassPropertyHelpInfo {
             presentation.
         #>
 
-        $Metadata = [OrderedDictionary]::new()
+        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
         $Metadata.Add('Name', $this.Name.Trim())
         $Metadata.Add('Synopsis', $this.Synopsis.Trim())
         $Metadata.Add('Description', $this.Description.Trim())
@@ -62,5 +81,115 @@ class ClassPropertyHelpInfo {
         $Metadata.Add('IsStatic', $this.IsStatic)
 
         return $Metadata
+    }
+
+    ClassPropertyHelpInfo() {}
+    ClassPropertyHelpInfo([AstInfo]$propertyAstInfo) {
+        $this.Initialize(
+            $propertyAstInfo,
+            [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
+        )
+    }
+    ClassPropertyHelpInfo([AstInfo]$propertyAstInfo, [OrderedDictionary]$classHelp) {
+        $this.Initialize($propertyAstInfo, $classHelp)
+    }
+
+    hidden [void] Initialize([AstInfo]$astInfo, [OrderedDictionary]$classHelp) {
+        [PropertyMemberAst]$PropertyAst = [ClassPropertyHelpInfo]::GetValidatedAst($astInfo)
+        
+        $PropertyName = $PropertyAst.Name.Trim()
+        $this.Name = $PropertyName
+        $this.Type = Resolve-TypeName -TypeName $PropertyAst.PropertyType.TypeName
+        $this.Attributes = [AttributeHelpInfo]::Resolve($astInfo)
+        $this.IsHidden = $PropertyAst.IsHidden
+        $this.IsStatic = $PropertyAst.IsStatic
+        if ($null -ne $PropertyAst.InitialValue) {
+            $this.InitialValue = $PropertyAst.InitialValue.Extent.Text
+        }
+
+        $PropertyHelp = $astInfo.DecoratingComment.ParsedValue
+        if ($null -ne $PropertyHelp) {
+            if ($PropertyHelp.Synopsis) {
+                $this.Synopsis = $PropertyHelp.Synopsis.Trim()
+            }
+            if ($PropertyHelp.Description) {
+                $this.Description = $PropertyHelp.Description.Trim()
+            }
+        } elseif ($CommentHelp = $astInfo.DecoratingComment.MungedValue) {
+            $this.Synopsis = $CommentHelp
+        }
+        if ($null -ne $classHelp.Property) {
+            $classHelp.Property | Where-Object -FilterScript {
+                $_.Value -eq $PropertyName
+            } | Select-Object -First 1 -ExpandProperty Content | ForEach-Object -Process {
+                if ([string]::IsNullOrEmpty($this.Synopsis)) {
+                    $this.Synopsis = $_.Trim()
+                } elseif ([string]::IsNullOrEmpty($this.Description)) {
+                    $this.Description = $_.Trim()
+                }
+            }
+        }
+    }
+
+    hidden static [PropertyMemberAst] GetValidatedAst([AstInfo]$astInfo) {
+        [PropertyMemberAst]$TargetAst = $astInfo.Ast -as [PropertyMemberAst]
+
+        if ($null -eq $TargetAst) {
+            $Message = @(
+                'Invalid AstInfo for ClassPropertyHelpInfo.'
+                'Expected the Ast property to be a PropertyMemberAst whose parent AST is a class,'
+                "but the AST object's type was $($astInfo.Ast.GetType().FullName)."
+            ) -join ' '
+            throw $Message
+        } elseif (-not $TargetAst.Parent.IsClass) {
+            $Message = @(
+                'Invalid AstInfo for ClassPropertyHelpInfo.'
+                'Expected the Ast property to be a PropertyMemberAst whose parent AST is a class,'
+                "but the parent AST is the $($TargetAst.Parent.Name) enum."
+            ) -join ' '
+            throw $Message
+        }
+
+        return $TargetAst
+    }
+
+    static [ClassPropertyHelpInfo[]] Resolve(
+        [AstInfo]$classAstInfo,
+        [DecoratingCommentsRegistry]$registry
+    ) {
+        if ($classAstInfo.Ast -isnot [TypeDefinitionAst]) {
+            $Message = @(
+                'Invalid argument. [ClassPropertyHelpInfo]::Resolve()'
+                "expects an AstInfo object where the Ast property is a TypeDefinitionAst"
+                "that defines a class, but the Ast property's type was"
+                $classAstInfo.Ast.GetType().FullName
+            ) -join ' '
+            throw [System.ArgumentException]::new($Message, 'classAstInfo')
+        }
+
+        if ($null -eq $registry) {
+            $registry = [DecoratingCommentsRegistry]::Get()
+        }
+
+        [TypeDefinitionAst]$ClassAst = $classAstInfo.Ast
+        $Help = $classAstInfo.DecoratingComment.ParsedValue
+
+        return $ClassAst.Members | Where-Object -FilterScript {
+            $_ -is [PropertyMemberAst]
+        } | ForEach-Object -Process {
+            $GetParameters = @{
+                TargetAst              = $_
+                Token                  = $classAstInfo.Tokens
+                Registry               = $registry
+                ParseDecoratingComment = $true
+            }
+            $PropertyAstInfo = Get-AstInfo @GetParameters
+            if ($null -ne $Help) {
+                [ClassPropertyHelpInfo]::new($PropertyAstInfo, $Help)
+            } else {
+                [ClassPropertyHelpInfo]::new($PropertyAstInfo)
+            }
+
+        }
     }
 }

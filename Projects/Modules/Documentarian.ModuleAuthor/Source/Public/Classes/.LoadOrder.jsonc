@@ -7,6 +7,93 @@
     //     "IgnoreForTest": false
     // }
     {
+        "Name": "DecoratingComment",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingComments",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockKeyword",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockKeywords",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsPatterns",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchema",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchemasClass",
+        "Folder": "DecoratingComments/Schemas",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchemasClassOverload",
+        "Folder": "DecoratingComments/Schemas",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchemasClassProperty",
+        "Folder": "DecoratingComments/Schemas",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchemasDefault",
+        "Folder": "DecoratingComments/Schemas",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchemasEnum",
+        "Folder": "DecoratingComments/Schemas",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsRegistry",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "AstInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "AstTypeTransformAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValidatePowerShellScriptPathAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "ParameterInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
