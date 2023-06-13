@@ -23,7 +23,8 @@ class DecoratingCommentsBlockKeywords {
     $Example = [DecoratingCommentsBlockKeyword]::new(
         'EXAMPLE',
         [DecoratingCommentsBlockKeywordKind]::BlockAndOptionalValue,
-        $true
+        $true,
+        [DecoratingCommentsBlockKeywords]::ExampleNamePattern()
     )
 
     static [DecoratingCommentsBlockKeyword]
@@ -156,5 +157,9 @@ class DecoratingCommentsBlockKeywords {
                 "'.*'"  # Matches a single-quoted string
             ')'
         ) -join ''
+    }
+
+    hidden static [string] ExampleNamePattern() {
+        return '.*'
     }
 }

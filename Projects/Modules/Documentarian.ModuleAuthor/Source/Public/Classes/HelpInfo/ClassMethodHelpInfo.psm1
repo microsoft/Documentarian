@@ -95,11 +95,31 @@ class ClassMethodHelpInfo : BaseHelpInfo {
         $ClassHelp = $classAstInfo.DecoratingComment.ParsedValue
         $this.Name = $methodName
 
-        if ($MethodSynopsis = $ClassHelp.GetKeywordEntry('Method', "$methodName(\(\))?")) {
+        # Find the synopsis in the class's decorating comment block first
+        if ($MethodSynopsis = $ClassHelp.GetKeywordEntry('Method', [regex]"$methodName(\(\))?")) {
             $this.Synopsis = $MethodSynopsis
         }
 
         $this.Overloads = [MethodOverloadHelpInfo]::Resolve($methodName, $classAstInfo, $registry)
+
+        # If the synopsis is still empty, use the first overload's synopsis if posible
+        if ([string]::IsNullOrEmpty($this.Synopsis)) {
+            $OverloadSynopsis = $this.Overloads.Synopsis |
+                Where-Object -FilterScript { -not [string]::IsNullOrEmpty($_) } |
+                Select-Object -First 1
+            if ($OverloadSynopsis) {
+                $this.Synopsis = $OverloadSynopsis
+            } else {
+                $this.Synopsis = ''
+            }
+        }
+
+        # Give every overload the method's synopsis if they don't define their own.
+        foreach ($Overload in $this.Overloads) {
+            if ([string]::IsNullOrEmpty($Overload.Synopsis)) {
+                $Overload.Synopsis = $this.Synopsis
+            }
+        }
     }
 
     static [ClassMethodHelpInfo[]] Resolve(

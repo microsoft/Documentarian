@@ -71,10 +71,15 @@ class OverloadParameterHelpInfo : BaseHelpInfo {
 
         $ParameterHelp = $overloadHelp.GetKeywordEntry('Parameter', $ParameterName)
 
-        if (![string]::IsNullOrEmpty($ParameterHelp)) {
+        if ($null -ne $ParameterHelp -and ![string]::IsNullOrEmpty($ParameterHelp)) {
             $this.Description = $ParameterHelp
         } elseif ($ParameterComment = $parameterAstInfo.DecoratingComment.MungedValue) {
-            $this.Description = $ParameterComment
+            $ParentString       = $ParameterAst.Parent.Extent.ToString()
+            $ParameterString    = $ParameterAst.Extent.ToString()
+            $ParameterOnNewLine = $ParentString -match "\r?\n\s*$([regex]::Escape($ParameterString))"
+            if ($ParameterOnNewLine) {
+                $this.Description = $ParameterComment
+            }
         } else {
             $this.Description = ''
         }
@@ -135,9 +140,6 @@ class OverloadParameterHelpInfo : BaseHelpInfo {
         $OverloadHelp = $overloadAstInfo.DecoratingComment.ParsedValue
 
         $ParameterInfo = [OverloadParameterHelpInfo]::GetParametersAstInfo($overloadAstInfo, $registry)
-
-        Write-Warning "Found $($ParameterInfo.Count) parameters for $($overloadAstInfo.Ast.Name)"
-        Write-Warning "ParameterInfo Ast Type: $($ParameterInfo[0].Ast.GetType().FullName)"
 
         if ($ParameterInfo.Count -eq 0) {
             return @()

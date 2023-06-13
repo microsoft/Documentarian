@@ -68,7 +68,8 @@ class DecoratingComments {
             $Lines.Add($PreviousLine.Text.TrimStart('#').TrimStart())
             $ExpectedLastLine = $PreviousLine.Extent.StartLineNumber - 1
             $PreviousLine = $Tokens | Where-Object -FilterScript {
-                $_.Extent.EndLineNumber -eq $ExpectedLastLine
+                $_.Extent.EndLineNumber -eq $ExpectedLastLine -and
+                $_.Kind -eq 'Comment'
             }
         }
 
@@ -128,10 +129,14 @@ class DecoratingComments {
         }
 
         if ($targetAst -isnot [TypeDefinitionAst]) {
-            return [DecoratingComments]::FindDecoratingCommentBlockAt(
+            $InternalBlock = [DecoratingComments]::FindDecoratingCommentBlockAt(
                 ($targetAst.Body.Extent.StartLineNumber + 1),
                 $CommentTokens
             )
+            # Only return multi-line internal blocks
+            if ($InternalBlock -match '\r?\n') {
+                return $InternalBlock
+            }
         }
 
         if ($targetAst.Extent.Text -match '(?mn)(class|enum)\s+\w+\s*{\s*$\s*^\s*<#') {

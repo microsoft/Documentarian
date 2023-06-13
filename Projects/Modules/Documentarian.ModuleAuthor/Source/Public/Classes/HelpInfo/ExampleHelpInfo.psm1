@@ -13,10 +13,10 @@ class ExampleHelpInfo : BaseHelpInfo {
     [string] $Body
 
     static [ExampleHelpInfo[]] Resolve ([DecoratingCommentsBlockParsed]$help) {
-        if (($help.Keys.Count -eq 0) -or ($help.Example.Count -eq 0)) {
+        if ((-not $help.IsUsable()) -or ($help.Example.Count -eq 0)) {
             return @()
         }
-        
+
         return $help.Example | ForEach-Object -Process {
             [ExampleHelpInfo]@{
                 Title = $_.Value
@@ -28,7 +28,7 @@ class ExampleHelpInfo : BaseHelpInfo {
     static [ExampleHelpInfo[]] Resolve ([AstInfo]$astInfo) {
         $help = $astInfo.DecoratingComment.ParsedValue
 
-        if (($help.Keys.Count -eq 0) -or ($help.Example.Count -eq 0)) {
+        if ((-not $help.IsUsable()) -or ($help.Example.Count -eq 0)) {
             return @()
         }
         

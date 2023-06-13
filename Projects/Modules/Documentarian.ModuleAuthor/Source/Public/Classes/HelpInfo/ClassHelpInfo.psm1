@@ -85,9 +85,8 @@ class ClassHelpInfo : BaseHelpInfo {
             if ($HelpDescription = $Help.GetKeywordEntry('Description')) {
                 $this.Description = $HelpDescription
             }
-            if ($Help.GetKeyword('Examples').Count -gt 0) {
-                $this.Examples = [ExampleHelpInfo]::Resolve($Help)
-            }
+            $this.Examples = [ExampleHelpInfo]::Resolve($Help)
+
             if ($HelpNotes = $Help.GetKeywordEntry('Notes')) {
                 $this.Notes = $HelpNotes
             }

@@ -407,7 +407,6 @@ class DecoratingCommentsBlockSchema {
         ForEach-Object -Process {
             $Value = $_.Groups | Where-Object -FilterScript { $_.Name -eq 'Value' }
             $Content = $_.Groups | Where-Object -FilterScript { $_.Name -eq 'Content' }
-            $Value = $Value.Value.Trim()
             $Value = if ($Value.Value) { $Value.Value.Trim() } else { '' }
             $Content = [DecoratingCommentsBlockSchema]::MungeKeywordBlock($Content.Value)
             $Entry = [DecoratingCommentsBlockParsed]::new()
