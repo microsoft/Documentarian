@@ -43,7 +43,9 @@ class ConstructorOverloadHelpInfo : OverloadHelpInfo {
     ConstructorOverloadHelpInfo(
         [AstInfo]$astInfo,
         [DecoratingCommentsRegistry]$registry
-    ) : base($astInfo, $registry) {}
+    ) : base($astInfo, $registry) {
+        Write-Warning "Processing constructor $($this.Signature.TypeOnly): $($this | ConvertTo-Json -Depth 5)"
+    }
 
     ConstructorOverloadHelpInfo(
         [FunctionMemberAst]$targetAst
@@ -84,7 +86,7 @@ class ConstructorOverloadHelpInfo : OverloadHelpInfo {
                 ParseDecoratingComment = $true
             }
             $ConstructorAstInfo = Get-AstInfo @GetParameters
-            [ConstructorOverloadHelpInfo]::new($ConstructorAstInfo)
+            [ConstructorOverloadHelpInfo]::new($ConstructorAstInfo, $registry)
         }
 
         if ($null -eq $Constuctors) {

@@ -7,6 +7,12 @@
     //     "IgnoreForTest": false
     // }
     {
+        "Name": "DecoratingCommentsBlockParsed",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "DecoratingComment",
         "Folder": "DecoratingComments",
         "IgnoreForBuild": false,
@@ -153,13 +159,7 @@
         "IgnoreForTest": false
     },
     {
-        "Name": "ClassPropertyHelpInfo",
-        "Folder": "HelpInfo",
-        "IgnoreForBuild": false,
-        "IgnoreForTest": false
-    },
-    {
-        "Name": "ExampleHelpInfo",
+        "Name": "BaseHelpInfo",
         "Folder": "HelpInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
@@ -171,13 +171,31 @@
         "IgnoreForTest": false
     },
     {
-        "Name": "ClassMethodHelpInfo",
+        "Name": "ExampleHelpInfo",
         "Folder": "HelpInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
-        "Name": "ClassHelpInfo",
+        "Name": "ClassPropertyHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "OverloadSignature",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "OverloadParameterHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "OverloadExceptionHelpInfo",
         "Folder": "HelpInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
@@ -201,19 +219,13 @@
         "IgnoreForTest": false
     },
     {
-        "Name": "OverloadSignature",
+        "Name": "ClassMethodHelpInfo",
         "Folder": "HelpInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
-        "Name": "OverloadParameterHelpInfo",
-        "Folder": "HelpInfo",
-        "IgnoreForBuild": false,
-        "IgnoreForTest": false
-    },
-    {
-        "Name": "OverloadExceptionHelpInfo",
+        "Name": "ClassHelpInfo",
         "Folder": "HelpInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false

@@ -5,6 +5,7 @@ using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
 using module ../AstInfo.psm1
 using module ../DecoratingComments/DecoratingCommentsRegistry.psm1
+using module ./BaseHelpInfo.psm1
 using module ./AttributeHelpInfo.psm1
 using module ./ClassMethodHelpInfo.psm1
 using module ./ClassPropertyHelpInfo.psm1
@@ -26,7 +27,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 #endregion RequiredFunctions
 
-class ClassHelpInfo {
+class ClassHelpInfo : BaseHelpInfo {
     # The name of the defined PowerShell class.
     [string] $Name = ''
     # A short description of the class.
@@ -51,62 +52,6 @@ class ClassHelpInfo {
 
     # A list of links used in your documentation. Not retrieved from source.
     [OrderedDictionary] $LinkReferences = @{}
-
-    [OrderedDictionary] ToMetadataDictionary() {
-        <#
-            .SYNOPSIS
-            Converts an instance of the class into a dictionary.
-
-            .DESCRIPTION
-            The `ToMetadataDictionary()` method converts an instance of the
-            class into an ordered dictionary so you can export the
-            documentation metadata into YAML or JSON.
-
-            This makes it easier for you to use the data-docs model, which
-            separates the content of the reference documentation from its
-            presentation.
-        #>
-
-        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
-
-        $Metadata.Add('Name', $this.Name.Trim())
-        $Metadata.Add('Synopsis', $this.Synopsis.Trim())
-        $Metadata.Add('Description', $this.Description.Trim())
-        if ($this.Examples.Count -gt 0) {
-            $Metadata.Add('Examples', [OrderedDictionary[]]($this.Examples.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Examples', [OrderedDictionary[]]@())
-        }
-        $Metadata.Add('Notes', $this.Notes.Trim())
-        if ($this.BaseTypes.Count -gt 0) {
-            $Metadata.Add('BaseTypes', [string[]]($this.BaseTypes.Trim()))
-        } else {
-            $Metadata.Add('BaseTypes', [string[]]@())
-        }
-        if ($this.Attributes.Count -gt 0) {
-            $Metadata.Add('Attributes', [OrderedDictionary[]]($this.Attributes.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Attributes', [OrderedDictionary[]]@())
-        }
-        if ($this.Constructors.Count -gt 0) {
-            $Metadata.Add('Constructors', [OrderedDictionary[]]($this.Constructors.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Constructors', [OrderedDictionary[]]@())
-        }
-        if ($this.Methods.Count -gt 0) {
-            $Metadata.Add('Methods', [OrderedDictionary[]]($this.Methods.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Methods', [OrderedDictionary[]]@())
-        }
-        if ($this.Properties.Count -gt 0) {
-            $Metadata.Add('Properties', [OrderedDictionary[]]($this.Properties.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Properties', [OrderedDictionary[]]@())
-        }
-        $Metadata.Add('LinkReferences', $this.LinkReferences)
-
-        return $Metadata
-    }
 
     ClassHelpInfo() {}
 
@@ -133,21 +78,21 @@ class ClassHelpInfo {
         $this.Constructors = [ConstructorOverloadHelpInfo]::Resolve($astInfo, $registry)
         $this.Methods = [ClassMethodHelpInfo]::Resolve($astInfo, $registry)
 
-        if ($null -ne $Help) {
-            if ($Help.Synopsis) {
-                $this.Synopsis = $Help.Synopsis.Trim()
+        if ($Help.IsUsable()) {
+            if ($HelpSynopsis = $Help.GetKeywordEntry('Synopsis')) {
+                $this.Synopsis = $HelpSynopsis
             }
-            if ($Help.Description) {
-                $this.Description = $Help.Description.Trim()
+            if ($HelpDescription = $Help.GetKeywordEntry('Description')) {
+                $this.Description = $HelpDescription
             }
-            if ($Help.Examples.Count -gt 0) {
+            if ($Help.GetKeyword('Examples').Count -gt 0) {
                 $this.Examples = [ExampleHelpInfo]::Resolve($Help)
             }
-            if ($Help.Notes) {
-                $this.Notes = $Help.Notes.Trim()
+            if ($HelpNotes = $Help.GetKeywordEntry('Notes')) {
+                $this.Notes = $HelpNotes
             }
         } elseif ($SynopsisHelp = $astInfo.DecoratingComment.MungedValue) {
-            $this.Synopsis = $SynopsisHelp.Trim()
+            $this.Synopsis = $SynopsisHelp
         }
     }
 

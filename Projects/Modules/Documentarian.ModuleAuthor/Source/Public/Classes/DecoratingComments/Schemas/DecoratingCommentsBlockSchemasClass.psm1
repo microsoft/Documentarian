@@ -66,6 +66,7 @@ class DecoratingCommentsBlockSchemasClass : DecoratingCommentsBlockSchema {
         [DecoratingCommentsBlockKeywords]::Description
         [DecoratingCommentsBlockKeywords]::Example
         [DecoratingCommentsBlockKeywords]::Notes
+        [DecoratingCommentsBlockKeywords]::Property
         [DecoratingCommentsBlockKeywords]::Method
     )
 }

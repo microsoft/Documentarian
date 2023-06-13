@@ -11,7 +11,7 @@ class DecoratingCommentsBlockKeywords {
         [DecoratingCommentsBlockKeywordKind]::Value,
         $true
     )
-    
+
     static [DecoratingCommentsBlockKeyword]
     $Description = [DecoratingCommentsBlockKeyword]::new(
         'DESCRIPTION',
@@ -107,6 +107,13 @@ class DecoratingCommentsBlockKeywords {
     static [DecoratingCommentsBlockKeyword]
     $Parameter = [DecoratingCommentsBlockKeyword]::new(
         'PARAMETER',
+        [DecoratingCommentsBlockKeywordKind]::BlockAndValue,
+        $true
+    )
+
+    static [DecoratingCommentsBlockKeyword]
+    $Property = [DecoratingCommentsBlockKeyword]::new(
+        'PROPERTY',
         [DecoratingCommentsBlockKeywordKind]::BlockAndValue,
         $true
     )

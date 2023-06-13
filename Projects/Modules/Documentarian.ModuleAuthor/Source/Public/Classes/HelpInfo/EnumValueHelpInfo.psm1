@@ -4,8 +4,9 @@
 using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
 using module ../AstInfo.psm1
+using module ./BaseHelpInfo.psm1
 
-class EnumValueHelpInfo {
+class EnumValueHelpInfo : BaseHelpInfo {
     # The value's label.
     [string] $Label
     # The numerical value.
@@ -45,30 +46,6 @@ class EnumValueHelpInfo {
         return "$($this.Label) ($($this.Value)):`n$($this.Description)"
     }
 
-    [OrderedDictionary] ToMetadataDictionary() {
-        <#
-            .SYNOPSIS
-            Converts an instance of the class into a dictionary.
-
-            .DESCRIPTION
-            The `ToMetadataDictionary()` method converts an instance of the
-            class into an ordered dictionary so you can export the
-            documentation metadata into YAML or JSON.
-
-            This makes it easier for you to use the data-docs model, which
-            separates the content of the reference documentation from its
-            presentation.
-        #>
-
-        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
-
-        $Metadata.Add('Label', $this.Label.Trim())
-        $Metadata.Add('Value', $this.Value)
-        $Metadata.Add('Description', $this.Description.Trim())
-
-        return $Metadata
-    }
-
     EnumValueHelpInfo() {
         $this.Label = ''
         $this.Value = 0
@@ -77,14 +54,14 @@ class EnumValueHelpInfo {
     }
 
     EnumValueHelpInfo([AstInfo]$astInfo) {
-        $this.Initialize($astInfo, [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase))
+        $this.Initialize($astInfo, [DecoratingCommentsBlockParsed]::new())
     }
 
-    EnumValueHelpInfo([AstInfo]$astInfo, [OrderedDictionary]$enumHelp) {
+    EnumValueHelpInfo([AstInfo]$astInfo, [DecoratingCommentsBlockParsed]$enumHelp) {
         $this.Initialize($astInfo, $enumHelp)
     }
 
-    hidden [void] Initialize([AstInfo]$astInfo, [OrderedDictionary]$enumHelp) {
+    hidden [void] Initialize([AstInfo]$astInfo, [DecoratingCommentsBlockParsed]$enumHelp) {
         [MemberAst]$EnumValueAst = [EnumValueHelpInfo]::GetValidatedAst($astInfo)
         $LabelName = $EnumValueAst.Name.Trim()
         $this.Label = $LabelName

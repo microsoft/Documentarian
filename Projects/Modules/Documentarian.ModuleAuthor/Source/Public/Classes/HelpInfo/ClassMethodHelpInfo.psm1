@@ -5,6 +5,7 @@ using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
 using module ../AstInfo.psm1
 using module ../DecoratingComments/DecoratingCommentsRegistry.psm1
+using module ./BaseHelpInfo.psm1
 using module ./MethodOverloadHelpInfo.psm1
 
 #region    RequiredFunctions
@@ -22,36 +23,13 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 #endregion RequiredFunctions
 
-class ClassMethodHelpInfo {
+class ClassMethodHelpInfo : BaseHelpInfo {
     # The name of the method, shared by all overloads.
     [string] $Name
     # A short description of the method.
     [string] $Synopsis = ''
     # The list of overloads for this method with their documentation.
     [MethodOverloadHelpInfo[]] $Overloads = @()
-
-    [OrderedDictionary] ToMetadataDictionary() {
-        <#
-            .SYNOPSIS
-            Converts an instance of the class into a dictionary.
-
-            .DESCRIPTION
-            The `ToMetadataDictionary()` method converts an instance of the
-            class into an ordered dictionary so you can export the
-            documentation metadata into YAML or JSON.
-
-            This makes it easier for you to use the data-docs model, which
-            separates the content of the reference documentation from its
-            presentation.
-        #>
-
-        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
-
-        $Metadata.Add('Name', $this.Name.Trim())
-        $Metadata.Add('Synopsis', $this.Synopsis.Trim())
-        $Metadata.Add('Overloads', [OrderedDictionary[]]($this.Overloads.ToMetadataDictionary()))
-        return $Metadata
-    }
 
     ClassMethodHelpInfo() {}
 
@@ -117,11 +95,8 @@ class ClassMethodHelpInfo {
         $ClassHelp = $classAstInfo.DecoratingComment.ParsedValue
         $this.Name = $methodName
 
-        $MethodSynopsis = $ClassHelp.Method | Where-Object -FilterScript {
-            $_.Value -in @($methodName, "$methodName()")
-        } | Select-Object -First 1 | ForEach-Object -Process { $_.Content }
-        if ($null -ne $MethodSynopsis) {
-            $this.Synopsis = $MethodSynopsis.Trim()
+        if ($MethodSynopsis = $ClassHelp.GetKeywordEntry('Method', "$methodName(\(\))?")) {
+            $this.Synopsis = $MethodSynopsis
         }
 
         $this.Overloads = [MethodOverloadHelpInfo]::Resolve($methodName, $classAstInfo, $registry)

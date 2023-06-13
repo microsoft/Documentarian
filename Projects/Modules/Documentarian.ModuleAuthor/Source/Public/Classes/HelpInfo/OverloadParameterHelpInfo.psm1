@@ -5,6 +5,7 @@ using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
 using module ../AstInfo.psm1
 using module ../DecoratingComments/DecoratingCommentsRegistry.psm1
+using module ./BaseHelpInfo.psm1
 
 #region    RequiredFunctions
 
@@ -22,7 +23,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 #endregion RequiredFunctions
 
-class OverloadParameterHelpInfo {
+class OverloadParameterHelpInfo : BaseHelpInfo {
     # The name of the parameter.
     [string] $Name
     # The full type name of the parameter.
@@ -30,56 +31,32 @@ class OverloadParameterHelpInfo {
     # A description of the parameter's purpose and usage.
     [string] $Description = ''
 
-    [OrderedDictionary] ToMetadataDictionary() {
-        <#
-            .SYNOPSIS
-            Converts an instance of the class into a dictionary.
-
-            .DESCRIPTION
-            The `ToMetadataDictionary()` method converts an instance of the
-            class into an ordered dictionary so you can export the
-            documentation metadata into YAML or JSON.
-
-            This makes it easier for you to use the data-docs model, which
-            separates the content of the reference documentation from its
-            presentation.
-        #>
-
-        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
-
-        $Metadata.Add('Name', $this.Name.Trim())
-        $Metadata.Add('Type', $this.Type.Trim())
-        $Metadata.Add('Description', $this.Description.Trim())
-
-        return $Metadata
-    }
-
     OverloadParameterHelpInfo() {}
 
-    OverloadParameterHelpInfo([AstInfo]$astInfo) {
+    OverloadParameterHelpInfo([AstInfo]$parameterAstInfo) {
         $this.Initialize(
-            $astInfo,
-            [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
+            $parameterAstInfo,
+            [DecoratingCommentsBlockParsed]::new()
         )
     }
 
-    OverloadParameterHelpInfo([AstInfo]$astInfo, [OrderedDictionary]$overloadHelp) {
-        $this.Initialize($astInfo, $overloadHelp)
+    OverloadParameterHelpInfo([AstInfo]$parameterAstInfo, [DecoratingCommentsBlockParsed]$overloadHelp) {
+        $this.Initialize($parameterAstInfo, $overloadHelp)
     }
 
     OverloadParameterHelpInfo([ParameterAst]$parameterAst) {
         $this.Initialize(
             $parameterAst,
-            [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
+            [DecoratingCommentsBlockParsed]::new()
         )
     }
 
-    OverloadParameterHelpInfo([ParameterAst]$parameterAst, [OrderedDictionary]$overloadHelp) {
+    OverloadParameterHelpInfo([ParameterAst]$parameterAst, [DecoratingCommentsBlockParsed]$overloadHelp) {
         $this.Initialize($parameterAst, $overloadHelp)
     }
 
-    hidden [void] Initialize([AstInfo]$astInfo, [OrderedDictionary]$overloadHelp) {
-        [ParameterAst]$ParameterAst = [OverloadParameterHelpInfo]::GetValidatedAst($astInfo)
+    hidden [void] Initialize([AstInfo]$parameterAstInfo, [DecoratingCommentsBlockParsed]$overloadHelp) {
+        [ParameterAst]$ParameterAst = [OverloadParameterHelpInfo]::GetValidatedAst($parameterAstInfo)
         $ParameterName = $ParameterAst.Name.VariablePath.ToString()
         $ParameterType = $ParameterAst.StaticType.FullName
         $this.Name = $ParameterName
@@ -92,16 +69,18 @@ class OverloadParameterHelpInfo {
             $this.Type = $ParameterType
         }
 
-        if ($ParameterHelp = $overloadHelp.Parameters.$ParameterName) {
+        $ParameterHelp = $overloadHelp.GetKeywordEntry('Parameter', $ParameterName)
+
+        if (![string]::IsNullOrEmpty($ParameterHelp)) {
             $this.Description = $ParameterHelp
-        } elseif ($ParameterComment = $astInfo.DecoratingComment.MungedValue) {
+        } elseif ($ParameterComment = $parameterAstInfo.DecoratingComment.MungedValue) {
             $this.Description = $ParameterComment
         } else {
             $this.Description = ''
         }
     }
 
-    hidden [void] Initialize([ParameterAst]$parameterAst, [OrderedDictionary]$overloadHelp) {
+    hidden [void] Initialize([ParameterAst]$parameterAst, [DecoratingCommentsBlockParsed]$overloadHelp) {
         $ParameterName = $parameterAst.Name.VariablePath.ToString()
         $ParameterType = $parameterAst.StaticType.FullName
         $this.Name = $ParameterName
@@ -114,7 +93,7 @@ class OverloadParameterHelpInfo {
             $this.Type = $ParameterType
         }
 
-        if ($ParameterHelp = $overloadHelp.Parameters.$ParameterName) {
+        if ($ParameterHelp = $overloadHelp.GetKeywordEntry('Parameter', $ParameterName)) {
             $this.Description = $ParameterHelp
         } else {
             $this.Description = ''
@@ -131,46 +110,41 @@ class OverloadParameterHelpInfo {
                 "but the AST object's type was $($astInfo.Ast.GetType().FullName)."
             ) -join ' '
             throw $Message
-        } elseif ($TargetAst.Parent -isnot [FunctionMemberAst]) {
-            $Message = @(
-                'Invalid AstInfo for OverloadParameterHelpInfo.'
-                'Expected the Ast property to be a ParameterAst whose parent AST is an overload,'
-                "but the parent AST is the $($TargetAst.Parent.Name) class."
-            ) -join ' '
-            throw $Message
         }
 
         return $TargetAst
     }
 
     static [OverloadParameterHelpInfo[]] Resolve(
-        [AstInfo]$astInfo,
+        [AstInfo]$overloadAstInfo,
         [DecoratingCommentsRegistry]$registry
     ) {
-        if ($astInfo.Ast -isnot [FunctionMemberAst]) {
+        if ($overloadAstInfo.Ast -isnot [FunctionMemberAst]) {
             $Message = @(
                 "The [OverloadParameterHelpInfo]::Resolve() method expects an AstInfo object"
                 "where the Ast property is a FunctionMemberAst,"
                 "but received an AstInfo object with an Ast type of"
-                $astInfo.Ast.GetType().FullName
+                $overloadAstInfo.Ast.GetType().FullName
             ) -join ' '
             throw $Message
         }
 
-        if ($astInfo.Ast.Parameters.Count -eq 0) {
+        if ($overloadAstInfo.Ast.Parameters.Count -eq 0) {
             return @()
         }
+        $OverloadHelp = $overloadAstInfo.DecoratingComment.ParsedValue
 
-        $OverloadHelp = $astInfo.DecoratingComment.ParsedValue
+        $ParameterInfo = [OverloadParameterHelpInfo]::GetParametersAstInfo($overloadAstInfo, $registry)
 
-        $ParameterInfo = [OverloadParameterHelpInfo]::GetParametersAstInfo($astInfo, $registry)
+        Write-Warning "Found $($ParameterInfo.Count) parameters for $($overloadAstInfo.Ast.Name)"
+        Write-Warning "ParameterInfo Ast Type: $($ParameterInfo[0].Ast.GetType().FullName)"
 
         if ($ParameterInfo.Count -eq 0) {
             return @()
         }
 
         return $ParameterInfo | ForEach-Object -Process {
-            if ($null -ne $OverloadHelp) {
+            if ($OverloadHelp.IsUsable()) {
                 [OverloadParameterHelpInfo]::new($_, $OverloadHelp)
             } else {
                 [OverloadParameterHelpInfo]::new($_)
@@ -192,6 +166,7 @@ class OverloadParameterHelpInfo {
             AsAstInfo              = $true
             Registry               = $registry
             ParseDecoratingComment = $true
+            Recurse                = $true
         }
         return (Find-Ast @FindValueParameters)
     }

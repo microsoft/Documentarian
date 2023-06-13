@@ -315,14 +315,14 @@ class DecoratingCommentsRegistry {
         return $this.Schemas | ForEach-Object -Process { $_.GetName() }
     }
 
-    [OrderedDictionary] FindAndParseCommentBlock(
+    [DecoratingCommentsBlockParsed] FindAndParseCommentBlock(
         [Ast]$targetAst,
         [Token[]]$tokens
     ) {
         return $this.FindAndParseCommentBlock($targetAst, $tokens, $null)
     }
 
-    [OrderedDictionary] FindAndParseCommentBlock(
+    [DecoratingCommentsBlockParsed] FindAndParseCommentBlock(
         [Ast]$targetAst,
         [Token[]]$tokens,
         [string]$schemaName
@@ -336,22 +336,22 @@ class DecoratingCommentsRegistry {
         return $this.ParseDecoratingCommentBlock($comment, $schemaName, $targetAst)
     }
 
-    [OrderedDictionary] ParseDecoratingCommentBlock([string]$comment) {
+    [DecoratingCommentsBlockParsed] ParseDecoratingCommentBlock([string]$comment) {
         $Schema = $this.SelectSchema($comment)
         return $Schema.Parse($comment)
     }
 
-    [OrderedDictionary] ParseDecoratingCommentBlock([string]$comment, [string]$schemaName) {
+    [DecoratingCommentsBlockParsed] ParseDecoratingCommentBlock([string]$comment, [string]$schemaName) {
         $Schema = $this.SelectSchema($comment, $schemaName)
         return $Schema.Parse($comment)
     }
 
-    [OrderedDictionary] ParseDecoratingCommentBlock([string]$comment, [ast]$decoratedAst) {
+    [DecoratingCommentsBlockParsed] ParseDecoratingCommentBlock([string]$comment, [ast]$decoratedAst) {
         $Schema = $this.SelectSchema($comment, $decoratedAst)
         return $Schema.Parse($comment)
     }
 
-    [OrderedDictionary] ParseDecoratingCommentBlock(
+    [DecoratingCommentsBlockParsed] ParseDecoratingCommentBlock(
         [string]$comment,
         [string]$schemaName,
         [ast]$decoratedAst

@@ -10,7 +10,7 @@ using module ./DecoratingCommentsRegistry.psm1
 class DecoratingComment {
     [string] $MungedValue
     [string] $LiteralValue
-    [OrderedDictionary] $ParsedValue = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
+    [DecoratingCommentsBlockParsed] $ParsedValue = [DecoratingCommentsBlockParsed]::new()
     [bool] $ParsedAtCreation = $false
 
     DecoratingComment([string]$comment) {
@@ -35,7 +35,6 @@ class DecoratingComment {
                 $this.LiteralValue,
                 $targetAst
             )
-            # $this.SetParsedValueCaseSensitivity([System.StringComparer]::OrdinalIgnoreCase)
             $this.ParsedAtCreation = $true
         }
     }
@@ -54,25 +53,12 @@ class DecoratingComment {
                 $targetAst,
                 $schemaName
             )
-            # $this.SetParsedValueCaseSensitivity([System.StringComparer]::OrdinalIgnoreCase)
             $this.ParsedAtCreation = $true
         }
     }
 
     [string] ToString() {
         return $this.LiteralValue
-    }
-
-    [void] SetParsedValueCaseSensitivity([System.StringComparer]$comparer) {
-        $Dictionary = [OrderedDictionary]::new($comparer)
-        foreach ($Key in $this.ParsedValue.Keys) {
-            $Dictionary.Add($Key, $this.ParsedValue.$Key)
-        }
-        $this.ParsedValue = $Dictionary
-    }
-
-    [void] SetParsedValueCaseInsensitive() {
-        $this.SetParsedValueCaseSensitivity([System.StringComparer]::OrdinalIgnoreCase)
     }
 
     static [string] Munge([string]$comment) {

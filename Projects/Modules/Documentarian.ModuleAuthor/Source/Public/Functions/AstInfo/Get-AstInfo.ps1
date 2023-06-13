@@ -68,10 +68,11 @@ Function Get-AstInfo {
         switch ($PSCmdlet.ParameterSetName) {
             'FromPath' {
                 $Path | ForEach-Object -Process {
+                    $P = Resolve-Path -Path $_ | Select-Object -ExpandProperty Path
                     if ($ParseDecoratingComment) {
-                        [AstInfo]::New($_, $Registry)
+                        [AstInfo]::New($P, $Registry)
                     } else {
-                        [AstInfo]::New($_)
+                        [AstInfo]::New($P)
                     }
                 }
             }

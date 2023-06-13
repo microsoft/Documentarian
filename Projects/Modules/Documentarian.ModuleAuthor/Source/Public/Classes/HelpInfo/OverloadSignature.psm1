@@ -4,6 +4,7 @@
 using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
 using module ../AstInfo.psm1
+using module ./BaseHelpInfo.psm1
 
 #region    RequiredFunctions
 
@@ -20,7 +21,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 #endregion RequiredFunctions
 
-class OverloadSignature {
+class OverloadSignature : BaseHelpInfo {
     <#
         The full signature for the overload, including the type and name of
         every parameter.
@@ -46,29 +47,6 @@ class OverloadSignature {
             is interpolated into a string.
         #>
         return $this.Full
-    }
-
-    [OrderedDictionary] ToMetadataDictionary() {
-        <#
-            .SYNOPSIS
-            Converts an instance of the class into a dictionary.
-
-            .DESCRIPTION
-            The `ToMetadataDictionary()` method converts an instance of the
-            class into an ordered dictionary so you can export the
-            documentation metadata into YAML or JSON.
-
-            This makes it easier for you to use the data-docs model, which
-            separates the content of the reference documentation from its
-            presentation.
-        #>
-
-        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
-
-        $Metadata.Add('Full', $this.Full.Trim())
-        $Metadata.Add('TypeOnly', $this.TypeOnly.Trim())
-
-        return $Metadata
     }
 
     OverloadSignature() {}
@@ -110,7 +88,7 @@ class OverloadSignature {
     
     static [string] GetFullSignature([FunctionMemberAst]$overloadAst) {
         $Name = $overloadAst.Name
-        $Parameters = $overloadAst.Paramters.Extent.Text -join ', '
+        $Parameters = $overloadAst.Parameters.Extent.Text -join ', '
         return "$Name($Parameters)"
     }
     

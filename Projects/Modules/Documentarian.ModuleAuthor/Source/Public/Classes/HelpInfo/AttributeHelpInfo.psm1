@@ -4,6 +4,7 @@
 using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
 using module ../AstInfo.psm1
+using module ./BaseHelpInfo.psm1
 
 #region    RequiredFunctions
 
@@ -20,34 +21,11 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 #endregion RequiredFunctions
 
-class AttributeHelpInfo {
+class AttributeHelpInfo : BaseHelpInfo {
     # The attribute's full type name.
     [string] $Type
     # The definition of the attribute as applied in the source code.
     [string] $Definition
-
-    [OrderedDictionary] ToMetadataDictionary() {
-        <#
-            .SYNOPSIS
-            Converts an instance of the class into a dictionary.
-
-            .DESCRIPTION
-            The `ToMetadataDictionary()` method converts an instance of the
-            class into an ordered dictionary so you can export the
-            documentation metadata into YAML or JSON.
-
-            This makes it easier for you to use the data-docs model, which
-            separates the content of the reference documentation from its
-            presentation.
-        #>
-
-        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
-
-        $Metadata.Add('Type', $this.Type.Trim())
-        $Metadata.Add('Definition', $this.Definition.Trim())
-
-        return $Metadata
-    }
 
     AttributeHelpInfo() {}
 

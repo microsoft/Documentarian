@@ -35,53 +35,6 @@ class MethodOverloadHelpInfo : OverloadHelpInfo {
     #>
     [bool] $IsStatic = $false
 
-    [OrderedDictionary] ToMetadataDictionary() {
-        <#
-            .SYNOPSIS
-            Converts an instance of the class into a dictionary.
-
-            .DESCRIPTION
-            The `ToMetadataDictionary()` method converts an instance of the
-            class into an ordered dictionary so you can export the
-            documentation metadata into YAML or JSON.
-
-            This makes it easier for you to use the data-docs model, which
-            separates the content of the reference documentation from its
-            presentation.
-        #>
-
-        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
-
-        $Metadata.Add('Signature', $this.Signature.ToMetadataDictionary())
-        $Metadata.Add('Synopsis', $this.Synopsis.Trim())
-        $Metadata.Add('Description', $this.Description.Trim())
-        if ($this.Examples.Count -gt 0) {
-            $Metadata.Add('Examples', [OrderedDictionary[]]($this.Examples.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Examples', [OrderedDictionary[]]@())
-        }
-        $Metadata.Add('ReturnType', $this.ReturnType.Trim())
-        $Metadata.Add('IsHidden', $this.IsHidden)
-        $Metadata.Add('IsStatic', $this.IsStatic)
-        if ($this.Attributes.Count -gt 0) {
-            $Metadata.Add('Attributes', [OrderedDictionary[]]($this.Attributes.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Attributes', [OrderedDictionary[]]@())
-        }
-        if ($this.Parameters.Count -gt 0) {
-            $Metadata.Add('Parameters', [OrderedDictionary[]]($this.Parameters.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Parameters', [OrderedDictionary[]]@())
-        }
-        if ($this.Exceptions.Count -gt 0) {
-            $Metadata.Add('Exceptions', [OrderedDictionary[]]($this.Exceptions.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Exceptions', [OrderedDictionary[]]@())
-        }
-
-        return $Metadata
-    }
-
     MethodOverloadHelpInfo() : base() {}
 
     MethodOverloadHelpInfo(

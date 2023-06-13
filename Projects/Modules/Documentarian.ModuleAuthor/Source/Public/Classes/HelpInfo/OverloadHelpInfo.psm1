@@ -5,6 +5,7 @@ using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
 using module ../AstInfo.psm1
 using module ../DecoratingComments/DecoratingCommentsRegistry.psm1
+using module ./BaseHelpInfo.psm1
 using module ./AttributeHelpInfo.psm1
 using module ./ExampleHelpInfo.psm1
 using module ./OverloadExceptionHelpInfo.psm1
@@ -26,7 +27,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 #endregion RequiredFunctions
 
-class OverloadHelpInfo {
+class OverloadHelpInfo : BaseHelpInfo {
     # The signature for the overload, distinguishing it from other overloads.
     [OverloadSignature] $Signature
     # A short description of the overload's purpose.
@@ -46,51 +47,6 @@ class OverloadHelpInfo {
         about when and why the overload would return them.
     #>
     [OverloadExceptionHelpInfo[]] $Exceptions = @()
-
-    [OrderedDictionary] ToMetadataDictionary() {
-        <#
-            .SYNOPSIS
-            Converts an instance of the class into a dictionary.
-
-            .DESCRIPTION
-            The `ToMetadataDictionary()` method converts an instance of the
-            class into an ordered dictionary so you can export the
-            documentation metadata into YAML or JSON.
-
-            This makes it easier for you to use the data-docs model, which
-            separates the content of the reference documentation from its
-            presentation.
-        #>
-
-        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
-
-        $Metadata.Add('Signature', $this.Signature.ToMetadataDictionary())
-        $Metadata.Add('Synopsis', $this.Synopsis.Trim())
-        $Metadata.Add('Description', $this.Description.Trim())
-        if ($this.Examples.Count -gt 0) {
-            $Metadata.Add('Examples', [OrderedDictionary[]]($this.Examples.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Examples', [OrderedDictionary[]]@())
-        }
-        $Metadata.Add('IsHidden', $this.IsHidden)
-        if ($this.Attributes.Count -gt 0) {
-            $Metadata.Add('Attributes', [OrderedDictionary[]]($this.Attributes.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Attributes', [OrderedDictionary[]]@())
-        }
-        if ($this.Parameters.Count -gt 0) {
-            $Metadata.Add('Parameters', [OrderedDictionary[]]($this.Parameters.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Parameters', [OrderedDictionary[]]@())
-        }
-        if ($this.Exceptions.Count -gt 0) {
-            $Metadata.Add('Exceptions', [OrderedDictionary[]]($this.Exceptions.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Exceptions', [OrderedDictionary[]]@())
-        }
-
-        return $Metadata
-    }
 
     OverloadHelpInfo() {}
 
@@ -137,12 +93,12 @@ class OverloadHelpInfo {
 
         $Help = $astInfo.DecoratingComment.ParsedValue
 
-        if ($null -ne $Help) {
-            if ($Help.Synopsis) {
-                $this.Synopsis = $Help.Synopsis.Trim()
+        if ($Help.IsUsable()) {
+            if ($HelpSynopsis = $Help.GetKeywordEntry('Synopsis')) {
+                $this.Synopsis = $HelpSynopsis
             }
-            if ($Help.Description) {
-                $this.Description = $Help.Description.Trim()
+            if ($HelpDescription = $Help.GetKeywordEntry('Description')) {
+                $this.Description = $HelpDescription
             }
             $this.Examples = [ExampleHelpInfo]::Resolve($Help)
         } elseif ($SynopsisHelp = $astInfo.DecoratingComment.MungedValue) {

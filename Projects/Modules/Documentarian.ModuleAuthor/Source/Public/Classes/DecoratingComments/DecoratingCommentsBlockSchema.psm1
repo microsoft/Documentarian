@@ -3,6 +3,7 @@
 
 using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
+using module ./DecoratingCommentsBlockParsed.psm1
 using module ./DecoratingCommentsBlockKeyword.psm1
 
 class DecoratingCommentsBlockSchema {
@@ -101,7 +102,7 @@ class DecoratingCommentsBlockSchema {
         return $this.IsValid
     }
 
-    [OrderedDictionary] Parse([string]$comment) {
+    [DecoratingCommentsBlockParsed] Parse([string]$comment) {
         <#
             .SYNOPSIS
             Parses the given comment string for comment-based help keys.
@@ -116,7 +117,7 @@ class DecoratingCommentsBlockSchema {
             keys.
         #>
 
-        $Parsed = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
+        $Parsed = [DecoratingCommentsBlockParsed]::new()
 
         foreach ($Keyword in $this.GetKeywords()) {
             switch ($Keyword.Kind) {
@@ -127,7 +128,7 @@ class DecoratingCommentsBlockSchema {
                         ) | Where-Object -FilterScript { $_ -match '\S+' }
 
                         if ($Blocks.Count -gt 0) {
-                            $Parsed.Add($Keyword.Name, $Blocks)
+                            $Parsed.Add($Keyword, $Blocks)
                         }
                     } else {
                         $Block = [DecoratingCommentsBlockSchema]::GetKeywordBlock(
@@ -135,7 +136,7 @@ class DecoratingCommentsBlockSchema {
                             $comment
                         )
                         if ($Block -match '\S+') {
-                            $Parsed.Add($Keyword.Name, $Block)
+                            $Parsed.Add($Keyword, $Block)
                         }
                     }
                 }
@@ -145,14 +146,14 @@ class DecoratingCommentsBlockSchema {
                             $Keyword.Pattern, $comment
                         )
                         if ($Entries.Count -gt 0) {
-                            $Parsed.Add($Keyword.Name, $Entries)
+                            $Parsed.Add($Keyword, $Entries)
                         }
                     } else {
                         $Entry = [DecoratingCommentsBlockSchema]::GetKeywordBlockAndValue(
                             $Keyword.Pattern, $comment
                         )
                         if ($null -ne $Entry) {
-                            $Parsed.Add($Keyword.Name, $Entry)
+                            $Parsed.Add($Keyword, $Entry)
                         }
                     }
                 }
@@ -162,14 +163,14 @@ class DecoratingCommentsBlockSchema {
                             $Keyword.Pattern, $comment
                         )
                         if ($Entries.Count -gt 0) {
-                            $Parsed.Add($Keyword.Name, $Entries)
+                            $Parsed.Add($Keyword, $Entries)
                         }
                     } else {
                         $Entry = [DecoratingCommentsBlockSchema]::GetKeywordBlockAndOptionalValue(
                             $Keyword.Pattern, $comment
                         )
                         if ($null -ne $Entry) {
-                            $Parsed.Add($Keyword.Name, $Entry)
+                            $Parsed.Add($Keyword, $Entry)
                         }
                     }
                 }
@@ -180,7 +181,7 @@ class DecoratingCommentsBlockSchema {
                         ) | Where-Object -FilterScript { $_ -match '\S+' }
 
                         if ($Values.Count -gt 0) {
-                            $Parsed.Add($Keyword.Name, $Values)
+                            $Parsed.Add($Keyword, $Values)
                         }
                     } else {
                         $Value = [DecoratingCommentsBlockSchema]::GetKeywordValue(
@@ -188,7 +189,7 @@ class DecoratingCommentsBlockSchema {
                             $comment
                         )
                         if ($Value -match '\S+') {
-                            $Parsed.Add($Keyword.Name, $Value)
+                            $Parsed.Add($Keyword, $Value)
                         }
                     }
                 }
@@ -344,11 +345,11 @@ class DecoratingCommentsBlockSchema {
         return $Result
     }
 
-    static [OrderedDictionary] GetKeywordBlockAndValue([regex]$pattern, [string]$comment) {
+    static [DecoratingCommentsBlockParsed] GetKeywordBlockAndValue([regex]$pattern, [string]$comment) {
         $CleanedComment = [DecoratingCommentsBlockSchema]::CleanCommentBlock($comment)
 
         if ($CleanedComment -match $pattern) {
-            $Entry = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
+            $Entry = [DecoratingCommentsBlockParsed]::new()
             $Value = $Matches.Value.Trim()
             $Content = [DecoratingCommentsBlockSchema]::MungeKeywordBlock($Matches.Content)
             $Entry.Add('Value', $Value)
@@ -359,7 +360,7 @@ class DecoratingCommentsBlockSchema {
         return $null
     }
 
-    static [OrderedDictionary[]] GetKeywordBlockAndValueAll([regex]$pattern, [string]$comment) {
+    static [DecoratingCommentsBlockParsed[]] GetKeywordBlockAndValueAll([regex]$pattern, [string]$comment) {
         $CleanedComment = [DecoratingCommentsBlockSchema]::CleanCommentBlock($comment)
 
         $Result = $CleanedComment |
@@ -370,7 +371,7 @@ class DecoratingCommentsBlockSchema {
             $Content = $_.Groups | Where-Object -FilterScript { $_.Name -eq 'Content' }
             $Value = $Value.Value.Trim()
             $Content = [DecoratingCommentsBlockSchema]::MungeKeywordBlock($Content.Value)
-            $Entry = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
+            $Entry = [DecoratingCommentsBlockParsed]::new()
             $Entry.Add('Value', $Value)
             $Entry.Add('Content', $Content)
             $Entry
@@ -379,11 +380,11 @@ class DecoratingCommentsBlockSchema {
         return $Result
     }
 
-    static [OrderedDictionary] GetKeywordBlockAndOptionalValue([regex]$pattern, [string]$comment) {
+    static [DecoratingCommentsBlockParsed] GetKeywordBlockAndOptionalValue([regex]$pattern, [string]$comment) {
         $CleanedComment = [DecoratingCommentsBlockSchema]::CleanCommentBlock($comment)
 
         if ($CleanedComment -match $pattern) {
-            $Entry = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
+            $Entry = [DecoratingCommentsBlockParsed]::new()
             $Value = if ($Matches.Value) { $Matches.Value.Trim() } else { '' }
             $Content = [DecoratingCommentsBlockSchema]::MungeKeywordBlock($Matches.Content)
             $Entry.Add('Value', $Value)
@@ -394,7 +395,7 @@ class DecoratingCommentsBlockSchema {
         return $null
     }
 
-    static [OrderedDictionary[]] GetKeywordBlockAndOptionalValueAll(
+    static [DecoratingCommentsBlockParsed[]] GetKeywordBlockAndOptionalValueAll(
         [regex]$pattern,
         [string]$comment
     ) {
@@ -409,7 +410,7 @@ class DecoratingCommentsBlockSchema {
             $Value = $Value.Value.Trim()
             $Value = if ($Value.Value) { $Value.Value.Trim() } else { '' }
             $Content = [DecoratingCommentsBlockSchema]::MungeKeywordBlock($Content.Value)
-            $Entry = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
+            $Entry = [DecoratingCommentsBlockParsed]::new()
             $Entry.Add('Value', $Value)
             $Entry.Add('Content', $Content)
             $Entry

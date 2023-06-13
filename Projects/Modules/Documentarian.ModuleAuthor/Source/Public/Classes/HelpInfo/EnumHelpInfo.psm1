@@ -5,6 +5,7 @@ using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
 using module ../AstInfo.psm1
 using module ../DecoratingComments/DecoratingCommentsRegistry.psm1
+using module ./BaseHelpInfo.psm1
 using module ./EnumValueHelpInfo.psm1
 using module ./ExampleHelpInfo.psm1
 
@@ -23,7 +24,7 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 #endregion RequiredFunctions
 
-class EnumHelpInfo {
+class EnumHelpInfo : BaseHelpInfo {
     # The name of the enumeration.
     [string] $Name
     # A short description of the enumeration's purpose.
@@ -38,38 +39,6 @@ class EnumHelpInfo {
     [boolean] $IsFlagsEnum = $false
     # The list of values defined by the enumeration with their documentation.
     [EnumValueHelpInfo[]] $Values = @()
-
-    [OrderedDictionary] ToMetadataDictionary() {
-        <#
-            .SYNOPSIS
-            Converts an instance of the class into a dictionary.
-
-            .DESCRIPTION
-            The `ToMetadataDictionary()` method converts an instance of the
-            class into an ordered dictionary so you can export the
-            documentation metadata into YAML or JSON.
-
-            This makes it easier for you to use the data-docs model, which
-            separates the content of the reference documentation from its
-            presentation.
-        #>
-
-        $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
-
-        $Metadata.Add('Name', $this.Name.Trim())
-        $Metadata.Add('Synopsis', $this.Synopsis.Trim())
-        $Metadata.Add('Description', $this.Description.Trim())
-        if ($this.Examples.Count -gt 0) {
-            $Metadata.Add('Examples', [OrderedDictionary[]]($this.Examples.ToMetadataDictionary()))
-        } else {
-            $Metadata.Add('Examples', [OrderedDictionary[]]@())
-        }
-        $Metadata.Add('Notes', $this.Notes.Trim())
-        $Metadata.Add('IsFlagsEnum', $this.IsFlagsEnum)
-        $Metadata.Add('Values', [OrderedDictionary[]]($this.Values.ToMetadataDictionary()))
-
-        return $Metadata
-    }
 
     EnumHelpInfo() {}
 
@@ -92,18 +61,18 @@ class EnumHelpInfo {
         $this.Name = $EnumAst.Name
         $this.IsFlagsEnum = [EnumHelpInfo]::TestIsFlagsEnum($EnumAst)
 
-        if ($null -ne $Help) {
-            if ($Help.Synopsis) {
-                $this.Synopsis = $Help.Synopsis.Trim()
+        if ($Help.IsUsable()) {
+            if ($HelpSynopsis = $Help.GetKeywordEntry('Synopsis')) {
+                $this.Synopsis = $HelpSynopsis
             }
-            if ($Help.Description) {
-                $this.Description = $Help.Description.Trim()
+            if ($HelpDescription = $Help.GetKeywordEntry('Description')) {
+                $this.Description = $HelpDescription
             }
 
             $this.Examples = [ExampleHelpInfo]::Resolve($Help)
 
-            if ($Help.Notes) {
-                $this.Notes = $Help.Notes.Trim()
+            if ($HelpNotes = $Help.GetKeywordEntry('Notes')) {
+                $this.Notes = $HelpNotes
             }
         } elseif ($SynopsisHelp = $astInfo.DecoratingComment.MungedValue) {
             $this.Synopsis = $SynopsisHelp.Trim()
@@ -128,7 +97,7 @@ class EnumHelpInfo {
 
         $ValuesHelpInfo = [EnumHelpInfo]::GetValuesAstInfo($enumAstInfo, $registry) |
             ForEach-Object -Process {
-                if ($null -ne $Help) {
+                if ($Help.IsUsable()) {
                     [EnumValueHelpInfo]::new($_, $EnumHelp)
                 } else {
                     [EnumValueHelpInfo]::new($_)
