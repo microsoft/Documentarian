@@ -152,7 +152,6 @@ class ClassPropertyHelpInfo : BaseHelpInfo {
             } else {
                 [ClassPropertyHelpInfo]::new($PropertyAstInfo)
             }
-
         }
     }
 }

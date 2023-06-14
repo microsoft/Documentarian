@@ -95,14 +95,7 @@ class EnumHelpInfo : BaseHelpInfo {
 
         $ValuesAreFlags = [EnumHelpInfo]::TestIsFlagsEnum($enumAstInfo.Ast)
 
-        $ValuesHelpInfo = [EnumHelpInfo]::GetValuesAstInfo($enumAstInfo, $registry) |
-            ForEach-Object -Process {
-                if ($Help.IsUsable()) {
-                    [EnumValueHelpInfo]::new($_, $EnumHelp)
-                } else {
-                    [EnumValueHelpInfo]::new($_)
-                }
-            }
+        $ValuesHelpInfo = [EnumValueHelpInfo]::Resolve($enumAstInfo, $registry)
 
         $NextValue = if ($ValuesAreFlags) { 1 } else { 0 }
         foreach ($EnumValue in $ValuesHelpInfo) {
