@@ -7,52 +7,238 @@
     //     "IgnoreForTest": false
     // }
     {
+        "Name": "DecoratingCommentsBlockParsed",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingComment",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingComments",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockKeyword",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockKeywords",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsPatterns",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchema",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchemasClass",
+        "Folder": "DecoratingComments/Schemas",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchemasClassOverload",
+        "Folder": "DecoratingComments/Schemas",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchemasClassProperty",
+        "Folder": "DecoratingComments/Schemas",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchemasDefault",
+        "Folder": "DecoratingComments/Schemas",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsBlockSchemasEnum",
+        "Folder": "DecoratingComments/Schemas",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "DecoratingCommentsRegistry",
+        "Folder": "DecoratingComments",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "AstInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "AstTypeTransformAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ValidatePowerShellScriptPathAttribute",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "ParameterInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "CredentialAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "DontShowAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "ExperimentalAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "HasValidationAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "ObsoleteAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "PSDefaultValueAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "SupportsWildcardsAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "ValueFromPipelineAttributeInfo",
+        "Folder": "AttributeInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },
     {
         "Name": "ValueFromRemainingAttributeInfo",
+        "Folder": "AttributeInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "BaseHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "AttributeHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ExampleHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ClassPropertyHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "OverloadSignature",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "OverloadParameterHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "OverloadExceptionHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "OverloadHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "MethodOverloadHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ConstructorOverloadHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ClassMethodHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "ClassHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "EnumValueHelpInfo",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "EnumHelpInfo",
+        "Folder": "HelpInfo",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     }

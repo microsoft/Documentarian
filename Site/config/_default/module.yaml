@@ -17,14 +17,6 @@ imports:
         target: content/modules/documentarian/changelog.md
       - source: Source
         target: content/includes/source/documentarian
-  - path: github.com/microsoft/Documentarian/Projects/Modules/Documentarian.AstInfo
-    mounts:
-      - source: Documentation
-        target: content/modules/astinfo
-      - source: CHANGELOG.md
-        target: content/modules/astinfo/changelog.md
-      - source: Source
-        target: content/includes/source/astinfo
   - path: github.com/microsoft/Documentarian/Projects/Modules/Documentarian.DevX
     mounts:
       - source: Documentation

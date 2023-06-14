@@ -1,13 +1,16 @@
-﻿# Copyright (c) Microsoft Corporation.
+# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-using module ../Classes/DontShowAttributeInfo.psm1
-using module ../Classes/ExperimentalAttributeInfo.psm1
-using module ../Classes/HasValidationAttributeInfo.psm1
-using module ../Classes/SupportsWildcardsAttributeInfo.psm1
-using module ../Classes/ValueFromPipelineAttributeInfo.psm1
-using module ../Classes/ValueFromRemainingAttributeInfo.psm1
 using module ../Enums/ParameterAttributeKind.psm1
+using module ../Classes/AttributeInfo/CredentialAttributeInfo.psm1
+using module ../Classes/AttributeInfo/DontShowAttributeInfo.psm1
+using module ../Classes/AttributeInfo/ExperimentalAttributeInfo.psm1
+using module ../Classes/AttributeInfo/HasValidationAttributeInfo.psm1
+using module ../Classes/AttributeInfo/ObsoleteAttributeInfo.psm1
+using module ../Classes/AttributeInfo/PSDefaultValueAttributeInfo.psm1
+using module ../Classes/AttributeInfo/SupportsWildcardsAttributeInfo.psm1
+using module ../Classes/AttributeInfo/ValueFromPipelineAttributeInfo.psm1
+using module ../Classes/AttributeInfo/ValueFromRemainingAttributeInfo.psm1
 
 function Find-ParameterWithAttribute {
     [CmdletBinding()]
