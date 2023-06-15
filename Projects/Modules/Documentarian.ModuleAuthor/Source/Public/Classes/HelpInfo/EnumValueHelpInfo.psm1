@@ -67,14 +67,19 @@ class EnumValueHelpInfo : BaseHelpInfo {
         $this.Label = $LabelName
         $this.Value = $EnumValueAst.InitialValue.Value
         $this.HasExplicitValue = $null -ne $EnumValueAst.InitialValue
-        $LabelHelpFromEnum = $enumHelp.Label | Where-Object -FilterScript {
-            $_.Value -eq $LabelName
-        } | Select-Object -First 1 | ForEach-Object -Process { $_.Content }
-        $this.Description = if ($LabelHelpFromEnum) {
-            $LabelHelpFromEnum
-        } elseif ($LabelHelp = $astInfo.DecoratingComment.MungedValue) {
-             $LabelHelp
-        } else { '' }
+        if ($null -ne $enumHelp -and $enumHelp.IsUsable()) {
+            $LabelDescription = $enumHelp.GetKeywordEntry('Label', $LabelName)
+            if (-not [string]::IsNullOrEmpty($LabelDescription)) {
+                $this.Description = $LabelDescription
+            }
+        }
+        if ([string]::IsNullOrEmpty($this.Description)) {
+            if ($LabelHelp = $astInfo.DecoratingComment.MungedValue) {
+                $this.Description = $LabelHelp
+            } else {
+                $this.Description = ''
+            }
+        }
     }
 
     hidden static [MemberAst] GetValidatedAst([AstInfo]$astInfo) {
@@ -97,5 +102,44 @@ class EnumValueHelpInfo : BaseHelpInfo {
         }
 
         return $TargetAst
+    }
+
+    static [EnumValueHelpInfo[]] Resolve(
+        [AstInfo]$enumAstInfo,
+        [DecoratingCommentsRegistry]$registry
+    ) {
+        if ($enumAstInfo.Ast -isnot [TypeDefinitionAst]) {
+            $Message = @(
+                'Invalid argument. [EnumValueHelpInfo]::Resolve()'
+                "expects an AstInfo object where the Ast property is a TypeDefinitionAst"
+                "that defines a enum, but the Ast property's type was"
+                $enumAstInfo.Ast.GetType().FullName
+            ) -join ' '
+            throw [System.ArgumentException]::new($Message, 'enumAstInfo')
+        }
+
+        if ($null -eq $registry) {
+            $registry = [DecoratingCommentsRegistry]::Get()
+        }
+
+        [TypeDefinitionAst]$EnumAst = $enumAstInfo.Ast
+        $Help = $enumAstInfo.DecoratingComment.ParsedValue
+
+        return $EnumAst.Members | Where-Object -FilterScript {
+            $_ -is [MemberAst]
+        } | ForEach-Object -Process {
+            $GetParameters = @{
+                TargetAst              = $_
+                Token                  = $enumAstInfo.Tokens
+                Registry               = $registry
+                ParseDecoratingComment = $true
+            }
+            $ValueAstInfo = Get-AstInfo @GetParameters
+            if ($Help.IsUsable()) {
+                [EnumValueHelpInfo]::new($ValueAstInfo, $Help)
+            } else {
+                [EnumValueHelpInfo]::new($ValueAstInfo)
+            }
+        }
     }
 }

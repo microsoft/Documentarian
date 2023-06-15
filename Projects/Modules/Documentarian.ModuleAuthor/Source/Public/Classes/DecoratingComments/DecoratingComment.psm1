@@ -65,6 +65,10 @@ class DecoratingComment {
         $LeadSpace = ''
 
         if ($comment -match '^<#') {
+            if ($comment -notmatch '\r?\n') {
+                return $comment.TrimStart('<#').TrimEnd('#>').Trim()
+            }
+
             $Lines = $comment.TrimStart('<#').TrimEnd('#>').Trim("`n`r") -split '\r?\n'
             foreach ($Line in $Lines) {
                 if ($Line -match '^(?<Lead>\s+)\S') {
@@ -89,9 +93,13 @@ class DecoratingComment {
         }
         $MungedLines = @()
         foreach ($Line in $Lines) {
-            $MungedLines += $Line -replace "^#$LeadSpace", ''
+            if ($Line -match '^#\s*$') {
+                $MungedLines += ''
+            } else {
+                $MungedLines += $Line -replace "^#$LeadSpace", ''
+            }
         }
 
-        return $MungedLines
+        return ($MungedLines -join "`n")
     }
 }

@@ -15,7 +15,7 @@
 # The DoNothing methods are documented with external comments.
 # The Repeat and ToUpper methods are documented with internal
 # comments.
-class HelpInfoTestClassMinimal {
+class HelpInfoTestClassBasic {
     # An inline comment for the First property.
     [ValidateNotNullOrEmpty()] [string] $First
     <# A one-line block comment for the Second property. #>

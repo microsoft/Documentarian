@@ -43,9 +43,7 @@ class ConstructorOverloadHelpInfo : OverloadHelpInfo {
     ConstructorOverloadHelpInfo(
         [AstInfo]$astInfo,
         [DecoratingCommentsRegistry]$registry
-    ) : base($astInfo, $registry) {
-        Write-Warning "Processing constructor $($this.Signature.TypeOnly): $($this | ConvertTo-Json -Depth 5)"
-    }
+    ) : base($astInfo, $registry) {}
 
     ConstructorOverloadHelpInfo(
         [FunctionMemberAst]$targetAst
