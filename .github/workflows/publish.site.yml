@@ -67,7 +67,7 @@ jobs:
         run: |
           Invoke-Build -Task BuildSite -SiteBaseUrl https://microsoft.github.io/Documentarian/
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v2
         with:
           path: ./Site/public
   # Deployment job
