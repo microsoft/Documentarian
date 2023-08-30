@@ -1,0 +1,10 @@
+extends: substitution
+description: "`use` can always be used, but `utilize` should only be used when indicating a creative use."
+message: "Consider using '%s' instead of '%s'."
+link: https://eliteediting.com/resources/use-vs-utilize/
+ignorecase: true
+level: warning
+action:
+  name: replace
+swap:
+  utilize: use
