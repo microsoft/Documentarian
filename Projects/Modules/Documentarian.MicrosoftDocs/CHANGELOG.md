@@ -25,6 +25,8 @@ release_links:
 
 ## Unreleased
 
+- Added Get-CmdletXref
+
 Related Links
 : {{< changelog/link/prs after="2023-03-27" >}}
 
