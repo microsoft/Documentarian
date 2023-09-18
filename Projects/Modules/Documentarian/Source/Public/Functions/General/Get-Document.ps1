@@ -61,7 +61,7 @@ function Get-Document {
 
       if ($FrontMatterToken) {
         $ParsedDocumentParameters.FrontMatter = $FrontMatterToken.Lines.ToString().Trim()
-        | ConvertFrom-Yaml -Ordered
+        | YaYaml\ConvertFrom-Yaml
 
         $Body = $ParsedDocumentParameters.RawContent -split '---'
         | Select-Object -Skip 2

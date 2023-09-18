@@ -49,7 +49,7 @@ begin {
   )
 
   $Modules = @(
-    @{ Name = 'powershell-yaml' }
+    @{ Name = 'YaYaml' }
 
     @{
       Name           = 'InvokeBuild'
