@@ -25,6 +25,10 @@ release_links:
 
 ## Unreleased
 
+- Added [`Get-CmdletXref`] to make it simpler to add links to cmdlet reference docs.
+
+[`Get-CmdletXref`]: /modules/microsoftdocs/reference/cmdlets/get-cmdletxref/
+
 Related Links
 : {{< changelog/link/prs after="2023-03-27" >}}
 
