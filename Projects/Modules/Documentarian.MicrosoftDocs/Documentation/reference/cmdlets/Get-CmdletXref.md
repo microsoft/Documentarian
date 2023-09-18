@@ -104,6 +104,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.String[]
 
+The cmdlet returns an array of strings, each representing a Markdown link using the Microsoft Learn
+platform xref syntax. Each link uses the command name for the link text and the xref string for the
+link URI.
+
 ## NOTES
 
 ## RELATED LINKS
