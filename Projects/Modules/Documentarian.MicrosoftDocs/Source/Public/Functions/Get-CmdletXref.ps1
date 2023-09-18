@@ -1,4 +1,7 @@
-﻿function Get-CmdletXref {
+﻿# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+function Get-CmdletXref {
     <#
     .SYNOPSIS
     Gets a cross-reference link for a command.
