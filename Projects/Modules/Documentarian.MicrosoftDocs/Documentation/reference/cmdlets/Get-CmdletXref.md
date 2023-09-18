@@ -90,7 +90,6 @@ Position: 0
 Default value:
 Accept pipeline input: True
 Accept wildcard characters: False
-DontShow: False
 ```
 
 ### CommonParameters
