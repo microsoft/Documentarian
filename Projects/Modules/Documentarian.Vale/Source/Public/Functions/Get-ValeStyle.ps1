@@ -51,7 +51,8 @@ function Get-ValeStyle {
             $rules = @()
             foreach ($rulename in $rulenames) {
                 $rule = [ValeRule]::new($style.Name, $rulename.BaseName, $rulename.FullName)
-                $rule.Properties = Get-Content -Path $rulename.FullName | ConvertFrom-Yaml -Ordered
+                $rule.Properties = Get-Content -Path $rulename.FullName |
+                    YaYaml\ConvertFrom-Yaml
                 $rules += $rule
             }
             $style.Rules = $rules

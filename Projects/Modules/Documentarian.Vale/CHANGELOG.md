@@ -28,6 +28,14 @@ release_links:
 Related Links
 : {{< changelog/link/prs after="2023-04-06" >}}
 
+### Added
+
+### Changed
+
+- Replaced an implicit dependency on the [powershell-yaml] module with an explicit dependency on
+  [YaYaml] - this resolves the YamlDotNet dependency conflict that prevents the module from being
+  used with PlatyPS. Only the dependency is changed, not the functionality.
+
 ## 0.2.0 - 2023-04-26
 
 Related Links
@@ -74,3 +82,5 @@ Related Links
 [`Install-Vale`]:          /modules/vale/reference/cmdlets/install-vale
 [`New-ValeConfiguration`]: /modules/vale/reference/cmdlets/new-valeconfiguration
 [`Get-ProseReadability`]:  /modules/vale/reference/cmdlets/get-prosereadability
+[powershell-yaml]:   https://github.com/cloudbase/powershell-yaml
+[YaYaml]:            https://github.com/jborean93/PowerShell-Yayaml

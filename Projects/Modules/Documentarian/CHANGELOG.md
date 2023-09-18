@@ -28,6 +28,12 @@ release_links:
 Related Links
 : {{< changelog/link/prs after="2023-03-27" >}}
 
+### Changed
+
+- Replaced dependency on the [powershell-yaml] module with [YaYaml] - this resolves the YamlDotNet
+  dependency conflict that prevents the module from being used with PlatyPS. Only the dependency is
+  changed, not the functionality.
+
 ### Fixed
 
 - Ensure that [`Convert-MDLinks`] correctly handles all matches found by the regex patterns.
@@ -43,3 +49,5 @@ Related Links
 
 <!-- Link Reference Definitions -->
 [`Convert-MDLinks`]: /modules/documentarian/reference/cmdlets/convert-mdlinks
+[powershell-yaml]:   https://github.com/cloudbase/powershell-yaml
+[YaYaml]:            https://github.com/jborean93/PowerShell-Yayaml

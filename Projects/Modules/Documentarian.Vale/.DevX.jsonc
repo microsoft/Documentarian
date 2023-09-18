@@ -11,7 +11,8 @@
     "Description": "Collection of tools for installing and using the Vale prose linter.",
     "PowerShellVersion": "7.2",
     "RequiredModules": [
-      "PsIni"
+      "PsIni",
+      "YaYaml"
     ],
     "Tags": [
       "Markdown",

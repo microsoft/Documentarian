@@ -11,7 +11,7 @@
     "Description": "Collection of general purpose functions for working with Markdown documents.",
     "PowerShellVersion": "7.2",
     "RequiredModules": [
-      "PowerShell-Yaml"
+      "YaYaml"
     ],
     "ScriptsToProcess": "Init.ps1",
     "VariablesToExport": "*",
