@@ -104,7 +104,7 @@ class ParameterInfo {
         Whether to include the parameter's non-PlatyPS compliant metadata.
     #>
 
-    $builder = New-MarkdownBuilder
+    $builder = New-Builder
     $Builder | Add-Heading -Level 3 -Content $this.Name
     $Builder | Add-Line -Content $this.HelpText
     $Builder | Start-CodeFence -Language yaml
