@@ -15,7 +15,10 @@ function Get-CmdletXref {
         [Parameter(Mandatory, ValueFromPipeline)]
         [object[]] $Command
     )
-
+    
+    begin {
+        $allowedFlags = [CommandTypes] 'Cmdlet, Function, Filter'
+    }
     process {
         foreach ($cmd in $Command) {
             try {
@@ -40,7 +43,7 @@ function Get-CmdletXref {
                 $commandname = $cmd.Name
                 $commandtype = $cmd.CommandType
 
-                if (($commandtype -band [CommandTypes] 'Cmdlet, Function, Filter') -eq 0) {
+                if (-not $allowedFlags.HasFlag($commandtype)) {
                     $PSCmdlet.WriteWarning("'$commandname' is a(n) $commandtype.")
                     continue
                 }
