@@ -17,7 +17,11 @@ function Get-CmdletXref {
     )
     
     begin {
-        $allowedFlags = [CommandTypes] 'Cmdlet, Function, Filter'
+        $allowedFlags = [CommandTypes]@(
+            'Cmdlet'
+            'Function'
+            'Filter'
+        )
     }
     process {
         foreach ($cmd in $Command) {
