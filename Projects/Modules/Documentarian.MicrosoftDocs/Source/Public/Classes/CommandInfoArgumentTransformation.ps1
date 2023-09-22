@@ -5,22 +5,27 @@ using namespace System.Management.Automation
 
 class CommandInfoArgumentTransformation : ArgumentTransformationAttribute {
     [Object] Transform([EngineIntrinsics] $engineIntrinsics, [Object] $inputData) {
-        $cmd = $inputData
+        $transformedCommands = foreach ($command in $inputData) {
+            $cmd = $command
 
-        if ($inputData -isnot [CommandInfo]) {
-            $cmd = $engineIntrinsics.InvokeCommand.GetCommand(
-                [string] $inputData,
-                [CommandTypes]::All)
+            if ($command -isnot [CommandInfo]) {
+                $cmd = $engineIntrinsics.InvokeCommand.GetCommand(
+                    [string] $command,
+                    [CommandTypes]::All)
+            }
+
+            if (-not $cmd) {
+                throw [CommandNotFoundException]::new("Unable to find command '$command'.")
+            }
+
+            if ($cmd.CommandType -eq [CommandTypes]::Alias) {
+                $cmd.ResolvedCommand
+                continue
+            }
+
+            $cmd
         }
 
-        if (-not $cmd) {
-            throw [CommandNotFoundException]::new("Unable to find command '$inputData'.")
-        }
-
-        if ($cmd.CommandType -eq [CommandTypes]::Alias) {
-            return $cmd.ResolvedCommand
-        }
-
-        return $cmd
+        return $transformedCommands
     }
 }

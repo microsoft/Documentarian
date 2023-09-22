@@ -15,7 +15,7 @@ function Get-CmdletXref {
         [Parameter(Mandatory, ValueFromPipeline)]
         [object[]] $Command
     )
-    
+
     begin {
         $allowedFlags = [CommandTypes]@(
             'Cmdlet'
@@ -65,11 +65,9 @@ function Get-CmdletXref {
                 }
 
                 "[$commandname](xref:${modulename}.$commandname)"
-            }
-            catch [CommandNotFoundException] {
+            } catch [CommandNotFoundException] {
                 $PSCmdlet.WriteWarning($_)
-            }
-            catch {
+            } catch {
                 $PSCmdlet.WriteError($_)
             }
         }
