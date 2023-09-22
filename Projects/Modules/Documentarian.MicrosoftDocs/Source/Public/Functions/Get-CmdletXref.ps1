@@ -13,7 +13,8 @@ function Get-CmdletXref {
     param(
         # The name of the Command or a CommandInfo instance to get a cross-reference link for.
         [Parameter(Mandatory, ValueFromPipeline)]
-        [object[]] $Command
+        [CommandInfoArgumentTransformation()]
+        [CommandInfo[]] $Command
     )
 
     begin {
@@ -26,23 +27,6 @@ function Get-CmdletXref {
     process {
         foreach ($cmd in $Command) {
             try {
-                if ($cmd -isnot [CommandInfo]) {
-                    $tryGetCommand = $PSCmdlet.InvokeCommand.GetCommand(
-                        $cmd,
-                        [CommandTypes]::All)
-
-                    if (-not $tryGetCommand) {
-                        throw [CommandNotFoundException]::new("Unable to find command '$cmd'.")
-                    }
-
-                    $cmd = $tryGetCommand
-                }
-
-                if ($cmd.CommandType -eq [CommandTypes]::Alias) {
-                    $cmd = $cmd.ResolvedCommand
-                    $PSCmdlet.WriteVerbose("$commandname is an alias for $($cmd.Name).")
-                }
-
                 $modulename = $cmd.ModuleName
                 $commandname = $cmd.Name
                 $commandtype = $cmd.CommandType
