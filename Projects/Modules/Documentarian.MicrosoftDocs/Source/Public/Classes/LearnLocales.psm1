@@ -1,4 +1,7 @@
-﻿class LearnLocales {
+﻿# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+class LearnLocales {
 
     ## This list of locales is based on the language selection page on the Learn platform.
 
