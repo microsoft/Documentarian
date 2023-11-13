@@ -25,6 +25,8 @@ release_links:
 
 ## Unreleased
 
+- Add new class for `Get-LocaleFreshness` to define lists of default and supported locales.
+
 - Added [`Get-CmdletXref`] to make it simpler to add links to cmdlet reference docs.
 
 [`Get-CmdletXref`]: /modules/microsoftdocs/reference/cmdlets/get-cmdletxref/
