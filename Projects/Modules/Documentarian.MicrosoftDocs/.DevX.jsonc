@@ -1,7 +1,7 @@
 {
   "ManifestData": {
     "Guid": "a054ec31-cb69-4a4b-b66b-39d25e909615",
-    "ModuleVersion": "0.0.2",
+    "ModuleVersion": "0.0.3",
     "RootModule": "Documentarian.MicrosoftDocs.psm1",
     "ScriptsToProcess": "Init.ps1",
     "VariablesToExport": "*",

@@ -1,6 +1,8 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+using module ..\Classes\LearnLocales.psm1
+
 function Get-LocaleFreshness {
 
     [CmdletBinding()]
@@ -10,23 +12,21 @@ function Get-LocaleFreshness {
         [uri]$Uri,
 
         [Parameter(Position = 1)]
-        [ValidatePattern('[a-z]{2}-[a-z]{2}')]
-        [string[]]$Locales = (
-            'en-us', 'cs-cz', 'de-de', 'es-es', 'fr-fr', 'hu-hu', 'id-id', 'it-it',
-            'ja-jp', 'ko-kr', 'nl-nl', 'pl-pl', 'pt-br', 'pt-pt', 'ru-ru', 'sv-se',
-            'tr-tr', 'zh-cn', 'zh-tw'
-        )
+        [ValidateScript({$_ -in [LearnLocales]::SupportedLocales})]
+        [string[]]$Locale = [LearnLocales]::CommonLocales
     )
 
-    $locale = $uri.Segments[1].Trim('/')
-    if ($locale -notmatch '[a-z]{2}-[a-z]{2}') {
-        Write-Error "URL does not contain a valid locale: $locale"
+    $localeInUrl = $uri.Segments[1].Trim('/')
+    if ($localeInUrl -notin [LearnLocales]::SupportedLocales) {
+        Write-Error "URL does not contain a supported locale: $localeInUrl"
         return
     } else {
+
         $url = $uri.OriginalString
-        $Locales | ForEach-Object {
+        if ($Locale -notcontains 'en-us') { $Locale += 'en-us' }
+        $Locale | ForEach-Object {
             $locPath = $_
-            $result = Get-HtmlMetaTags ($url -replace $locale, $locPath) |
+            $result = Get-HtmlMetaTags ($url -replace $localeInUrl, $locPath) |
                 Select-Object @{n = 'locpath'; e = { $locPath } }, locale, 'ms.contentlocale',
                 'ms.translationtype', 'ms.date', 'loc_version', 'updated_at', 'loc_source_id',
                 'loc_file_id', 'original_content_git_url'
