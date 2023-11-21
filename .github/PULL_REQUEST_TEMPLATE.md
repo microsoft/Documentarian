@@ -21,8 +21,8 @@
 
 - [ ] **Descriptive Title:** This PR's title is a synopsis of the changes it proposes.
 - [ ] **Summary:** This PR's summary describes the scope and intent of the change.
-- [ ] **Contributor's Guide:** I have read the [contributors guide][contrib].
-- [ ] **Style:** This PR adheres to the [style guide][style].
+- [ ] **Contributor's Guide:** I've read the [contributors guide][contrib].
+- [ ] **Style:** This PR adheres to the [Microsoft Learn style guide for PowerShell][style].
 
 <!--
     If your PR is a work in progress, please mark it as a draft or
@@ -31,5 +31,5 @@
     This helps us understand whether or not your PR is ready to review.
 -->
 
-[contrib]: https://github.com/michaeltlombardi/DocumentarianModules/blob/main/CONTRIBUTING.md
-[style]: https://github.com/michaeltlombardi/DocumentarianModules/blob/main/CONTRIBUTING.md#Style
+[contrib]: https://github.com/microsoft/Documentarian/blob/main/CONTRIBUTING.md
+[style]: https://learn.microsoft.com/powershell/scripting/community/contributing/powershell-style-guide

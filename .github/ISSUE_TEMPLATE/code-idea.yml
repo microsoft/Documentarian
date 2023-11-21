@@ -10,8 +10,8 @@ body:
     attributes:
       label: Prerequisites
       description: >-
-        These steps are required. After you've completed each step, check the box for it before
-        moving on.
+        These steps are required. After you've completed each step, fille the checkbox for it
+        before moving on.
       options:
         - label: >-
             **Accepted Idea:** Proposals in this project are created based on ideas that have been
@@ -21,7 +21,7 @@ body:
           required: true
         - label: >-
             **Existing Issue:** Search the existing issues and discussions for this repository. If
-            there is an issue or discussion that fits your needs do not file a new one. Subscribe,
+            there is an issue or discussion that fits your needs don't file a new one. Subscribe,
             react, or comment on that issue or discussion instead.
           required: true
         - label: >-
@@ -41,6 +41,7 @@ body:
       options:
         - Documentarian
         - Documentarian.DevX
+        - Documentarian.MarkdownBuilder
         - Documentarian.MarkdownLint
         - Documentarian.MicrosoftDocs
         - Documentarian.ModuleAuthor
@@ -65,5 +66,5 @@ body:
     attributes:
       label: Details
       description: >-
-        If possible, please provide extended details that will add context and help the team
-        understand the proposed feature or change.
+        If possible, please provide extended details that add context and help the team understand
+        the proposed feature or change.

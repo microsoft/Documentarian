@@ -9,19 +9,19 @@ body:
   - type: markdown
     attributes:
       value: >-
-        Use this template to report issues with documentation. This can include typos, technical and
-        factual errors, grammar, spelling, formatting, presentation, etc.
+        Use this template to report issues with documentation. This can include typos, technical
+        and factual errors, grammar, spelling, formatting, presentation, etc.
   - type: checkboxes
     id: prerequisites
     attributes:
       label: Prerequisites
       description: >-
-        These steps are required. After you've completed each step, check the box for it before
+        These steps are required. After you've completed each step, fill the checkbox for it before
         moving on.
       options:
         - label: >-
             **Existing Issue:** Search the existing issues for this repository. If there is an issue
-            that fits your needs do not file a new one. Subscribe, react, or comment on that issue
+            that fits your needs don't file a new one. Subscribe, react, or comment on that issue
             instead.
           required: true
         - label: >-
@@ -40,6 +40,7 @@ body:
       options:
         - Documentarian
         - Documentarian.DevX
+        - Documentarian.MarkdownBuilder
         - Documentarian.MarkdownLint
         - Documentarian.MicrosoftDocs
         - Documentarian.ModuleAuthor
@@ -51,22 +52,21 @@ body:
     attributes:
       label: Links
       description: >-
-        Provide a list of links to the documentation page(s) that show the problem you are
-        reporting. Use the markdown list syntax for each item. If you are linking to the source for the
-        document, please use the permalink to the lines that show the problem. If you are linking to
-        the live page for the document, please ensure each link is to the nearest header anchor to
-        the problem instead of the page itself.
+        Provide a list of links to the documentation pages that show the problem you are reporting.
+        Use the markdown list syntax for each item. If you are linking to the source for the
+        document, please use the permalink to the lines that show the problem. If you are linking
+        to the live page for the document, please ensure each link is to the nearest header anchor
+        to the problem instead of the page itself.
       placeholder: |
-        - https://github.com/MicrosoftDocs/PowerShell-Docs-Modules/blob/2d7879a4c26b4a9d3aac906d18847f27ae509cdd/reference/docs-conceptual/Crescendo/overview.md?plain=1#L31-L38
-        - https://docs.microsoft.com/powershell/utility-modules/crescendo/overview?view=ps-modules#crescendo-specific-terminology
+        - https://github.com/microsoft/Documentarian/blob/a3f5bf6f3c32a4a747943dba5f5255bcd1cfb5f3/Projects/Modules/Documentarian/Documentation/reference/cmdlets/Get-Document.md
+        - https://microsoft.github.io/Documentarian/modules/documentarian/reference/cmdlets/get-document/
   - type: textarea
     id: summary
     validations:
       required: true
     attributes:
       label: Summary
-      description: >-
-        Write a clear and concise description of the problem.
+      description: Write a clear and concise description of the problem.
   - type: textarea
     id: details
     validations:
@@ -75,9 +75,9 @@ body:
       label: Details
       description: >-
         If possible, please provide extended details that will add context and help the team update
-        the documentation. Additional details may not be useful for typos, grammar, formatting, etc.
-        For technical or factual errors, please include code snippets and output to show how the
-        documentation is incorrect.
+        the documentation. Additional details may not be useful for typos, grammar, formatting,
+        etc. For technical or factual errors, please include code snippets and output to show how
+        the documentation is incorrect.
   - type: textarea
     id: suggestion
     validations:
