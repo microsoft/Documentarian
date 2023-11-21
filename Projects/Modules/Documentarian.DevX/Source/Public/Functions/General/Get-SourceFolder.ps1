@@ -24,7 +24,7 @@ function Get-SourceFolder {
   param(
     [Parameter(Mandatory, ParameterSetName = 'ByOption')]
     [Parameter(ParameterSetName = 'WithSpecificFolders')]
-    [ValidateSet('Classes', 'Enums', 'Formats', 'Functions', 'Tasks', 'Types')]
+    [ValidateSet('ArgumentCompleters', 'Classes', 'Enums', 'Formats', 'Functions', 'Tasks', 'Types')]
     [string[]]$Category,
 
     [Parameter(Mandatory, ParameterSetName = 'ByOption')]
@@ -34,7 +34,7 @@ function Get-SourceFolder {
 
     [Parameter(ParameterSetName = 'ByPreset')]
     [Parameter(ParameterSetName = 'WithSpecificFolders')]
-    [ValidateSet('Ordered', 'Functions', 'PS1Xmls', 'Tasks', 'All')]
+    [ValidateSet('Ordered', 'Functions', 'PS1Xmls', 'PSD1s', 'Tasks', 'All')]
     [string]$Preset = 'All',
 
     [Parameter(ParameterSetName = 'ByPreset')]
@@ -54,7 +54,7 @@ function Get-SourceFolder {
   )
 
   process {
-    $Category ??= @('Classes', 'Enums', 'Formats', 'Functions', 'Tasks', 'Types')
+    $Category ??= @('ArgumentCompleters', 'Classes', 'Enums', 'Formats', 'Functions', 'Tasks', 'Types')
     $CategoryPattern = "\b$($Category -join '|')\b"
     if ($SourceFolder) {
       $PublicFolder = Join-Path -Path $SourceFolder -ChildPath 'Public'
@@ -94,6 +94,12 @@ function Get-SourceFolder {
         )
       }
 
+      'PSD1s' {
+        @(
+          Join-Path -Path $PublicFolder -ChildPath ArgumentCompleters
+        )
+      }
+
       'Tasks' {
         @(
           Join-Path -Path $PublicFolder -ChildPath Tasks
@@ -111,6 +117,7 @@ function Get-SourceFolder {
           Join-Path -Path $PublicFolder -ChildPath Formats
           Join-Path -Path $PublicFolder -ChildPath Tasks
           Join-Path -Path $PublicFolder -ChildPath Types
+          Join-Path -Path $PublicFolder -ChildPath ArgumentCompleters
         )
       }
 

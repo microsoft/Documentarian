@@ -77,7 +77,6 @@ class SourceFolder {
         | Where-Object -FilterScript { $_ -notmatch '^\s*\/\/' }
         | ConvertFrom-Json
 
-        
         foreach ($Item in $LoadOrder) {
           $ItemFileName = "$($Item.Name).psm1"
           $ItemPath = if ([string]::IsNullOrEmpty($Item.Folder)) {
@@ -85,15 +84,14 @@ class SourceFolder {
           } else {
             Join-Path -Path $BasePath -ChildPath $Item.Folder -AdditionalChildPath $ItemFileName
           }
-          
+
           try {
             $ItemPath | Resolve-Path | ForEach-Object {
               [SourceFile]::new($this.NameSpace, $_.Path)
             }
-          }
-          catch {
+          } catch {
             $Message = @(
-              "Unable to resolve source file from LoadOrder at '$ITemPath'"
+              "Unable to resolve source file from LoadOrder at '$ItemPath'"
               "from configured options: $($Item | ConvertTo-Json)"
             ) -join ' '
             throw [System.IO.FileNotFoundException]::New($Message, $_.Exception)
@@ -101,7 +99,7 @@ class SourceFolder {
         }
       }
       $false {
-        Get-ChildItem -Path $BasePath -Include '*.ps1*' -Exclude '*.Tests.ps1' -Recurse
+        Get-ChildItem -Path $BasePath -Include '*.ps1*', '*.psd1' -Exclude '*.Tests.ps1' -Recurse
         | ForEach-Object -Process {
           [SourceFile]::new($this.NameSpace, $_.FullName)
         }

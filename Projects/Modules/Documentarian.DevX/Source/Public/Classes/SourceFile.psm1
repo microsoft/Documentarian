@@ -34,7 +34,13 @@ class SourceFile {
   hidden [string[]]$NonLocalUsingStatements
   hidden [bool]$CheckedForLocalUsingStatements
 
-  static [string]$MungingPattern = @(
+  static [string]$CopyrightNoticePattern = '^# Copyright (.+)$'
+  static [string]$CopyrightNoticePatternXml = 'Copyright .+'
+
+  static [string]$LicenseNoticePattern = '^# Licensed under (.+)$'
+  static [string]$LicenseNoticePatternXml = 'Licensed under .+'
+
+  static [string]$MungingPrefixPattern = @(
     # This segment is to do multiline regex and capture only named groups
     '(?m)(?n)'
     # This segment captures everything until the first definition
@@ -43,11 +49,22 @@ class SourceFile {
     '(?<Definition>(.|\s)+)'
   ) -join ''
 
-  static [string]$CopyrightNoticePattern = '^# Copyright (.+)$'
-  static [string]$CopyrightNoticePatternXml = 'Copyright .+'
-
-  static [string]$LicenseNoticePattern = '^# Licensed under (.+)$'
-  static [string]$LicenseNoticePatternXml = 'Licensed under .+'
+  static [string]$MungingNoticesPattern = @(
+    # This segment is to do multiline regex and capture only named groups
+    '(?m)(?n)'
+    # Capture the notices so they can be stripped out.
+    '(?<Notices>'
+      '('
+        '(' # We don't know the definite ordering for notices, so accept either
+          [SourceFile]::CopyrightNoticePattern
+          '|'
+          [SourceFile]::LicenseNoticePattern
+        ')\r?\n?'
+      ')+' # Can have 1 or more notices
+    ')?'   # Some projects might not have notices
+    # This segment captures the rest of the file as the definition.
+    '(?<Definition>(.|\s)+)'
+  ) -join ''
 
   SourceFile([string]$ParentNameSpace, [string]$Path) {
     $this.NameSpace = Resolve-NameSpace -Path $Path -ParentNameSpace $ParentNameSpace
@@ -92,8 +109,10 @@ class SourceFile {
     $SplitContent = $Content -split '(\r\n|\n|\r)'
     if (
       ($SplitContent -match '^(using|#requires|#region)') -and
-      ($Content -match [SourceFile]::MungingPattern)
+      ($Content -match [SourceFile]::MungingPrefixPattern)
     ) {
+      return $Matches.Definition.Trim()
+    } elseif ($Content -match [SourceFile]::MungingNoticesPattern) {
       return $Matches.Definition.Trim()
     } else {
       return $Content.Trim()
