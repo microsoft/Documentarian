@@ -569,6 +569,7 @@ class ModuleComposer {
     $this.PublicSourceFolders
     | Where-Object -FilterScript {
       $_.Category -notin @(
+        [SourceCategory]::ArgumentCompleter
         [SourceCategory]::Format
         [SourceCategory]::Task
         [SourceCategory]::Type
@@ -676,6 +677,32 @@ class ModuleComposer {
       '}.GetNewClosure()'
     ).Append($this.ModuleLineEnding).Append($this.ModuleLineEnding)
 
+    # Register argument completers
+    $ArgumentCompleters = $this.GetArgumentCompleterSourceFiles()
+    if ($ArgumentCompleters.Count -gt 0) {
+      $ContentBuilder.Append($this.ModuleLineEnding).Append(
+        '# Define the set of argument completers to register.'
+      ).Append($this.ModuleLineEnding).Append(
+        '$ArgumentCompleters = @('
+      ).Append($this.ModuleLineEnding)
+
+      foreach ($ArgumentCompleter in $ArgumentCompleters) {
+        $HashTableLines = $ArgumentCompleter.MungedContent -split '\r?\n'
+        foreach ($Line in $HashTableLines) {
+          $ContentBuilder.Append("    $Line").Append($this.ModuleLineEnding)
+        }
+      }
+      $ContentBuilder.Append(')').Append($this.ModuleLineEnding).Append(
+        '# Register the argument completers.'
+      ).Append($this.ModuleLineEnding).Append(
+        'foreach ($ArgumentCompleter in $ArgumentCompleters) {'
+      ).Append($this.ModuleLineEnding).Append(
+        '    Register-ArgumentCompleter @ArgumentCompleter'
+      ).Append($this.ModuleLineEnding).Append(
+        '}'
+      ).Append($this.ModuleLineEnding).Append($this.ModuleLineEnding)
+    }
+
     # Add the export statement
     $null = $ContentBuilder.Append('$ExportableFunctions = @(').Append($this.ModuleLineEnding)
     foreach ($PublicFunction in $this.PublicFunctions) {
@@ -740,7 +767,12 @@ class ModuleComposer {
     ).SourceFiles
   }
 
-
+  [SourceFile[]] GetArgumentCompleterSourceFiles() {
+    return $this.GetSourceFolder(
+      [SourceScope]::Public,
+      [SourceCategory]::ArgumentCompleter
+    ).SourceFiles
+  }
 
   hidden [string] TrimNotices([string]$Content) {
     foreach ($Notice in @($this.ModuleCopyrightNotice, $this.ModuleLicenseNotice)) {

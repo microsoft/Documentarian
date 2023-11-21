@@ -92,6 +92,7 @@ function Resolve-NameSpace {
 
     if ([string]::IsNullOrEmpty($ParentNameSpace)) {
       $ParentNameSpace = switch ($Category) {
+        ArgumentCompleter { "ArgumentCompleters.$Scope" }
         Class { "Classes.$Scope" }
         Enum { "Enums.$Scope" }
         Function { "Functions.$Scope" }
