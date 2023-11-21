@@ -594,25 +594,87 @@ class ModuleComposer {
     }
 
     # Add type accelerators for the public enums and classes
+    $ContentBuilder.Append(
+      '# Define the types to export with type accelerators.'
+    ).Append($this.ModuleLineEnding)
     $ContentBuilder.Append('$ExportableTypes =@(').Append($this.ModuleLineEnding)
     foreach ($PublicEnum in $this.GetPublicEnumSourceFiles()) {
       $EnumType = $this.GetDefinedTypeName($PublicEnum)
-      $ContentBuilder.Append("  $EnumType").Append($this.ModuleLineEnding)
+      $ContentBuilder.Append("    $EnumType").Append($this.ModuleLineEnding)
     }
     foreach ($PublicClass in $this.GetPublicClassSourceFiles()) {
       $ClassType = $this.GetDefinedTypeName($PublicClass)
-      $ContentBuilder.Append("  $ClassType").Append($this.ModuleLineEnding)
+      $ContentBuilder.Append("    $ClassType").Append($this.ModuleLineEnding)
     }
     $ContentBuilder.Append(')').Append($this.ModuleLineEnding)
     $ContentBuilder.Append($this.ModuleLineEnding)
-    $ContentBuilder.Append('foreach ($Type in $ExportableTypes) {').Append($this.ModuleLineEnding)
-    $ContentBuilder.Append('  [psobject].Assembly.GetType')
-    $ContentBuilder.Append("('System.Management.Automation.TypeAccelerators')")
-    $ContentBuilder.Append('::Add(').Append($this.ModuleLineEnding)
-    $ContentBuilder.Append('    $Type.FullName,').Append($this.ModuleLineEnding)
-    $ContentBuilder.Append('    $Type').Append($this.ModuleLineEnding)
-    $ContentBuilder.Append('  )').Append($this.ModuleLineEnding)
-    $ContentBuilder.Append('}').Append($this.ModuleLineEnding)
+    $ContentBuilder.Append(
+      '# Get the internal TypeAccelerators class to use its static methods.'
+    ).Append($this.ModuleLineEnding).Append(
+      '$TypeAcceleratorsClass = [psobject].Assembly.GetType('
+    ).Append($this.ModuleLineEnding).Append(
+      "'System.Management.Automation.TypeAccelerators'"
+    ).Append($this.ModuleLineEnding).Append(
+      ')'
+    ).Append($this.ModuleLineEnding).Append(
+      '# Ensure none of the types would clobber an existing type accelerator.'
+    ).Append($this.ModuleLineEnding).Append(
+      '# If a type accelerator with the same name exists, throw an exception.'
+    ).Append($this.ModuleLineEnding).Append(
+      '$ExistingTypeAccelerators = $TypeAcceleratorsClass::Get'
+    ).Append($this.ModuleLineEnding).Append(
+      'foreach ($Type in $ExportableTypes) {'
+    ).Append($this.ModuleLineEnding).Append(
+      '    if ($Type -in $ExistingTypeAccelerators.Keys) {'
+    ).Append($this.ModuleLineEnding).Append(
+      '        $Message = @('
+    ).Append($this.ModuleLineEnding).Append(
+      "            `"Unable to register type accelerator '`$(`$Type.FullName)'`""
+    ).Append($this.ModuleLineEnding).Append(
+      "            'Accelerator already exists'"
+    ).Append($this.ModuleLineEnding).Append(
+      "        ) -join ' '"
+    ).Append($this.ModuleLineEnding).Append($this.ModuleLineEnding).Append(
+      '        throw [System.Management.Automation.ErrorRecord]::new('
+    ).Append($this.ModuleLineEnding).Append(
+      '            [System.InvalidOperationException]::new($Message),'
+    ).Append($this.ModuleLineEnding).Append(
+      "            'TypeAcceleratorAlreadyExists',"
+    ).Append($this.ModuleLineEnding).Append(
+      '            [System.Management.Automation.ErrorCategory]::InvalidOperation,'
+    ).Append($this.ModuleLineEnding).Append(
+      '            $Type.FullName'
+    ).Append($this.ModuleLineEnding).Append(
+      '        )'
+    ).Append($this.ModuleLineEnding).Append(
+      '    }'
+    ).Append($this.ModuleLineEnding).Append(
+      '}'
+    ).Append($this.ModuleLineEnding).Append($this.ModuleLineEnding).Append(
+      '# Add the type accelerators for every exportable type.'
+    ).Append($this.ModuleLineEnding).Append(
+      'foreach ($Type in $ExportableTypes) {'
+    ).Append($this.ModuleLineEnding).Append(
+      '    Write-Verbose "Registering type accelerator for [$Type]"'
+    ).Append($this.ModuleLineEnding).Append(
+      '    $TypeAcceleratorsClass::Add($Type.FullName, $Type)'
+    ).Append($this.ModuleLineEnding).Append(
+      '}'
+    ).Append($this.ModuleLineEnding).Append(
+      '# Remove type accelerators when the module is removed.'
+    ).Append($this.ModuleLineEnding).Append(
+      '$MyInvocation.MyCommand.ScriptBlock.Module.OnRemove = {'
+    ).Append($this.ModuleLineEnding).Append(
+      '    foreach ($Type in $ExportableTypes) {'
+    ).Append($this.ModuleLineEnding).Append(
+      '        Write-Verbose "Unregistering type accelerator for [$Type]"'
+    ).Append($this.ModuleLineEnding).Append(
+      '        $null = $TypeAcceleratorsClass::Remove($Type.FullName)'
+    ).Append($this.ModuleLineEnding).Append(
+      '    }'
+    ).Append($this.ModuleLineEnding).Append(
+      '}.GetNewClosure()'
+    ).Append($this.ModuleLineEnding).Append($this.ModuleLineEnding)
 
     # Add the export statement
     $null = $ContentBuilder.Append('$ExportableFunctions = @(').Append($this.ModuleLineEnding)
@@ -739,6 +801,28 @@ class ModuleComposer {
       (Test-Path -Path $this.SourceInitScriptPath)
     ) {
       $InitAst = Get-Ast -Path $this.SourceInitScriptPath
+      $HasCode = (
+        $InitAst.Ast.BeginBlock.Statements.Count -gt 0 -or
+        $InitAst.Ast.ProcessBlock.Statements.Count -gt 0 -or
+        $InitAst.Ast.EndBlock.Statements.Count -gt 0 -or
+        $InitAst.Ast.CleanBlock.Statements.Count -gt 0 -or
+        $InitAst.Ast.DynamicParamBlock -or
+        $InitAst.Ast.ParamBlock
+      )
+
+      if (-not $HasCode) {
+        Write-Debug 'Init script has no code, removing from ScriptsToProcess and skipping.'
+        $ScriptsToProcess = $this.ManifestData.ScriptsToProcess
+        if ($ScriptsToProcess -is [string]) {
+          $ScriptsToProcess = @($ScriptsToProcess)
+        }
+        $ScriptsToProcess = $ScriptsToProcess | Where-Object -FilterScript {
+          $_ -ne 'Init.ps1'
+        }
+        $this.ManifestData.ScriptsToProcess = $ScriptsToProcess
+
+        return
+      }
 
       $InitHelp = $InitAst.Ast.GetHelpContent()?.GetCommentBlock()
       $InitHelp = $InitHelp -replace [System.Environment]::NewLine, $this.ModuleLineEnding
@@ -887,8 +971,10 @@ class ModuleComposer {
     $this.RootModuleContent
     | Out-File -FilePath $this.OutputRootModulePath -Encoding utf8 -NoNewline
 
-    $this.InitScriptContent
-    | Out-File -FilePath $this.OutputInitScriptPath -Encoding utf8 -NoNewline
+    if (![string]::IsNullOrEmpty($this.InitScriptContent)) {
+      $this.InitScriptContent
+      | Out-File -FilePath $this.OutputInitScriptPath -Encoding utf8 -NoNewline
+    }
 
     if ($this.TypeContent) {
       $this.TypeContent
