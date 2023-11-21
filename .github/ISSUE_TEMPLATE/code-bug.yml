@@ -8,20 +8,20 @@ body:
   - type: markdown
     attributes:
       value: >
-        Use this template to report issues with a module's functionality. This can include unhandled
-        edge cases, unexpected behavior, etc.
+        Use this template to report issues with a module's functionality. This can include
+        unhandled edge cases, unexpected behavior, etc.
   - type: checkboxes
     id: prerequisites
     attributes:
       label: Prerequisites
       description: >-
-        These steps are required. After you've completed each step, check the box for it before
+        These steps are required. After you've completed each step, fill the checkbox for it before
         moving on.
       options:
         - label: >-
-            **Existing Issue:** Search the existing issues for this repository. If there is an issue
-            that fits your needs do not file a new one. Subscribe, react, or comment on that issue
-            instead.
+            **Existing Issue:** Search the existing issues for this repository. If there is an
+            issue that fits your needs don't file a new one. Subscribe, react, or comment on that
+            issue instead.
           required: true
         - label: >-
             **Descriptive Title:** Write the title for this issue as a short synopsis. If possible,
@@ -40,14 +40,28 @@ body:
       options:
         - Documentarian
         - Documentarian.DevX
+        - Documentarian.MarkdownBuilder
         - Documentarian.MarkdownLint
         - Documentarian.MicrosoftDocs
         - Documentarian.ModuleAuthor
         - Documentarian.Vale
   - type: textarea
     attributes:
+      label: Summary
+      description: >-
+        Describe the issue briefly. What cmdlet or feature isn't working as expected? What do you
+        expect to happen? What actually happens?
+      placeholder: |
+        I am experiencing a problem with X.
+
+        I think Y should be happening but Z is actually happening.
+  - type: textarea
+    attributes:
       label: Expected behavior
       render: console
+      description: >-
+        Show the expected behavior in the terminal - what should happen when you run the affected
+        commands. Include the expected output.
       placeholder: |
         PS> 2 + 2
         4
@@ -57,6 +71,9 @@ body:
     attributes:
       label: Actual behavior
       render: console
+      description: >-
+        Show the actual behavior in the terminal - what does happen when you run the affected
+        commands. Include the expected output.
       placeholder: |
         PS> 2 + 2
         5
@@ -66,25 +83,30 @@ body:
     attributes:
       label: Steps to reproduce
       description: >-
-        List of steps, sample code, failing test or link to a project that reproduces the behavior.
-        Make sure you place a stack trace inside a code (```) block to avoid linking unrelated
-        issues.
+        List the steps, sample code, a failing test, or link to a project that reproduces the
+        behavior. Make sure you place a stack trace inside a code (```` ``` ````) block to avoid
+        linking unrelated issues.
       placeholder: |
-        I am experiencing a problem with X.
-
-        I think Y should be happening but Z is actually happening.
+        1. Install the latest version of the module from the gallery.
+           ```powershell
+           Install-Module Documentarian
+           ```
+        1. Run the following commands:
+           ```powershell
+           Get-Document
+           ```
     validations:
       required: true
   - type: textarea
     attributes:
       label: Error details
-      description: Paste verbatim output from `Get-Error` if PowerShell returns an error.
+      description: Paste the verbatim output from `Get-Error` if PowerShell returns an error.
       render: console
       placeholder: PS> Get-Error
   - type: textarea
     attributes:
       label: Environment data
-      description: Paste verbatim output from `$PSVersionTable` below.
+      description: Paste the verbatim output from `$PSVersionTable` below.
       render: PowerShell
       placeholder: PS> $PSVersionTable
     validations:
