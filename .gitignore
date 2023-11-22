@@ -16,3 +16,4 @@ Projects/Hugo/**/public
 
 # Test ignores
 Projects/Modules/**/*.Results.xml
+Projects/Modules/.repository
