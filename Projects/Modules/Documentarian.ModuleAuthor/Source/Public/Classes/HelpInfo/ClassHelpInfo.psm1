@@ -63,6 +63,9 @@ class ClassHelpInfo : BaseHelpInfo {
         $this.Initialize($astInfo, $registry)
     }
 
+    ClassHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
+
     hidden [void] Initialize([AstInfo]$astInfo, [DecoratingCommentsRegistry]$registry) {
         if ($null -eq $registry) {
             $registry = [DecoratingCommentsRegistry]::Get()

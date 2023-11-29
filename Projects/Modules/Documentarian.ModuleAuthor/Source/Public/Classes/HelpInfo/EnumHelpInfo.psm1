@@ -41,6 +41,8 @@ class EnumHelpInfo : BaseHelpInfo {
     [EnumValueHelpInfo[]] $Values = @()
 
     EnumHelpInfo() {}
+    EnumHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
 
     EnumHelpInfo([AstInfo]$astInfo) {
         $this.Initialize($astInfo, [DecoratingCommentsRegistry]::Get())

@@ -50,6 +50,8 @@ class OverloadSignature : BaseHelpInfo {
     }
 
     OverloadSignature() {}
+    OverloadSignature([OrderedDictionary]$metadata) : base($metadata) {
+    }
     
     OverloadSignature([FunctionMemberAst]$overloadAst) {
         $this.Initialize($overloadAst)

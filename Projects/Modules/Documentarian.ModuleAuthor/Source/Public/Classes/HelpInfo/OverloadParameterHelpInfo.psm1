@@ -32,6 +32,8 @@ class OverloadParameterHelpInfo : BaseHelpInfo {
     [string] $Description = ''
 
     OverloadParameterHelpInfo() {}
+    OverloadParameterHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
 
     OverloadParameterHelpInfo([AstInfo]$parameterAstInfo) {
         $this.Initialize(

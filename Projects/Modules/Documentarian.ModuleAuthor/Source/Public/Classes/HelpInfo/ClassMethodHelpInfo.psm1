@@ -33,6 +33,9 @@ class ClassMethodHelpInfo : BaseHelpInfo {
 
     ClassMethodHelpInfo() {}
 
+    ClassMethodHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
+
     ClassMethodHelpInfo(
         [string]$methodName,
         [AstInfo]$classAstInfo

@@ -49,6 +49,8 @@ class OverloadHelpInfo : BaseHelpInfo {
     [OverloadExceptionHelpInfo[]] $Exceptions = @()
 
     OverloadHelpInfo() {}
+    OverloadHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
 
     OverloadHelpInfo([AstInfo]$astInfo) {
         $this.Initialize($astInfo, [DecoratingCommentsRegistry]::Get())

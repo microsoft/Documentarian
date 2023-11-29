@@ -12,6 +12,10 @@ class ExampleHelpInfo : BaseHelpInfo {
     # The body text for the example.
     [string] $Body
 
+    ExampleHelpInfo() {}
+    ExampleHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
+
     static [ExampleHelpInfo[]] Resolve ([DecoratingCommentsBlockParsed]$help) {
         if ((-not $help.IsUsable()) -or ($help.Example.Count -eq 0)) {
             return @()

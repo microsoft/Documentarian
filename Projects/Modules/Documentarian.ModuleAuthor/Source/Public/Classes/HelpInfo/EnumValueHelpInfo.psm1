@@ -52,6 +52,8 @@ class EnumValueHelpInfo : BaseHelpInfo {
         $this.Description = ''
         $this.HasExplicitValue = $false
     }
+    EnumValueHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
 
     EnumValueHelpInfo([AstInfo]$astInfo) {
         $this.Initialize($astInfo, [DecoratingCommentsBlockParsed]::new())

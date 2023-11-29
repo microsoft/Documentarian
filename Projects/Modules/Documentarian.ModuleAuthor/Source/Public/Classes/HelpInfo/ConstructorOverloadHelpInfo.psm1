@@ -35,6 +35,8 @@ class ConstructorOverloadHelpInfo : OverloadHelpInfo {
     }
 
     ConstructorOverloadHelpInfo() : base() {}
+    ConstructorOverloadHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
 
     ConstructorOverloadHelpInfo(
         [AstInfo]$astInfo

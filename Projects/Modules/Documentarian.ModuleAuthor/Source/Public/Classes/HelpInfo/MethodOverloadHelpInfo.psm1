@@ -36,6 +36,8 @@ class MethodOverloadHelpInfo : OverloadHelpInfo {
     [bool] $IsStatic = $false
 
     MethodOverloadHelpInfo() : base() {}
+    MethodOverloadHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
 
     MethodOverloadHelpInfo(
         [AstInfo]$astInfo

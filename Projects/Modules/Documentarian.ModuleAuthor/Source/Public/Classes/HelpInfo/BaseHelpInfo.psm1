@@ -4,6 +4,15 @@
 using namespace System.Collections.Specialized
 
 class BaseHelpInfo {
+
+    BaseHelpInfo() {}
+
+    BaseHelpInfo([OrderedDictionary]$metadata) {
+        foreach ($Property in $metadata.Keys) {
+            $this.$Property = $metadata.$Property
+        }
+    }
+
     [OrderedDictionary] ToMetadataDictionary() {
         return $this.ToMetadataDictionary($false)
     }

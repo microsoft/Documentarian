@@ -13,6 +13,8 @@ class OverloadExceptionHelpInfo : BaseHelpInfo {
     [string] $Description = ''
 
     OverloadExceptionHelpInfo() {}
+    OverloadExceptionHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
 
     OverloadExceptionHelpInfo([string]$type) {
         $this.Initialize($type, '')

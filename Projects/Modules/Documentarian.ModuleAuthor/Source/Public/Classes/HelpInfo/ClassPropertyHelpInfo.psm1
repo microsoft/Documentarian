@@ -49,6 +49,8 @@ class ClassPropertyHelpInfo : BaseHelpInfo {
     [string] $Description = ''
 
     ClassPropertyHelpInfo() {}
+    ClassPropertyHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
     ClassPropertyHelpInfo([AstInfo]$propertyAstInfo) {
         $this.Initialize(
             $propertyAstInfo,
