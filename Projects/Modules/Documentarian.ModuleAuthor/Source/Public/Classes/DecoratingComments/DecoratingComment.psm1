@@ -5,6 +5,7 @@ using namespace System.Management.Automation.Language
 using namespace System.Collections.Generic
 using namespace System.Collections.Specialized
 using module ./DecoratingComments.psm1
+using module ./DecoratingCommentsBlockParsed.psm1
 using module ./DecoratingCommentsRegistry.psm1
 
 class DecoratingComment {

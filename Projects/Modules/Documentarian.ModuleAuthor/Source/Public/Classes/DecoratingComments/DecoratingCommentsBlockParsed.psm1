@@ -2,8 +2,6 @@
 # Licensed under the MIT License.
 
 using namespace System.Collections.Specialized
-using module ../../Enums/DecoratingCommentsBlockKeywordKind.psm1
-using module ./DecoratingCommentsBlockKeyword.psm1
 using module ./DecoratingCommentsBlockKeyword.psm1
 
 class DecoratingCommentsBlockParsed : System.Collections.Specialized.OrderedDictionary {

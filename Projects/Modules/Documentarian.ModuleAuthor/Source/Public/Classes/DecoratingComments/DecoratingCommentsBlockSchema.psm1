@@ -3,8 +3,8 @@
 
 using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
-using module ./DecoratingCommentsBlockParsed.psm1
 using module ./DecoratingCommentsBlockKeyword.psm1
+using module ./DecoratingCommentsBlockParsed.psm1
 
 class DecoratingCommentsBlockSchema {
     <#

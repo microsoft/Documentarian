@@ -4,9 +4,10 @@
 using namespace System.Management.Automation.Language
 using namespace System.Collections.Specialized
 using module ../AstInfo.psm1
+using module ../DecoratingComments/DecoratingCommentsBlockParsed.psm1
 using module ../DecoratingComments/DecoratingCommentsRegistry.psm1
-using module ./BaseHelpInfo.psm1
 using module ./AttributeHelpInfo.psm1
+using module ./BaseHelpInfo.psm1
 
 #region    RequiredFunctions
 

@@ -7,6 +7,7 @@ using namespace System.Collections.Specialized
 using module ./DecoratingComments.psm1
 using module ./DecoratingCommentsBlockKeyword.psm1
 using module ./DecoratingCommentsBlockKeywords.psm1
+using module ./DecoratingCommentsBlockParsed.psm1
 using module ./DecoratingCommentsBlockSchema.psm1
 using module ./Schemas/DecoratingCommentsBlockSchemasClass.psm1
 using module ./Schemas/DecoratingCommentsBlockSchemasClassOverload.psm1

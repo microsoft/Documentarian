@@ -4,6 +4,7 @@
 using namespace System.Management.Automation.Language
 using namespace System.Collections.Generic
 using namespace System.Collections.Specialized
+using module ../AstInfo.psm1
 
 class DecoratingComments {
     static [bool] CanHaveCommentBlockInside([Ast]$targetAst) {
