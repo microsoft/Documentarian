@@ -172,4 +172,12 @@ class OverloadParameterHelpInfo : BaseHelpInfo {
         }
         return (Find-Ast @FindValueParameters)
     }
+
+    hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
+        $metadata.Name = $metadata.Name | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
+        $metadata.Type = $metadata.Type | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
+        $metadata.Description = $metadata.Description | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
+
+        return $metadata
+    }
 }

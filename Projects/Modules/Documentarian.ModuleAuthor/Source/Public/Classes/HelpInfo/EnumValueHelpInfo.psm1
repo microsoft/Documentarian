@@ -142,4 +142,11 @@ class EnumValueHelpInfo : BaseHelpInfo {
             }
         }
     }
+
+    hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
+        $metadata.Label = $metadata.Label | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
+        $metadata.Description = $metadata.Description | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
+
+        return $metadata
+    }
 }

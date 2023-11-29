@@ -151,4 +151,11 @@ class ClassMethodHelpInfo : BaseHelpInfo {
                 [ClassMethodHelpInfo]::new($_, $classAstInfo, $registry)
             }
     }
+
+    hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
+        $metadata.Name = $metadata.Name | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
+        $metadata.Synopsis = $metadata.Synopsis | yayaml\Add-YamlFormat -ScalarStyle Folded -PassThru
+
+        return $metadata
+    }
 }

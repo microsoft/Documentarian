@@ -106,4 +106,12 @@ class MethodOverloadHelpInfo : OverloadHelpInfo {
             [MethodOverloadHelpInfo]::new($MethodAstInfo)
         }
     }
+
+    hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
+        $metadata = [OverloadHelpInfo]::AddYamlFormatting($metadata)
+
+        $metadata.ReturnType = $metadata.Type | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
+
+        return $metadata
+    }
 }

@@ -95,4 +95,11 @@ class OverloadSignature : BaseHelpInfo {
     static [string] GetFullSignature([AstInfo]$overloadAstInfo) {
         return [OverloadSignature]::GetFullSignature($overloadAstInfo)
     }
+
+    hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
+        $metadata.Full = $metadata.Full | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
+        $metadata.TypeOnly = $metadata.TypeOnly | yayaml\Add-YamlFormat -ScalarStyle Folded -PassThru
+
+        return $metadata
+    }
 }

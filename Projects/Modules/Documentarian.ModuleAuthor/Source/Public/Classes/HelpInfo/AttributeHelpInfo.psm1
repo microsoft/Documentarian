@@ -54,4 +54,11 @@ class AttributeHelpInfo : BaseHelpInfo {
 
         return @()
     }
+
+    hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
+        $metadata.Type = $metadata.Type | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
+        $metadata.Definition = $metadata.Definition | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
+
+        return $metadata
+    }
 }

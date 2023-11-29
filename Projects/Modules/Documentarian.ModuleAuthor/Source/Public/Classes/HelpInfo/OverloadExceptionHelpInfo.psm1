@@ -53,4 +53,11 @@ class OverloadExceptionHelpInfo : BaseHelpInfo {
             [OverloadExceptionHelpInfo]::new($_.Value, $_.Content)
         }
     }
+
+    hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
+        $metadata.Type = $metadata.Type | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
+        $metadata.Description = $metadata.Description | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
+
+        return $metadata
+    }
 }

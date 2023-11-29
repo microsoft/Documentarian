@@ -39,4 +39,11 @@ class ExampleHelpInfo : BaseHelpInfo {
             }
         }
     }
+
+    hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
+        $metadata.Title = $metadata.Title | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
+        $metadata.Body = $metadata.Body | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
+
+        return $metadata
+    }
 }
