@@ -28,6 +28,8 @@ class AttributeHelpInfo : BaseHelpInfo {
     [string] $Definition
 
     AttributeHelpInfo() {}
+    AttributeHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+    }
 
     AttributeHelpInfo([AttributeAst]$attributeAst) {
         $this.Initialize($attributeAst)
