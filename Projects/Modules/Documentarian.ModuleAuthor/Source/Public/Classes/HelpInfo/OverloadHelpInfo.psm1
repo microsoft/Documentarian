@@ -16,13 +16,13 @@ using module ./OverloadSignature.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -49,8 +49,8 @@ class OverloadHelpInfo : BaseHelpInfo {
     [OverloadExceptionHelpInfo[]] $Exceptions = @()
 
     OverloadHelpInfo() {}
-    OverloadHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
-    }
+
+    OverloadHelpInfo([OrderedDictionary]$metadata) : base($metadata) {}
 
     OverloadHelpInfo([AstInfo]$astInfo) {
         $this.Initialize($astInfo, [DecoratingCommentsRegistry]::Get())
@@ -63,6 +63,7 @@ class OverloadHelpInfo : BaseHelpInfo {
     OverloadHelpInfo([FunctionMemberAst]$targetAst) {
         $this.Initialize($targetAst, [DecoratingCommentsRegistry]::Get())
     }
+
     OverloadHelpInfo([FunctionMemberAst]$targetAst, $registry) {
         $this.Initialize($targetAst, $registry)
     }
@@ -123,7 +124,7 @@ class OverloadHelpInfo : BaseHelpInfo {
     }
 
     hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
-        $metadata.Synopsis = $metadata.Synopsis | yayaml\Add-YamlFormat -ScalarStyle Folded -PassThru
+        $metadata.Synopsis    = $metadata.Synopsis    | yayaml\Add-YamlFormat -ScalarStyle Folded  -PassThru
         $metadata.Description = $metadata.Description | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
 
         return $metadata

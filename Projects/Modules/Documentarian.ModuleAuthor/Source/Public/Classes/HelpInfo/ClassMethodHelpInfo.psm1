@@ -12,13 +12,13 @@ using module ./MethodOverloadHelpInfo.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -33,8 +33,7 @@ class ClassMethodHelpInfo : BaseHelpInfo {
 
     ClassMethodHelpInfo() {}
 
-    ClassMethodHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
-    }
+    ClassMethodHelpInfo([OrderedDictionary]$metadata) : base($metadata) {}
 
     ClassMethodHelpInfo(
         [string]$methodName,
@@ -42,6 +41,7 @@ class ClassMethodHelpInfo : BaseHelpInfo {
     ) {
         $this.Initialize($methodName, $classAstInfo, [DecoratingCommentsRegistry]::Get())
     }
+
     ClassMethodHelpInfo(
         [string]$methodName,
         [AstInfo]$classAstInfo,
@@ -49,12 +49,14 @@ class ClassMethodHelpInfo : BaseHelpInfo {
     ) {
         $this.Initialize($methodName, $classAstInfo, $registry)
     }
+
     ClassMethodHelpInfo(
         [string]$methodName,
         [TypeDefinitionAst]$classAst
     ) {
         $this.Initialize($methodName, $classAst, [DecoratingCommentsRegistry]::Get())
     }
+
     ClassMethodHelpInfo(
         [string]$methodName,
         [TypeDefinitionAst]$classAst,
@@ -85,7 +87,7 @@ class ClassMethodHelpInfo : BaseHelpInfo {
         if ($classAstInfo.Ast -isnot [TypeDefinitionAst]) {
             $Message = @(
                 'Invalid argument. [ClassMethodHelpInfo] expects an AstInfo object where'
-                "the Ast property is a TypeDefinitionAst that defines a class,"
+                'the Ast property is a TypeDefinitionAst that defines a class,'
                 "but the Ast property's type was $($classAstInfo.Ast.GetType().FullName)"
             ) -join ' '
             throw [System.ArgumentException]::new($Message, 'classAstInfo')
@@ -94,7 +96,6 @@ class ClassMethodHelpInfo : BaseHelpInfo {
             $registry = [DecoratingCommentsRegistry]::Get()
         }
 
-        [TypeDefinitionAst]$ClassAst = $classAstInfo.Ast
         $ClassHelp = $classAstInfo.DecoratingComment.ParsedValue
         $this.Name = $methodName
 
@@ -132,7 +133,7 @@ class ClassMethodHelpInfo : BaseHelpInfo {
         if ($classAstInfo.Ast -isnot [TypeDefinitionAst]) {
             $Message = @(
                 'Invalid argument. [ClassMethodHelpInfo]::Resolve()'
-                "expects an AstInfo object where the Ast property is a TypeDefinitionAst"
+                'expects an AstInfo object where the Ast property is a TypeDefinitionAst'
                 "that defines a class, but the Ast property's type was"
                 $classAstInfo.Ast.GetType().FullName
             ) -join ' '
@@ -156,7 +157,7 @@ class ClassMethodHelpInfo : BaseHelpInfo {
     }
 
     hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
-        $metadata.Name = $metadata.Name | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
+        $metadata.Name     = $metadata.Name     | yayaml\Add-YamlFormat -ScalarStyle Plain  -PassThru
         $metadata.Synopsis = $metadata.Synopsis | yayaml\Add-YamlFormat -ScalarStyle Folded -PassThru
 
         return $metadata

@@ -5,13 +5,13 @@
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Test-IsAstType.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Test-IsAstType.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -28,25 +28,27 @@ Function Get-AstType {
         [Parameter(
             Mandatory,
             ParameterSetName = 'ByPattern',
-            HelpMessage = 'Specify a valid regex pattern to match in the list of AST types'
+            HelpMessage      = 'Specify a valid regex pattern to match in the list of AST types'
         )]
-        [string]$Pattern,
+        [string]
+        $Pattern,
 
         [Parameter(
             Mandatory,
             ParameterSetName = 'ByName',
-            HelpMessage = 'Specify a name to look for in the list of AST types; the "Ast" suffix is optional'
+            HelpMessage      = 'Specify a name to look for in the list of AST types; the "Ast" suffix is optional'
         )]
-        [string[]]$Name
+        [string[]]
+        $Name
     )
 
     begin {
         # ignore exceptions getting the types in an assembly
         $Types = [System.AppDomain]::CurrentDomain.GetAssemblies() |
-        ForEach-Object -Process { try { $_.GetTypes() } catch {} } |
-        Where-Object -FilterScript {
-            Test-IsAstType -Type $_
-        }
+            ForEach-Object -Process { try { $_.GetTypes() } catch {} } |
+            Where-Object -FilterScript {
+                Test-IsAstType -Type $_
+            }
     }
 
     process {

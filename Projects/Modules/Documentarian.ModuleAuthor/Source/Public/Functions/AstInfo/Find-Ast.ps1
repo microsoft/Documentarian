@@ -10,15 +10,15 @@ using module ../../Classes/DecoratingComments/DecoratingCommentsRegistry.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/New-AstPredicate.ps1"
-  Resolve-Path -Path "$SourceFolder/Public/Functions/DecoratingComments/New-DecoratingCommentsRegistry.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/New-AstPredicate.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/DecoratingComments/New-DecoratingCommentsRegistry.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -31,25 +31,25 @@ Function Find-Ast {
 
     [CmdletBinding(DefaultParameterSetName = 'FromAstInfoWithType')]
     [OutputType([Ast[]], ParameterSetName=(
-        'FromAstInfoWithPredicate',
-        'FromPathWithPredicate',
-        'FromScriptBlockWithPredicate',
-        'FromTargetAstWithPredicate',
-        'FromAstInfoWithType',
-        'FromPathWithType',
-        'FromScriptBlockWithType',
-        'FromTargetAstWithType'
-    ))]
+            'FromAstInfoWithPredicate',
+            'FromPathWithPredicate',
+            'FromScriptBlockWithPredicate',
+            'FromTargetAstWithPredicate',
+            'FromAstInfoWithType',
+            'FromPathWithType',
+            'FromScriptBlockWithType',
+            'FromTargetAstWithType'
+        ))]
     [OutputType([AstInfo[]], ParameterSetName=(
-        'FromAstInfoWithPredicateAsAstInfo',
-        'FromPathWithPredicateAsAstInfo',
-        'FromScriptBlockWithPredicateAsAstInfo',
-        'FromTargetAstWithPredicateAsAstInfo',
-        'FromAstInfoWithTypeAsAstInfo',
-        'FromPathWithTypeAsAstInfo',
-        'FromScriptBlockWithTypeAsAstInfo',
-        'FromTargetAstWithTypeAsAstInfo'
-    ))]
+            'FromAstInfoWithPredicateAsAstInfo',
+            'FromPathWithPredicateAsAstInfo',
+            'FromScriptBlockWithPredicateAsAstInfo',
+            'FromTargetAstWithPredicateAsAstInfo',
+            'FromAstInfoWithTypeAsAstInfo',
+            'FromPathWithTypeAsAstInfo',
+            'FromScriptBlockWithTypeAsAstInfo',
+            'FromTargetAstWithTypeAsAstInfo'
+        ))]
     Param(
         [Parameter(Mandatory, ParameterSetName = 'FromAstInfoWithPredicate')]
         [Parameter(Mandatory, ParameterSetName = 'FromAstInfoWithPredicateAsAstInfo')]
@@ -183,8 +183,8 @@ Function Find-Ast {
             $Results | ForEach-Object -Process {
                 $GetResultParameters = @{
                     ParseDecoratingComment = $ParseDecoratingComment
-                    TargetAst = $_
-                    Token = $AstInfo.Tokens
+                    TargetAst              = $_
+                    Token                  = $AstInfo.Tokens
                 }
                 if ($null -ne $Registry) {
                     $GetResultParameters.Registry = $Registry

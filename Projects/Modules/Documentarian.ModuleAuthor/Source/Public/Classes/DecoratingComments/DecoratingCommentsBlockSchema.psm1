@@ -307,13 +307,13 @@ class DecoratingCommentsBlockSchema {
         $CleanedComment = [DecoratingCommentsBlockSchema]::CleanCommentBlock($comment)
 
         $Result = $CleanedComment |
-        Select-String -Pattern $pattern -AllMatches |
-        ForEach-Object -Process { $_.Matches.Groups } |
-        Where-Object -FilterScript { $_.Name -eq 'Content' } |
-        Select-Object -ExpandProperty Value |
-        ForEach-Object -Process {
-            [DecoratingCommentsBlockSchema]::MungeKeywordBlock($_)
-        }
+            Select-String -Pattern $pattern -AllMatches |
+            ForEach-Object -Process { $_.Matches.Groups } |
+            Where-Object -FilterScript { $_.Name -eq 'Content' } |
+            Select-Object -ExpandProperty Value |
+            ForEach-Object -Process {
+                [DecoratingCommentsBlockSchema]::MungeKeywordBlock($_)
+            }
 
         return $Result
     }
@@ -334,13 +334,13 @@ class DecoratingCommentsBlockSchema {
         $CleanedComment = [DecoratingCommentsBlockSchema]::CleanCommentBlock($comment)
 
         $Result = $CleanedComment |
-        Select-String -Pattern $pattern -AllMatches |
-        ForEach-Object -Process { $_.Matches.Groups } |
-        Where-Object -FilterScript { $_.Name -eq 'Value' } |
-        Select-Object -ExpandProperty Value |
-        ForEach-Object -Process {
-            $_.Trim()
-        }
+            Select-String -Pattern $pattern -AllMatches |
+            ForEach-Object -Process { $_.Matches.Groups } |
+            Where-Object -FilterScript { $_.Name -eq 'Value' } |
+            Select-Object -ExpandProperty Value |
+            ForEach-Object -Process {
+                $_.Trim()
+            }
 
         return $Result
     }
@@ -349,9 +349,9 @@ class DecoratingCommentsBlockSchema {
         $CleanedComment = [DecoratingCommentsBlockSchema]::CleanCommentBlock($comment)
 
         if ($CleanedComment -match $pattern) {
-            $Entry = [DecoratingCommentsBlockParsed]::new()
-            $Value = $Matches.Value.Trim()
+            $Entry   = [DecoratingCommentsBlockParsed]::new()
             $Content = [DecoratingCommentsBlockSchema]::MungeKeywordBlock($Matches.Content)
+            $Value   = $Matches.Value.Trim()
             $Entry.Add('Value', $Value)
             $Entry.Add('Content', $Content)
             return $Entry
@@ -364,18 +364,18 @@ class DecoratingCommentsBlockSchema {
         $CleanedComment = [DecoratingCommentsBlockSchema]::CleanCommentBlock($comment)
 
         $Result = $CleanedComment |
-        Select-String -Pattern $pattern -AllMatches |
-        Select-Object -ExpandProperty Matches |
-        ForEach-Object -Process {
-            $Value = $_.Groups | Where-Object -FilterScript { $_.Name -eq 'Value' }
-            $Content = $_.Groups | Where-Object -FilterScript { $_.Name -eq 'Content' }
-            $Value = $Value.Value.Trim()
-            $Content = [DecoratingCommentsBlockSchema]::MungeKeywordBlock($Content.Value)
-            $Entry = [DecoratingCommentsBlockParsed]::new()
-            $Entry.Add('Value', $Value)
-            $Entry.Add('Content', $Content)
-            $Entry
-        }
+            Select-String -Pattern $pattern -AllMatches |
+            Select-Object -ExpandProperty Matches |
+            ForEach-Object -Process {
+                $Value   = $_.Groups | Where-Object -FilterScript { $_.Name -eq 'Value' }
+                $Content = $_.Groups | Where-Object -FilterScript { $_.Name -eq 'Content' }
+                $Value   = $Value.Value.Trim()
+                $Content = [DecoratingCommentsBlockSchema]::MungeKeywordBlock($Content.Value)
+                $Entry   = [DecoratingCommentsBlockParsed]::new()
+                $Entry.Add('Value', $Value)
+                $Entry.Add('Content', $Content)
+                $Entry
+            }
 
         return $Result
     }
@@ -384,9 +384,9 @@ class DecoratingCommentsBlockSchema {
         $CleanedComment = [DecoratingCommentsBlockSchema]::CleanCommentBlock($comment)
 
         if ($CleanedComment -match $pattern) {
-            $Entry = [DecoratingCommentsBlockParsed]::new()
-            $Value = if ($Matches.Value) { $Matches.Value.Trim() } else { '' }
+            $Entry   = [DecoratingCommentsBlockParsed]::new()
             $Content = [DecoratingCommentsBlockSchema]::MungeKeywordBlock($Matches.Content)
+            $Value   = if ($Matches.Value) { $Matches.Value.Trim() } else { '' }
             $Entry.Add('Value', $Value)
             $Entry.Add('Content', $Content)
             return $Entry
@@ -402,24 +402,24 @@ class DecoratingCommentsBlockSchema {
         $CleanedComment = [DecoratingCommentsBlockSchema]::CleanCommentBlock($comment)
 
         $Result = $CleanedComment |
-        Select-String -Pattern $pattern -AllMatches |
-        Select-Object -ExpandProperty Matches |
-        ForEach-Object -Process {
-            $Value = $_.Groups | Where-Object -FilterScript { $_.Name -eq 'Value' }
-            $Content = $_.Groups | Where-Object -FilterScript { $_.Name -eq 'Content' }
-            $Value = if ($Value.Value) { $Value.Value.Trim() } else { '' }
-            $Content = [DecoratingCommentsBlockSchema]::MungeKeywordBlock($Content.Value)
-            $Entry = [DecoratingCommentsBlockParsed]::new()
-            $Entry.Add('Value', $Value)
-            $Entry.Add('Content', $Content)
-            $Entry
-        }
+            Select-String -Pattern $pattern -AllMatches |
+            Select-Object -ExpandProperty Matches |
+            ForEach-Object -Process {
+                $Value   = $_.Groups | Where-Object -FilterScript { $_.Name -eq 'Value' }
+                $Content = $_.Groups | Where-Object -FilterScript { $_.Name -eq 'Content' }
+                $Value   = if ($Value.Value) { $Value.Value.Trim() } else { '' }
+                $Content = [DecoratingCommentsBlockSchema]::MungeKeywordBlock($Content.Value)
+                $Entry   = [DecoratingCommentsBlockParsed]::new()
+                $Entry.Add('Value', $Value)
+                $Entry.Add('Content', $Content)
+                $Entry
+            }
 
         return $Result
     }
 
     static [string] MungeKeywordBlock([string]$content) {
-        $Lines = [System.Collections.Generic.List[string]]::new()
+        $Lines                      = [System.Collections.Generic.List[string]]::new()
         $LookingForFirstContentLine = $true
 
         foreach ($Line in ($Content -split '\r?\n')) {

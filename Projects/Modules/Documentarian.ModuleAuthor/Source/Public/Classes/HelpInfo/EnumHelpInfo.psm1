@@ -13,13 +13,13 @@ using module ./ExampleHelpInfo.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Find-Ast.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Find-Ast.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -41,6 +41,7 @@ class EnumHelpInfo : BaseHelpInfo {
     [EnumValueHelpInfo[]] $Values = @()
 
     EnumHelpInfo() {}
+
     EnumHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
     }
 
@@ -58,9 +59,9 @@ class EnumHelpInfo : BaseHelpInfo {
         }
 
         $EnumAst = [EnumHelpInfo]::GetValidatedAst($astInfo)
-        $Help = $astInfo.DecoratingComment.ParsedValue
+        $Help    = $astInfo.DecoratingComment.ParsedValue
 
-        $this.Name = $EnumAst.Name
+        $this.Name        = $EnumAst.Name
         $this.IsFlagsEnum = [EnumHelpInfo]::TestIsFlagsEnum($EnumAst)
 
         if ($Help.IsUsable()) {
@@ -96,7 +97,6 @@ class EnumHelpInfo : BaseHelpInfo {
         }
 
         $ValuesAreFlags = [EnumHelpInfo]::TestIsFlagsEnum($enumAstInfo.Ast)
-
         $ValuesHelpInfo = [EnumValueHelpInfo]::Resolve($enumAstInfo, $registry)
 
         $NextValue = if ($ValuesAreFlags) { 1 } else { 0 }
@@ -157,10 +157,10 @@ class EnumHelpInfo : BaseHelpInfo {
     }
 
     hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
-        $metadata.Name = $metadata.Name | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
-        $metadata.Synopsis = $metadata.Synopsis | yayaml\Add-YamlFormat -ScalarStyle Folded -PassThru
+        $metadata.Name        = $metadata.Name        | yayaml\Add-YamlFormat -ScalarStyle Plain   -PassThru
+        $metadata.Synopsis    = $metadata.Synopsis    | yayaml\Add-YamlFormat -ScalarStyle Folded  -PassThru
         $metadata.Description = $metadata.Description | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
-        $metadata.Notes = $metadata.Notes | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
+        $metadata.Notes       = $metadata.Notes       | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
 
         return $metadata
     }

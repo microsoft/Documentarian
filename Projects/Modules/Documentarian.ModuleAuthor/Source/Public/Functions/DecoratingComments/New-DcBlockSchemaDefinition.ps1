@@ -8,13 +8,13 @@ using module ../../Classes/DecoratingComments/DecoratingCommentsRegistry.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/DecoratingComments/Get-DcBlockKeyword.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/DecoratingComments/Get-DcBlockKeyword.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -24,13 +24,22 @@ function New-DcBlockSchemaDefinition {
     [OutputType([string])]
     param(
         [Parameter(Mandatory)]
-        [string]$Name,
-        [string[]]$Alias,
+        [string]
+        $Name,
+
+        [string[]]
+        $Alias,
+
         [Parameter(Mandatory, ParameterSetName = 'WithKeywordNames')]
-        [string[]]$KeywordName,
+        [string[]]
+        $KeywordName,
+
         [Parameter(ParameterSetName = 'WithKeywordObjects')]
-        [DecoratingCommentsBlockKeyword[]]$Keyword,
-        [DecoratingCommentsRegistry]$Registry = $Global:ModuleAuthorDecoratingCommentsRegistry
+        [DecoratingCommentsBlockKeyword[]]
+        $Keyword,
+
+        [DecoratingCommentsRegistry]
+        $Registry = $Global:ModuleAuthorDecoratingCommentsRegistry
     )
 
     begin {}
@@ -39,7 +48,7 @@ function New-DcBlockSchemaDefinition {
         if ($Name -notmatch '\w+') {
             $Message = @(
                 "Invalid name '$Name'. The name of a DecoratingCommentsBlockSchema must be a"
-                "string that only contains alphanumeric characters and underscores."
+                'string that only contains alphanumeric characters and underscores.'
             ) -join ' '
             throw $Message
         }
@@ -47,7 +56,7 @@ function New-DcBlockSchemaDefinition {
             if ($A -notmatch '\w+') {
                 $Message = @(
                     "Invalid alias '$A'. Aliases of a DecoratingCommentsBlockSchema must be a"
-                    "string that only contains alphanumeric characters and underscores."
+                    'string that only contains alphanumeric characters and underscores.'
                 ) -join ' '
                 throw $Message
             }
@@ -80,10 +89,16 @@ function New-DcBlockSchemaDefinition {
         }
 
         $ModuleStringBuilder = New-Object -TypeName System.Text.StringBuilder
-        $null = $ModuleStringBuilder.AppendLine('using module Documentarian.ModuleAuthor')
-        $null = $ModuleStringBuilder.AppendLine()
-        $null = $ModuleStringBuilder.AppendLine("class $Name : DecoratingCommentsBlockSchema {")
-        $null = $ModuleStringBuilder.AppendLine("  static [string] `$Name = '$Name'")
+
+        $null = $ModuleStringBuilder.AppendLine(
+            'using module Documentarian.ModuleAuthor'
+        ).AppendLine(
+            ''
+        ).AppendLine(
+            "class $Name : DecoratingCommentsBlockSchema {"
+        ).AppendLine(
+            "  static [string] `$Name = '$Name'"
+        )
 
         if ($Alias.Count -gt 0) {
             $null = $ModuleStringBuilder.AppendLine('  static [string[]] $Aliases = @(')
@@ -99,27 +114,24 @@ function New-DcBlockSchemaDefinition {
         foreach ($K in $Keyword) {
             $null = $ModuleStringBuilder.AppendLine(
                 '    [DecoratingCommentsBlockKeyword]@{'
-            )
-            $null = $ModuleStringBuilder.AppendLine(
+            ).AppendLine(
                 "      Name                    = '$($K.Name)'"
-            )
-            $null = $ModuleStringBuilder.AppendLine(
+            ).AppendLine(
                 "      Kind                    = '$($K.Kind)'"
-            )
-            $null = $ModuleStringBuilder.AppendLine(
+            ).AppendLine(
                 "      SupportsMultipleEntries = $($K.SupportsMultipleEntries)"
-            )
-            $null = $ModuleStringBuilder.AppendLine(
+            ).AppendLine(
                 "      Pattern                 = '$($K.Pattern)'"
-            )
-            $null = $ModuleStringBuilder.AppendLine(
+            ).AppendLine(
                 '    }'
             )
         }
-        $null = $ModuleStringBuilder.AppendLine('  )')
-        $null = $ModuleStringBuilder.AppendLine('}')
-        $null = $ModuleStringBuilder.AppendLine()
-        
+        $null = $ModuleStringBuilder.AppendLine(
+            '  )'
+        ).AppendLine(
+            '}'
+        ).AppendLine()
+
         $ModuleStringBuilder.ToString()
     }
 

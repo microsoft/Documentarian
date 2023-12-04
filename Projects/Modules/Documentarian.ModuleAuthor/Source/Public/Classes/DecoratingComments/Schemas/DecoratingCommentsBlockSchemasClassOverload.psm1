@@ -8,7 +8,7 @@ using module ../DecoratingCommentsBlockKeywords.psm1
 using module ../DecoratingCommentsBlockSchema.psm1
 
 class DecoratingCommentsBlockSchemasClassOverload : DecoratingCommentsBlockSchema {
-  <#
+    <#
         .SYNOPSIS
         Represents the schema for a comment decorating an overload in a class.
 
@@ -36,7 +36,7 @@ class DecoratingCommentsBlockSchemasClassOverload : DecoratingCommentsBlockSchem
           text after it. Specify the keyword once for each exception.
     #>
 
-  <#
+    <#
         .SYNOPSIS
         The name of the parser schema to use for a decorated comment.
 
@@ -52,9 +52,9 @@ class DecoratingCommentsBlockSchemasClassOverload : DecoratingCommentsBlockSchem
         If a decorated comment doesn't declare the `Schema` keyword, the caller
         needs to decide which schema to use based on the current context.
     #>
-  static [string] $Name = 'ClassOverload'
+    static [string] $Name = 'ClassOverload'
 
-  <#
+    <#
         .SYNOPSIS
         A list of alternate names for the parser schema.
 
@@ -71,12 +71,12 @@ class DecoratingCommentsBlockSchemasClassOverload : DecoratingCommentsBlockSchem
         needs to decide which schema to use based on the current context.
 
     #>
-  static [string[]] $Aliases = @(
-    'ClassConstructor'
-    'ClassMethod'
-  )
+    static [string[]] $Aliases = @(
+        'ClassConstructor'
+        'ClassMethod'
+    )
 
-  <#
+    <#
         .SYNOPSIS
         The Keywords this schema uses for retrieving documentation from a
         comment.
@@ -86,11 +86,11 @@ class DecoratingCommentsBlockSchemasClassOverload : DecoratingCommentsBlockSchem
         that this schema recognizes when parsing a comment block decorating
         a code snippet.
     #>
-  static [DecoratingCommentsBlockKeyword[]] $Keywords = @(
-    [DecoratingCommentsBlockKeywords]::Synopsis
-    [DecoratingCommentsBlockKeywords]::Description
-    [DecoratingCommentsBlockKeywords]::Example
-    [DecoratingCommentsBlockKeywords]::Parameter
-    [DecoratingCommentsBlockKeywords]::Exception
-  )
+    static [DecoratingCommentsBlockKeyword[]] $Keywords = @(
+        [DecoratingCommentsBlockKeywords]::Synopsis
+        [DecoratingCommentsBlockKeywords]::Description
+        [DecoratingCommentsBlockKeywords]::Example
+        [DecoratingCommentsBlockKeywords]::Parameter
+        [DecoratingCommentsBlockKeywords]::Exception
+    )
 }

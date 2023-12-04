@@ -12,19 +12,23 @@ function Get-DcBlockSchema {
         [Parameter(ParameterSetName='ByValueFromAny')]
         [Parameter(ParameterSetName='ByValueFromBuiltIn')]
         [Parameter(ParameterSetName='ByValueFromRegistry')]
-        [string[]]$SchemaValue,
+        [string[]]
+        $SchemaValue,
 
         [Parameter(ParameterSetName='ByNameFromAny')]
         [Parameter(ParameterSetName='ByNameFromBuiltIn')]
         [Parameter(ParameterSetName='ByNameFromRegistry')]
-        [string[]]$Name,
+        [string[]]
+        $Name,
 
         [Parameter(ParameterSetName='ByAliasFromAny')]
         [Parameter(ParameterSetName='ByAliasFromBuiltIn')]
         [Parameter(ParameterSetName='ByAliasFromRegistry')]
-        [string[]]$Alias,
+        [string[]]
+        $Alias,
 
-        [DecoratingCommentsBlockKeyword[]]$IncludesKeyword,
+        [DecoratingCommentsBlockKeyword[]]
+        $IncludesKeyword,
 
         [Parameter(ParameterSetName='ByValueFromAny')]
         [Parameter(ParameterSetName='ByValueFromRegistry')]
@@ -32,17 +36,20 @@ function Get-DcBlockSchema {
         [Parameter(ParameterSetName='ByNameFromRegistry')]
         [Parameter(ParameterSetName='ByAliasFromAny')]
         [Parameter(ParameterSetName='ByAliasFromRegistry')]
-        [DecoratingCommentsRegistry]$Registry = $Global:ModuleAuthorDecoratingCommentsRegistry,
+        [DecoratingCommentsRegistry]
+        $Registry = $Global:ModuleAuthorDecoratingCommentsRegistry,
 
         [Parameter(ParameterSetName='ByValueFromBuiltIn')]
         [Parameter(ParameterSetName='ByNameFromBuiltIn')]
         [Parameter(ParameterSetName='ByAliasFromBuiltIn')]
-        [switch]$BuiltInOnly,
+        [switch]
+        $BuiltInOnly,
 
         [Parameter(ParameterSetName='ByValueFromRegistry')]
         [Parameter(ParameterSetName='ByNameFromRegistry')]
         [Parameter(ParameterSetName='ByAliasFromRegistry')]
-        [switch]$RegisteredOnly
+        [switch]
+        $RegisteredOnly
     )
 
     process {
@@ -59,6 +66,7 @@ function Get-DcBlockSchema {
                 'of the command to a variable, then pass it to this command as a parameter.'
             ) -join ' '
             Write-Error $Message
+
             return
         } elseif ($null -ne $Registry) {
             $Schemas = $Registry.GetEnumeratedRegisteredSchemas()
@@ -67,34 +75,39 @@ function Get-DcBlockSchema {
         }
 
         if ($SchemaValue.Count -gt 0) {
-            Write-Verbose "Filtering for Schema Value"
+            Write-Verbose 'Filtering for Schema Value'
+
             $Schemas = $Schemas | Where-Object -FilterScript {
-                ($_.GetName() -in $SchemaValue) -or 
-                ($_.GetAliases().Where({$_ -in $SchemaValue}).Count -gt 0)
+                ($_.GetName() -in $SchemaValue) -or
+                ($_.GetAliases().Where{ $_ -in $SchemaValue }.Count -gt 0)
             }
         }
 
         if ($Name.Count -gt 0) {
-            Write-Verbose "Filtering for Name"
+            Write-Verbose 'Filtering for Name'
+
             $Schemas = $Schemas | Where-Object -FilterScript {
                 $_.GetName() -in $Name
             }
         }
 
         if ($Alias.Count -gt 0) {
-            Write-Verbose "Filtering for Alias"
+            Write-Verbose 'Filtering for Alias'
+
             $Schemas = $Schemas | Where-Object -FilterScript {
-                $_.GetAliases().Where({$_ -in $Alias}).Count -gt 0
+                $_.GetAliases().Where{ $_ -in $Alias }.Count -gt 0
             }
         }
 
         if ($IncludesKeyword.Count -gt 0) {
-            Write-Verbose "Filtering for Keywords"
+            Write-Verbose 'Filtering for Keywords'
+
             $Schemas = $Schemas | Where-Object -FilterScript {
-                $_.GetKeywords().Where({ $_ -in $IncludesKeyword }).Count -gt 0
+                $_.GetKeywords().Where{ $_ -in $IncludesKeyword }.Count -gt 0
             }
         }
 
         $Schemas
     }
 }
+

@@ -9,29 +9,33 @@ function New-DcBlockKeyword {
     [OutputType([DecoratingCommentsBlockKeyword[]])]
     param(
         [Parameter(Mandatory)]
-        [string[]]$Name,
-        [DecoratingCommentsBlockKeywordKind]$Kind,
-        [switch]$SupportMultipleEntries,
-        [regex]$Pattern
+        [string[]]
+        $Name,
+
+        [DecoratingCommentsBlockKeywordKind]
+        $Kind,
+
+        [switch]
+        $SupportMultipleEntries,
+
+        [regex]
+        $Pattern
     )
 
     process {
         $Signature = 'Name'
-        if ($null -ne $Kind) {
-            $Signature += 'Kind'
-        }
-        if ($null -ne $Pattern) {
-            $Signature += 'Pattern'
-        }
+        if ($null -ne $Kind) { $Signature += 'Kind' }
+        if ($null -ne $Pattern) { $Signature += 'Pattern' }
+
         foreach ($KeywordName in $Name) {
             switch ($Signature) {
                 'Name' {
-                    [DecoratingCommentsBlockKeyword]::new($Name, $SupportMultipleEntries) 
+                    [DecoratingCommentsBlockKeyword]::new($Name, $SupportMultipleEntries)
                 }
                 'NameKind' {
                     [DecoratingCommentsBlockKeyword]::new($Name, $Kind, $SupportMultipleEntries)
                 }
-                'NamePattern'{
+                'NamePattern' {
                     [DecoratingCommentsBlockKeyword]::new(
                         $Name,
                         $SupportMultipleEntries,

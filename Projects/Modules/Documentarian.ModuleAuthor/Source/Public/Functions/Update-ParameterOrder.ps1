@@ -5,37 +5,37 @@
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Private/Functions/ParameterInfo/Get-ParameterMdHeaders.ps1"
+    Resolve-Path -Path "$SourceFolder/Private/Functions/ParameterInfo/Get-ParameterMdHeaders.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
 
 function Update-ParameterOrder {
-
     [CmdletBinding()]
     [OutputType([System.IO.FileInfo])]
     param (
         [Parameter(Mandatory, Position = 0)]
         [SupportsWildcards()]
-        [string[]]$Path
+        [string[]]
+        $Path
     )
 
     $mdfiles = Get-ChildItem $path
 
     foreach ($file in $mdfiles) {
-        $mdtext = Get-Content $file -Encoding utf8
+        $mdtext    = Get-Content $file -Encoding utf8
         $mdheaders = Select-String -Pattern '^#' -Path $file
 
         $unsorted = Get-ParameterMdHeaders $mdheaders
         if ($unsorted.Count -gt 0) {
-            $sorted = $unsorted | Sort-Object Line
-            $newtext = $mdtext[0..($unsorted[0].StartLine - 1)]
+            $sorted        = $unsorted | Sort-Object Line
+            $newtext       = $mdtext[0..($unsorted[0].StartLine - 1)]
             $confirmWhatIf = @()
             foreach ($paramblock in $sorted) {
                 if ( '### -Confirm', '### -WhatIf' -notcontains $paramblock.Line) {

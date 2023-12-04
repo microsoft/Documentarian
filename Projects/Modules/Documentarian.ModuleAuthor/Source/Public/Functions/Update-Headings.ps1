@@ -2,16 +2,32 @@
 # Licensed under the MIT License.
 
 function Update-Headings {
-
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory)]
         [SupportsWildcards()]
-        [string]$Path,
-        [switch]$Recurse
+        [string]
+        $Path,
+
+        [switch]
+        $Recurse
     )
-    $headings = '## Synopsis', '## Syntax', '## Description', '## Examples', '## Parameters',
-                '### CommonParameters', '## Inputs', '## Outputs', '## Notes', '## Related links',
-                '## Short description', '## Long description', '## See also'
+
+    $headings = @(
+        '## Synopsis'
+        '## Syntax'
+        '## Description'
+        '## Examples'
+        '## Parameters'
+        '### CommonParameters'
+        '## Inputs'
+        '## Outputs'
+        '## Notes'
+        '## Related links'
+        '## Short description'
+        '## Long description'
+        '## See also'
+    )
 
     Get-ChildItem $Path -Recurse:$Recurse | ForEach-Object {
         $_.name

@@ -16,13 +16,13 @@ using module ./ExampleHelpInfo.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Resolve-TypeName.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Resolve-TypeName.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -63,8 +63,7 @@ class ClassHelpInfo : BaseHelpInfo {
         $this.Initialize($astInfo, $registry)
     }
 
-    ClassHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
-    }
+    ClassHelpInfo([OrderedDictionary]$metadata) : base($metadata) {}
 
     hidden [void] Initialize([AstInfo]$astInfo, [DecoratingCommentsRegistry]$registry) {
         if ($null -eq $registry) {
@@ -72,14 +71,14 @@ class ClassHelpInfo : BaseHelpInfo {
         }
 
         $ClassAst = [ClassHelpInfo]::GetValidatedAst($astInfo)
-        $Help = $astInfo.DecoratingComment.ParsedValue
+        $Help     = $astInfo.DecoratingComment.ParsedValue
 
-        $this.Name = $ClassAst.Name.Trim()
-        $this.BaseTypes = $ClassAst.BaseTypes.ForEach({ Resolve-TypeName -TypeName -$_.TypeName })
-        $this.Attributes = [AttributeHelpInfo]::Resolve($astInfo)
-        $this.Properties = [ClassPropertyHelpInfo]::Resolve($astInfo, $registry)
+        $this.Name         = $ClassAst.Name.Trim()
+        $this.BaseTypes    = $ClassAst.BaseTypes.ForEach{ Resolve-TypeName -TypeName -$_.TypeName }
+        $this.Attributes   = [AttributeHelpInfo]::Resolve($astInfo)
+        $this.Properties   = [ClassPropertyHelpInfo]::Resolve($astInfo, $registry)
         $this.Constructors = [ConstructorOverloadHelpInfo]::Resolve($astInfo, $registry)
-        $this.Methods = [ClassMethodHelpInfo]::Resolve($astInfo, $registry)
+        $this.Methods      = [ClassMethodHelpInfo]::Resolve($astInfo, $registry)
 
         if ($Help.IsUsable()) {
             if ($HelpSynopsis = $Help.GetKeywordEntry('Synopsis')) {
@@ -121,8 +120,8 @@ class ClassHelpInfo : BaseHelpInfo {
     }
 
     hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
-        $metadata.Name = $metadata.Name | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
-        $metadata.Synopsis = $metadata.Synopsis | yayaml\Add-YamlFormat -ScalarStyle Folded -PassThru
+        $metadata.Name        = $metadata.Name        | yayaml\Add-YamlFormat -ScalarStyle Plain   -PassThru
+        $metadata.Synopsis    = $metadata.Synopsis    | yayaml\Add-YamlFormat -ScalarStyle Folded  -PassThru
         $metadata.Description = $metadata.Description | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
 
         return $metadata

@@ -12,13 +12,13 @@ using module ./OverloadSignature.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -35,8 +35,8 @@ class ConstructorOverloadHelpInfo : OverloadHelpInfo {
     }
 
     ConstructorOverloadHelpInfo() : base() {}
-    ConstructorOverloadHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
-    }
+
+    ConstructorOverloadHelpInfo([OrderedDictionary]$metadata) : base($metadata) {}
 
     ConstructorOverloadHelpInfo(
         [AstInfo]$astInfo
@@ -63,7 +63,7 @@ class ConstructorOverloadHelpInfo : OverloadHelpInfo {
         if ($astInfo.Ast -isnot [TypeDefinitionAst]) {
             $Message = @(
                 'Invalid argument. [ConstructorOverloadHelpInfo]::Resolve()'
-                "expects an AstInfo object where the Ast property is a TypeDefinitionAst"
+                'expects an AstInfo object where the Ast property is a TypeDefinitionAst'
                 "that defines a class, but the Ast property's type was"
                 $astInfo.Ast.GetType().FullName
             ) -join ' '

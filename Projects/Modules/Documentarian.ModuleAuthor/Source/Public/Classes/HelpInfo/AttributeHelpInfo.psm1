@@ -10,13 +10,13 @@ using module ./BaseHelpInfo.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Resolve-TypeName.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Resolve-TypeName.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -28,8 +28,8 @@ class AttributeHelpInfo : BaseHelpInfo {
     [string] $Definition
 
     AttributeHelpInfo() {}
-    AttributeHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
-    }
+
+    AttributeHelpInfo([OrderedDictionary]$metadata) : base($metadata) {}
 
     AttributeHelpInfo([AttributeAst]$attributeAst) {
         $this.Initialize($attributeAst)
@@ -58,7 +58,7 @@ class AttributeHelpInfo : BaseHelpInfo {
     }
 
     hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
-        $metadata.Type = $metadata.Type | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
+        $metadata.Type       = $metadata.Type       | yayaml\Add-YamlFormat -ScalarStyle Plain   -PassThru
         $metadata.Definition = $metadata.Definition | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
 
         return $metadata

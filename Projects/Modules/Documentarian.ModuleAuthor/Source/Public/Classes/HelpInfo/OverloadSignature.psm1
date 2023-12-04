@@ -10,13 +10,13 @@ using module ./BaseHelpInfo.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Resolve-TypeName.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Resolve-TypeName.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -50,24 +50,24 @@ class OverloadSignature : BaseHelpInfo {
     }
 
     OverloadSignature() {}
-    OverloadSignature([OrderedDictionary]$metadata) : base($metadata) {
-    }
-    
+
+    OverloadSignature([OrderedDictionary]$metadata) : base($metadata) {}
+
     OverloadSignature([FunctionMemberAst]$overloadAst) {
         $this.Initialize($overloadAst)
     }
-    
+
     OverloadSignature([AstInfo]$overloadAstInfo) {
         $this.Initialize($overloadAstInfo.Ast)
     }
 
     hidden [void] Initialize([FunctionMemberAst]$overloadAst) {
-        $this.Full = [OverloadSignature]::GetFullSignature($overloadAst)
+        $this.Full     = [OverloadSignature]::GetFullSignature($overloadAst)
         $this.TypeOnly = [OverloadSignature]::GetTypeOnlySignature($overloadAst)
     }
 
     static [string] GetTypeOnlySignature([FunctionMemberAst]$overloadAst) {
-        $Name = $overloadAst.Name
+        $Name           = $overloadAst.Name
         $ParameterTypes = $overloadAst.Parameters | ForEach-Object -Process {
             $Type = $_.StaticType.FullName
 
@@ -83,24 +83,25 @@ class OverloadSignature : BaseHelpInfo {
 
         return "$Name($Parameters)"
     }
-    
+
     static [string] GetTypeOnlySignature([AstInfo]$overloadAstInfo) {
         return [OverloadSignature]::GetTypeOnlySignature($overloadAstInfo.Ast)
     }
-    
+
     static [string] GetFullSignature([FunctionMemberAst]$overloadAst) {
-        $Name = $overloadAst.Name
+        $Name       = $overloadAst.Name
         $Parameters = $overloadAst.Parameters.Extent.Text -join ', '
+
         return "$Name($Parameters)"
     }
-    
+
     static [string] GetFullSignature([AstInfo]$overloadAstInfo) {
         return [OverloadSignature]::GetFullSignature($overloadAstInfo)
     }
 
     hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
-        $metadata.Full = $metadata.Full | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
-        $metadata.TypeOnly = $metadata.TypeOnly | yayaml\Add-YamlFormat -ScalarStyle Folded -PassThru
+        $metadata.Full     = $metadata.Full     | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
+        $metadata.TypeOnly = $metadata.TypeOnly | yayaml\Add-YamlFormat -ScalarStyle Folded  -PassThru
 
         return $metadata
     }
