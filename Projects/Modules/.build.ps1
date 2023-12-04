@@ -123,4 +123,35 @@ task Package {
   $env:PSModulePath = $InitialPSModulePath
 }
 
+task Format {
+  $InitialVerbosePreference = $VerbosePreference
+  $VerbosePreference = 'SilentlyContinue'
+  $DefaultSettings = "$PSScriptRoot/.CodeFormatting.psd1"
+  foreach ($Item in $Module) {
+    $ModuleFolder   = Join-Path -Path $PSScriptRoot -ChildPath $Item
+    $SourceFolder   = Join-Path -Path $ModuleFolder -ChildPath 'Source'
+    $ModuleSettings = Join-Path -Path $ModuleFolder -ChildPath '.CodeFormatting.psd1'
+    $Settings       = (Test-Path $ModuleSettings) ? $ModuleSettings : $DefaultSettings
+    $SourceFiles    = Get-ChildItem -Path $SourceFolder -Recurse | Where-Object -FilterScript {
+      $_.Extension -in @('.ps1', '.psm1', '.psd1')
+    }
+
+    foreach ($SourceFile in $SourceFiles) {
+      $RelativePath = $SourceFile.FullName.Replace($SourceFolder, '').TrimStart('\', '/')
+      $VerbosePreference = $InitialVerbosePreference
+      Write-Verbose -Message "Checking formatting  : $RelativePath"
+      $VerbosePreference = 'SilentlyContinue'
+      $Content = Get-Content -Path $SourceFile.FullName -Raw
+      $FormattedContent = Invoke-Formatter -ScriptDefinition $Content -Settings $Settings
+      $FormattedContent = $FormattedContent -replace '(?m)(\r?\n){2,}$', '$1$1'
+      if ($Content -ne $FormattedContent) {
+        $VerbosePreference = $InitialVerbosePreference
+        Write-Verbose -Message "Enforcing formatting : $RelativePath"
+        $VerbosePreference = 'SilentlyContinue'
+        Set-Content -Path $SourceFile.FullName -Value $FormattedContent
+      }
+    }
+  }
+}
+
 task . Compose
