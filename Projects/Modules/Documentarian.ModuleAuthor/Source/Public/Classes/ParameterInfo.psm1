@@ -111,10 +111,9 @@ class ParameterInfo {
     $Builder | Add-Line -Content "Type: $($this.Type)"
     $Builder | Add-Line -Content "Parameter Sets: $($this.ParameterSet)"
     $Builder | Add-Line -Content "Aliases: $($this.Aliases)"
-    $Builder | Add-Line
     $Builder | Add-Line -Content "Required: $($this.Required -join ', ')"
     $Builder | Add-Line -Content "Position: $($this.Position -join ', ')"
-    if ($this.Type -is [System.Management.Automation.SwitchParameter]) {
+    if ($this.Type -eq 'System.Management.Automation.SwitchParameter') {
       $Builder | Add-Line -Content 'Default value: False'
     } else {
       $Builder | Add-Line -Content "Default value: $($this.DefaultValue)"
@@ -146,48 +145,5 @@ class ParameterInfo {
     $Builder | Add-Line
 
     return $Builder.ToString()
-    # $sbMarkdown = [System.Text.StringBuilder]::new()
-    # $sbMarkdown.AppendLine("### -$($this.Name)")
-    # $sbMarkdown.AppendLine()
-    # $sbMarkdown.AppendLine($this.HelpText)
-    # $sbMarkdown.AppendLine()
-    # $sbMarkdown.AppendLine('```yaml')
-    # $sbMarkdown.AppendLine("Type: $($this.Type)")
-    # $sbMarkdown.AppendLine("Parameter Sets: $($this.ParameterSet)")
-    # $sbMarkdown.AppendLine("Aliases: $($this.Aliases)")
-    # $sbMarkdown.AppendLine()
-    # $sbMarkdown.AppendLine("Required: $($this.Required -join ', ')")
-    # $sbMarkdown.AppendLine("Position: $($this.Position -join ', ')")
-    # if ($this.Type -is [System.Management.Automation.SwitchParameter]) {
-    #   $sbMarkdown.AppendLine('Default value: False')
-    # } else {
-    #   $sbMarkdown.AppendLine("Default value: $($this.DefaultValue)")
-    # }
-    # $sbMarkdown.AppendLine("Accept pipeline input: $($this.Pipeline)")
-    # $sbMarkdown.AppendLine("Accept wildcard characters: $($this.Wildcard)")
-    # if ($showAll) {
-    #   $sbMarkdown.AppendLine("Dynamic: $($this.Dynamic)")
-    #   if ($this.Dynamic -and $this.ProviderFlags) {
-    #     $ProviderName = if ($this.ProviderFlags -eq 0xFF) {
-    #       'All'
-    #     } else {
-    #       $this.ProviderFlags.ToString()
-    #     }
-    #     $sbMarkdown.AppendLine("Providers: $ProviderName")
-    #   }
-    #   $sbMarkdown.AppendLine("Values from remaining args: $($this.FromRemaining -join ', ')")
-    #   $sbMarkdown.AppendLine("Do not show: $($this.DontShow -join ', ')")
-    #   $sbMarkdown.AppendLine("Is credential: $($this.IsCredential)")
-    #   if ($this.IsObsolete -ne $false) {
-    #     $sbMarkdown.AppendLine('Is obsolete: True')
-    #     $sbMarkdown.AppendLine("  - Message: $($this.IsObsolete.Message)")
-    #     $sbMarkdown.AppendLine("  - IsError: $($this.IsObsolete.IsError)")
-    #   } else {
-    #     $sbMarkdown.AppendLine('Is obsolete: False')
-    #   }
-    # }
-    # $sbMarkdown.AppendLine('```')
-    # $sbMarkdown.AppendLine()
-    # return $sbMarkdown.ToString()
   }
 }

@@ -46,6 +46,8 @@ Related Links
 - Corrected the behavior for [`Get-ParameterInfo`] for parameters that belong to multiple parameter
   sets. Previously, the `Accept pipeline input` key wrote invalid metadata. Now, the metadata is
   valid.
+- Fixed logic for handling default value of SwitchParameter types in `Get-ParameterInfo` and some
+  minor code cleanup.
 
 ## 0.0.1 - 2023-03-27
 
