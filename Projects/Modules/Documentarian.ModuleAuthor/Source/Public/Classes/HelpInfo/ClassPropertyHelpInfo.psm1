@@ -64,6 +64,10 @@ class ClassPropertyHelpInfo : BaseHelpInfo {
         $this.Initialize($propertyAstInfo, $classHelp)
     }
 
+    static ClassPropertyHelpInfo(){
+        [ClassPropertyHelpInfo]::InitializeFormatters()
+    }
+
     hidden [void] Initialize([AstInfo]$astInfo, [DecoratingCommentsBlockParsed]$classHelp) {
         [PropertyMemberAst]$PropertyAst = [ClassPropertyHelpInfo]::GetValidatedAst($astInfo)
 
@@ -167,5 +171,225 @@ class ClassPropertyHelpInfo : BaseHelpInfo {
         $metadata.Description = $metadata.Description | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
 
         return $metadata
+    }
+
+    static [HelpInfoFormatterDictionary] $Formatters
+
+    static InitializeFormatters() {
+        [ClassPropertyHelpInfo]::InitializeFormatters($false, $false)
+    }
+
+    static [HelpInfoFormatterDictionary] InitializeFormatters([bool]$passThru, [bool]$force) {
+        if ($force -or [ClassPropertyHelpInfo]::Formatters.Count -eq 0) {
+            [ClassPropertyHelpInfo]::Formatters = [HelpInfoFormatterDictionary]::new(
+                [ordered]@{
+                    Block = [ClassPropertyHelpInfo]::GetDefaultFormatter()
+                },
+                [ordered]@{
+                    Block = [ClassPropertyHelpInfo]::GetDefaultSectionFormatter()
+                }
+            )
+        }
+
+        if ($passThru) {
+            return [ClassPropertyHelpInfo]::Formatters
+        }
+
+        return $null
+    }
+
+    static [HelpInfoFormatter] GetDefaultFormatter() {
+        return [HelpInfoFormatter]@{
+            Parameters  = @{}
+            ScriptBlock = {
+                [cmdletbinding()]
+                [OutputType([string])]
+                param(
+                    [Parameter(Mandatory)]
+                    [ClassPropertyHelpInfo]
+                    $HelpInfo,
+
+                    [MarkdownBuilder]
+                    $MarkdownBuilder,
+
+                    [ValidateRange(1, 6)]
+                    [int]
+                    $Level = 3,
+
+                    [switch]
+                    $IncludeHidden
+                )
+
+                if (-not $IncludeHidden -and $HelpInfo.IsHidden) {
+                    return ''
+                }
+
+                if ($null -eq $MarkdownBuilder) {
+                    $options = @{
+                        SpaceMungingOptions = 'CollapseEnd', 'TrimStart'
+                    }
+                    $MarkdownBuilder = Documentarian.MarkdownBuilder\New-Builder @options
+                }
+
+                $classLine = "[$($HelpInfo.Type)] `$$($HelpInfo.Name)"
+                if ($HelpInfo.IsStatic) {
+                    $classLine = "static $classLine"
+                }
+                if ($HelpInfo.IsHidden) {
+                    $classLine = "hidden $classLine"
+                }
+                if ($HelpInfo.InitialValue) {
+                    $classLine = "$classLine = $($HelpInfo.InitialValue)"
+                }
+
+                $MarkdownBuilder
+                | Add-Heading -Level $Level -Content $HelpInfo.Name
+                | Add-Line -Content $HelpInfo.Synopsis
+                | Add-Line -Content ''
+                | Add-Heading -Level ($Level + 1) -Content 'Definition'
+                | Start-CodeFence -Language 'powershell'
+
+                foreach ($attribute in $HelpInfo.Attributes) {
+                    $MarkdownBuilder | Add-Line -Content $attribute.Definition
+                }
+
+                foreach ($line in ($classLine -split '\r?\n')) {
+                    $MarkdownBuilder | Add-Line -Content $line
+                }
+
+                $MarkdownBuilder
+                | Stop-CodeFence
+                | Add-Heading -Level ($Level + 1) -Content 'Description'
+
+                foreach ($line in ($HelpInfo.Description -split '\r?\n')) {
+                    $MarkdownBuilder | Add-Line -Content $line
+                }
+
+                $MarkdownBuilder.ToString()
+            }
+        }
+    }
+
+    static [HelpInfoFormatter] GetCompressedBlockFormatter() {
+        return [HelpInfoFormatter]@{
+            Parameters  = @{}
+            ScriptBlock = {
+                [cmdletbinding()]
+                [OutputType([string])]
+                param(
+                    [Parameter(Mandatory)]
+                    [ClassPropertyHelpInfo]
+                    $HelpInfo,
+
+                    [MarkdownBuilder]
+                    $MarkdownBuilder,
+
+                    [ValidateRange(1, 6)]
+                    [int]
+                    $Level = 3,
+
+                    [switch]
+                    $IncludeHidden
+                )
+
+                if (-not $IncludeHidden -and $HelpInfo.IsHidden) {
+                    return ''
+                }
+
+                if ($null -eq $MarkdownBuilder) {
+                    $options = @{
+                        SpaceMungingOptions = 'CollapseEnd', 'TrimStart'
+                    }
+                    $MarkdownBuilder = Documentarian.MarkdownBuilder\New-Builder @options
+                }
+
+                $classLine = "[$($HelpInfo.Type)] `$$($HelpInfo.Name)"
+                if ($HelpInfo.IsStatic) {
+                    $classLine = "static $classLine"
+                }
+                if ($HelpInfo.IsHidden) {
+                    $classLine = "hidden $classLine"
+                }
+                if ($HelpInfo.InitialValue) {
+                    $classLine = "$classLine = $($HelpInfo.InitialValue)"
+                }
+
+                $MarkdownBuilder
+                | Add-Heading -Level $Level -Content $HelpInfo.Name
+                | Start-CodeFence -Language 'powershell'
+
+                foreach ($attribute in $HelpInfo.Attributes) {
+                    $MarkdownBuilder | Add-Line -Content $attribute.Definition
+                }
+
+                foreach ($line in ($classLine -split '\r?\n')) {
+                    $MarkdownBuilder | Add-Line -Content $line
+                }
+
+                $MarkdownBuilder | Stop-CodeFence
+
+                foreach ($line in ($HelpInfo.Description -split '\r?\n')) {
+                    $MarkdownBuilder | Add-Line -Content $line
+                }
+
+                $MarkdownBuilder.ToString()
+            }
+        }
+    }
+
+    static [HelpInfoFormatter] GetDefaultSectionFormatter() {
+        return [HelpInfoFormatter]@{
+            Parameters = @{}
+            ScriptBlock = {
+                [cmdletbinding()]
+                [OutputType([string])]
+                param(
+                    [Parameter(Mandatory)]
+                    [ClassPropertyHelpInfo[]]
+                    $HelpInfo,
+
+                    [MarkdownBuilder]
+                    $MarkdownBuilder,
+
+                    [ValidateRange(1, 6)]
+                    [int]
+                    $Level = 2
+                )
+
+                if ($null -eq $MarkdownBuilder) {
+                    $options = @{
+                        SpaceMungingOptions = 'CollapseEnd', 'TrimStart'
+                    }
+                    $MarkdownBuilder = Documentarian.MarkdownBuilder\New-Builder @options
+                }
+
+                $MarkdownBuilder | Add-Heading -Level $Level -Content 'Properties'
+
+                foreach ($property in $HelpInfo) {
+                    $formatter = [ClassPropertyHelpInfo]::Formatters.Default
+                    $formatter.Parameters.Level = $Level + 1
+
+                    $MarkdownBuilder | Add-Line -Content $property.ToMarkdown($formatter)
+                }
+
+                $MarkdownBuilder.ToString()
+            }
+        }
+    }
+
+    [string] ToMarkdown() {
+        return $this.ToMarkdown([ClassPropertyHelpInfo]::Formatters.Default)
+    }
+
+    [string] ToMarkdown([HelpInfoFormatter]$formatter) {
+        return $formatter.Format($this)
+    }
+
+    static [string] ToMarkdown([ClassPropertyHelpInfo[]]$properties) {
+        return [ClassPropertyHelpInfo]::ToMarkdown($properties, [ClassPropertyHelpInfo]::Formatters.Section.Default)
+    }
+
+    static [string] ToMarkdown([ClassPropertyHelpInfo[]]$properties, [HelpInfoFormatter]$formatter) {
+        return $formatter.FormatSection($properties)
     }
 }

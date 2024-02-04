@@ -7,6 +7,7 @@ using module ../AstInfo.psm1
 using module ../DecoratingComments/DecoratingCommentsBlockParsed.psm1
 using module ../DecoratingComments/DecoratingCommentsRegistry.psm1
 using module ./BaseHelpInfo.psm1
+using module ./HelpInfoFormatter.psm1
 
 #region    RequiredFunctions
 
@@ -25,15 +26,20 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 class EnumValueHelpInfo : BaseHelpInfo {
     # The value's label.
-    [string] $Label
+    [string]
+    $Label
     # The numerical value.
-    [int] $Value = 0
+    [int]
+    $Value = 0
     # The Markdown text explaining the value's purpose.
-    [string] $Description = ''
+    [string]
+    $Description = ''
     # Whether the value is explicitly defined in the enum.
-    [bool] $HasExplicitValue = $false
+    [bool]
+    $HasExplicitValue = $false
 
-    [string] ToString() {
+    [string]
+    ToString() {
         <#
             .SYNOPSIS
             Converts an instance of **EnumValueHelpInfo** into a string.
@@ -78,6 +84,10 @@ class EnumValueHelpInfo : BaseHelpInfo {
 
     EnumValueHelpInfo([AstInfo]$astInfo, [DecoratingCommentsBlockParsed]$enumHelp) {
         $this.Initialize($astInfo, $enumHelp)
+    }
+
+    static EnumValueHelpInfo() {
+        [EnumValueHelpInfo]::InitializeFormatters()
     }
 
     hidden [void] Initialize([AstInfo]$astInfo, [DecoratingCommentsBlockParsed]$enumHelp) {
@@ -163,9 +173,190 @@ class EnumValueHelpInfo : BaseHelpInfo {
     }
 
     hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
-        $metadata.Label       = $metadata.Label       | yayaml\Add-YamlFormat -ScalarStyle Plain   -PassThru
-        $metadata.Description = $metadata.Description | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
+        $metadata.Label       = $metadata.Label       | Yayaml\Add-YamlFormat -ScalarStyle Plain   -PassThru
+        $metadata.Description = $metadata.Description | Yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
 
         return $metadata
+    }
+
+    static [HelpInfoFormatterDictionary] $Formatters
+
+    static InitializeFormatters() {
+        [EnumValueHelpInfo]::InitializeFormatters($false, $false)
+    }
+
+    static [HelpInfoFormatterDictionary] InitializeFormatters([bool]$passThru, [bool]$force) {
+        if ($force -or [EnumValueHelpInfo]::Formatters.Count -eq 0) {
+            [EnumValueHelpInfo]::Formatters = [HelpInfoFormatterDictionary]::new(
+                [ordered]@{
+                    Block = [EnumValueHelpInfo]::GetDefaultFormatter()
+                },
+                [ordered]@{
+                    Block = [EnumValueHelpInfo]::GetDefaultSectionFormatter()
+                }
+            )
+        }
+
+        if ($passThru) {
+            return [EnumValueHelpInfo]::Formatters
+        }
+
+        return $null
+    }
+
+    hidden static [HelpInfoFormatter] GetDefaultFormatter() {
+        return [HelpInfoFormatter]@{
+            Parameters  = @{}
+            ScriptBlock = {
+                [cmdletbinding()]
+                [OutputType([string])]
+                param(
+                    [Parameter(Mandatory)]
+                    [EnumValueHelpInfo]
+                    $HelpInfo,
+
+                    [MarkdownBuilder]
+                    $MarkdownBuilder,
+
+                    [ValidateRange(1, 6)]
+                    [int]
+                    $Level = 3
+                )
+
+                if ($null -eq $MarkdownBuilder) {
+                    $options = @{
+                        SpaceMungingOptions = 'CollapseEnd', 'TrimStart'
+                    }
+                    $MarkdownBuilder = Documentarian.MarkdownBuilder\New-Builder @options
+                }
+
+                $MarkdownBuilder | Add-Heading -Level $Level -Content (
+                    '{0} - {1}' -f $HelpInfo.Value, $HelpInfo.Label
+                )
+
+                $splitLines = $HelpInfo.Description -split '\r?\n'
+                foreach ($line in $splitLines) {
+                    $MarkdownBuilder | Add-Line -Content $Line
+                }
+
+                return $MarkdownBuilder.ToString()
+            }
+        }
+    }
+
+    hidden static [HelpInfoFormatter] GetDefaultSectionFormatter() {
+        return [HelpInfoFormatter]@{
+            Parameters  = @{ }
+            ScriptBlock = {
+                [cmdletbinding()]
+                [OutputType([string])]
+                param(
+                    [Parameter(Mandatory)]
+                    [EnumValueHelpInfo[]]
+                    $HelpInfo,
+
+                    [MarkdownBuilder]
+                    $MarkdownBuilder,
+
+                    [ValidateRange(1, 6)]
+                    [int]
+                    $Level = 2
+                )
+
+                if ($null -eq $MarkdownBuilder) {
+                    $options = @{
+                        SpaceMungingOptions = 'CollapseEnd', 'TrimStart'
+                    }
+                    $MarkdownBuilder = Documentarian.MarkdownBuilder\New-Builder @options
+                }
+
+                $markdownBuilder | Add-Heading -Level $Level -Content 'Fields'
+
+                foreach ($Value in $HelpInfo) {
+                    $formatter = [EnumValueHelpInfo]::Formatters.Default
+
+                    $markdownBuilder | Add-Line -Content $Value.ToMarkdown($formatter)
+                }
+
+                return $markdownBuilder.ToString()
+            }
+        }
+    }
+
+    static [HelpInfoFormatter] $DefaultFormatter = @{
+        Parameters  = @{}
+        ScriptBlock = {
+            [cmdletbinding()]
+            [OutputType([string])]
+            param(
+                [Parameter(Mandatory)]
+                [EnumValueHelpInfo]
+                $HelpInfo,
+
+                [MarkdownBuilder]
+                $MarkdownBuilder = (Documentarian.MarkdownBuilder\New-Builder),
+
+                [ValidateRange(1, 6)]
+                [int]
+                $Level = 3
+            )
+
+            $MarkdownBuilder | Add-Heading -Level $Level -Content (
+                '{0} - {1}' -f $HelpInfo.Value, $HelpInfo.Label
+            )
+
+            $splitLines = $HelpInfo.Description -split '\r?\n'
+            foreach ($line in $splitLines) {
+                $MarkdownBuilder | Add-Line -Content $Line
+            }
+
+            return $MarkdownBuilder.ToString()
+        }
+    }
+
+    static [HelpInfoFormatter] $DefaultSectionFormatter = @{
+        Parameters  = @{ }
+        ScriptBlock = {
+            [cmdletbinding()]
+            [OutputType([string])]
+            param(
+                [Parameter(Mandatory)]
+                [EnumValueHelpInfo[]]
+                $HelpInfo,
+
+                [MarkdownBuilder]
+                $MarkdownBuilder = (Documentarian.MarkdownBuilder\New-Builder),
+
+                [ValidateRange(1, 6)]
+                [int]
+                $Level = 2
+            )
+
+            $markdownBuilder | Add-Heading -Level $Level -Content 'Fields'
+
+            foreach ($Value in $HelpInfo) {
+                $formatter = [EnumValueHelpInfo]::Formatters.Default
+
+                $markdownBuilder | Add-Line -Content $Value.ToMarkdown($formatter)
+            }
+
+            return $markdownBuilder.ToString()
+        }
+    }
+
+    [string] ToMarkdown() {
+        return $this.ToMarkdown([EnumValueHelpInfo]::Formatters.Default)
+    }
+
+    [string] ToMarkdown([HelpInfoFormatter]$formatter) {
+        return $formatter.Format($this)
+    }
+
+    static [string] ToMarkdown([EnumValueHelpInfo[]]$values) {
+        return [EnumValueHelpInfo]::ToMarkdown($values, [EnumValueHelpInfo]::Formatters.Section.Default)
+    }
+
+    static [string] ToMarkdown([EnumValueHelpInfo[]]$values, [HelpInfoFormatter]$formatter) {
+        return $formatter.FormatSection($values)
     }
 }

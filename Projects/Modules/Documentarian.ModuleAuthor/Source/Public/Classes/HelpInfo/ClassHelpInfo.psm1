@@ -11,6 +11,7 @@ using module ./ClassMethodHelpInfo.psm1
 using module ./ClassPropertyHelpInfo.psm1
 using module ./ConstructorOverloadHelpInfo.psm1
 using module ./ExampleHelpInfo.psm1
+using module ./HelpInfoFormatter.psm1
 
 #region    RequiredFunctions
 
@@ -74,7 +75,7 @@ class ClassHelpInfo : BaseHelpInfo {
         $Help     = $astInfo.DecoratingComment.ParsedValue
 
         $this.Name         = $ClassAst.Name.Trim()
-        $this.BaseTypes    = $ClassAst.BaseTypes.ForEach{ Resolve-TypeName -TypeName -$_.TypeName }
+        $this.BaseTypes    = $ClassAst.BaseTypes.ForEach{ Resolve-TypeName -TypeName $_.TypeName }
         $this.Attributes   = [AttributeHelpInfo]::Resolve($astInfo)
         $this.Properties   = [ClassPropertyHelpInfo]::Resolve($astInfo, $registry)
         $this.Constructors = [ConstructorOverloadHelpInfo]::Resolve($astInfo, $registry)
@@ -125,5 +126,140 @@ class ClassHelpInfo : BaseHelpInfo {
         $metadata.Description = $metadata.Description | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
 
         return $metadata
+    }
+
+    static [HelpInfoFormatter] $DefaultFormatter = @{
+        Parameters  = @{}
+        ScriptBlock = {
+            [CmdletBinding()]
+            [OutputType([string])]
+            param(
+                [Parameter(Mandatory)]
+                [ClassHelpInfo]
+                $HelpInfo,
+
+                [hashtable]
+                $FrontMatter,
+
+                [MarkdownBuilder]
+                $MarkdownBuilder = (Documentarian.MarkdownBuilder\New-Builder)
+            )
+
+            if ($null -eq $FrontMatter -or $FrontMatter.Keys.Count -eq 0) {
+                $FrontMatter = @{
+                    title = $HelpInfo.Name
+                    date  = Get-Date -Format 'yyyy-MM-dd'
+                    pwsh  = @{
+                        name     = $HelpInfo.Name
+                        kind     = 'class'
+                        synopsis = $HelpInfo.Synopsis
+                    }
+                }
+            }
+
+            $definitionContent = "class $($HelpInfo.Name)"
+            if ($HelpInfo.BaseTypes.Count -gt 0) {
+                $definitionContent += ' : ' + ($HelpInfo.BaseTypes -join ', ')
+            }
+
+            $MarkdownBuilder
+            | Add-FrontMatter -FrontMatter $FrontMatter
+            | Add-Heading -Level 1 -Content $HelpInfo.Name
+            | Add-Heading -Level 2 -Content 'Synopsis'
+            | Add-Line -Content $HelpInfo.Synopsis
+            | Add-Line -Content ''
+            | Add-Heading -Level 2 -Content 'Definition'
+            | Start-CodeFence -Language 'powershell'
+            | Add-Line -Content $definitionContent
+            | Stop-CodeFence
+
+            if (-not [string]::IsNullOrEmpty($HelpInfo.Description)) {
+                $MarkdownBuilder
+                | Add-Heading -Level 2 -Content 'Description'
+                $lines = $HelpInfo.Description -split '\r?\n'
+                foreach ($line in $lines) {
+                    $MarkdownBuilder | Add-Line -Content $line
+                }
+            }
+
+            if ($HelpInfo.Examples.Count -gt 0) {
+                $formatter = [ExampleHelpInfo]::Formatters.Section.Default
+                $formatter.Parameters.Level = 2
+
+                $MarkdownBuilder
+                | Add-Line -Content ''
+                | Add-Line -Content (
+                    [ExampleHelpInfo]::ToMarkdown(
+                        $HelpInfo.Examples,
+                        $formatter
+                    ).TrimEnd()
+                )
+            }
+
+            if ($HelpInfo.Constructors.Count -gt 0) {
+                $formatter = [ConstructorOverloadHelpInfo]::Formatters.Section.Default
+                $formatter.Parameters.Level = 2
+
+                $MarkdownBuilder
+                | Add-Line -Content ''
+                | Add-Line -Content (
+                    [ConstructorOverloadHelpInfo]::ToMarkdown(
+                        $HelpInfo.Constructors,
+                        $formatter
+                    ).TrimEnd()
+                )
+            } else {
+                $MarkdownBuilder | Add-Heading -Level 2 -Content 'Constructors'
+                $MarkdownBuilder | Add-Line -Content 'This class only has the default constructor.'
+            }
+
+            if ($HelpInfo.Methods.Count -gt 0) {
+                $formatter = [ClassMethodHelpInfo]::Formatters.Section.Default
+                $formatter.Parameters.Level = 2
+
+                $MarkdownBuilder
+                | Add-Line -Content ''
+                | Add-Line -Content (
+                    [ClassMethodHelpInfo]::ToMarkdown(
+                        $HelpInfo.Methods,
+                        $formatter
+                    ).TrimEnd()
+                )
+            }
+
+            if ($HelpInfo.Properties.Count -gt 0) {
+                $formatter = [ClassPropertyHelpInfo]::Formatters.Section.Default
+                $formatter.Parameters.Level = 2
+
+                $MarkdownBuilder
+                | Add-Line -Content ''
+                | Add-Line -Content (
+                    [ClassPropertyHelpInfo]::ToMarkdown(
+                        $HelpInfo.Properties,
+                        $formatter
+                    ).TrimEnd()
+                )
+            }
+
+            if (-not [string]::IsNullOrEmpty($HelpInfo.Notes)) {
+                $MarkdownBuilder
+                | Add-Line -Content ''
+                | Add-Heading -Level 2 -Content 'Notes'
+                $lines = $HelpInfo.Notes -split '\r?\n'
+                foreach ($line in $lines) {
+                    $MarkdownBuilder | Add-Line -Content $line
+                }
+            }
+
+            return $markdownBuilder.ToString()
+        }
+    }
+
+    [string] ToMarkdown() {
+        return $this.ToMarkdown([ClassHelpInfo]::DefaultFormatter)
+    }
+
+    [string] ToMarkdown([HelpInfoFormatter]$formatter) {
+        return $formatter.Format($this)
     }
 }

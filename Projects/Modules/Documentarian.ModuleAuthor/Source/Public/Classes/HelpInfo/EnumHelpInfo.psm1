@@ -8,6 +8,7 @@ using module ../DecoratingComments/DecoratingCommentsRegistry.psm1
 using module ./BaseHelpInfo.psm1
 using module ./EnumValueHelpInfo.psm1
 using module ./ExampleHelpInfo.psm1
+using module ./HelpInfoFormatter.psm1
 
 #region    RequiredFunctions
 
@@ -51,6 +52,10 @@ class EnumHelpInfo : BaseHelpInfo {
 
     EnumHelpInfo([AstInfo]$astInfo, [DecoratingCommentsRegistry]$registry) {
         $this.Initialize($astInfo, $registry)
+    }
+
+    static EnumHelpInfo() {
+        [EnumHelpInfo]::InitializeFormatters()
     }
 
     hidden [void] Initialize([AstInfo]$astInfo, [DecoratingCommentsRegistry]$registry) {
@@ -157,11 +162,131 @@ class EnumHelpInfo : BaseHelpInfo {
     }
 
     hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
-        $metadata.Name        = $metadata.Name        | yayaml\Add-YamlFormat -ScalarStyle Plain   -PassThru
-        $metadata.Synopsis    = $metadata.Synopsis    | yayaml\Add-YamlFormat -ScalarStyle Folded  -PassThru
-        $metadata.Description = $metadata.Description | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
-        $metadata.Notes       = $metadata.Notes       | yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
+        $metadata.Name        = $metadata.Name        | Yayaml\Add-YamlFormat -ScalarStyle Plain   -PassThru
+        $metadata.Synopsis    = $metadata.Synopsis    | Yayaml\Add-YamlFormat -ScalarStyle Folded  -PassThru
+        $metadata.Description = $metadata.Description | Yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
+        $metadata.Notes       = $metadata.Notes       | Yayaml\Add-YamlFormat -ScalarStyle Literal -PassThru
 
         return $metadata
+    }
+
+    static [HelpInfoFormatterDictionary] $Formatters
+
+    static InitializeFormatters() {
+        [EnumHelpInfo]::InitializeFormatters($false, $false)
+    }
+
+    static [HelpInfoFormatterDictionary] InitializeFormatters([bool]$passThru, [bool]$force) {
+        if ($force -or [EnumHelpInfo]::Formatters.Count -eq 0) {
+            [EnumHelpInfo]::Formatters = [HelpInfoFormatterDictionary]::new(
+                [ordered]@{
+                    StandalonePage = [EnumHelpInfo]::GetDefaultFormatter()
+                }
+            )
+        }
+
+        if ($passThru) {
+            return [EnumHelpInfo]::Formatters
+        }
+
+        return $null
+    }
+
+    hidden static [HelpInfoFormatter] GetDefaultFormatter() {
+        return [HelpInfoFormatter]@{
+            Parameters  = @{}
+            ScriptBlock = {
+                [CmdletBinding()]
+                [OutputType([string])]
+                param(
+                    [Parameter(Mandatory)]
+                    [EnumHelpInfo]
+                    $HelpInfo,
+
+                    [hashtable]
+                    $FrontMatter,
+
+                    [MarkdownBuilder]
+                    $MarkdownBuilder
+                )
+
+                if ($null -eq $MarkdownBuilder) {
+                    $options = @{
+                        SpaceMungingOptions = 'CollapseEnd', 'TrimStart'
+                    }
+                    $MarkdownBuilder = Documentarian.MarkdownBuilder\New-Builder @options
+                }
+
+                if ($null -eq $FrontMatter -or $FrontMatter.Keys.Count -eq 0) {
+                    $FrontMatter = @{
+                        title = $HelpInfo.Name
+                        date  = Get-Date -Format 'yyyy-MM-dd'
+                        pwsh  = @{
+                            name     = $HelpInfo.Name
+                            kind     = 'enum'
+                            synopsis = $HelpInfo.Synopsis
+                        }
+                    }
+                }
+
+                $definitionContent = "enum $($HelpInfo.Name)"
+                if ($HelpInfo.IsFlagsEnum) {
+                    $definitionContent = '[Flags()]', $definitionContent -join ' '
+                }
+                if ($HelpInfo.BaseTypes.Count -gt 0) {
+                    $definitionContent += ' : ' + ($HelpInfo.BaseTypes -join ', ')
+                }
+
+                $MarkdownBuilder
+                | Add-FrontMatter -FrontMatter $FrontMatter
+                | Add-Heading -Level 1 -Content $HelpInfo.Name
+                | Add-Heading -Level 2 -Content 'Synopsis'
+                | Add-Line -Content $HelpInfo.Synopsis
+                | Add-Line -Content ''
+                | Add-Heading -Level 2 -Content 'Definition'
+                | Start-CodeFence -Language 'powershell'
+                | Add-Line -Content $definitionContent
+                | Stop-CodeFence
+
+                if (-not [string]::IsNullOrEmpty($HelpInfo.Description)) {
+                    $MarkdownBuilder
+                    | Add-Heading -Level 2 -Content 'Description'
+                    $lines = $HelpInfo.Description -split '\r?\n'
+                    foreach ($line in $lines) {
+                        $MarkdownBuilder | Add-Line -Content $line
+                    }
+                }
+
+                if ($HelpInfo.Examples.Count -gt 0) {
+                    $MarkdownBuilder
+                    | Add-Line -Content ''
+                    | Add-Line -Content ([ExampleHelpInfo]::ToMarkdown($HelpInfo.Examples).TrimEnd())
+                }
+
+                $MarkdownBuilder
+                | Add-Line -Content ''
+                | Add-Line -Content ([EnumValueHelpInfo]::ToMarkdown($HelpInfo.Values))
+
+                if (-not [string]::IsNullOrEmpty($HelpInfo.Notes)) {
+                    $MarkdownBuilder
+                    | Add-Line -Content ''
+                    | Add-Heading -Level 2 -Content 'Notes'
+                    $lines = $HelpInfo.Notes -split '\r?\n'
+                    foreach ($line in $lines) {
+                        $MarkdownBuilder | Add-Line -Content $line
+                    }
+                }
+
+                return ($markdownBuilder.ToString() -replace '(\r?\n)+$','$1')
+            }
+        }
+    }
+
+    [string] ToMarkdown() {
+        return $this.ToMarkdown([EnumHelpInfo]::Formatters.Default)
+    }
+
+    [string] ToMarkdown([HelpInfoFormatter]$formatter) {
+        return $formatter.Format($this)
     }
 }
