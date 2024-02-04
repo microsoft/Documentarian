@@ -12,7 +12,27 @@
         "IgnoreForTest": false
     },
     {
+        "Name": "MarkdownList",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "BulletList",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "NumberedList",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "CodeFenceCharacter",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "InlineFormatter",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     },

@@ -19,6 +19,10 @@
                                 <ScriptBlock> $_.DefaultLineEnding.Value</ScriptBlock>
                             </ListItem>
                             <ListItem>
+                                <Label>SpaceMungingOptions</Label>
+                                <ScriptBlock> $_.SpaceMungingOptions</ScriptBlock>
+                            </ListItem>
+                            <ListItem>
                                 <Label>DefaultFenceCharacter</Label>
                                 <ScriptBlock> $_.DefaultFenceCharacter.Value</ScriptBlock>
                             </ListItem>
