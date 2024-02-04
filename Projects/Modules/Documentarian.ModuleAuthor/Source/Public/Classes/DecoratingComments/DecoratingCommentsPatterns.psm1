@@ -59,7 +59,7 @@ class DecoratingCommentsPatterns {
     static [string] GetBlockKeywordPattern([string]$keyword) {
         return @(
             [DecoratingCommentsPatterns]::RegexMode()
-            "^\s*\.${keyword}\s*$"      # Match the specific key declaration only.
+            "^[ \t]*\.${keyword}[ \t]*$"      # Match the specific key declaration only.
             [DecoratingCommentsPatterns]::GetBlockContentPattern()
         ) -join ''
     }
@@ -74,7 +74,7 @@ class DecoratingCommentsPatterns {
     static [string] GetBlockAndValueKeywordPattern([string]$keyword, [regex]$pattern) {
         return @(
             [DecoratingCommentsPatterns]::RegexMode()
-            "^\s*\.${keyword}\s*(?<Value>${pattern})\s*$"
+            "^[ \t]*\.${keyword}[ \t]*(?<Value>${pattern})[ \t]*$"
             [DecoratingCommentsPatterns]::GetBlockContentPattern()
         ) -join ''
     }
@@ -89,7 +89,7 @@ class DecoratingCommentsPatterns {
     static [string] GetBlockAndOptionalValueKeywordPattern([string]$keyword, [regex]$pattern) {
         return @(
             [DecoratingCommentsPatterns]::RegexMode()
-            "^\s*\.${keyword}\s*(?<Value>${pattern})?\s*$"
+            "^[ \t]*\.${keyword}[ \t]*(?<Value>${pattern})?[ \t]*$"
             [DecoratingCommentsPatterns]::GetBlockContentPattern()
         ) -join ''
     }
@@ -101,9 +101,9 @@ class DecoratingCommentsPatterns {
     static [string] GetValueKeywordPattern([string]$keyword, [regex]$pattern) {
         return @(
             [DecoratingCommentsPatterns]::RegexMode()
-            "^\s*\.${keyword}\s*"
+            "^[ \t]*\.${keyword}[ \t]*"
             [DecoratingCommentsPatterns]::GetValueContentPattern($pattern)
-            '\s*$'
+            '[ \t]*$'
         ) -join ''
     }
 
