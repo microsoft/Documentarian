@@ -153,7 +153,7 @@ class SourceReference {
           ''
           '$SourceFolder = $PSScriptRoot'
           "while ('Source' -ne (Split-Path -Leaf `$SourceFolder)) {"
-          '  $SourceFolder = Split-Path -Parent -Path $SourceFolder'
+          '    $SourceFolder = Split-Path -Parent -Path $SourceFolder'
           '}'
           '$RequiredFunctions = @('
           $CommandReferences | ForEach-Object -Process {
@@ -161,11 +161,11 @@ class SourceReference {
             if ($FilePath -match "^$([regex]::Escape($SourceFolder))(?<ChildPath>.+)$") {
               $FilePath = "`$SourceFolder/$($Matches.ChildPath.Trim('\/') -replace '\\', '/')"
             }
-            "  Resolve-Path -Path `"$FilePath`""
+            "    Resolve-Path -Path `"$FilePath`""
           }
           ')'
           'foreach ($RequiredFunction in $RequiredFunctions) {'
-          '  . $RequiredFunction'
+          '    . $RequiredFunction'
           '}'
           ''
           '#endregion RequiredFunctions'

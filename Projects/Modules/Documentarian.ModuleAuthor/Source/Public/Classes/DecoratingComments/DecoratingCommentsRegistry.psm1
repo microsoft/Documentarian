@@ -7,6 +7,7 @@ using namespace System.Collections.Specialized
 using module ./DecoratingComments.psm1
 using module ./DecoratingCommentsBlockKeyword.psm1
 using module ./DecoratingCommentsBlockKeywords.psm1
+using module ./DecoratingCommentsBlockParsed.psm1
 using module ./DecoratingCommentsBlockSchema.psm1
 using module ./Schemas/DecoratingCommentsBlockSchemasClass.psm1
 using module ./Schemas/DecoratingCommentsBlockSchemasClassOverload.psm1
@@ -221,7 +222,8 @@ class DecoratingCommentsRegistry {
         return [DecoratingCommentsRegistry]::new()
     }
 
-    static [DecoratingCommentsRegistry] $Global = $Global:ModuleAuthorDecoratingCommentsRegistry
+    static [DecoratingCommentsRegistry]
+    $Global = $Global:ModuleAuthorDecoratingCommentsRegistry
 
     [DecoratingCommentsBlockSchema] GetDefaultSchema() {
         if ($RegisteredDefaultSchema = $this.GetRegisteredSchema('Default')) {
@@ -338,16 +340,25 @@ class DecoratingCommentsRegistry {
 
     [DecoratingCommentsBlockParsed] ParseDecoratingCommentBlock([string]$comment) {
         $Schema = $this.SelectSchema($comment)
+
         return $Schema.Parse($comment)
     }
 
-    [DecoratingCommentsBlockParsed] ParseDecoratingCommentBlock([string]$comment, [string]$schemaName) {
+    [DecoratingCommentsBlockParsed] ParseDecoratingCommentBlock(
+        [string]$comment,
+        [string]$schemaName
+    ) {
         $Schema = $this.SelectSchema($comment, $schemaName)
+
         return $Schema.Parse($comment)
     }
 
-    [DecoratingCommentsBlockParsed] ParseDecoratingCommentBlock([string]$comment, [ast]$decoratedAst) {
+    [DecoratingCommentsBlockParsed] ParseDecoratingCommentBlock(
+        [string]$comment,
+        [ast]$decoratedAst
+    ) {
         $Schema = $this.SelectSchema($comment, $decoratedAst)
+
         return $Schema.Parse($comment)
     }
 
@@ -357,6 +368,7 @@ class DecoratingCommentsRegistry {
         [ast]$decoratedAst
     ) {
         $Schema = $this.SelectSchema($comment, $schemaName, $decoratedAst)
+
         return $Schema.Parse($comment)
     }
 
@@ -392,7 +404,7 @@ class DecoratingCommentsRegistry {
             $this.Keywords.Add($keyword)
             $IsRegistered = $true
         } elseif ($force) {
-            $index = $this.Keywords.FindIndex({ $args[0].Name -eq $keyword.Name })
+            $index = $this.Keywords.FindIndex{ $args[0].Name -eq $keyword.Name }
             $this.Keywords[$index] = $keyword
             $IsRegistered = $true
         }
@@ -470,9 +482,9 @@ class DecoratingCommentsRegistry {
             $this.Schemas.Add($schema)
             $RegisteredSchema = $true
         } elseif ($force) {
-            $index = $this.Schemas.FindIndex({
+            $index = $this.Schemas.FindIndex{
                 ($args[0] -as [DecoratingCommentsBlockSchema]).GetName() -eq $schema.GetName()
-            })
+            }
             $this.Schemas[$index] = $schema
             $RegisteredSchema = $true
         }
@@ -589,6 +601,7 @@ class DecoratingCommentsRegistry {
 
     [bool] UnregisterKeyword([string]$name) {
         $keyword = $this.GetRegisteredKeyword($name)
+
         return $this.UnregisterKeyword($keyword)
     }
 
@@ -598,6 +611,7 @@ class DecoratingCommentsRegistry {
 
     [bool] UnregisterSchema([string]$schemaValue) {
         $schema = $this.GetRegisteredSchema($schemaValue)
+
         return $this.UnregisterSchema($schema)
     }
 
@@ -607,6 +621,7 @@ class DecoratingCommentsRegistry {
 
     [bool] UnregisterSchemaByAlias([string]$alias) {
         $schema = $this.GetRegisteredSchemaByAlias($alias)
+
         return $this.UnregisterSchema($schema)
     }
 

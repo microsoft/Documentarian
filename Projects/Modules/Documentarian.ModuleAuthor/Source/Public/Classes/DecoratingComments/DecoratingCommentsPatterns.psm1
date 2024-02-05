@@ -59,7 +59,7 @@ class DecoratingCommentsPatterns {
     static [string] GetBlockKeywordPattern([string]$keyword) {
         return @(
             [DecoratingCommentsPatterns]::RegexMode()
-            "^\s*\.${keyword}\s*$"      # Match the specific key declaration only.
+            "^[ \t]*\.${keyword}[ \t]*$"      # Match the specific key declaration only.
             [DecoratingCommentsPatterns]::GetBlockContentPattern()
         ) -join ''
     }
@@ -74,7 +74,7 @@ class DecoratingCommentsPatterns {
     static [string] GetBlockAndValueKeywordPattern([string]$keyword, [regex]$pattern) {
         return @(
             [DecoratingCommentsPatterns]::RegexMode()
-            "^\s*\.${keyword}\s*(?<Value>${pattern})\s*$"
+            "^[ \t]*\.${keyword}[ \t]*(?<Value>${pattern})[ \t]*$"
             [DecoratingCommentsPatterns]::GetBlockContentPattern()
         ) -join ''
     }
@@ -89,7 +89,7 @@ class DecoratingCommentsPatterns {
     static [string] GetBlockAndOptionalValueKeywordPattern([string]$keyword, [regex]$pattern) {
         return @(
             [DecoratingCommentsPatterns]::RegexMode()
-            "^\s*\.${keyword}\s*(?<Value>${pattern})?\s*$"
+            "^[ \t]*\.${keyword}[ \t]*(?<Value>${pattern})?[ \t]*$"
             [DecoratingCommentsPatterns]::GetBlockContentPattern()
         ) -join ''
     }
@@ -101,24 +101,19 @@ class DecoratingCommentsPatterns {
     static [string] GetValueKeywordPattern([string]$keyword, [regex]$pattern) {
         return @(
             [DecoratingCommentsPatterns]::RegexMode()
-            "^\s*\.${keyword}\s*"
+            "^[ \t]*\.${keyword}[ \t]*"
             [DecoratingCommentsPatterns]::GetValueContentPattern($pattern)
-            '\s*$'
+            '[ \t]*$'
         ) -join ''
     }
 
     # Set the regex modes for the patterns used in this class.
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
-        <#Category#>'PSUseConsistentIndentation',
-        <#CheckId#>$null,
-        Justification = 'Easier readability for regex strings from arrays'
-    )]
     hidden static [string] RegexMode() {
         return @(
-            '(?'
-                'm' # ^ and $ match start/end of line, not string.
-                'n' # Don't capture unnamed groups.
-            ')'
+            '(?'                 # Start mode declaration
+            '    m'.TrimStart()  # ^ and $ match start/end of line, not string.
+            '    n'.TrimStart()  # Don't capture unnamed groups.
+            ')'                  # End mode declaration
         ) -join ''
     }
 
@@ -134,18 +129,13 @@ class DecoratingCommentsPatterns {
         return "(?<Value>${pattern})"
     }
 
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
-        <#Category#>'PSUseConsistentIndentation',
-        <#CheckId#>$null,
-        Justification = 'Easier readability for regex strings from arrays'
-    )]
     hidden static [string] NegativeLookAhead([string]$keywordMatch) {
         return @(
-            '(?!'                   # Don't capture if this sub pattern matches:
-                '\s*'               # Any whitespace, including newlines
-                '^\s*'              # A line with any leading whitespace
-                "\.$KeywordMatch"   # A line that starts with another keyword.
-            ')'                     # Close negative lookahead.
+            '(?!'                             # Don't capture if this sub pattern matches:
+            '    \s*'.TrimStart()             #     Any whitespace, including newlines
+            '    ^\s*'.TrimStart()            #     A line with any leading whitespace
+            "    \.$KeywordMatch".TrimStart() #     A line that starts with another keyword.
+            ')'                               # Close negative lookahead.
         ) -join ''
     }
 
@@ -159,20 +149,15 @@ class DecoratingCommentsPatterns {
         )
     }
 
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
-        <#Category#>'PSUseConsistentIndentation',
-        <#CheckId#>$null,
-        Justification = 'Easier readability for regex strings from arrays'
-    )]
     hidden static [string] BlockContentPattern([string]$negativeLookAhead) {
         return @(
-            '(?<Content>'               # Open capture group for the key's content.
-                '('
-                    '(\s|.)'            # Match any character, including newlines, unless the
-                    $negativeLookAhead  # negative lookahead pattern matches.
-                ')+'                    # Match at least once, greedily.
-                '.?'                    # Match the last character that was potentially missed.
-            ')'
+            '(?<Content>'.TrimStart()                # Open capture group for the key's content.
+            '    ('.TrimStart()                      # Open group to match with negative lookahead.
+            '        (\s|.)'.TrimStart()             # Match any character, including newlines,
+            "        $negativeLookAhead".TrimStart() # unless the negative lookahead pattern matches.
+            '    )+'.TrimStart()                     # Match the group at least once, greedily.
+            '    .?'.TrimStart()                     # Match the last character that was potentially missed.
+            ')'                                      # Close the capture group.
         ) -join ''
     }
 

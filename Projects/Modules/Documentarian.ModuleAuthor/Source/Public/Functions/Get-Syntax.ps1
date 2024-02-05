@@ -2,12 +2,14 @@
 # Licensed under the MIT License.
 
 function Get-Syntax {
-
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true, Position = 0)]
-        [string]$CmdletName,
-        [switch]$Markdown
+        [string]
+        $CmdletName,
+
+        [switch]
+        $Markdown
     )
 
     function formatString {
@@ -16,7 +18,7 @@ function Get-Syntax {
             $pstring
         )
 
-        $parts = $pstring -split ' '
+        $parts      = $pstring -split ' '
         $parameters = @()
         for ($x = 0; $x -lt $parts.Count; $x++) {
             $p = $parts[$x]
@@ -36,10 +38,9 @@ function Get-Syntax {
         for ($x = 0; $x -lt $parameters.Count; $x++) {
             if ($line.Length + $parameters[$x].Length + 1 -lt 100) {
                 $line += $parameters[$x] + ' '
-            }
-            else {
+            } else {
                 $temp += $line + "`r`n"
-                $line = ' ' + $parameters[$x] + ' '
+                $line  = ' ' + $parameters[$x] + ' '
             }
         }
         $temp + $line.TrimEnd()
@@ -56,12 +57,13 @@ function Get-Syntax {
         }
 
         $syntax = (Get-Command $name).ParameterSets |
-            Select-Object -Property @{n = 'Cmdlet'; e = { $cmdlet.Name } },
-            @{n = 'ParameterSetName'; e = { $_.name } },
-            IsDefault,
-            @{n = 'Parameters'; e = { $_.ToString() } }
-    }
-    catch [System.Management.Automation.CommandNotFoundException] {
+            Select-Object -Property @(
+                @{Name = 'Cmdlet'           ; Expression = { $cmdlet.Name } },
+                @{Name = 'ParameterSetName' ; Expression = { $_.name } },
+                'IsDefault',
+                @{Name = 'Parameters'       ; Expression = { $_.ToString() } }
+            )
+    } catch [System.Management.Automation.CommandNotFoundException] {
         $_.Exception.Message
     }
 
@@ -83,8 +85,7 @@ function Get-Syntax {
             }
             $mdHere -f $s.ParameterSetName, $default, $string
         }
-    }
-    else {
+    } else {
         $syntax
     }
 

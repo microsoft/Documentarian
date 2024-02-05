@@ -35,5 +35,8 @@
         "Source/Hugo/*/public": true,
         "Source/Hugo/*/resources": true
     },
-    "vale.valeCLI.config": "${workspaceFolder}/.vale.ini"
+    "vale.valeCLI.config": "${workspaceFolder}/.vale.ini",
+    "powershell.codeFormatting.avoidSemicolonsAsLineTerminators": true,
+    "powershell.codeFormatting.whitespaceAroundOperator": false,
+    "powershell.codeFormatting.whitespaceBetweenParameters": false
 }

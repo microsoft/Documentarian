@@ -8,13 +8,13 @@ using module ../../Classes/DecoratingComments/DecoratingCommentsRegistry.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/DecoratingComments/Get-DcBlockKeyword.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/DecoratingComments/Get-DcBlockKeyword.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -24,12 +24,21 @@ function Register-DcBlockKeyword {
     [OutputType([DecoratingCommentsBlockKeyword[]])]
     param(
         [Parameter(Mandatory, ParameterSetName='ByKeywordName')]
-        [string[]]$Name,
+        [string[]]
+        $Name,
+
         [Parameter(Mandatory, ParameterSetName='ByKeywordObject')]
-        [DecoratingCommentsBlockKeyword[]]$Keyword,
-        [DecoratingCommentsRegistry]$Registry = $Global:ModuleAuthorDecoratingCommentsRegistry,
-        [switch]$Force,
-        [switch]$PassThru
+        [DecoratingCommentsBlockKeyword[]]
+        $Keyword,
+
+        [DecoratingCommentsRegistry]
+        $Registry = $Global:ModuleAuthorDecoratingCommentsRegistry,
+
+        [switch]
+        $Force,
+
+        [switch]
+        $PassThru
     )
 
     process {

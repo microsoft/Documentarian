@@ -1,6 +1,6 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
-#requires -Version 7.2
+
 Function Update-PSModulePath {
   <#
   .SYNOPSIS
@@ -20,7 +20,7 @@ Function Update-PSModulePath {
 
   process {
     $ProjectRoot = Split-Path -Parent -Path $PSScriptRoot
-    $PathSeparator = $IsWindows ? ';' : ':'
+    $PathSeparator = [System.IO.Path]::PathSeparator
     $PathSegments = $env:PSModulePath -split [regex]::Escape($PathSeparator)
 
     if ($PathSegments -notcontains $ProjectRoot) {

@@ -10,15 +10,15 @@ using module ../../Classes/HelpInfo/ClassHelpInfo.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Find-Ast.ps1"
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
-  Resolve-Path -Path "$SourceFolder/Public/Functions/DecoratingComments/New-DecoratingCommentsRegistry.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Find-Ast.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/DecoratingComments/New-DecoratingCommentsRegistry.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -29,12 +29,15 @@ function Resolve-ClassHelpInfo {
     param (
         [Parameter(Mandatory, ParameterSetName = 'ByPath')]
         [ValidatePowerShellScriptPath()]
-        [string[]]$Path,
+        [string[]]
+        $Path,
 
         [Parameter(Mandatory, ParameterSetName = 'ByAstInfo')]
-        [AstInfo[]]$AstInfo,
+        [AstInfo[]]
+        $AstInfo,
 
-        [DecoratingCommentsRegistry]$Registry = [DecoratingCommentsRegistry]::Get()
+        [DecoratingCommentsRegistry]
+        $Registry = [DecoratingCommentsRegistry]::Get()
     )
 
     begin {
@@ -46,7 +49,6 @@ function Resolve-ClassHelpInfo {
         $FindClassPredicate = {
             [CmdletBinding()]
             [OutputType([bool])]
-
             param(
                 [Ast]$AstObject
             )
@@ -91,6 +93,7 @@ function Resolve-ClassHelpInfo {
 
         foreach ($Definition in $AstInfo) {
             Write-Verbose "Parsing the AST for the $($Definition.Ast.Name) class's help info..."
+
             [ClassHelpInfo]::new($Definition, $Registry)
         }
     }

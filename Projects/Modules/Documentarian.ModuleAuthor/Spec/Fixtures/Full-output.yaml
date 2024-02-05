@@ -1,0 +1,236 @@
+Name: HelpInfoTestClassFull
+Synopsis: >-
+  The synopsis for the class.
+Description: |-
+  The description for the class. The class has no Notes, but
+  it does have two examples.
+Examples:
+  - Title: ''
+    Body: |-
+      The first example for the class. It doesn't have a title.
+  - Title: Second Example
+    Body: |-
+      The second example for the class. It has a title.
+Notes: ''
+BaseTypes: []
+Attributes: []
+Constructors:
+  - Signature:
+      Full: |-
+        HelpInfoTestClassFull()
+      TypeOnly: >-
+        HelpInfoTestClassFull()
+    Synopsis: >-
+      Creates an instance of the class with default values for every property.
+    Description: ''
+    Examples: []
+    IsHidden: false
+    Attributes: []
+    Parameters: []
+    Exceptions: []
+Methods:
+  - Name: DoNothing
+    Synopsis: >-
+      Synopsis for this overload.
+    Overloads:
+      - ReturnType: null
+        IsStatic: false
+        Signature:
+          Full: |-
+            DoNothing()
+          TypeOnly: >-
+            DoNothing()
+        Synopsis: >-
+          Synopsis for this overload.
+        Description: |-
+          The external comment is ignored because this overload
+          has a comment block immediately inside the body. The
+          synopsis is used for the method overall because it's the
+          first declared overload and the class comment block doesn't
+          have this method in it.
+        Examples: []
+        IsHidden: false
+        Attributes: []
+        Parameters: []
+        Exceptions: []
+      - ReturnType: null
+        IsStatic: false
+        Signature:
+          Full: |-
+            DoNothing([string]$first)
+          TypeOnly: >-
+            DoNothing(System.String)
+        Synopsis: >-
+          Synopsis for this overload.
+        Description: |-
+          Because this block is immediately before the overload, it's used
+          for the overload's help. This overload has no examples.
+        Examples: []
+        IsHidden: false
+        Attributes: []
+        Parameters:
+          - Name: first
+            Type: System.String
+            Description: |-
+              The documentation for the `$first` parameter.
+        Exceptions: []
+      - ReturnType: null
+        IsStatic: false
+        Signature:
+          Full: |-
+            DoNothing([string]$first, [int]$third)
+          TypeOnly: >-
+            DoNothing(System.String, System.Int32)
+        Synopsis: >-
+          Synopsis for this overload.
+        Description: |-
+          Because this block is immediately inside the overload, it's
+          used for the overload's help. This overload documents the
+          `$first` parameter in the block, but uses a decorating
+          comment for the `$third` parameter.
+        Examples: []
+        IsHidden: false
+        Attributes: []
+        Parameters:
+          - Name: first
+            Type: System.String
+            Description: |-
+              The documentation for the `$first` parameter. This overrides
+              the decorating comment above the parameter.
+          - Name: third
+            Type: System.Int32
+            Description: "Block comment decorating the `$third` parameter. It spans\nmultiple lines.\n\nIt even has a second paragraph.\n        "
+        Exceptions: []
+  - Name: Repeat
+    Synopsis: >-
+      The synopsis for the Repeat method.
+    Overloads:
+      - ReturnType: null
+        IsStatic: false
+        Signature:
+          Full: |-
+            Repeat([string]$a)
+          TypeOnly: >-
+            Repeat(System.String)
+        Synopsis: >-
+          The synopsis for the Repeat method.
+        Description: ''
+        Examples: []
+        IsHidden: false
+        Attributes: []
+        Parameters:
+          - Name: a
+            Type: System.String
+            Description: ''
+        Exceptions: []
+      - ReturnType: null
+        IsStatic: false
+        Signature:
+          Full: |-
+            Repeat([string]$a, [int]$b)
+          TypeOnly: >-
+            Repeat(System.String, System.Int32)
+        Synopsis: >-
+          The synopsis for the Repeat method.
+        Description: |-
+          The description for this overload. Neither parameter is
+          documented. It doesn't have a Synopsis declared or any
+          examples.
+        Examples: []
+        IsHidden: true
+        Attributes: []
+        Parameters:
+          - Name: a
+            Type: System.String
+            Description: ''
+          - Name: b
+            Type: System.Int32
+            Description: ''
+        Exceptions: []
+  - Name: ToUpper
+    Synopsis: >-
+      The synopsis for this overload.
+    Overloads:
+      - ReturnType: null
+        IsStatic: true
+        Signature:
+          Full: |-
+            ToUpper([string]$a)
+          TypeOnly: >-
+            ToUpper(System.String)
+        Synopsis: >-
+          The synopsis for this overload.
+        Description: |-
+          The description for this overload.
+        Examples:
+          - Title: ''
+            Body: |-
+              An example for this overload. It doesn't have a title.
+          - Title: Another Example
+            Body: |-
+              Another example for this overload. It has a title.
+        IsHidden: false
+        Attributes: []
+        Parameters:
+          - Name: a
+            Type: System.String
+            Description: |-
+              The documentation for the `$a` parameter.
+        Exceptions:
+          - Type: System.ArgumentException
+            Description: |-
+              The exception documentation for this overload. It informs
+              consumers when and why the overload might throw an
+              exception.
+Properties:
+  - Name: First
+    Type: System.String
+    Attributes:
+      - Type: System.Management.Automation.ValidateNotNullOrEmptyAttribute
+        Definition: |-
+          [ValidateNotNullOrEmpty()]
+    InitialValue: null
+    IsHidden: false
+    IsStatic: false
+    Synopsis: >-
+      Synopsis for the First property.
+    Description: |-
+      Description for the First property.
+  - Name: Second
+    Type: System.Int32
+    Attributes: []
+    InitialValue: '3'
+    IsHidden: false
+    IsStatic: true
+    Synopsis: >-
+      A one-line block comment for the Second, its Synopsis.
+    Description: |-
+      Because the Second property has a decorating comment, this
+      value is used as the Description - it's easier to write a
+      longer document here.
+  - Name: Third
+    Type: System.Int32
+    Attributes:
+      - Type: System.Management.Automation.ValidateRangeAttribute
+        Definition: |-
+          [ValidateRange(1, 5)]
+    InitialValue: null
+    IsHidden: true
+    IsStatic: false
+    Synopsis: >-
+      The Third property's Synopsis.
+    Description: |-
+      The Third property's Description.
+  - Name: Fourth
+    Type: System.String
+    Attributes: []
+    InitialValue: "'Default value'"
+    IsHidden: true
+    IsStatic: true
+    Synopsis: >-
+      This is used as the Fourth property's Synopsis, since it has
+
+      the Description key in its decorating block comment.
+    Description: |-
+      The Fourth property's Description.
+LinkReferences: {}

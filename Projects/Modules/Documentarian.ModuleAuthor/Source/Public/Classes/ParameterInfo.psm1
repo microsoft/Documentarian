@@ -42,30 +42,32 @@ class ParameterInfo {
     [System.Management.Automation.ParameterMetadata]$param,
     [ProviderFlags]$ProviderFlags
   ) {
-    $this.Name = $param.Name
+    $this.Name     = $param.Name
     $this.HelpText = $param.Attributes.HelpMessage | Select-Object -First 1
     if ($this.HelpText.Length -eq 0) {
       $this.HelpText = '{{Placeholder}}'
     }
-    $this.Type = $param.ParameterType.FullName
+    $this.Type         = $param.ParameterType.FullName
     $this.ParameterSet = if ($param.Attributes.ParameterSetName -eq '__AllParameterSets') {
       '(All)'
     } else {
       $param.Attributes.ParameterSetName -join ', '
     }
-    $this.Aliases = $param.Aliases -join ', '
+    $this.Aliases  = $param.Aliases -join ', '
     $this.Required = $param.Attributes.Mandatory
     $this.Position = if ($param.Attributes.Position -lt 0) {
       'Named'
     } else {
       $param.Attributes.Position
     }
-    $this.Pipeline = 'ByValue ({0}), ByName ({1})' -f ($param.Attributes.ValueFromPipeline -join ','),
-      ($param.Attributes.ValueFromPipelineByPropertyName -join ',')
-    $this.Wildcard = $param.Attributes.TypeId.Name -contains 'SupportsWildcardsAttribute'
-    $this.Dynamic = $param.IsDynamic
+    $this.Pipeline = 'ByValue ({0}), ByName ({1})' -f @(
+            ($param.Attributes.ValueFromPipeline -join ','),
+            ($param.Attributes.ValueFromPipelineByPropertyName -join ',')
+    )
+    $this.Wildcard      = $param.Attributes.TypeId.Name -contains 'SupportsWildcardsAttribute'
+    $this.Dynamic       = $param.IsDynamic
     $this.FromRemaining = $param.Attributes.ValueFromRemainingArguments
-    $this.DontShow = $param.Attributes.DontShow
+    $this.DontShow      = $param.Attributes.DontShow
     if ($param.Attributes.TypeId.Name -contains 'PSDefaultValueAttribute') {
       $this.DefaultValue = $param.Attributes.Help -join ', '
     } else {
@@ -89,20 +91,20 @@ class ParameterInfo {
 
   [string]ToMarkdown([bool]$showAll) {
     <#
-      .SYNOPSIS
-        Converts the parameter info to a Markdown section.
-      .DESCRIPTION
-        Converts the parameter info to a Markdown section as expected by the
-        **PlatyPS** module. It includes an H3 for the parameter (with the
-        leading hyphen), the parameter's help text, and a YAML code block
-        containing the parameter's metadata.
+            .SYNOPSIS
+                Converts the parameter info to a Markdown section.
+            .DESCRIPTION
+                Converts the parameter info to a Markdown section as expected by the
+                **PlatyPS** module. It includes an H3 for the parameter (with the
+                leading hyphen), the parameter's help text, and a YAML code block
+                containing the parameter's metadata.
 
-        When the $showAll parameter is $true, the parameter's non-PlatyPS
-        compliant metadata is included.
+                When the $showAll parameter is $true, the parameter's non-PlatyPS
+                compliant metadata is included.
 
-      .PARAMETER showAll
-        Whether to include the parameter's non-PlatyPS compliant metadata.
-    #>
+            .PARAMETER showAll
+                Whether to include the parameter's non-PlatyPS compliant metadata.
+        #>
 
     $builder = New-Builder
     $Builder | Add-Heading -Level 3 -Content $this.Name
@@ -111,9 +113,10 @@ class ParameterInfo {
     $Builder | Add-Line -Content "Type: $($this.Type)"
     $Builder | Add-Line -Content "Parameter Sets: $($this.ParameterSet)"
     $Builder | Add-Line -Content "Aliases: $($this.Aliases)"
+    $Builder | Add-Line
     $Builder | Add-Line -Content "Required: $($this.Required -join ', ')"
     $Builder | Add-Line -Content "Position: $($this.Position -join ', ')"
-    if ($this.Type -eq 'System.Management.Automation.SwitchParameter') {
+    if ($this.Type -is [System.Management.Automation.SwitchParameter]) {
       $Builder | Add-Line -Content 'Default value: False'
     } else {
       $Builder | Add-Line -Content "Default value: $($this.DefaultValue)"

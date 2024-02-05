@@ -150,11 +150,11 @@ class DecoratingCommentsBlockKeywords {
     hidden static [string] ExternalHelpPattern() {
         return @(
             '('
-                '\S+'   # Matches a bare string without spaces
-                '|'
-                '".*"'  # Matches a double-quoted string
-                '|'
-                "'.*'"  # Matches a single-quoted string
+            '    \S+'.TrimStart()   # Matches a bare string without spaces
+            '    |'.TrimStart()
+            '    ".*"'.TrimStart()  # Matches a double-quoted string
+            '    |'.TrimStart()
+            "    '.*'".TrimStart()  # Matches a single-quoted string
             ')'
         ) -join ''
     }

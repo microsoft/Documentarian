@@ -8,13 +8,13 @@ using module ../../Classes/DecoratingComments/DecoratingCommentsRegistry.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/DecoratingComments/New-DecoratingCommentsRegistry.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/DecoratingComments/New-DecoratingCommentsRegistry.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -30,18 +30,31 @@ Function Get-AstInfo {
     param(
         [Parameter(Mandatory, ParameterSetName = 'FromPath')]
         [ValidatePowerShellScriptPath()]
-        [string[]]$Path,
+        [string[]]
+        $Path,
+
         [Parameter(Mandatory, ParameterSetName = 'FromScriptBlock')]
-        [scriptblock[]]$ScriptBlock,
+        [scriptblock[]]
+        $ScriptBlock,
+
         [Parameter(Mandatory, ParameterSetName = 'FromInputText')]
         [ValidateNotNullOrEmpty()]
-        [string[]]$Text,
+        [string[]]
+        $Text,
+
         [Parameter(Mandatory, ParameterSetName = 'FromTargetAst')]
-        [Ast[]]$TargetAst,
+        [Ast[]]
+        $TargetAst,
+
         [Parameter(ParameterSetName = 'FromTargetAst')]
-        [Token[]]$Token,
-        [DecoratingCommentsRegistry]$Registry = $Global:ModuleAuthorDecoratingCommentsRegistry,
-        [switch]$ParseDecoratingComment
+        [Token[]]
+        $Token,
+
+        [DecoratingCommentsRegistry]
+        $Registry = $Global:ModuleAuthorDecoratingCommentsRegistry,
+
+        [switch]
+        $ParseDecoratingComment
     )
 
     begin {}

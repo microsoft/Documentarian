@@ -12,13 +12,13 @@ using module ./MethodOverloadHelpInfo.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -31,7 +31,40 @@ class ClassMethodHelpInfo : BaseHelpInfo {
     # The list of overloads for this method with their documentation.
     [MethodOverloadHelpInfo[]] $Overloads = @()
 
-    ClassMethodHelpInfo() {}
+    static ClassMethodHelpInfo() {
+        [ClassMethodHelpInfo]::InitializeFormatters()
+    }
+
+    ClassMethodHelpInfo() {
+        <#
+            .SYNOPSIS
+            Default constructor. Doesn't initialize or define the instance.
+        #>
+    }
+
+    ClassMethodHelpInfo([OrderedDictionary]$metadata) : base($metadata) {
+        <#
+            .SYNOPSIS
+            Initializes an instance from a dictionary, as read back from YAML or JSON.
+
+            .PARAMETER metadata
+            The value for this parameter should be an ordered dictionary that keys with the same
+            name as this class's properties. The values for the `Name` and `Synopsis` keys should
+            be strings. The value for the `Overloads` key should be an array of ordered dictionaries
+            that can be used to initialize instances of the `MethodOverloadHelpInfo` class.
+
+            .EXAMPLE Convert YAML to an instance of ClassMethodHelpInfo
+            ```powershell
+            $classInfo   = Get-Content -Path .\ExampleClass.yaml -Raw | YaYaml\ConvertFrom-Yaml
+            $classMethod = [ClassMethodHelpInfo]::new($classInfo.Methods[0])
+            ```
+
+            .EXCEPTION System.Management.Automation.RuntimeException
+
+            This constructor throws an `InvalidOperation` runtime exception if the metadata
+            dictionary contains a key that doesn't match one of the class's properties.
+        #>
+    }
 
     ClassMethodHelpInfo(
         [string]$methodName,
@@ -39,6 +72,7 @@ class ClassMethodHelpInfo : BaseHelpInfo {
     ) {
         $this.Initialize($methodName, $classAstInfo, [DecoratingCommentsRegistry]::Get())
     }
+
     ClassMethodHelpInfo(
         [string]$methodName,
         [AstInfo]$classAstInfo,
@@ -46,12 +80,14 @@ class ClassMethodHelpInfo : BaseHelpInfo {
     ) {
         $this.Initialize($methodName, $classAstInfo, $registry)
     }
+
     ClassMethodHelpInfo(
         [string]$methodName,
         [TypeDefinitionAst]$classAst
     ) {
         $this.Initialize($methodName, $classAst, [DecoratingCommentsRegistry]::Get())
     }
+
     ClassMethodHelpInfo(
         [string]$methodName,
         [TypeDefinitionAst]$classAst,
@@ -82,7 +118,7 @@ class ClassMethodHelpInfo : BaseHelpInfo {
         if ($classAstInfo.Ast -isnot [TypeDefinitionAst]) {
             $Message = @(
                 'Invalid argument. [ClassMethodHelpInfo] expects an AstInfo object where'
-                "the Ast property is a TypeDefinitionAst that defines a class,"
+                'the Ast property is a TypeDefinitionAst that defines a class,'
                 "but the Ast property's type was $($classAstInfo.Ast.GetType().FullName)"
             ) -join ' '
             throw [System.ArgumentException]::new($Message, 'classAstInfo')
@@ -91,7 +127,6 @@ class ClassMethodHelpInfo : BaseHelpInfo {
             $registry = [DecoratingCommentsRegistry]::Get()
         }
 
-        [TypeDefinitionAst]$ClassAst = $classAstInfo.Ast
         $ClassHelp = $classAstInfo.DecoratingComment.ParsedValue
         $this.Name = $methodName
 
@@ -129,7 +164,7 @@ class ClassMethodHelpInfo : BaseHelpInfo {
         if ($classAstInfo.Ast -isnot [TypeDefinitionAst]) {
             $Message = @(
                 'Invalid argument. [ClassMethodHelpInfo]::Resolve()'
-                "expects an AstInfo object where the Ast property is a TypeDefinitionAst"
+                'expects an AstInfo object where the Ast property is a TypeDefinitionAst'
                 "that defines a class, but the Ast property's type was"
                 $classAstInfo.Ast.GetType().FullName
             ) -join ' '
@@ -150,5 +185,153 @@ class ClassMethodHelpInfo : BaseHelpInfo {
             ForEach-Object -Process {
                 [ClassMethodHelpInfo]::new($_, $classAstInfo, $registry)
             }
+    }
+
+    hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
+        $metadata.Name     = $metadata.Name     | yayaml\Add-YamlFormat -ScalarStyle Plain  -PassThru
+        $metadata.Synopsis = $metadata.Synopsis | yayaml\Add-YamlFormat -ScalarStyle Folded -PassThru
+
+        return $metadata
+    }
+
+    static [HelpInfoFormatterDictionary] $Formatters
+
+    static [Void] InitializeFormatters() {
+        [ClassMethodHelpInfo]::InitializeFormatters($false, $false)
+    }
+
+    static [HelpInfoFormatterDictionary] InitializeFormatters([bool]$passThru, [bool]$force) {
+        if ($force -or [ClassMethodHelpInfo]::Formatters.Count -eq 0) {
+            [ClassMethodHelpInfo]::Formatters = [HelpInfoFormatterDictionary]::new(
+                [ordered]@{
+                    Block = [ClassMethodHelpInfo]::GetDefaultFormatter()
+                },
+                [ordered]@{
+                    Block = [ClassMethodHelpInfo]::GetDefaultSectionFormatter()
+                }
+            )
+        }
+
+        if ($passThru) {
+            return [ClassMethodHelpInfo]::Formatters
+        }
+
+        return $null
+    }
+
+    hidden static [HelpInfoFormatter] GetDefaultFormatter() {
+        return [HelpInfoFormatter]@{
+            Parameters  = @{}
+            ScriptBlock = {
+                [CmdletBinding()]
+                [OutputType([string])]
+                param(
+                    [Parameter(Mandatory)]
+                    [ClassMethodHelpInfo]
+                    $HelpInfo,
+
+                    [MarkdownBuilder]
+                    $MarkdownBuilder,
+
+                    [ValidateRange(1, 3)]
+                    [int]
+                    $Level = 3,
+
+                    [switch]$IncludeHidden
+                )
+
+                if (-not $IncludeHidden -and $HelpInfo.IsHidden) {
+                    return ''
+                }
+
+                if ($null -eq $MarkdownBuilder) {
+                    $options = @{
+                        SpaceMungingOptions = 'CollapseEnd', 'TrimStart'
+                    }
+                    $MarkdownBuilder = Documentarian.MarkdownBuilder\New-Builder @options
+                }
+
+                $MarkdownBuilder
+                | Add-Heading -Level $Level -Content $HelpInfo.Name
+                | Add-Line -Content $HelpInfo.Synopsis
+                | Add-Line -Content ''
+
+                $formatter = [MethodOverloadHelpInfo]::Formatters.Section.Block
+                $formatter.Parameters.Level = $Level + 1
+
+                $MarkdownBuilder
+                | Add-Line -Content (
+                    [MethodOverloadHelpInfo]::ToMarkdown(
+                        $HelpInfo.Overloads,
+                        $formatter
+                    ).TrimEnd()
+                )
+
+                return ($markdownBuilder.ToString() -replace '(\r?\n)+$', '$1')
+            }
+        }
+    }
+
+    hidden static [HelpInfoFormatter] GetDefaultSectionFormatter() {
+        return [HelpInfoFormatter]@{
+            Parameters  = @{}
+            ScriptBlock = {
+                [CmdletBinding()]
+                [OutputType([string])]
+                param(
+                    [Parameter(Mandatory)]
+                    [ClassMethodHelpInfo[]]
+                    $HelpInfo,
+
+                    [MarkdownBuilder]
+                    $MarkdownBuilder,
+
+                    [string]
+                    $Prefix,
+
+                    [ValidateRange(1, 4)]
+                    [int]
+                    $Level = 2,
+
+                    [string]
+                    $HeadingText = 'Methods'
+                )
+
+                if ($null -eq $MarkdownBuilder) {
+                    $options = @{
+                        SpaceMungingOptions = 'CollapseEnd', 'TrimStart'
+                    }
+                    $MarkdownBuilder = Documentarian.MarkdownBuilder\New-Builder @options
+                }
+
+                $MarkdownBuilder | Add-Heading -Level $Level -Content $HeadingText
+
+                foreach ($method in $HelpInfo) {
+                    $formatter = [ClassMethodHelpInfo]::Formatters.Block
+                    $formatter.Parameters.Level = $Level + 1
+                    $formatted = $method.ToMarkdown($formatter)
+
+                    $MarkdownBuilder | Add-Line -Content $formatted
+                }
+
+                return ($MarkdownBuilder.ToString() -replace '(\r?\n)+$', '$1')
+            }
+        }
+    }
+
+    [string] ToMarkdown() {
+        return $this.ToMarkdown([ClassMethodHelpInfo]::Formatters.Default)
+    }
+
+    [string] ToMarkdown([HelpInfoFormatter]$formatter) {
+        return $formatter.Format($this)
+    }
+
+    static [string] ToMarkdown([ClassMethodHelpInfo[]]$values) {
+        return [ClassMethodHelpInfo]::ToMarkdown($values, [ClassMethodHelpInfo]::Formatters.Section.Default)
+    }
+
+    static [string] ToMarkdown([ClassMethodHelpInfo[]]$values, [HelpInfoFormatter]$formatter) {
+        return $formatter.FormatSection($values)
     }
 }

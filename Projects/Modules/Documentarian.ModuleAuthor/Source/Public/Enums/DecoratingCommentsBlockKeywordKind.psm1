@@ -36,7 +36,7 @@ enum DecoratingCommentsBlockKeywordKind {
         ```powershell
         [DecoratingCommentsBlockKeywordKind]::BlockAndValue
         ```
-        
+
         Gets the `BlockAndValue` enumeration.
     #>
 

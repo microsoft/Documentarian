@@ -12,7 +12,52 @@
         "IgnoreForTest": false
     },
     {
+        "Name": "SpaceMungingOptions",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "CodeFenceCharacters",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "BulletListStyle",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "NumberedListStyle",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "EmphasisStyle",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "HighlightStyle",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "StrikethroughStyle",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "SubscriptStyle",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "SuperscriptStyle",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "InlineFormatOptions",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     }

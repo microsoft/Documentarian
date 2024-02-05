@@ -12,7 +12,8 @@
     "PowerShellVersion": "7.2",
     "RequiredModules": [
       "Documentarian.MarkdownBuilder",
-      "Documentarian.MicrosoftDocs"
+      "Documentarian.MicrosoftDocs",
+      "Yayaml"
     ],
     "Tags": [
       "Markdown",

@@ -4,7 +4,20 @@
 using namespace System.Collections.Specialized
 
 class BaseHelpInfo {
+
+    BaseHelpInfo() {}
+
+    BaseHelpInfo([OrderedDictionary]$metadata) {
+        foreach ($Property in $metadata.Keys) {
+            $this.$Property = $metadata.$Property
+        }
+    }
+
     [OrderedDictionary] ToMetadataDictionary() {
+        return $this.ToMetadataDictionary($false)
+    }
+
+    [OrderedDictionary] ToMetadataDictionary([bool]$AddYamlFormatting) {
         $Metadata = [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase)
 
         foreach ($Property in $this.GetType().GetProperties()) {
@@ -18,7 +31,16 @@ class BaseHelpInfo {
                 continue
             }
 
-            [BaseHelpInfo]::AddToMetadataDictionary($Metadata, $PropertyName, $PropertyValue)
+            [BaseHelpInfo]::AddToMetadataDictionary(
+                $Metadata,
+                $PropertyName,
+                $PropertyValue,
+                $AddYamlFormatting
+            )
+        }
+
+        if ($AddYamlFormatting -and $null -ne $this.GetType()::AddYamlFormatting) {
+            return $this.GetType()::AddYamlFormatting($Metadata)
         }
 
         return $Metadata
@@ -28,10 +50,23 @@ class BaseHelpInfo {
         return $this.ToMetadataDictionary() | ConvertTo-Json -Depth 99
     }
 
+    [string] ToYaml() {
+        return $this.ToMetadataDictionary($true) | yayaml\ConvertTo-Yaml -Depth 99
+    }
+
     hidden static [void] AddToMetadataDictionary(
         [OrderedDictionary]$metadata,
         [string]$key,
         [string]$value
+    ) {
+        [BaseHelpInfo]::AddToMetadataDictionary($metadata, $key, $value, $false)
+    }
+
+    hidden static [void] AddToMetadataDictionary(
+        [OrderedDictionary]$metadata,
+        [string]$key,
+        [string]$value,
+        [bool]$AddYamlFormatting
     ) {
         if ([string]::isNullOrEmpty($value)) {
             $metadata.Add($key, '')
@@ -45,6 +80,15 @@ class BaseHelpInfo {
         [string]$key,
         [string[]]$values
     ) {
+        [BaseHelpInfo]::AddToMetadataDictionary($metadata, $key, $values, $false)
+    }
+
+    hidden static [void] AddToMetadataDictionary(
+        [OrderedDictionary]$metadata,
+        [string]$key,
+        [string[]]$values,
+        [bool]$AddYamlFormatting
+    ) {
         if ($values.Count -gt 0) {
             $metadata.Add($key, $values)
         } else {
@@ -56,6 +100,15 @@ class BaseHelpInfo {
         [OrderedDictionary]$metadata,
         [string]$key,
         [System.ValueType]$value
+    ) {
+        [BaseHelpInfo]::AddToMetadataDictionary($metadata, $key, $value, $false)
+    }
+
+    hidden static [void] AddToMetadataDictionary(
+        [OrderedDictionary]$metadata,
+        [string]$key,
+        [System.ValueType]$value,
+        [bool]$AddYamlFormatting
     ) {
         if ($null -eq $value) {
             $metadata.Add($key, $null)
@@ -69,6 +122,15 @@ class BaseHelpInfo {
         [string]$key,
         [System.ValueType[]]$values
     ) {
+        [BaseHelpInfo]::AddToMetadataDictionary($metadata, $key, $values, $false)
+    }
+
+    hidden static [void] AddToMetadataDictionary(
+        [OrderedDictionary]$metadata,
+        [string]$key,
+        [System.ValueType[]]$values,
+        [bool]$AddYamlFormatting
+    ) {
         if ($null -ne $values -and $values.Length -gt 0) {
             $metadata.Add($key, $values)
         } else {
@@ -81,8 +143,22 @@ class BaseHelpInfo {
         [string]$key,
         [BaseHelpInfo]$value
     ) {
+        [BaseHelpInfo]::AddToMetadataDictionary($metadata, $key, $value, $false)
+    }
+
+    hidden static [void] AddToMetadataDictionary(
+        [OrderedDictionary]$metadata,
+        [string]$key,
+        [BaseHelpInfo]$value,
+        [bool]$AddYamlFormatting
+    ) {
         if ($null -ne $value) {
-            $metadata.Add($key, $value.ToMetadataDictionary())
+            $dictionary = $value.ToMetadataDictionary($AddYamlFormatting)
+            if ($AddYamlFormatting -and $null -ne $value.GetType()::AddYamlFormatting) {
+                $metadata.Add($key, $value.GetType()::AddYamlFormatting($dictionary))
+            } else {
+                $metadata.Add($key, $dictionary)
+            }
         } else {
             $metadata.Add($key, [OrderedDictionary]::new([System.StringComparer]::OrdinalIgnoreCase))
         }
@@ -93,8 +169,25 @@ class BaseHelpInfo {
         [string]$key,
         [BaseHelpInfo[]]$values
     ) {
+        [BaseHelpInfo]::AddToMetadataDictionary($metadata, $key, $values, $false)
+    }
+
+    hidden static [void] AddToMetadataDictionary(
+        [OrderedDictionary]$metadata,
+        [string]$key,
+        [BaseHelpInfo[]]$values,
+        [bool]$AddYamlFormatting
+    ) {
         if ($null -ne $values -and $values.Length -gt 0) {
-            $metadata.Add($key, [OrderedDictionary[]]($values.ToMetadataDictionary()))
+            $dictionaries = @()
+            foreach ($value in $values) {
+                $dictionary = $value.ToMetadataDictionary($AddYamlFormatting)
+                if ($AddYamlFormatting -and $null -ne $value.GetType()::AddYamlFormatting) {
+                    $dictionary = $value.GetType()::AddYamlFormatting($dictionary)
+                }
+                $dictionaries += $dictionary
+            }
+            $metadata.Add($key, [OrderedDictionary[]]($dictionaries))
         } else {
             $metadata.Add($key, [OrderedDictionary[]]@())
         }

@@ -165,6 +165,18 @@
         "IgnoreForTest": false
     },
     {
+        "Name": "HelpInfoFormatter",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
+        "Name": "HelpInfoFormatterDictionary",
+        "Folder": "HelpInfo",
+        "IgnoreForBuild": false,
+        "IgnoreForTest": false
+    },
+    {
         "Name": "AttributeHelpInfo",
         "Folder": "HelpInfo",
         "IgnoreForBuild": false,

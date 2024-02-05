@@ -11,14 +11,14 @@ using module ./OverloadHelpInfo.psm1
 
 $SourceFolder = $PSScriptRoot
 while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
-  $SourceFolder = Split-Path -Parent -Path $SourceFolder
+    $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
-  Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Resolve-TypeName.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Get-AstInfo.ps1"
+    Resolve-Path -Path "$SourceFolder/Public/Functions/AstInfo/Resolve-TypeName.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
-  . $RequiredFunction
+    . $RequiredFunction
 }
 
 #endregion RequiredFunctions
@@ -36,6 +36,8 @@ class MethodOverloadHelpInfo : OverloadHelpInfo {
     [bool] $IsStatic = $false
 
     MethodOverloadHelpInfo() : base() {}
+
+    MethodOverloadHelpInfo([OrderedDictionary]$metadata) : base($metadata) {}
 
     MethodOverloadHelpInfo(
         [AstInfo]$astInfo
@@ -65,9 +67,18 @@ class MethodOverloadHelpInfo : OverloadHelpInfo {
         $this.SetProperties($targetAst)
     }
 
+    static MethodOverloadHelpInfo() {
+        [MethodOverloadHelpInfo]::InitializeFormatters()
+    }
+
     hidden [void] SetProperties([FunctionMemberAst]$methodAst) {
-        $this.ReturnType = Resolve-TypeName -TypeName $methodAst.ReturnType.TypeName
-        $this.IsStatic = $methodAst.IsStatic
+        $this.ReturnType = if ($ReturnTypeName = $methodAst.ReturnType.TypeName) {
+            Resolve-TypeName -TypeName $ReturnTypeName
+        } else {
+            'System.Void'
+        }
+
+        $this.IsStatic   = $methodAst.IsStatic
     }
 
     static [MethodOverloadHelpInfo[]] Resolve(
@@ -78,7 +89,7 @@ class MethodOverloadHelpInfo : OverloadHelpInfo {
         if ($astInfo.Ast -isnot [TypeDefinitionAst]) {
             $Message = @(
                 'Invalid argument. [MethodOverloadHelpInfo]::Resolve()'
-                "expects an AstInfo object where the Ast property is a TypeDefinitionAst"
+                'expects an AstInfo object where the Ast property is a TypeDefinitionAst'
                 "that defines a class, but the Ast property's type was"
                 $astInfo.Ast.GetType().FullName
             ) -join ' '
@@ -105,5 +116,200 @@ class MethodOverloadHelpInfo : OverloadHelpInfo {
             $MethodAstInfo = Get-AstInfo @GetParameters
             [MethodOverloadHelpInfo]::new($MethodAstInfo)
         }
+    }
+
+    hidden static [OrderedDictionary] AddYamlFormatting([OrderedDictionary]$metadata) {
+        $metadata = [OverloadHelpInfo]::AddYamlFormatting($metadata)
+
+        $metadata.ReturnType = $metadata.Type | yayaml\Add-YamlFormat -ScalarStyle Plain -PassThru
+
+        return $metadata
+    }
+
+    static [HelpInfoFormatterDictionary] $Formatters
+
+    static InitializeFormatters() {
+        [MethodOverloadHelpInfo]::InitializeFormatters($false, $false)
+    }
+
+    static [HelpInfoFormatterDictionary] InitializeFormatters([bool]$passThru, [bool]$force) {
+        if ($force -or [MethodOverloadHelpInfo]::Formatters.Count -eq 0) {
+            [MethodOverloadHelpInfo]::Formatters = [HelpInfoFormatterDictionary]::new(
+                [ordered]@{
+                    Block = [MethodOverloadHelpInfo]::GetDefaultFormatter()
+                },
+                [ordered]@{
+                    Block = [MethodOverloadHelpInfo]::GetDefaultSectionFormatter()
+                }
+            )
+        }
+
+        if ($passThru) {
+            return [MethodOverloadHelpInfo]::Formatters
+        }
+
+        return $null
+    }
+
+    hidden static [HelpInfoFormatter] GetDefaultFormatter() {
+        return [HelpInfoFormatter]@{
+            Parameters  = @{}
+            ScriptBlock = {
+                [CmdletBinding()]
+                [OutputType([string])]
+                param(
+                    [Parameter(Mandatory)]
+                    [MethodOverloadHelpInfo]
+                    $HelpInfo,
+
+                    [MarkdownBuilder]
+                    $MarkdownBuilder,
+
+                    [ValidateRange(1, 6)]
+                    [int]
+                    $Level = 4
+                )
+
+                if ($null -eq $MarkdownBuilder) {
+                    $options = @{
+                        SpaceMungingOptions = 'CollapseEnd', 'TrimStart'
+                    }
+                    $MarkdownBuilder = Documentarian.MarkdownBuilder\New-Builder @options
+                }
+
+                $MarkdownBuilder
+                | Add-Heading -Level $Level -Content $HelpInfo.Signature.ToString()
+                | Add-Line -Content $HelpInfo.Synopsis
+                | Add-Line -Content ''
+
+                if (-not [string]::IsNullOrEmpty($HelpInfo.Description)) {
+                    $MarkdownBuilder
+                    | Add-Heading -Level ($Level + 1) -Content 'Description'
+                    $lines = $HelpInfo.Description -split '\r?\n'
+                    foreach ($line in $lines) {
+                        $MarkdownBuilder | Add-Line -Content $line
+                    }
+                }
+
+                if ($HelpInfo.Examples.Count -gt 0) {
+                    if ($Level -lt 5) {
+                        $formatter = [ExampleHelpInfo]::Formatters.Section.Default
+                    } else {
+                        $formatter = [ExampleHelpInfo]::Formatters.Section.List
+                    }
+                    $formatter.Parameters.Level = $Level + 1
+
+                    $MarkdownBuilder
+                    | Add-Line -Content ''
+                    | Add-Line -Content (
+                        [ExampleHelpInfo]::ToMarkdown(
+                            $HelpInfo.Examples,
+                            $formatter
+                        ).TrimEnd()
+                    )
+                }
+
+                if ($HelpInfo.Parameters.Count -gt 0) {
+                    if ($Level -lt 5) {
+                        $formatter = [OverloadParameterHelpInfo]::Formatters.Section.Default
+                    } else {
+                        $formatter = [OverloadParameterHelpInfo]::Formatters.Section.List
+                    }
+                    $formatter.Parameters.Level = $Level + 1
+
+                    $MarkdownBuilder
+                    | Add-Line -Content ''
+                    | Add-Line -Content (
+                        [OverloadParameterHelpInfo]::ToMarkdown(
+                            $HelpInfo.Parameters,
+                            $formatter
+                        ).TrimEnd()
+                    )
+                }
+
+                if ($HelpInfo.Exceptions.Count -gt 0) {
+                    if ($Level -lt 5) {
+                        $formatter = [OverloadExceptionHelpInfo]::Formatters.Section.Default
+                    } else {
+                        $formatter = [OverloadExceptionHelpInfo]::Formatters.Section.List
+                    }
+                    $formatter.Parameters.Level = $Level + 1
+
+                    $MarkdownBuilder
+                    | Add-Line -Content ''
+                    | Add-Line -Content (
+                        [OverloadExceptionHelpInfo]::ToMarkdown(
+                            $HelpInfo.Exceptions,
+                            $formatter
+                        ).TrimEnd()
+                    )
+                }
+
+                return ($markdownBuilder.ToString() -replace '(\r?\n)+$', '$1')
+            }
+        }
+    }
+
+    hidden static [HelpInfoFormatter] GetDefaultSectionFormatter() {
+        return [HelpInfoFormatter]@{
+            Parameters  = @{}
+            ScriptBlock = {
+                [CmdletBinding()]
+                [OutputType([string])]
+                param(
+                    [Parameter(Mandatory)]
+                    [MethodOverloadHelpInfo[]]
+                    $HelpInfo,
+
+                    [MarkdownBuilder]
+                    $MarkdownBuilder,
+
+                    [string]
+                    $Prefix,
+
+                    [ValidateRange(1, 4)]
+                    [int]
+                    $Level = 3,
+
+                    [string]
+                    $HeadingText = 'Overloads'
+                )
+
+                if ($null -eq $MarkdownBuilder) {
+                    $options = @{
+                        SpaceMungingOptions = 'CollapseEnd', 'TrimStart'
+                    }
+                    $MarkdownBuilder = Documentarian.MarkdownBuilder\New-Builder @options
+                }
+
+                $MarkdownBuilder | Add-Heading -Level $Level -Content $HeadingText
+
+                foreach ($method in $HelpInfo) {
+                    $formatter = [MethodOverloadHelpInfo]::Formatters.Block
+                    $formatter.Parameters.Level = $Level + 1
+                    $formatted = $method.ToMarkdown($formatter)
+
+                    $MarkdownBuilder | Add-Line -Content $formatted
+                }
+
+                return ($MarkdownBuilder.ToString() -replace '(\r?\n)+$', '$1')
+            }
+        }
+    }
+
+    [string] ToMarkdown() {
+        return $this.ToMarkdown([MethodOverloadHelpInfo]::Formatters.Default)
+    }
+
+    [string] ToMarkdown([HelpInfoFormatter]$formatter) {
+        return $formatter.Format($this)
+    }
+
+    static [string] ToMarkdown([MethodOverloadHelpInfo[]]$values) {
+        return [MethodOverloadHelpInfo]::ToMarkdown($values, [MethodOverloadHelpInfo]::Formatters.Section.Default)
+    }
+
+    static [string] ToMarkdown([MethodOverloadHelpInfo[]]$values, [HelpInfoFormatter]$formatter) {
+        return $formatter.FormatSection($values)
     }
 }
