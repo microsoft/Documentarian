@@ -25,6 +25,7 @@ function Get-ParameterInfo {
     )
 
     $cmdlet = Get-Command -Name $CmdletName -ErrorAction Stop
+    $null = Get-PSDrive # Load all providers
     $providerList = Get-PSProvider
 
     foreach ($pname in $ParameterName) {
