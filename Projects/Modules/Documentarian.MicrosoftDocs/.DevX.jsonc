@@ -1,9 +1,9 @@
 {
   "ManifestData": {
     "Guid": "a054ec31-cb69-4a4b-b66b-39d25e909615",
-    "ModuleVersion": "0.0.2",
+    "ModuleVersion": "0.0.3",
     "RootModule": "Documentarian.MicrosoftDocs.psm1",
-    "ScriptsToProcess": "Init.ps1",
+    "ScriptsToProcess": "",
     "VariablesToExport": "*",
     "Author": "PowerShell Docs Team",
     "CompanyName": "Microsoft",
@@ -29,8 +29,8 @@
   "ModuleLicenseNotice": "Licensed under the MIT License.",
   "ModuleLineEnding": "\n",
   "ModuleName": "Documentarian.MicrosoftDocs",
-  "ModuleVersion": "0.0.1",
+  "ModuleVersion": "0.0.3",
   "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
   "SourceFolderPath": "./Source",
-  "SourceInitScriptPath": "./Source/Init.ps1"
+  // "SourceInitScriptPath": "./Source/Init.ps1"
 }
