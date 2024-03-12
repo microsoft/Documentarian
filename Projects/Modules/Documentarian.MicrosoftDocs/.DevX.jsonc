@@ -9,7 +9,7 @@
     "CompanyName": "Microsoft",
     "Copyright": "(c) Microsoft. All rights reserved.",
     "Description": "Collection of tools for working with Microsoft Docs content.",
-    "PowerShellVersion": "5.",
+    "PowerShellVersion": "5.1",
     "RequiredModules": [
       // "Documentarian.Vale",
       // "Documentarian.MarkdownLint",
