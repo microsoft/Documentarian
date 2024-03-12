@@ -1,5 +1,7 @@
-﻿# Copyright (c) Microsoft Corporation.
+# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
+
+using namespace System.Management.Automation
 
 function Get-CmdletXref {
     <#
@@ -7,46 +9,50 @@ function Get-CmdletXref {
     Gets a cross-reference link for a command.
     #>
     [CmdletBinding()]
-    [OutputType('System.String[]')]
+    [OutputType([string[]])]
     param(
-        # The name of the command to get a cross-reference link for.
+        # The name of the Command or a CommandInfo instance to get a cross-reference link for.
         [Parameter(Mandatory, ValueFromPipeline)]
-        [string[]]$Name
+        [CommandInfoArgumentTransformation()]
+        [CommandInfo[]] $Command
     )
 
     begin {
-        $ProgressPreference = 'SilentlyContinue'
+        $allowedFlags = [CommandTypes]@(
+            'Cmdlet'
+            'Function'
+            'Filter'
+        )
     }
-
     process {
-        foreach ($cmdname in $Name) {
+        foreach ($cmd in $Command) {
             try {
-                $cmd = Get-Command $cmdname -ErrorAction Stop
-                if ($cmd.CommandType -eq 'Alias') {
-                    Write-Verbose "$cmdname is an alias for $($cmd.ResolvedCommand)"
-                    $cmd = Get-Command $cmd.ResolvedCommand -ErrorAction Stop
-                }
-                $modulename  = $cmd.ModuleName
+                $modulename = $cmd.ModuleName
                 $commandname = $cmd.Name
                 $commandtype = $cmd.CommandType
-                if (@('Cmdlet', 'Function') -notcontains $commandtype) {
-                    Write-Verbose "$commandname is a(n) $commandtype"
+
+                if (-not $allowedFlags.HasFlag($commandtype)) {
+                    $PSCmdlet.WriteWarning("'$commandname' is a(n) $commandtype.")
                     continue
-                } elseif ($modulename -eq '') {
-                    $help = Get-Help $cmdname
-                    if ($help.modulename -ne '') {
-                       $modulename = $help.ModuleName
-                       $commandname = $help.Name
-                       $commandtype = $help.Category
+                }
+
+                if (-not $modulename) {
+                    $help = Get-Help $cmd.Name
+
+                    if (-not $help.ModuleName) {
+                        $PSCmdlet.WriteWarning("'$commandname' is an anonymous $commandtype.")
+                        continue
                     }
+
+                    $modulename = $help.ModuleName
+                    $commandname = $help.Name
                 }
-                if ($modulename -eq '') {
-                    Write-Verbose "$commandname is an anonymous $commandtype."
-                } else {
-                    "[$commandname](xref:${modulename}.$commandname)"
-                }
-            } catch [System.Management.Automation.CommandNotFoundException] {
-                Write-Warning "Unable to find command $cmdname"
+
+                "[$commandname](xref:${modulename}.$commandname)"
+            } catch [CommandNotFoundException] {
+                $PSCmdlet.WriteWarning($_)
+            } catch {
+                $PSCmdlet.WriteError($_)
             }
         }
     }
