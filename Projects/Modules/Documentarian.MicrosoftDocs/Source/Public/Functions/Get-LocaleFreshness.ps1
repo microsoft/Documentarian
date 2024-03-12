@@ -16,6 +16,10 @@ function Get-LocaleFreshness {
         [string[]]$Locale = [LearnLocales]::CommonLocales
     )
 
+    if ($PSVersionTable.PSVersion.Major -lt 7) {
+        throw 'This function requires PowerShell 7 or higher'
+    }
+
     $localeInUrl = $uri.Segments[1].Trim('/')
     if ($localeInUrl -notin [LearnLocales]::SupportedLocales) {
         Write-Error "URL does not contain a supported locale: $localeInUrl"

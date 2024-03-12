@@ -11,6 +11,10 @@ function Get-HtmlMetaTags {
         [switch]$ShowRequiredMetadata
     )
 
+    if ($PSVersionTable.PSVersion.Major -lt 7) {
+        throw 'This function requires PowerShell 7 or higher'
+    }
+
     $hash = [ordered]@{}
 
     $x = Invoke-WebRequest $ArticleUrl
