@@ -14,6 +14,9 @@ function Test-HelpInfoUri {
     )
 
     begin {
+        if ($PSVersionTable.PSVersion.Major -lt 7) {
+            throw 'This function requires PowerShell 7 or higher'
+        }
         # Used for short-circuiting checks against already-checked modules
         $TestedModules = @()
     }

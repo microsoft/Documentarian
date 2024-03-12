@@ -3,13 +3,13 @@
     "Guid": "1444d8f2-6b9f-463a-aab6-beadeef7403b",
     "ModuleVersion": "0.0.2",
     "RootModule": "Documentarian.ModuleAuthor.psm1",
-    "ScriptsToProcess": "Init.ps1",
+    "ScriptsToProcess": "",
     "VariablesToExport": "*",
     "Author": "PowerShell Docs Team",
     "CompanyName": "Microsoft",
     "Copyright": "(c) Microsoft. All rights reserved.",
     "Description": "Collection of tools for creating and documenting PowerShell modules.",
-    "PowerShellVersion": "7.2",
+    "PowerShellVersion": "5.1",
     "RequiredModules": [
       "Documentarian.MarkdownBuilder",
       "Documentarian.MicrosoftDocs",
@@ -31,7 +31,7 @@
   "ModuleVersion": "0.0.2",
   "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
   "SourceFolderPath": "./Source",
-  "SourceInitScriptPath": "./Source/Init.ps1",
+  //"SourceInitScriptPath": "./Source/Init.ps1",
   "UsingModuleList": [
     "Documentarian.MarkdownBuilder",
     "Documentarian.MicrosoftDocs"
