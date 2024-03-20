@@ -1,14 +1,15 @@
 {
   "ManifestData": {
     "Guid": "9cdfc0a5-8893-4e2f-a2ff-5ebd3b013f40",
-    "ModuleVersion": "0.2.0",
+    "ModuleVersion": "0.2.1",
     "RootModule": "Documentarian.Vale.psm1",
-    "ScriptsToProcess": "Init.ps1",
+    "ScriptsToProcess": "",
     "VariablesToExport": "*",
     "Author": "PowerShell Docs Team",
     "CompanyName": "Microsoft",
     "Copyright": "(c) Microsoft. All rights reserved.",
     "Description": "Collection of tools for installing and using the Vale prose linter.",
+    // Requires 7.2 because it uses web cmdlets
     "PowerShellVersion": "7.2",
     "RequiredModules": [
       "PsIni",
@@ -27,9 +28,9 @@
   "ModuleLicenseNotice": "Licensed under the MIT License.",
   "ModuleLineEnding": "\n",
   "ModuleName": "Documentarian.Vale",
-  "ModuleVersion": "0.2.0",
+  "ModuleVersion": "[[ManifestData.ModuleVersion]]",
   "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
   "SourceFolderPath": "./Source",
-  "SourceInitScriptPath": "./Source/Init.ps1",
+  // "SourceInitScriptPath": "",
   "DocumentationFolderPath": "./Documentation"
 }

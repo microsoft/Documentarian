@@ -5,13 +5,13 @@
     "CompanyName": "Microsoft",
     "Copyright": "(c) Microsoft. All rights reserved.",
     "Description": "Functions for interacting with a specialized string builder for Markdown.",
+    "PowerShellVersion": "5.1",
     "Guid": "c0cc7961-012c-45de-963f-b49c3e6289de",
     "LicenseUri": "https://github.com/microsoft/Documentarian/blob/main/LICENSE-CODE",
     "ModuleVersion": "0.0.1",
     "ProjectUri": "https://microsoft.github.io/Documentarian/modules/markdownbuilder",
     "ReleaseNotes": "https://microsoft.github.io/Documentarian/modules/markdownbuilder/changelog",
     "RootModule": "Documentarian.MarkdownBuilder.psm1",
-    "ScriptsToProcess": "Init.ps1",
     "Tags": [
       "Markdown",
       "Documentation",
@@ -24,8 +24,8 @@
   "ModuleLicenseNotice": "Licensed under the MIT License.",
   "ModuleLineEnding": "\n",
   "ModuleName": "Documentarian.MarkdownBuilder",
-  "ModuleVersion": "0.0.1",
+  "ModuleVersion": "[[ManifestData.ModuleVersion]]",
   "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
-  "SourceFolderPath": "./Source",
-  "SourceInitScriptPath": "./Source/Init.ps1"
+  "SourceFolderPath": "./Source"
+  //"SourceInitScriptPath": ""
 }

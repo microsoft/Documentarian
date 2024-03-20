@@ -9,11 +9,11 @@
     "CompanyName": "Microsoft",
     "Copyright": "(c) Microsoft. All rights reserved.",
     "Description": "Collection of general purpose functions for working with Markdown documents.",
+    // Requires 7.2 to get the markdig features we use
     "PowerShellVersion": "7.2",
     "RequiredModules": [
       "YaYaml"
     ],
-    "ScriptsToProcess": "Init.ps1",
     "VariablesToExport": "*",
     "Tags": [
       "Markdown",
@@ -27,14 +27,14 @@
   "ModuleLicenseNotice": "Licensed under the MIT License.",
   "ModuleLineEnding": "\n",
   "ModuleName": "Documentarian",
-  "ModuleVersion": "0.0.1",
+  "ModuleVersion": "[[ManifestData.ModuleVersion]]",
   "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
   // "OutputInitScriptPath": "",
   // "OutputManifestPath": "",
   // "OutputPrivateModulePath": "",
   // "OutputRootModulePath": "",
   "SourceFolderPath": "./Source",
-  "SourceInitScriptPath": "./Source/Init.ps1"
+  // "SourceInitScriptPath": ""
   // "SourceManifestPath": "./Manifest.psd1"
   // "SourcePrivateFolderPath": "",
   // "SourcePublicFolderPath": ""
