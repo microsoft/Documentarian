@@ -3,7 +3,6 @@
     "Guid": "a054ec31-cb69-4a4b-b66b-39d25e909615",
     "ModuleVersion": "0.0.3",
     "RootModule": "Documentarian.MicrosoftDocs.psm1",
-    "ScriptsToProcess": "",
     "VariablesToExport": "*",
     "Author": "PowerShell Docs Team",
     "CompanyName": "Microsoft",
@@ -32,5 +31,5 @@
   "ModuleVersion": "0.0.3",
   "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
   "SourceFolderPath": "./Source",
-  // "SourceInitScriptPath": "./Source/Init.ps1"
+  // "SourceInitScriptPath": ""
 }

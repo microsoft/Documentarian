@@ -31,7 +31,7 @@
   "ModuleVersion": "0.0.2",
   "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
   "SourceFolderPath": "./Source",
-  //"SourceInitScriptPath": "./Source/Init.ps1",
+  //"SourceInitScriptPath": "",
   "UsingModuleList": [
     "Documentarian.MarkdownBuilder",
     "Documentarian.MicrosoftDocs"
