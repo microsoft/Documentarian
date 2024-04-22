@@ -18,11 +18,11 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 
 function GetMDLinks {
     param(
-        $mdlinks, # results from regex match
-        $reflinks  # results from regex match
+        $mdlinks, # regex matches for [label](target)
+        $reflinks # regex matches for [label][ref]
     )
 
-    $mdlinks = $mdlinks | Where-Object { -not (IsInCodeBlock $_.LineNumber $codefences) }
+
     foreach ($mdlink in $mdlinks.Matches) {
         # Skip INCLUDE and tab links
         if (-not $mdlink.Value.Trim().StartsWith('[!INCLUDE') -and
@@ -43,7 +43,6 @@ function GetMDLinks {
         }
     }
 
-    $reflinks = $reflinks | Where-Object { -not (IsInCodeBlock $_.LineNumber $codefences) }
     foreach ($reflink in $reflinks.Matches) {
         $linkitem = [pscustomobject]([ordered]@{
                 mdlink = ''

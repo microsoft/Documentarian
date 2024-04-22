@@ -36,20 +36,23 @@ function Convert-MDLinks {
 
     $Path = Get-Item $Path # resolve wildcards
 
-    $codematches = Select-String -Pattern $codefencepattern -Path $Path -AllMatches
-    $codefences = for ($x = 0; $x -lt $codematches.Count; $x+=2) {
-        [pscustomobject]@{
-            Start = $codematches[$x].LineNumber
-            End   = $codematches[$x+1].LineNumber
-        }
-    }
-
     foreach ($filename in $Path) {
         $mdfile = Get-Item $filename
 
-        $mdlinks  = Select-String -Pattern $mdlinkpattern -Path $mdfile -AllMatches
-        $reflinks = Select-String -Pattern $reflinkpattern -Path $mdfile -AllMatches
-        $refdefs  = Select-String -Path $mdfile -Pattern $refpattern -AllMatches
+        $mdlinks     = Select-String -Path $mdfile -Pattern $mdlinkpattern -AllMatches
+        $reflinks    = Select-String -Path $mdfile -Pattern $reflinkpattern -AllMatches
+        $refdefs     = Select-String -Path $mdfile -Pattern $refpattern -AllMatches
+        $codematches = Select-String -Path $mdfile -Pattern $codefencepattern -AllMatches
+
+        $codefences = for ($x = 0; $x -lt $codematches.Count; $x+=2) {
+            [pscustomobject]@{
+                Start = $codematches[$x].LineNumber
+                End   = $codematches[$x+1].LineNumber
+            }
+        }
+        # Remove link patterns found in code blocks
+        $mdlinks = $mdlinks | Where-Object { -not (IsInCodeBlock $_.LineNumber $codefences) }
+        $reflinks = $reflinks | Where-Object { -not (IsInCodeBlock $_.LineNumber $codefences) }
 
         $linkdata = GetMDLinks $mdlinks $reflinks
         $RefTargets = GetRefTargets $refdefs
