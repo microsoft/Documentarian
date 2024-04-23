@@ -10,6 +10,7 @@ while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
 $RequiredFunctions = @(
     Resolve-Path -Path "$SourceFolder/Private/Functions/GetMDLinks.ps1"
     Resolve-Path -Path "$SourceFolder/Private/Functions/GetRefTargets.ps1"
+    Resolve-Path -Path "$SourceFolder/Private/Functions/IsInCodeBlock.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
     . $RequiredFunction
@@ -28,22 +29,30 @@ function Convert-MDLinks {
         [switch]$PassThru
     )
 
-    $mdlinkpattern = '[\s\n]*(?<link>!?\[(?<label>[^\]]*)\]\((?<target>[^\)]+)\))[\s\n]?'
-    $reflinkpattern = '[\s\n]*(?<link>!?\[(?<label>[^\]]*)\]\[(?<ref>[^\[\]]+)\])[\s\n]?'
-    $refpattern = '^(?<refdef>\[(?<ref>[^\[\]]+)\]:\s(?<target>.+))$'
+    $mdlinkpattern    = '[\s\n]*(?<link>!?\[(?<label>[^\]]*)\]\((?<target>[^\)]+)\))[\s\n]?'
+    $reflinkpattern   = '[\s\n]*(?<link>!?\[(?<label>[^\]]*)\]\[(?<ref>[^\[\]]+)\])[\s\n]?'
+    $refpattern       = '^(?<refdef>\[(?<ref>[^\[\]]+)\]:\s(?<target>.+))$'
+    $codefencepattern = '```'
 
     $Path = Get-Item $Path # resolve wildcards
 
     foreach ($filename in $Path) {
         $mdfile = Get-Item $filename
 
-        $mdlinks = Get-Content $mdfile -Raw | Select-String -Pattern $mdlinkpattern -AllMatches
-        $reflinks = Get-Content $mdfile -Raw | Select-String -Pattern $reflinkpattern -AllMatches
-        $refdefs = Select-String -Path $mdfile -Pattern $refpattern -AllMatches
+        $mdlinks     = Select-String -Path $mdfile -Pattern $mdlinkpattern -AllMatches
+        $reflinks    = Select-String -Path $mdfile -Pattern $reflinkpattern -AllMatches
+        $refdefs     = Select-String -Path $mdfile -Pattern $refpattern -AllMatches
+        $codematches = Select-String -Path $mdfile -Pattern $codefencepattern -AllMatches
 
-        Write-Verbose ('{0}/{1}: {2} links' -f $mdfile.Directory.Name, $mdfile.Name, $mdlinks.Matches.count)
-        Write-Verbose ('{0}/{1}: {2} ref links' -f $mdfile.Directory.Name, $mdfile.Name, $reflinks.Matches.count)
-        Write-Verbose ('{0}/{1}: {2} ref defs' -f $mdfile.Directory.Name, $mdfile.Name, $refdefs.Matches.count)
+        $codefences = for ($x = 0; $x -lt $codematches.Count; $x+=2) {
+            [pscustomobject]@{
+                Start = $codematches[$x].LineNumber
+                End   = $codematches[$x+1].LineNumber
+            }
+        }
+        # Remove link patterns found in code blocks
+        $mdlinks = $mdlinks | Where-Object { -not (IsInCodeBlock $_.LineNumber $codefences) }
+        $reflinks = $reflinks | Where-Object { -not (IsInCodeBlock $_.LineNumber $codefences) }
 
         $linkdata = GetMDLinks $mdlinks $reflinks
         $RefTargets = GetRefTargets $refdefs

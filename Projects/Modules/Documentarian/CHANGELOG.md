@@ -30,12 +30,13 @@ Related Links
 
 ### Changed
 
-- Replaced dependency on the [powershell-yaml] module with [YaYaml] - this resolves the YamlDotNet
+- Replaced dependency on the [PowerShell-yaml] module with [YaYaml] - this resolves the YamlDotNet
   dependency conflict that prevents the module from being used with PlatyPS. Only the dependency is
   changed, not the functionality.
 
 ### Fixed
 
+- [`Convert-MDLinks`] - filter out matching patterns contained in code blocks.
 - Ensure that [`Convert-MDLinks`] correctly handles all matches found by the regex patterns.
 
 ## 0.0.1 - 2023-03-27
