@@ -19,43 +19,65 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 #endregion RequiredFunctions
 
 function Get-SourceFolder {
+  <#
+    .SYNOPSIS
+  #>
+
   [CmdletBinding(DefaultParameterSetName = 'ByPreset')]
   [OutputType([SourceFolder])]
   param(
     [Parameter(Mandatory, ParameterSetName = 'ByOption')]
     [Parameter(ParameterSetName = 'WithSpecificFolders')]
-    [ValidateSet('ArgumentCompleters', 'Classes', 'Enums', 'Formats', 'Functions', 'Tasks', 'Types')]
-    [string[]]$Category,
+    [ValidateSet(
+      'ArgumentCompleters',
+      'Classes',
+      'Enums',
+      'Formats',
+      'Functions',
+      'Tasks',
+      'Types'
+    )]
+    [string[]]
+    $Category,
 
     [Parameter(Mandatory, ParameterSetName = 'ByOption')]
     [Parameter(ParameterSetName = 'WithSpecificFolders')]
     [ValidateSet('Public', 'Private')]
-    [string[]]$Scope,
+    [string[]]
+    $Scope,
 
     [Parameter(ParameterSetName = 'ByPreset')]
     [Parameter(ParameterSetName = 'WithSpecificFolders')]
     [ValidateSet('Ordered', 'Functions', 'PS1Xmls', 'PSD1s', 'Tasks', 'All')]
-    [string]$Preset = 'All',
+    [string]
+    $Preset = 'All',
 
     [Parameter(ParameterSetName = 'ByPreset')]
     [Parameter(Mandatory, ParameterSetName = 'ByOption')]
     [Parameter(ParameterSetName = 'WithSpecificFolders')]
-    [string]$PublicFolder,
+    [string]
+    $PublicFolder,
 
     [Parameter(ParameterSetName = 'ByPreset')]
     [Parameter(Mandatory, ParameterSetName = 'ByOption')]
     [Parameter(ParameterSetName = 'WithSpecificFolders')]
-    [string]$PrivateFolder,
+    [string]
+    $PrivateFolder,
 
     [Parameter(ParameterSetName = 'ByPreset')]
     [Parameter(Mandatory, ParameterSetName = 'ByOption')]
     [Parameter(ParameterSetName = 'WithSourceFolder')]
-    [string]$SourceFolder
+    [string]
+    $SourceFolder
   )
+
+  begin {
+
+  }
 
   process {
     $Category ??= @('ArgumentCompleters', 'Classes', 'Enums', 'Formats', 'Functions', 'Tasks', 'Types')
-    $CategoryPattern = "\b$($Category -join '|')\b"
+    $categoryPattern = "\b$($Category -join '|')\b"
     if ($SourceFolder) {
       $PublicFolder = Join-Path -Path $SourceFolder -ChildPath 'Public'
       | Resolve-Path -ErrorAction Stop
@@ -137,7 +159,7 @@ function Get-SourceFolder {
       }
     }
     $FolderPaths
-    | Where-Object -FilterScript { $_ -match $CategoryPattern }
+    | Where-Object -FilterScript { $_ -match $categoryPattern }
     | ForEach-Object -Process {
       if (Test-Path -Path $_) {
         Write-Debug "Processing source folder '$_'..."
@@ -145,5 +167,9 @@ function Get-SourceFolder {
         Write-Debug "Processed source folder '$_'."
       }
     }
+  }
+
+  end {
+
   }
 }

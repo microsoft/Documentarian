@@ -4,17 +4,34 @@
 using module ../Classes/DevXAstTypeTransformAttribute.psm1
 
 Function New-AstPredicate {
+  <#
+    .SYNOPSIS
+    Function synopsis.
+  #>
+
   [CmdletBinding()]
   [OutputType([ScriptBlock])]
   Param (
+    [Parameter()]
     [DevXAstTypeTransformAttribute()]
-    [System.Type[]]$Type
+    [System.Type[]]
+    $Type
   )
 
-  foreach ($Item in $Type) {
-    {
-      param([System.Management.Automation.Language.Ast]$AstObject)
-      return ($AstObject -is $Item)
-    }.GetNewClosure()
+  begin {
+
+  }
+
+  process {
+    foreach ($item in $Type) {
+      {
+        param([System.Management.Automation.Language.Ast]$AstObject)
+        return ($AstObject -is $item)
+      }.GetNewClosure()
+    }
+  }
+
+  end {
+
   }
 }

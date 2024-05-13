@@ -20,13 +20,32 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 #endregion RequiredFunctions
 
 class DevXAstTypeTransformAttribute : ArgumentTransformationAttribute {
+  <#
+    .SYNOPSIS
+    Transforms input into a valid AST type.
+
+    .DESCRIPTION
+    This attribute transforms input into a valid AST type. The input can be a type object or a
+    string representing the type name. The type must be in the
+    `System.Management.Automation.Language` namespace and must end in `Ast`. If the input is not a
+    valid AST type, an exception is thrown.
+  #>
+
+  #region Static properties
+  #endregion Static properties
+
+  #region Static methods
+  #endregion Static methods
+
+  #region Instance properties
+
   [object] Transform([EngineIntrinsics]$engineIntrinsics, [System.Object]$inputData) {
     $outputData = switch ($inputData) {
       { $_ -is [System.Type] } {
         if (Test-DevXIsAstType -Type $_) {
           $_
         } else {
-          $Message = @(
+          $errorMessage = @(
             "Specified type '$($_.GetType().FullName)' is not an AST type;"
             "valid types must be in the 'System.Management.Automation.Language' namespace"
             "and must end in 'Ast'"
@@ -34,7 +53,7 @@ class DevXAstTypeTransformAttribute : ArgumentTransformationAttribute {
             'and to pass for this argument.'
           ) -join ' '
           throw [ArgumentTransformationMetadataException]::New(
-            $Message
+            $errorMessage
           )
         }
       }
@@ -42,7 +61,7 @@ class DevXAstTypeTransformAttribute : ArgumentTransformationAttribute {
         try {
           Get-AstType -Name $_ -ErrorAction Stop
         } catch {
-          $Message = @(
+          $errorMessage = @(
             "Specified type name '$_' is not an AST type;"
             "valid types must be in the 'System.Management.Automation.Language' namespace"
             "and must end in 'Ast'"
@@ -50,12 +69,12 @@ class DevXAstTypeTransformAttribute : ArgumentTransformationAttribute {
             'and to pass for this argument.'
           ) -join ' '
           throw [ArgumentTransformationMetadataException]::New(
-            $Message
+            $errorMessage
           )
         }
       }
       default {
-        $Message = @(
+        $errorMessage = @(
           "Could not convert input ($_)"
           "of type '$($_.GetType().FullName)'"
           'to a valid AST Type.'
@@ -64,11 +83,19 @@ class DevXAstTypeTransformAttribute : ArgumentTransformationAttribute {
           'and to pass for this argument.'
         ) -join ' '
         throw [ArgumentTransformationMetadataException]::New(
-          $Message
+          $errorMessage
         )
       }
     }
 
     return $outputData
   }
+
+  #endregion Instance properties
+
+  #region Instance methods
+  #endregion Instance methods
+
+  #region Constructors
+  #endregion Constructors
 }

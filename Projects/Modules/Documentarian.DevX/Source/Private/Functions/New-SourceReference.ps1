@@ -5,12 +5,26 @@ using module ../../Public/Classes/SourceFile.psm1
 using module ../../Public/Classes/SourceReference.psm1
 
 function New-SourceReference {
+  <#
+    .SYNOPSIS
+    Function synopsis.
+  #>
+
   [CmdletBinding()]
   [OutputType([SourceReference])]
   param(
-    [SourceFile]$SourceFile,
-    [SourceFile[]]$Reference
+    [Parameter()]
+    [SourceFile]
+    $SourceFile,
+
+    [Parameter()]
+    [SourceFile[]]
+    $Reference
   )
+
+  begin {
+
+  }
 
   process {
     if ($Reference) {
@@ -18,5 +32,9 @@ function New-SourceReference {
     } else {
       [SourceReference]::new($SourceFile)
     }
+  }
+
+  end {
+
   }
 }

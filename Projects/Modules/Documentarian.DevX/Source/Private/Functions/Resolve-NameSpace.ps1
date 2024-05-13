@@ -11,7 +11,7 @@ while ('Source' -ne (Split-Path -Leaf $SourceFolder)) {
   $SourceFolder = Split-Path -Parent -Path $SourceFolder
 }
 $RequiredFunctions = @(
-  Resolve-Path -Path "$SourceFolder/Private/Functions/Get-EnumRegex.ps1"
+Resolve-Path -Path "$SourceFolder/Private/Functions/Get-EnumRegex.ps1"
 )
 foreach ($RequiredFunction in $RequiredFunctions) {
   . $RequiredFunction
@@ -20,24 +20,33 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 #endregion RequiredFunctions
 
 function Resolve-NameSpace {
+  <#
+  .SYNOPSIS
+  Function synopsis
+  #>
+  
   [CmdletBinding()]
   [OutputType([String])]
   param(
     [Parameter(Mandatory, ParameterSetName = 'ByTaxonomy')]
-    [SourceCategory]$Category,
-
+    [SourceCategory]
+    $Category,
+    
     [Parameter(Mandatory, ParameterSetName = 'ByTaxonomy')]
-    [SourceScope]$Scope,
-
+    [SourceScope]
+    $Scope,
+    
     [Parameter(ParameterSetName = 'ByPath')]
-    [string]$ParentNameSpace,
-
+    [string]
+    $ParentNameSpace,
+    
     [Parameter(Mandatory, ParameterSetName = 'ByPath')]
-    [string]$Path
+    [string]
+    $Path
   )
-
+  
   begin {
-    $BaseFolderPattern = @(
+    $baseFolderPattern = @(
       Get-EnumRegex -EnumType ([SourceScope])
       '\w*\.'
       Get-EnumRegex -EnumType ([SourceCategory])
@@ -45,18 +54,18 @@ function Resolve-NameSpace {
       '(?<Remaining>.+)?'
     ) -join ''
   }
-
+  
   process {
     $ParentNameSpace = ''
-    $ChildNameSpace = ''
-
+    $childNameSpace  = ''
+    
     # If a path is specified, we need to figure out child namespacing
     if ($Path) {
       <#
         Turn the path containing the file into a period-separated string to avoid future path
         separator munging/checking for xplat concerns.
       #>
-      $DefinitionFolder = Get-Item -Path $Path
+      $definitionFolder = Get-Item -Path $Path
       | Select-Object -ExpandProperty PSIsContainer
       | ForEach-Object {
         ($_ ? $Path : (Split-Path -Parent -Path $Path)) -replace '(\\|\/)', '.'
@@ -66,15 +75,15 @@ function Resolve-NameSpace {
         parent namespace and collect any remaining folder segments as child namespace segments.
       #>
       if ([string]::IsNullOrEmpty($ParentNameSpace)) {
-        $SourceRelativeFolder = ($DefinitionFolder -split 'Source')[-1].Trim('.')
-        if ($SourceRelativeFolder -match $BaseFolderPattern) {
+        $sourceRelativeFolder = ($definitionFolder -split 'Source')[-1].Trim('.')
+        if ($sourceRelativeFolder -match $baseFolderPattern) {
           $Category = [SourceCategory].GetEnumNames() | Where-Object {
             $Matches.SourceCategory -like "$_*"
           }
           $Scope = [SourceScope].GetEnumNames() | Where-Object {
             $Matches.SourceScope -like "$_*"
           }
-          $ChildNameSpace = $Matches.Remaining
+          $childNameSpace = $Matches.Remaining
         }
       } else {
         <#
@@ -82,30 +91,34 @@ function Resolve-NameSpace {
           has two segments, Category.Scope) we want to split on Category. Otherwise, split on the
           last segment.
         #>
-        $ParentSegments = ($ParentNameSpace -split '\.')
-        $SplittingSegment = $ParentSegments.Count -eq 2 ? $ParentSegments[0] : $ParentSegments[-1]
-        $ChildNameSpace = $DefinitionFolder -split $SplittingSegment
+        $parentSegments   = ($ParentNameSpace -split '\.')
+        $splittingSegment = $parentSegments.Count -eq 2 ? $parentSegments[0] : $parentSegments[-1]
+        $childNameSpace   = $definitionFolder -split $splittingSegment
         | Select-Object -Skip 1
         | Join-String -Separator '.'
       }
     }
-
+    
     if ([string]::IsNullOrEmpty($ParentNameSpace)) {
       $ParentNameSpace = switch ($Category) {
         ArgumentCompleter { "ArgumentCompleters.$Scope" }
-        Class { "Classes.$Scope" }
-        Enum { "Enums.$Scope" }
-        Function { "Functions.$Scope" }
-        Format { "Formats.$Scope" }
-        Task { "Tasks.$Scope" }
-        Type { "Types.$Scope" }
+        Class             { "Classes.$Scope" }
+        Enum              { "Enums.$Scope" }
+        Function          { "Functions.$Scope" }
+        Format            { "Formats.$Scope" }
+        Task              { "Tasks.$Scope" }
+        Type              { "Types.$Scope" }
       }
     }
-
+    
     if ($Path) {
       return $ParentNameSpace + $ChildNameSpace
     } else {
       return $ParentNameSpace
     }
+  }
+  
+  end {
+    
   }
 }

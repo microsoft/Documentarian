@@ -25,6 +25,13 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 #endregion RequiredFunctions
 
 class ModuleComposer {
+  <#
+    .SYNOPSIS
+    Composes a PowerShell module from source files and configuration settings.
+  #>
+
+  #region Instance properties
+
   #region Configurable Settings
 
   [string]    $ProjectRootFolderPath
@@ -80,15 +87,31 @@ class ModuleComposer {
   #endregion Composed Module Content Properties
 
   #region    Logging
-  hidden [ClassLogLevels] $LogLevel = [ClassLogLevels]::None
+
+  <#
+    .SYNOPSIS
+  #>
+  hidden
+  [ClassLogLevels]
+  $LogLevel = [ClassLogLevels]::None
+
   hidden [System.Management.Automation.ActionPreference] VerbosePreference() {
+    <#
+      .SYNOPSIS
+    #>
+
     if ($this.LogLevel -gt [ClassLogLevels]::None) {
       return [System.Management.Automation.ActionPreference]::Continue
     } else {
       return [System.Management.Automation.ActionPreference]::SilentlyContinue
     }
   }
+
   hidden [System.Management.Automation.ActionPreference] DebugPreference() {
+    <#
+      .SYNOPSIS
+    #>
+
     if ($this.LogLevel -eq [ClassLogLevels]::Detailed) {
       return [System.Management.Automation.ActionPreference]::Continue
     } else {
@@ -97,7 +120,15 @@ class ModuleComposer {
   }
   #endregion Logging
 
+  #endregion Instance properties
+
+  #region Instance methods
+
   [string] GetUsingPrivateModuleStatement() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
     $statement = if ([string]::IsNullOrEmpty($this.OutputPrivateModulePath)) {
@@ -109,63 +140,16 @@ class ModuleComposer {
     return $statement
   }
 
-  #region    Constructors
-  ModuleComposer () {
-    $this.Initialize()
-  }
-
-  hidden ModuleComposer([ClassLogLevels]$LogLevel) {
-    $this.LogLevel = $LogLevel
-    $VerbosePreference = $this.VerbosePreference()
-    $DebugPreference = $this.DebugPreference()
-    Write-Verbose 'Constructing ModuleComposer...'
-    $this.Initialize()
-  }
-
-  ModuleComposer ([string]$ProjectRootFolderPath) {
-    $this.ProjectRootFolderPath = $ProjectRootFolderPath
-    $this.Initialize()
-  }
-
-  hidden ModuleComposer ([string]$ProjectRootFolderPath, [ClassLogLevels]$LogLevel) {
-    $this.LogLevel = $LogLevel
-    $VerbosePreference = $this.VerbosePreference()
-    $DebugPreference = $this.DebugPreference()
-    Write-Verbose 'Constructing ModuleComposer...'
-    $this.ProjectRootFolderPath = $ProjectRootFolderPath
-    Write-Debug "Set project root path to $ProjectRootFolderPath"
-    $this.Initialize()
-  }
-
-  ModuleComposer(
-    [string]$ProjectRootFolderPath,
-    [hashtable]$ConfigurationSettings
+  [void] ProcessConfigurationSettings(
+    [hashtable]
+    $ConfigurationSettings
   ) {
-    $this.ProjectRootFolderPath = $ProjectRootFolderPath
-    $this.ProcessConfigurationSettings($ConfigurationSettings)
-    $this.Initialize()
-  }
+    <#
+      .SYNOPSIS
+    #>
 
-  hidden ModuleComposer(
-    [string]$ProjectRootFolderPath,
-    [hashtable]$ConfigurationSettings,
-    [ClassLogLevels]$LogLevel
-  ) {
-    $this.LogLevel = $LogLevel
     $VerbosePreference = $this.VerbosePreference()
-    $DebugPreference = $this.DebugPreference()
-    Write-Verbose 'Constructing ModuleComposer...'
-    $this.ProjectRootFolderPath = $ProjectRootFolderPath
-    Write-Debug "Set project root path to $ProjectRootFolderPath"
-    $this.ProcessConfigurationSettings($ConfigurationSettings)
-    $this.Initialize()
-    Write-Verbose 'Constructed ModuleComposer.'
-  }
-  #endregion Constructors
-
-  [void] ProcessConfigurationSettings([hashtable]$ConfigurationSettings) {
-    $VerbosePreference = $this.VerbosePreference()
-    $DebugPreference = $this.DebugPreference()
+    $DebugPreference   = $this.DebugPreference()
     Write-Verbose 'Processing configuration settings...'
 
     foreach ($SettingKey in $ConfigurationSettings.Keys) {
@@ -225,10 +209,15 @@ class ModuleComposer {
       # $MungedHash.$SettingKey = $Value
       $this.$SettingKey = $Value
     }
+
     Write-Verbose 'Processed configuration settings.'
   }
 
   [void] Initialize() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
     Write-Verbose 'Initializing...'
@@ -387,6 +376,10 @@ class ModuleComposer {
   }
 
   [void] InitializeModuleLineEnding() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
     if ([string]::IsNullOrEmpty($this.ModuleLineEnding)) {
@@ -405,6 +398,10 @@ class ModuleComposer {
   }
 
   [void] InitializeSourceFolders() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
     Write-Verbose 'Initializing source folders...'
@@ -442,6 +439,10 @@ class ModuleComposer {
   }
 
   [void] InitializePublicFunctions() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
     if ($null -eq $this.SourceFolders) {
@@ -457,6 +458,10 @@ class ModuleComposer {
   }
 
   [void] InitializeTaskList() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
     Write-Verbose 'Initializing task list...'
@@ -486,6 +491,10 @@ class ModuleComposer {
   }
 
   [void] CleanOutputFolder() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
 
@@ -500,6 +509,10 @@ class ModuleComposer {
   }
 
   [void] CreateOutputFolder() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
     $this.CleanOutputFolder()
@@ -510,6 +523,10 @@ class ModuleComposer {
   }
 
   [void] ComposePrivateModuleContent() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
     if (!([string]::IsNullOrEmpty($this.OutputPrivateModulePath))) {
@@ -536,6 +553,10 @@ class ModuleComposer {
   }
 
   [void] ComposeRootModuleContent() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
     Write-Verbose 'Composing root module content...'
@@ -729,25 +750,56 @@ class ModuleComposer {
     Write-Verbose 'Composed root module content.'
   }
 
-  [SourceFolder[]] GetSourceFolder([SourceScope]$Scope) {
+  [SourceFolder[]] GetSourceFolder(
+    [SourceScope]
+    $Scope
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
     return $this.SourceFolders | Where-Object -FilterScript {
       $_.Scope -eq $Scope
     }
   }
 
-  [string] GetDefinedTypeName([SourceFile]$sourceFile) {
+  [string] GetDefinedTypeName(
+    [SourceFile]
+    $sourceFile
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
     # Replace with AST Lookup later
     $TypeName = $sourceFile.FileInfo.BaseName
     return "[$TypeName]"
   }
 
-  [SourceFolder[]] GetSourceFolder([SourceCategory[]]$Category) {
+  [SourceFolder[]] GetSourceFolder(
+    [SourceCategory[]]
+    $Category
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
     return $this.SourceFolders | Where-Object -FilterScript {
       $_.Category -in $Category
     }
   }
 
-  [SourceFolder[]] GetSourceFolder([SourceScope]$Scope, [SourceCategory[]]$Category) {
+  [SourceFolder[]] GetSourceFolder(
+    [SourceScope]
+    $Scope,
+
+    [SourceCategory[]]
+    $Category
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
     return $this.SourceFolders | Where-Object -FilterScript {
       ($_.Scope -eq $Scope) -and ($_.Category -in $Category)
     }
@@ -774,7 +826,14 @@ class ModuleComposer {
     ).SourceFiles
   }
 
-  hidden [string] TrimNotices([string]$Content) {
+  hidden [string] TrimNotices(
+    [string]
+    $Content
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
     foreach ($Notice in @($this.ModuleCopyrightNotice, $this.ModuleLicenseNotice)) {
       if (![string]::IsNullOrEmpty($Notice)) {
         $NoticeRegex = [regex]::escape($Notice)
@@ -784,7 +843,14 @@ class ModuleComposer {
     return $Content.trim()
   }
 
-  hidden [string] MungeComposedContent([string]$Content) {
+  hidden [string] MungeComposedContent(
+    [string]
+    $Content
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
     # Remove the module notices from the file. These global notices only need to
     # be listed once at the top of the file.
     $MungedContent = $this.TrimNotices($content)
@@ -812,8 +878,12 @@ class ModuleComposer {
   }
 
   [void] ComposeInitScriptContent() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
-    $DebugPreference = $this.DebugPreference()
+    $DebugPreference   = $this.DebugPreference()
     Write-Verbose 'Composing init script content...'
 
     $ContentBuilder = New-Object -TypeName System.Text.StringBuilder
@@ -884,6 +954,10 @@ class ModuleComposer {
   }
 
   [void] ComposeTypeFileContent() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
     if (!([string]::IsNullOrEmpty($this.OutputTypesFilePath))) {
@@ -919,6 +993,10 @@ class ModuleComposer {
   }
 
   [void] ComposeFormatFileContent() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
 
@@ -957,6 +1035,10 @@ class ModuleComposer {
   }
 
   [void] ComposeDocumentation() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
     Write-Verbose 'Composing documentation...'
@@ -977,6 +1059,10 @@ class ModuleComposer {
   }
 
   [void] ExportComposedModule() {
+    <#
+      .SYNOPSIS
+    #>
+
     $VerbosePreference = $this.VerbosePreference()
     $DebugPreference = $this.DebugPreference()
 
@@ -1040,4 +1126,111 @@ class ModuleComposer {
     New-ModuleManifest @ManifestParameters
     Write-Verbose 'Exported composed module.'
   }
+
+  #endregion Instance methods
+
+  #region    Constructors
+
+  ModuleComposer () {
+    <#
+      .SYNOPSIS
+    #>
+
+
+    $this.Initialize()
+  }
+
+  ModuleComposer(
+    [ClassLogLevels]
+    $LogLevel
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+
+    $this.LogLevel = $LogLevel
+    $VerbosePreference = $this.VerbosePreference()
+    $DebugPreference = $this.DebugPreference()
+    Write-Verbose 'Constructing ModuleComposer...'
+    $this.Initialize()
+  }
+
+  ModuleComposer (
+    [string]
+    $ProjectRootFolderPath
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+
+    $this.ProjectRootFolderPath = $ProjectRootFolderPath
+    $this.Initialize()
+  }
+
+  ModuleComposer (
+    [string]
+    $ProjectRootFolderPath,
+
+    [ClassLogLevels]
+    $LogLevel
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+
+    $this.LogLevel = $LogLevel
+    $VerbosePreference = $this.VerbosePreference()
+    $DebugPreference = $this.DebugPreference()
+    Write-Verbose 'Constructing ModuleComposer...'
+    $this.ProjectRootFolderPath = $ProjectRootFolderPath
+    Write-Debug "Set project root path to $ProjectRootFolderPath"
+    $this.Initialize()
+  }
+
+  ModuleComposer(
+    [string]
+    $ProjectRootFolderPath,
+
+    [hashtable]
+    $ConfigurationSettings
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+
+    $this.ProjectRootFolderPath = $ProjectRootFolderPath
+    $this.ProcessConfigurationSettings($ConfigurationSettings)
+    $this.Initialize()
+  }
+
+  ModuleComposer(
+    [string]
+    $ProjectRootFolderPath,
+
+    [hashtable]
+    $ConfigurationSettings,
+
+    [ClassLogLevels]
+    $LogLevel
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+    $this.LogLevel = $LogLevel
+    $VerbosePreference = $this.VerbosePreference()
+    $DebugPreference = $this.DebugPreference()
+    Write-Verbose 'Constructing ModuleComposer...'
+    $this.ProjectRootFolderPath = $ProjectRootFolderPath
+    Write-Debug "Set project root path to $ProjectRootFolderPath"
+    $this.ProcessConfigurationSettings($ConfigurationSettings)
+    $this.Initialize()
+    Write-Verbose 'Constructed ModuleComposer.'
+  }
+
+  #endregion Constructors
 }

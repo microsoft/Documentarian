@@ -23,39 +23,161 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 #endregion RequiredFunctions
 
 class SourceFolder {
-  [SourceCategory]$Category
-  [SourceScope]$Scope
-  [string]$NameSpace
-  [System.IO.DirectoryInfo]$DirectoryInfo
-  [SourceFile[]]$SourceFiles
+  <#
+    .SYNOPSIS
+    Defines a source folder for module composition and development.
+  #>
 
-  SourceFolder([string]$NameSpace, [string]$Path) {
-    $this.NameSpace = $NameSpace
-    $this.ResolveCategoryAndScopeFromNameSpace()
-    $this.DirectoryInfo = $Path
-    $this.FindSourceFiles()
+  #region Static properties
+  #endregion Static properties
+
+  #region Static methods
+
+  static hidden [string[]] ValidLineEndings() {
+    <#
+      .SYNOPSIS
+    #>
+
+    return @("`r`n", "`r", "`n")
   }
 
-  SourceFolder([SourceCategory]$Category, [SourceScope]$Scope, [string]$Path) {
-    $this.Category = $Category
-    $this.Scope = $Scope
-    $this.NameSpace = Resolve-NameSpace -Category $Category -Scope $Scope
-    $this.DirectoryInfo = $Path
-    $this.FindSourceFiles()
+  static hidden [bool] IsValidLineEnding(
+    [string]
+    $lineEnding
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+    return [SourceFolder]::ValidLineEndings() -contains $lineEnding
   }
 
-  SourceFolder([string]$Path) {
-    $this.DirectoryInfo = Resolve-Path -Path $Path -ErrorAction Stop | Select-Object -ExpandProperty Path
-    $this.NameSpace = Resolve-NameSpace -Path $this.DirectoryInfo.FullName
-    $this.ResolveCategoryAndScopeFromNameSpace()
-    $this.FindSourceFiles()
+  static hidden [string] InvalidLineEndingMessage(
+    [string]
+    $lineEnding
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+    $validLineEndings = [SourceFolder]::ValidLineEndings()
+    | ForEach-Object -Process { "'$([regex]::Escape($_))'" }
+
+    $validLineEndings = @(
+      Join-String -InputObject $validLineEndings[0..($validLineEndings.Count - 2)] -Separator ', '
+      $validLineEndings[-1]
+    ) -join ', or '
+
+    $message = @(
+      "Line ending '$([regex]::Escape($lineEnding))' is not one of the expected line endings"
+      "($validLineEndings)."
+    ) -join ' '
+
+    return $message
   }
+
+  static hidden [void] CheckLineEnding(
+    [string]
+    $lineEnding,
+
+    [UncommonLineEndingAction]
+    $uncommonLineEndingAction
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+    if (![SourceFolder]::IsValidLineEnding($lineEnding)) {
+      $message = [SourceFolder]::InvalidLineEndingMessage($lineEnding)
+
+      switch ($uncommonLineEndingAction) {
+        SilentlyContinue {}
+        WarnAndContinue {
+          Write-Warning -Message $message
+        }
+        ErrorAndStop {
+          throw [System.ArgumentException]::new($message)
+        }
+        default {
+          throw 'This is not handled! If you see this message, the devs goofed.'
+        }
+      }
+    }
+  }
+
+  static hidden [void] CheckLineEnding(
+    [string]
+    $lineEnding
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+    if (![SourceFolder]::IsValidLineEnding($lineEnding)) {
+      $message = @(
+        "$([SourceFolder]::InvalidLineEndingMessage($lineEnding));"
+        'Use a common line ending, ComposeSourceFiles() without parameters,'
+        'or ComposeSourceFiles($LineEnding, $UncommonLineEndingAction) instead.'
+      ) -join ' '
+
+      throw [System.ArgumentException]::new($message)
+    }
+  }
+
+  #endregion Static methods
+
+  #region Instance properties
+
+  <#
+    .SYNOPSIS
+  #>
+  [SourceCategory]
+  $Category
+
+  <#
+    .SYNOPSIS
+  #>
+  [SourceScope]
+  $Scope
+
+  <#
+    .SYNOPSIS
+  #>
+  [string]
+  $NameSpace
+
+  <#
+    .SYNOPSIS
+  #>
+  [System.IO.DirectoryInfo]
+  $DirectoryInfo
+
+  <#
+    .SYNOPSIS
+  #>
+  [SourceFile[]]
+  $SourceFiles
+
+  #endregion Instance properties
+
+  #region Instance methods
 
   [bool] HasOrderedFiles() {
-    return $this.Category -eq [SourceCategory]::Enum -or $this.Category -eq [SourceCategory]::Class
+    <#
+      .SYNOPSIS
+    #>
+
+    return (
+      $this.Category -eq [SourceCategory]::Enum -or
+      $this.Category -eq [SourceCategory]::Class
+    )
   }
 
   [void] ResolveCategoryAndScopeFromNameSpace() {
+    <#
+      .SYNOPSIS
+    #>
+
     $this.NameSpace -split '\.'
     | Select-Object -First 2
     | ForEach-Object -Process {
@@ -68,38 +190,42 @@ class SourceFolder {
   }
 
   [void] FindSourceFiles() {
-    $BasePath = $this.DirectoryInfo.FullName
+    <#
+      .SYNOPSIS
+    #>
+
+    $basePath = $this.DirectoryInfo.FullName
     $this.SourceFiles = switch ($this.HasOrderedFiles()) {
       $true {
-        $LoadOrderJson = Join-Path -Path $BasePath -ChildPath '.LoadOrder.jsonc'
+        $loadOrderJson = Join-Path -Path $basePath -ChildPath '.LoadOrder.jsonc'
 
-        $LoadOrder = Get-Content -Path $LoadOrderJson
+        $loadOrder = Get-Content -Path $loadOrderJson
         | Where-Object -FilterScript { $_ -notmatch '^\s*\/\/' }
         | ConvertFrom-Json
 
-        foreach ($Item in $LoadOrder) {
-          $ItemFileName = "$($Item.Name).psm1"
-          $ItemPath = if ([string]::IsNullOrEmpty($Item.Folder)) {
-            Join-Path -Path $BasePath -ChildPath $ItemFileName
+        foreach ($item in $loadOrder) {
+          $itemFileName = "$($item.Name).psm1"
+          $itemPath = if ([string]::IsNullOrEmpty($item.Folder)) {
+            Join-Path -Path $basePath -ChildPath $itemFileName
           } else {
-            Join-Path -Path $BasePath -ChildPath $Item.Folder -AdditionalChildPath $ItemFileName
+            Join-Path -Path $basePath -ChildPath $item.Folder -AdditionalChildPath $itemFileName
           }
 
           try {
-            $ItemPath | Resolve-Path | ForEach-Object {
+            $itemPath | Resolve-Path | ForEach-Object {
               [SourceFile]::new($this.NameSpace, $_.Path)
             }
           } catch {
-            $Message = @(
-              "Unable to resolve source file from LoadOrder at '$ItemPath'"
-              "from configured options: $($Item | ConvertTo-Json)"
+            $errorMessage = @(
+              "Unable to resolve source file from LoadOrder at '$itemPath'"
+              "from configured options: $($item | ConvertTo-Json)"
             ) -join ' '
-            throw [System.IO.FileNotFoundException]::New($Message, $_.Exception)
+            throw [System.IO.FileNotFoundException]::New($errorMessage, $_.Exception)
           }
         }
       }
       $false {
-        Get-ChildItem -Path $BasePath -Include '*.ps1*', '*.psd1' -Exclude '*.Tests.ps1' -Recurse
+        Get-ChildItem -Path $basePath -Include '*.ps1*', '*.psd1' -Exclude '*.Tests.ps1' -Recurse
         | ForEach-Object -Process {
           [SourceFile]::new($this.NameSpace, $_.FullName)
         }
@@ -108,114 +234,132 @@ class SourceFolder {
   }
 
   [string] ComposeSourceFiles() {
-    if ($this.SourceFiles.Count -eq 0) {
-      return ''
-    }
-
-    $Output = New-Object -TypeName System.Text.StringBuilder
-
-    $Output.AppendLine("#region    $($this.NameSpace)").AppendLine()
-    $this.SourceFiles.MungedContent | ForEach-Object -Process {
-      $Output.AppendLine($_).AppendLine()
-    }
-    $Output.AppendLine("#endregion $($this.NameSpace)").AppendLine()
-
-    return $Output.ToString()
-  }
-
-  [string] ComposeSourceFiles([string]$LineEnding) {
-    [SourceFolder]::CheckLineEnding($LineEnding)
+    <#
+      .SYNOPSIS
+    #>
 
     if ($this.SourceFiles.Count -eq 0) {
       return ''
     }
 
-    $Output = New-Object -TypeName System.Text.StringBuilder
-    $Output.AppendLine("#region    $($this.NameSpace)").AppendLine()
-    $this.SourceFiles.MungedContent | ForEach-Object -Process {
-      $Output.AppendLine($_).AppendLine()
-    }
-    $Output.AppendLine("#endregion $($this.NameSpace)").AppendLine()
+    $output = New-Object -TypeName System.Text.StringBuilder
 
-    return $Output.ToString() -replace [regex]::Escape([System.Environment]::NewLine), $LineEnding
+    $output.AppendLine("#region    $($this.NameSpace)").AppendLine()
+    $this.SourceFiles.MungedContent | ForEach-Object -Process {
+      $output.AppendLine($_).AppendLine()
+    }
+    $output.AppendLine("#endregion $($this.NameSpace)").AppendLine()
+
+    return $output.ToString()
   }
 
   [string] ComposeSourceFiles(
-    [string]$LineEnding,
-    [UncommonLineEndingAction]$UncommonLineEndingAction
+    [string]
+    $lineEnding
   ) {
-    [SourceFolder]::CheckLineEnding($LineEnding, $UncommonLineEndingAction)
+    <#
+      .SYNOPSIS
+    #>
+
+    [SourceFolder]::CheckLineEnding($lineEnding)
 
     if ($this.SourceFiles.Count -eq 0) {
       return ''
     }
 
-    $Output = New-Object -TypeName System.Text.StringBuilder
-    $Output.AppendLine("#region    $($this.NameSpace)").AppendLine()
+    $output = New-Object -TypeName System.Text.StringBuilder
+    $output.AppendLine("#region    $($this.NameSpace)").AppendLine()
     $this.SourceFiles.MungedContent | ForEach-Object -Process {
-      $Output.AppendLine($_).AppendLine()
+      $output.AppendLine($_).AppendLine()
     }
-    $Output.AppendLine("#endregion $($this.NameSpace)").AppendLine()
+    $output.AppendLine("#endregion $($this.NameSpace)").AppendLine()
 
-    return $Output.ToString() -replace [regex]::Escape([System.Environment]::NewLine), $LineEnding
+    return $output.ToString() -replace [regex]::Escape([System.Environment]::NewLine), $lineEnding
   }
 
-  static hidden [string[]] ValidLineEndings() {
-    return @("`r`n", "`r", "`n")
-  }
+  [string] ComposeSourceFiles(
+    [string]
+    $lineEnding,
 
-  static hidden [bool] IsValidLineEnding([string]$LineEnding) {
-    return [SourceFolder]::ValidLineEndings() -contains $LineEnding
-  }
-
-  static hidden [string] InvalidLineEndingMessage([string]$LineEnding) {
-    $ValidLineEndings = [SourceFolder]::ValidLineEndings()
-    | ForEach-Object -Process { "'$([regex]::Escape($_))'" }
-
-    $ValidLineEndings = @(
-      Join-String -InputObject $ValidLineEndings[0..($ValidLineEndings.Count - 2)] -Separator ', '
-      $ValidLineEndings[-1]
-    ) -join ', or '
-
-    $Message = @(
-      "Line ending '$([regex]::Escape($LineEnding))' is not one of the expected line endings"
-      "($ValidLineEndings)."
-    ) -join ' '
-
-    return $Message
-  }
-
-  static hidden [void] CheckLineEnding(
-    [string]$LineEnding,
-    [UncommonLineEndingAction]$UncommonLineEndingAction
+    [UncommonLineEndingAction]
+    $uncommonLineEndingAction
   ) {
-    if (![SourceFolder]::IsValidLineEnding($LineEnding)) {
-      $Message = [SourceFolder]::InvalidLineEndingMessage($LineEnding)
+    <#
+      .SYNOPSIS
+    #>
 
-      switch ($UncommonLineEndingAction) {
-        SilentlyContinue {}
-        WarnAndContinue {
-          Write-Warning -Message $Message
-        }
-        ErrorAndStop {
-          throw [System.ArgumentException]::new($Message)
-        }
-        default {
-          throw 'This is not handled! If you see this message, the devs goofed.'
-        }
-      }
+    [SourceFolder]::CheckLineEnding($lineEnding, $uncommonLineEndingAction)
+
+    if ($this.SourceFiles.Count -eq 0) {
+      return ''
     }
+
+    $output = New-Object -TypeName System.Text.StringBuilder
+    $output.AppendLine("#region    $($this.NameSpace)").AppendLine()
+    $this.SourceFiles.MungedContent | ForEach-Object -Process {
+      $output.AppendLine($_).AppendLine()
+    }
+    $output.AppendLine("#endregion $($this.NameSpace)").AppendLine()
+
+    return $output.ToString() -replace [regex]::Escape([System.Environment]::NewLine), $lineEnding
   }
 
-  static hidden [void] CheckLineEnding([string]$LineEnding) {
-    if (![SourceFolder]::IsValidLineEnding($LineEnding)) {
-      $Message = @(
-        "$([SourceFolder]::InvalidLineEndingMessage($LineEnding));"
-        'Use a common line ending, ComposeSourceFiles() without parameters,'
-        'or ComposeSourceFiles($LineEnding, $UncommonLineEndingAction) instead.'
-      ) -join ' '
+  #endregion Instance methods
 
-      throw [System.ArgumentException]::new($Message)
-    }
+  #region Constructors
+
+  SourceFolder(
+    [string]
+    $nameSpace,
+
+    [string]
+    $path
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+    $this.NameSpace = $nameSpace
+    $this.ResolveCategoryAndScopeFromNameSpace()
+    $this.DirectoryInfo = $path
+    $this.FindSourceFiles()
   }
+
+  SourceFolder(
+    [SourceCategory]
+    $category,
+
+    [SourceScope]
+    $scope,
+
+    [string]
+    $path
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+    $this.Category      = $category
+    $this.Scope         = $scope
+    $this.NameSpace     = Resolve-NameSpace -Category $category -Scope $scope
+    $this.DirectoryInfo = $path
+    $this.FindSourceFiles()
+  }
+
+  SourceFolder(
+    [string]
+    $path
+  ) {
+    <#
+      .SYNOPSIS
+    #>
+
+    $this.DirectoryInfo = Resolve-Path -Path $path -ErrorAction Stop
+    | Select-Object -ExpandProperty Path
+    $this.NameSpace = Resolve-NameSpace -Path $this.DirectoryInfo.FullName
+    $this.ResolveCategoryAndScopeFromNameSpace()
+    $this.FindSourceFiles()
+  }
+
+  #endregion Constructors
 }

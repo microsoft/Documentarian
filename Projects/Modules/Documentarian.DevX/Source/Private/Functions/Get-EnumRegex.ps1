@@ -2,13 +2,29 @@
 # Licensed under the MIT License.
 
 function Get-EnumRegex {
+  <#
+    .SYNOPSIS
+    Function synopsis.
+  #>
+
   [CmdletBinding()]
   [OutputType([String])]
   param(
     [Parameter(Mandatory)]
     [ValidateScript({ $_.IsEnum })]
-    [Type]$EnumType
+    [Type]
+    $EnumType
   )
 
-  "(?<$($EnumType.Name)>($($EnumType.GetEnumNames() -join '|')))"
+  begin {
+
+  }
+
+  process {
+    "(?<$($EnumType.Name)>($($EnumType.GetEnumNames() -join '|')))"
+  }
+
+  end {
+
+  }
 }

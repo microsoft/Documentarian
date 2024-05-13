@@ -17,6 +17,11 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 #endregion RequiredFunctions
 
 Function Get-AstType {
+  <#
+    .SYNOPSIS
+    Function synopsis.
+  #>
+
   [CmdletBinding(DefaultParameterSetName = 'ByPattern')]
   [OutputType([Type])]
   Param(
@@ -25,19 +30,21 @@ Function Get-AstType {
       ParameterSetName = 'ByPattern',
       HelpMessage = 'Specify a valid regex pattern to match in the list of AST types'
     )]
-    [string]$Pattern,
+    [string]
+    $Pattern,
 
     [Parameter(
       Mandatory,
       ParameterSetName = 'ByName',
       HelpMessage = 'Specify a name to look for in the list of AST types; the "Ast" suffix is optional'
     )]
-    [string[]]$Name
+    [string[]]
+    $Name
   )
 
   begin {
     # ignore exceptions getting the types in an assembly
-    $Types = [System.AppDomain]::CurrentDomain.GetAssemblies()
+    $types = [System.AppDomain]::CurrentDomain.GetAssemblies()
     | ForEach-Object -Process { try { $_.GetTypes() } catch {} }
     | Where-Object -FilterScript {
       Test-DevXIsAstType -Type $_
@@ -45,20 +52,22 @@ Function Get-AstType {
   }
 
   process {
-    if (![string]::IsNullOrEmpty($Pattern)) {
-      $Types | Where-Object -FilterScript {
+    if (-not [string]::IsNullOrEmpty($Pattern)) {
+      $types | Where-Object -FilterScript {
         $_.Name -match $Pattern
       }
     } elseif ($Name.Count -gt 0) {
-      foreach ($N in $Name) {
-        $Types | Where-Object -FilterScript {
-          $_.Name -in @($N, "${N}Ast")
+      foreach ($n in $Name) {
+        $types | Where-Object -FilterScript {
+          $_.Name -in @($n, "${n}Ast")
         }
       }
     } else {
-      $Types
+      $types
     }
   }
 
-  end {}
+  end {
+
+  }
 }
