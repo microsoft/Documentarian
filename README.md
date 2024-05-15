@@ -122,9 +122,7 @@ a CLA and decorate the PR appropriately (e.g., status check, comment). Simply fo
 instructions provided by the bot. You will only need to do this once across all repos using our
 CLA.
 
-This project has adopted the [Microsoft Open Source Code of Conduct][19]. For more information see
-the [Code of Conduct FAQ][20] or contact [opencode@microsoft.com][25] with any additional questions
-or comments.
+This project has adopted the [Microsoft Open Source Code of Conduct][19].
 
 <!-- vale on -->
 
@@ -193,12 +191,10 @@ patents, or trademarks, whether by implication, estoppel or otherwise.
 [15]: https://img.shields.io/github/forks/microsoft/Documentarian.svg?style=for-the-badge
 [16]: https://img.shields.io/github/issues/microsoft/Documentarian.svg?style=for-the-badge
 [17]: https://img.shields.io/github/stars/microsoft/Documentarian.svg?style=for-the-badge
-[19]: https://opensource.microsoft.com/codeofconduct/
-[20]: https://opensource.microsoft.com/codeofconduct/faq/
+[19]: CODE_OF_CONDUCT.md
 [21]: https://opensource.org/licenses/MIT
 [22]: https://powershellgallery.com
 [23]: LICENSE
 [24]: LICENSE-CODE
-[25]: mailto:opencode@microsoft.com
 [26]: https://img.shields.io/github/discussions/microsoft/Documentarian?style=for-the-badge
 [27]: https://microsoft.github.io/Documentarian/docs/authoring/install-tools/
