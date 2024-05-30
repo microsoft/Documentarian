@@ -26,7 +26,7 @@
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>ValueFromPipeline</Label>
+            <Label>DontShow</Label>
             <Alignment>right</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -78,7 +78,7 @@
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>ValueFromPipeline</Label>
+            <Label>DontShow</Label>
             <Alignment>right</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -131,7 +131,7 @@
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>ValueFromPipeline</Label>
+            <Label>DontShow</Label>
             <Alignment>right</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>

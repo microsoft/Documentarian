@@ -25,6 +25,9 @@ release_links:
 
 ## Unreleased
 
+- Fixed column header name in DontShowAttributeInfo.Formats.ps1xml
+- Added PSDefaultValueAttribute to parameters in Find-ParameterWithAttribute
+
 Related Links
 : {{< changelog/link/prs after="2023-03-27" >}}
 

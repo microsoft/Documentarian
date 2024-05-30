@@ -31,9 +31,11 @@ function Find-ParameterWithAttribute {
 
         [Parameter(Position = 1)]
         [SupportsWildcards()]
+        [PSDefaultValue(Help='*', Value='*')]
         [string[]]$CommandName = '*',
 
         [ValidateSet('Cmdlet', 'Module', 'None')]
+        [PSDefaultValue(Help='None', Value='None')]
         [string]$GroupBy = 'None'
     )
     begin {
