@@ -2,22 +2,34 @@
 # Licensed under the MIT License.
 
 function New-LoadOrderJson {
+  <#
+    .SYNOPSIS
+  #>
+
   [CmdletBinding()]
   param(
-    [string[]]$FolderPath,
-    [string]$CopyrightNotice,
-    [string]$LicenseNotice
+    [Parameter()]
+    [string[]]
+    $FolderPath,
+
+    [Parameter()]
+    [string]
+    $CopyrightNotice,
+
+    [Parameter()]
+    [string]
+    $LicenseNotice
   )
 
   begin {
-    $Content = @()
-    if (![string]::IsNullOrEmpty($CopyrightNotice)) {
-      $Content += "// $CopyrightNotice"
+    $content = @()
+    if (-not [string]::IsNullOrEmpty($CopyrightNotice)) {
+      $content += "// $CopyrightNotice"
     }
-    if (![string]::IsNullOrEmpty($LicenseNotice)) {
-      $Content += "// $LicenseNotice"
+    if (-not [string]::IsNullOrEmpty($LicenseNotice)) {
+      $content += "// $LicenseNotice"
     }
-    $Content += @(
+    $content += @(
       "// Note: The items in this file are loaded in the order they're specified."
       '['
       '    // This example exists until a JSON schema is defined.'
@@ -28,9 +40,9 @@ function New-LoadOrderJson {
       '    // }'
       ']'
     )
+    $content = $content -join "`n"
 
-    $Content = $Content -join "`n"
-    $SharedParameters = @{
+    $sharedParameters = @{
       Name     = '.LoadOrder.jsonc'
       ItemType = 'File'
       Force    = $true
@@ -38,10 +50,16 @@ function New-LoadOrderJson {
   }
 
   process {
-    foreach ($Folder in $FolderPath) {
-      $File = New-Item -Path $Folder @SharedParameters
-      $Content | Out-File -FilePath $File -Encoding utf8NoBOM -Force
-      $File
+    foreach ($folder in $FolderPath) {
+      $file = New-Item -Path $folder @SharedParameters
+
+      $content | Out-File -FilePath $file -Encoding utf8NoBOM -Force
+
+      $file
     }
+  }
+
+  end {
+
   }
 }

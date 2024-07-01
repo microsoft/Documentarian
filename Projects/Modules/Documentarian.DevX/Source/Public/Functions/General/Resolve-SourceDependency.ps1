@@ -24,19 +24,30 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 #endregion RequiredFunctions
 
 function Resolve-SourceDependency {
+  <#
+    .SYNOPSIS
+  #>
+
   [CmdletBinding(DefaultParameterSetName = 'ByPath')]
   [OutputType([SourceReference])]
   param(
-    [SourceFile[]]$SourceFile,
+    [Parameter()]
+    [SourceFile[]]
+    $SourceFile,
 
+    [Parameter()]
     [parameter(Mandatory, ParameterSetName = 'ByName')]
-    [string[]]$Name,
+    [string[]]
+    $Name,
+
+    [Parameter()]
     [parameter(Mandatory, ParameterSetName = 'ByPath')]
-    [string[]]$Path
+    [string[]]
+    $Path
   )
 
   begin {
-    $TypeDefinitionSources = [SourceFile[]]@()
+    $TypeDefinitionSources     = [SourceFile[]]@()
     $FunctionDefinitionSources = [SourceFile[]]@()
 
     $TypeReferenceAsts = @(
@@ -48,18 +59,19 @@ function Resolve-SourceDependency {
       'CommandAst'
     )
   }
+
   process {
     if ($Path) {
       $Path = Resolve-Path $Path -ErrorAction Stop
 
-      $SourceFolder = Resolve-SourceFolderPath -Path $Path
+      $sourceFolder = Resolve-SourceFolderPath -Path $Path
       | Select-Object -Unique
       | Where-Object -FilterScript {
         $_.Category -notin @('Format', 'Type', 'Task')
       }
 
       Write-Verbose "Searching for source files in '$SourceFolder'"
-      $SourceFile = $SourceFolder | ForEach-Object -Process {
+      $SourceFile = $sourceFolder | ForEach-Object -Process {
         Get-SourceFolder -SourceFolder $_
       } | Select-Object -ExpandProperty SourceFiles
 
@@ -79,10 +91,11 @@ function Resolve-SourceDependency {
         $_.Category.ToString() -notin @('Format', 'Type', 'Task')
       }
     } elseif ($Name) {
-      if (!$SourceFile) {
+      if (-not $SourceFile) {
         Write-Verbose "No source files provided; Searching for source files in './Source'"
         Write-Verbose 'To search a specific path, use the **Path** parameter'
-        $SourceFile = Get-SourceFolder | Select-Object -ExpandProperty SourceFiles
+        $SourceFile = Get-SourceFolder
+        | Select-Object -ExpandProperty SourceFiles
       }
 
       Write-Verbose 'Resolving named source files'
@@ -106,10 +119,10 @@ function Resolve-SourceDependency {
         continue
       }
 
-      $SourceName = $Source.FileInfo.BaseName
+      $SourceName  = $Source.FileInfo.BaseName
       Write-Verbose "Resolving dependencies in '$($Source.FileInfo.FullName)'"
       $DevXAstInfo = Get-Ast -Path $Source.FileInfo.FullName
-      $References = [SourceFile[]]@()
+      $References  = [SourceFile[]]@()
 
       Find-Ast -DevXAstInfo $DevXAstInfo -Type $TypeReferenceAsts -Recurse
       | ForEach-Object -Process {
@@ -137,5 +150,9 @@ function Resolve-SourceDependency {
 
       New-SourceReference -SourceFile $Source -Reference $References
     }
+  }
+
+  end {
+
   }
 }

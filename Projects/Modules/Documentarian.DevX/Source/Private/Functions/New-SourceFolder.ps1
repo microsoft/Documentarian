@@ -4,14 +4,26 @@
 using module ../../Public/Classes/SourceFolder.psm1
 
 function New-SourceFolder {
+  <#
+    .SYNOPSIS
+    Function synopsis.
+  #>
+
   [CmdletBinding()]
   [OutputType([SourceFolder])]
   param(
-    [string]$NameSpace,
+    [Parameter()]
+    [string]
+    $NameSpace,
 
     [Parameter(Mandatory)]
-    [string]$Path
+    [string]
+    $Path
   )
+
+  begin {
+
+  }
 
   process {
     if ($NameSpace) {
@@ -19,5 +31,9 @@ function New-SourceFolder {
     } else {
       [SourceFolder]::new($Path)
     }
+  }
+
+  end {
+
   }
 }

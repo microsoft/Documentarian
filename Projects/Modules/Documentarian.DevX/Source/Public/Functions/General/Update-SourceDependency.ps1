@@ -20,20 +20,35 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 #endregion RequiredFunctions
 
 function Update-SourceDependency {
+  <#
+    .SYNOPSIS
+  #>
+
   [CmdletBinding(DefaultParameterSetName = 'ByPath')]
   [OutputType([SourceReference])]
   param(
-    [SourceFile[]]$SourceFile,
+    [Parameter()]
+    [SourceFile[]]
+    $SourceFile,
 
     [parameter(Mandatory, ParameterSetName = 'ByName')]
-    [string[]]$Name,
+    [string[]]
+    $Name,
+
     [parameter(Mandatory, ParameterSetName = 'ByPath')]
-    [string[]]$Path
+    [string[]]
+    $Path
   )
+
+  begin {
+
+  }
 
   process {
     $ResolvedDependencies = Resolve-SourceDependency @PSBoundParameters
-    $ResolvedDependencies | ForEach-Object -Process {
+
+    $ResolvedDependencies
+    | ForEach-Object -Process {
       $Message = @(
         'Updating source dependency reference preamble for'
         "'$($_.SourceFile.FileInfo.FullName)'"
@@ -42,5 +57,9 @@ function Update-SourceDependency {
 
       $_.SetReferencePreamble()
     }
+  }
+
+  end {
+
   }
 }
