@@ -1,7 +1,7 @@
 {
   "ManifestData": {
     "Guid": "1444d8f2-6b9f-463a-aab6-beadeef7403b",
-    "ModuleVersion": "0.0.3",
+    "ModuleVersion": "0.0.4",
     "RootModule": "Documentarian.ModuleAuthor.psm1",
     "ScriptsToProcess": "",
     "VariablesToExport": "*",
@@ -28,7 +28,7 @@
   "ModuleLicenseNotice": "Licensed under the MIT License.",
   "ModuleLineEnding": "\n",
   "ModuleName": "Documentarian.ModuleAuthor",
-  "ModuleVersion": "0.0.3",
+  "ModuleVersion": "0.0.4",
   "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
   "SourceFolderPath": "./Source",
   //"SourceInitScriptPath": "",

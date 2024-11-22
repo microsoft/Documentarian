@@ -15,10 +15,16 @@ function Set-Metadata {
     )
 
     foreach ($file in (Get-ChildItem -Path $Path -Recurse:$Recurse)) {
-        $file.Name
-        $mdtext = Get-ContentWithoutHeader -Path $file
-        Set-Content -Value (hash2yaml $NewMetadata) -Path $file -Force -Encoding utf8
-        Add-Content -Value $mdtext -Path $file -Encoding utf8
+        $header = @(
+            '---'
+            [environment]::NewLine
+            $NewMetadata | ConvertTo-Yaml
+            [environment]::NewLine
+            '---'
+        ) -join ''
+        Set-Content -Value $header  -Path $file -Force -Encoding utf8
+        Add-Content -Value $doc.Body -Path $file -Encoding utf8
+        $file
     }
 
 }

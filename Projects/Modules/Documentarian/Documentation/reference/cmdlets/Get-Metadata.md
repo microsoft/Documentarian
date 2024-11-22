@@ -10,6 +10,7 @@ title: Get-Metadata
 # Get-Metadata
 
 ## SYNOPSIS
+
 Get the metadata frontmatter from a Markdown file.
 
 ## SYNTAX
@@ -30,6 +31,12 @@ Get-Metadata [-Path] <string> -AsObject [-Recurse] [<CommonParameters>]
 
 ```
 Get-Metadata [-Path] <string> -AsYaml [-Recurse] [<CommonParameters>]
+```
+
+### AsJson
+
+```
+Get-Metadata [-Path] <string> -AsJson [-Recurse] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -74,20 +81,21 @@ Get-Metadata .\install\Installing-PowerShell-on-Windows.md -AsYaml
 
 ```Output
 description: Information about installing PowerShell on Windows
-ms.date: 01/09/2023
+ms.date: 11/22/2024
 title: Installing PowerShell on Windows
 ```
 
 ## PARAMETERS
 
+### -AsJson
+
 ### -AsObject
 
-Returns the metadata as a **PSObject**. Unlike the hashtable, the object includes the original file
-path as a property.
+Returns the metadata as a JSON object.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: AsObject
+Parameter Sets: AsJson
 Aliases:
 
 Required: True

@@ -15,9 +15,8 @@ function Update-Metadata {
     )
 
     foreach ($file in (Get-ChildItem -Path $Path -Recurse:$Recurse)) {
-        $file.name
-        $OldMetadata = Get-Metadata -Path $file
-        $mdtext = Get-ContentWithoutHeader -Path $file
+        $doc = Get-Document -Path $file
+        $OldMetadata = $doc.FrontMatter
 
         $update = $OldMetadata.Clone()
         foreach ($key in $NewMetadata.Keys) {
@@ -28,8 +27,16 @@ function Update-Metadata {
             }
         }
 
-        Set-Content -Value (hash2yaml $update) -Path $file -Force -Encoding utf8
-        Add-Content -Value $mdtext -Path $file -Encoding utf8
+        $header = @(
+            '---'
+            [environment]::NewLine
+            $update | ConvertTo-Yaml
+            [environment]::NewLine
+            '---'
+        ) -join ''
+        Set-Content -Value $header  -Path $file -Force -Encoding utf8
+        Add-Content -Value $doc.Body -Path $file -Encoding utf8
+        $file
     }
 
 }

@@ -2,7 +2,7 @@
 external help file: Documentarian.ModuleAuthor-help.xml
 Locale: en-US
 Module Name: Documentarian.ModuleAuthor
-ms.date: 04/21/2023
+ms.date: 11/22/2024
 online version: https://microsoft.github.io/Documentarian/modules/moduleauthor/reference/cmdlets/test-helpinfouri
 schema: 2.0.0
 title: Test-HelpInfoUri
@@ -10,6 +10,7 @@ title: Test-HelpInfoUri
 # Test-HelpInfoUri
 
 ## SYNOPSIS
+
 Checks for the existence of the help info XML file used to update help for a module.
 
 ## SYNTAX
@@ -17,13 +18,15 @@ Checks for the existence of the help info XML file used to update help for a mod
 ### ByName (Default)
 
 ```
-Test-HelpInfoUri [-Module] <String[]> [-OutPath <String>] [<CommonParameters>]
+Test-HelpInfoUri [-Module] <string[]> [[-HelpInfoUri] <uri>] [-OutPath <string>]
+ [<CommonParameters>]
 ```
 
 ### ByObject
 
 ```
-Test-HelpInfoUri [-InputObject <Object>] [-OutPath <String>] [<CommonParameters>]
+Test-HelpInfoUri [[-HelpInfoUri] <uri>] [-InputObject <Object>] [-OutPath <string>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -115,7 +118,36 @@ Mode                 LastWriteTime         Length Name
 -a---           4/21/2023  7:10 PM            378 PSReadLine_5714753b-2afd-4492-a5fd-01d9e2cff8b5_HelpInfo.xml
 ```
 
+### Example 5 - Test a module by name with a custom HelpInfoUri
+
+```powershell
+Test-HelpInfoUri -Module Microsoft.PowerShell.Utility -HelpInfoUri https://aka.ms/powershell80-help/
+```
+
+```Output
+Module                       Code  Message
+------                       ----  -------
+Microsoft.PowerShell.Utility  404 NotFound
+```
+
 ## PARAMETERS
+
+### -HelpInfoUri
+
+The HelpInfoUri to test. If not specified, the cmdlet uses the **HelpInfoUri** property from the
+module manifest.
+
+```yaml
+Type: System.Uri
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -InputObject
 
@@ -179,7 +211,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### System.Object
+### TestHelpInfoUriResult
 
 ## NOTES
 
