@@ -87,7 +87,7 @@ function Test-HelpInfoUri {
 
             # The HelpInfoUri parameter overrides $mod.HelpInfoUri, allowing you to test a new URI
             # before updating the module. If the parameter is empty, $mod.HelpInfoUri.
-            if ($HelpInfoUri -eq '') {
+            if ( $PSBoundParameters.Keys -notcontains 'HelpInfoUri') {
                 $HelpInfoUri = $mod.HelpInfoUri
             }
 
@@ -98,14 +98,6 @@ function Test-HelpInfoUri {
             if ($null -eq $HelpInfoUri) {
                 $output.Message = 'HelpInfoUri is null or empty'
                 $output.Code    = 0x00002ef8 # ERROR_INTERNET_NO_CONTEXT
-                $output
-                continue
-            }
-
-            # The $HelpInfoUri must end with a slash to be valid for Update-Help
-            if ($HelpInfoUri.OriginalString[-1] -ne '/') {
-                $output.Message = 'HelpInfoUri must end in a slash (/)'
-                $output.Code    = 0x00002efb # ERROR_INTERNET_INCORRECT_FORMAT
                 $output
                 continue
             }

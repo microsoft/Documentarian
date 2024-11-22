@@ -121,7 +121,7 @@ Mode                 LastWriteTime         Length Name
 ### Example 5 - Test a module by name with a custom HelpInfoUri
 
 ```powershell
-Test-HelpInfoUri -Module Microsoft.PowerShell.Utility -HelpInfoUri https://aka.ms/powershell80-help/
+Test-HelpInfoUri -Module Microsoft.PowerShell.Utility -HelpInfoUri https://aka.ms/powershell80-help
 ```
 
 ```Output
