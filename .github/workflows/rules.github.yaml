@@ -21,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Run PSRule analysis
-        uses: Microsoft/ps-rule@main
+        uses: microsoft/ps-rule@v2.9.0
         with:
           modules: "PSRule.Rules.MSFT.OSS"
           prerelease: true
