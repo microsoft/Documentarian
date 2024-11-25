@@ -25,6 +25,9 @@ release_links:
 
 ## Unreleased
 
+- Updated `*-Metadata` cmdlets to use `Get-Document` to parse the content of markdown files
+- Added **AsJson** parameter to `Get-Metadata` to output the results as a JSON object
+
 Related Links
 : {{< changelog/link/prs after="2023-03-27" >}}
 

@@ -10,6 +10,9 @@ function Test-HelpInfoUri {
         [Parameter(ValueFromPipeline, ParameterSetName = 'ByObject')]
         [object]$InputObject,
 
+        [Parameter(Position = 1)]
+        [uri]$HelpInfoUri,
+
         [string]$OutPath
     )
 
@@ -38,8 +41,8 @@ function Test-HelpInfoUri {
                         }
                     }
 
-                    { $_ -is [PSModuleInfo] } {
-                        $Module = $Object
+                    { $_ -is [System.Management.Automation.PSModuleInfo] } {
+                        $Module = $Object.Name
                     }
 
                     default {
@@ -63,9 +66,10 @@ function Test-HelpInfoUri {
             }
 
             $output = [pscustomobject]@{
-                Module  = $modname
-                Code    = $null
-                Message = $null
+                pstypename = 'TestHelpInfoUriResult'
+                Module     = $modname
+                Code       = $null
+                Message    = $null
             }
 
             $mod = Get-Module -Name $modname -ListAvailable | Select-Object -First 1
@@ -73,41 +77,49 @@ function Test-HelpInfoUri {
             # If the input wasn't a module, return the failed result immediately
             if ($null -eq $mod) {
                 $output.Message = 'Module not found'
-                $output.Code = 0x2
+                $output.Code    = 0x2
                 $output
                 continue
             }
 
-            # If the input was a module, we have the component parts needed to check it
-            Write-Verbose "$($mod.Name) - $($mod.Guid) - $($mod.HelpInfoUri)"
+            # else we have a module object
             $output.Module = $mod.Name
 
-            # If the module doesn't have a HelpInfoUri, we know it can't be reached
-            if ($null -eq $mod.HelpInfoUri) {
+            # The HelpInfoUri parameter overrides $mod.HelpInfoUri, allowing you to test a new URI
+            # before updating the module. If the parameter is empty, $mod.HelpInfoUri.
+            if ( $PSBoundParameters.Keys -notcontains 'HelpInfoUri') {
+                $HelpInfoUri = $mod.HelpInfoUri
+            }
+
+            # If the input was a module, we have the component parts needed to check it
+            Write-Verbose "$($mod.Name) - $($mod.Guid) - $HelpInfoUri"
+
+            # If $HelpInfoUri is empty, we know it can't be reached
+            if ($null -eq $HelpInfoUri) {
                 $output.Message = 'HelpInfoUri is null or empty'
-                $output.Code = 0x0000138f
+                $output.Code    = 0x00002ef8 # ERROR_INTERNET_NO_CONTEXT
                 $output
                 continue
             }
 
             # Resolve the URI from the manifest, which may include redirection.
             try {
-                # If successful, then the URI probably points to a browsable directory
-                $response = Invoke-WebRequest -Uri $mod.HelpInfoUri -ErrorAction Stop
+                # If successful, then the URI probably points to a browseable directory
+                $response = Invoke-WebRequest -Uri $HelpInfoUri -ErrorAction Stop
                 continue
             } catch {
-                if ($_.Exception.Response.StatusCode.value__ -ne 404) {
-                    # If the response is anything other than 404, then the URI is probably invalid
-                    $output.Code = $_.Exception.Response.StatusCode.value__
-                    $output.Message = $_.Exception.Response.StatusCode
-                    $output
-                    continue
-                } else {
+                if ($_.Exception.Response.StatusCode.value__ -eq 404) {
                     # If the response is 404, then the URI is probably valid, especially when
                     # hosted in an Azure blobstore. You can't browse to the URI, but you can
                     # download the file using a fully qualified URI to the file. A true 404 problem
                     # will be caught later.
                     $baseUri = $_.TargetObject.RequestUri.AbsoluteUri
+                } else {
+                    # If the response is anything other than 404, then the URI is probably invalid
+                    $output.Message = $_.Exception.Response.StatusCode
+                    $output.Code    = $_.Exception.Response.StatusCode.value__
+                    $output
+                    continue
                 }
             }
 
@@ -123,6 +135,7 @@ function Test-HelpInfoUri {
                     ErrorAction = 'Stop'
                 }
                 if ($OutPath) {
+                    # Add the OutFile parameter to Invoke-WebRequest if an output path is specified
                     $params.Add(
                         'OutFile',
                         (Join-Path -Path $OutPath -ChildPath $HelpInfoUri.Segments[-1])
