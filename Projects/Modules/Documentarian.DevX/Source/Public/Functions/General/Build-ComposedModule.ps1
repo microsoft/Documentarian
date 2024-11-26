@@ -5,61 +5,88 @@ using module ../../../Private/Enums/ClassLogLevels.psm1
 using module ../../Classes/ModuleComposer.psm1
 
 function Build-ComposedModule {
+  <#
+    .SYNOPSIS
+  #>
+
   [CmdletBinding(DefaultParameterSetName = 'WithConfigurationFile')]
   param(
-    [string] $ProjectRootFolderPath,
+    [Parameter()]
+    [string]
+    $ProjectRootFolderPath,
 
     [Parameter(ParameterSetName = 'WithConfigurationFile')]
-    [string] $ConfigurationFilePath,
+    [string]
+    $ConfigurationFilePath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [hashtable] $ManifestData,
+    [hashtable]
+    $ManifestData,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $ModuleCopyrightNotice,
+    [string]
+    $ModuleCopyrightNotice,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $ModuleLicenseNotice,
+    [string]
+    $ModuleLicenseNotice,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $ModuleName,
+    [string]
+    $ModuleName,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [version] $ModuleVersion,
+    [version]
+    $ModuleVersion,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $OutputFolderPath,
+    [string]
+    $OutputFolderPath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $OutputInitScriptPath,
+    [string]
+    $OutputInitScriptPath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $OutputManifestPath,
+    [string]
+    $OutputManifestPath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $OutputPrivateModulePath,
+    [string]
+    $OutputPrivateModulePath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $OutputRootModulePath,
+    [string]
+    $OutputRootModulePath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $SourceFolderPath,
+    [string]
+    $SourceFolderPath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $SourceInitScriptPath,
+    [string]
+    $SourceInitScriptPath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $SourceManifestPath,
+    [string]
+    $SourceManifestPath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $SourcePrivateFolderPath,
+    [string]
+    $SourcePrivateFolderPath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $SourcePublicFolderPath,
+    [string]
+    $SourcePublicFolderPath,
 
     [Parameter(ParameterSetName = 'WithOptionValues')]
-    [string] $UsingModuleList
+    [string]
+    $UsingModuleList
   )
+
+  begin {
+
+  }
 
   process {
     if ([string]::IsNullOrEmpty($ProjectRootFolderPath)) {
@@ -70,27 +97,27 @@ function Build-ComposedModule {
     if ($PSCmdlet.ParameterSetName -eq 'WithConfigurationFile') {
       if ($ConfigurationFilePath) {
         Write-Verbose "Using specified configuration file path: $ConfigurationFilePath"
-        $ConfigurationSettings = Get-Content -Raw -Path $ConfigurationFilePath
+        $configurationSettings = Get-Content -Raw -Path $ConfigurationFilePath
         | ConvertFrom-Json -AsHashtable -ErrorAction Stop
       } else {
         $ConfigurationFilePath = Join-Path -Path $ProjectRootFolderPath -ChildPath '.DevX.jsonc'
         Write-Verbose "Checking for default configuration file path: $ConfigurationFilePath"
         if (Test-Path -Path $ConfigurationFilePath) {
-          $ConfigurationSettings = Get-Content -Raw -Path $ConfigurationFilePath
+          $configurationSettings = Get-Content -Raw -Path $ConfigurationFilePath
           | ConvertFrom-Json -AsHashtable -ErrorAction Stop
         }
       }
     } else {
-      $ConfigurationSettings = @{}
-      $OptionKeys = $PSBoundParameters.Keys
+      $configurationSettings = @{}
+      $optionKeys = $PSBoundParameters.Keys
       | Where-Object -FilterScript { $_ -ne 'ProjectRootFolderPath' }
 
-      foreach ($Key in $OptionKeys) {
-        $ConfigurationSettings = $PSBoundParameters.$Key
+      foreach ($key in $optionKeys) {
+        $configurationSettings = $PSBoundParameters.$key
       }
     }
 
-    $LogLevel = if ($DebugPreference -ge 2) {
+    $logLevel = if ($DebugPreference -ge 2) {
       [ClassLogLevels]::Detailed
     } elseif ($VerbosePreference -ge 2) {
       [ClassLogLevels]::Basic
@@ -98,18 +125,22 @@ function Build-ComposedModule {
       [ClassLogLevels]::None
     }
 
-    if ($ConfigurationSettings) {
+    if ($configurationSettings) {
       Write-Verbose "Composing with settings from $ConfigurationFilePath"
-      [ModuleComposer]$Composer = [ModuleComposer]::New(
+      [ModuleComposer]$composer = [ModuleComposer]::New(
         $ProjectRootFolderPath,
-        $ConfigurationSettings,
-        $LogLevel
+        $configurationSettings,
+        $logLevel
       )
     } else {
       Write-Verbose 'Composing with default settings'
-      [ModuleComposer]$Composer = [ModuleComposer]::New($ProjectRootFolderPath, $LogLevel)
+      [ModuleComposer]$composer = [ModuleComposer]::New($ProjectRootFolderPath, $logLevel)
     }
 
-    $Composer.ExportComposedModule()
+    $composer.ExportComposedModule()
+  }
+
+  end {
+
   }
 }

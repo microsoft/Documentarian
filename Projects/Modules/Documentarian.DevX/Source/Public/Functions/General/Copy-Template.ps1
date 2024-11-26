@@ -17,50 +17,70 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 #endregion RequiredFunctions
 
 function Copy-Template {
+  <#
+    .SYNOPSIS
+  #>
+
   [CmdletBinding()]
   param(
-    [string]    $TemplatePath,
-    [string]    $DestinationPath,
-    [hashtable] $TemplateData,
-    [switch]    $PassThru
+    [Parameter()]
+    [string]
+    $TemplatePath,
+
+    [Parameter()]
+    [string]
+    $DestinationPath,
+
+    [Parameter()]
+    [hashtable]
+    $TemplateData,
+
+    [Parameter()]
+    [switch]
+    $PassThru
   )
 
   begin {
-    $TemplateFolderPath = Get-ModuleRelativePath -Path 'Templates'
+    $templateFolderPath = Get-ModuleRelativePath -Path 'Templates'
   }
 
   process {
-    $TemplatePath = Join-Path -Path $TemplateFolderPath -ChildPath $TemplatePath
-    $Template = Get-Item -Path $TemplatePath
+    $templatePath = Join-Path -Path $templateFolderPath -ChildPath $TemplatePath
+    $template = Get-Item -Path $templatePath
 
-    $CopyParameters = @{
+    $copyParameters = @{
       Path        = $TemplatePath
       Destination = $DestinationPath
       PassThru    = $true
     }
-    if ($Template -is [System.IO.DirectoryInfo]) {
-      $CopyParameters.Container = $true
-      $CopyParameters.Recurse = $true
+    if ($template -is [System.IO.DirectoryInfo]) {
+      $copyParameters.Container = $true
+      $copyParameters.Recurse = $true
     }
 
-    $CopiedFiles = Copy-Item @CopyParameters
+    $copiedFiles = Copy-Item @copyParameters
 
     if ($TemplateData) {
-      foreach ($File in $CopiedFiles) {
-        if ($Content = Get-Content -Path $File -Raw -ErrorAction SilentlyContinue) {
-          foreach ($Key in $TemplateData.Keys) {
-            [string]$Value = $TemplateData.$Key
-            $Content = $Content -replace [regex]::Escape("[[$Key]]"), $Value
-            $Content = $Content -replace [regex]::Escape("[[$Key&lower]]"), $Value.ToLowerInvariant()
-            $Content = $Content -replace [regex]::Escape("[[$Key&upper]]"), $Value.ToUpperInvariant()
+      foreach ($file in $copiedFiles) {
+        if ($content = Get-Content -Path $file -Raw -ErrorAction SilentlyContinue) {
+          foreach ($key in $TemplateData.Keys) {
+            [string]$value = $TemplateData.$key
+            $content = $content -replace [regex]::Escape("[[$key]]"), $value
+            $content = $content -replace [regex]::Escape("[[$key&lower]]"), $value.ToLowerInvariant()
+            $content = $content -replace [regex]::Escape("[[$key&upper]]"), $value.ToUpperInvariant()
           }
-          $Content | Out-File -FilePath $File -Encoding utf8NoBOM -Force -NoNewline
+
+          $content | Out-File -FilePath $file -Encoding utf8NoBOM -Force -NoNewline
         }
       }
     }
 
     if ($PassThru) {
-      Get-Item -Path $CopiedFiles
+      Get-Item -Path $copiedFiles
     }
+  }
+
+  end {
+
   }
 }

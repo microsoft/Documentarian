@@ -4,17 +4,31 @@
 using module ../../Classes/SourceFile.psm1
 
 function Resolve-SourceFolderPath {
+  <#
+    .SYNOPSIS
+  #>
+
   [CmdletBinding()]
   [OutputType([String])]
   param(
-    [SourceFile[]]$SourceFile,
-    [string[]]$Path
+    [Parameter()]
+    [SourceFile[]]
+    $SourceFile,
+
+    [Parameter()]
+    [string[]]
+    $Path
   )
+
+  begin {
+
+  }
 
   process {
     if ($SourceFile) {
       $Path = $SourceFile.FileInfo.FullName
     }
+
     foreach ($Path in $Path) {
       $Path = Resolve-Path $Path -ErrorAction Stop
 
@@ -25,5 +39,9 @@ function Resolve-SourceFolderPath {
 
       $SourceFolderPath
     }
+  }
+
+  end {
+
   }
 }
