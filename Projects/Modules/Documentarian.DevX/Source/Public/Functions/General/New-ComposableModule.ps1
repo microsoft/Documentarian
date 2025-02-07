@@ -19,16 +19,25 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 #endregion RequiredFunctions
 
 function New-ComposableModule {
+  <#
+    .SYNOPSIS
+  #>
+
   [CmdletBinding()]
   param(
-    [string]$Name,
-    [string]$Path
+    [Parameter()]
+    [string]
+    $Name,
+
+    [Parameter()]
+    [string]
+    $Path
   )
 
   begin {
     $Path ??= Get-Location
 
-    $ModuleFolders = @(
+    $moduleFolders = @(
       @{ Path = 'Source/Private/Classes'   ; LoadOrder = $true }
       @{ Path = 'Source/Private/Enums'     ; LoadOrder = $true }
       @{ Path = 'Source/Public/Classes'    ; LoadOrder = $true }
@@ -41,37 +50,37 @@ function New-ComposableModule {
   }
 
   process {
-    $ModuleFolder = Join-Path -Path $Path -ChildPath $Name
+    $moduleFolder = Join-Path -Path $Path -ChildPath $Name
 
-    $ShortName = $Name -match '\.' ? ($Name -split '.')[-1] : $Name
-    $TemplateParameters = @{
+    $shortName = $Name -match '\.' ? ($Name -split '.')[-1] : $Name
+    $templateParameters = @{
       TemplatePath    = 'Module'
-      DestinationPath = $ModuleFolder
+      DestinationPath = $moduleFolder
       TemplateData    = @{
         Name      = $Name
-        ShortName = $ShortName
+        ShortName = $shortName
       }
     }
-    Copy-Template @TemplateParameters
+    Copy-Template @templateParameters
 
-    Push-Location -Path $ModuleFolder
+    Push-Location -Path $moduleFolder
 
-    foreach ($Folder in $ModuleFolders) {
-      if ($Folder.LoadOrder) {
-        New-LoadOrderJson -FolderPath $Folder.Path
-      } elseif ($Folder.GitKeep) {
-        if (!(Test-Path -Path $Folder.Path -PathType Container)) {
-          New-Item -Path $Folder.Path -ItemType Directory
+    foreach ($folder in $moduleFolders) {
+      if ($folder.LoadOrder) {
+        New-LoadOrderJson -FolderPath $folder.Path
+      } elseif ($folder.GitKeep) {
+        if (-not (Test-Path -Path $folder.Path -PathType Container)) {
+          New-Item -Path $folder.Path -ItemType Directory
         }
-        $GitKeepPath = Join-Path -Path $Folder.Path -ChildPath '.gitkeep'
-        Out-File -FilePath $GitKeepPath -InputObject '' -Encoding utf8NoBOM -Force
+        $gitKeepPath = Join-Path -Path $Folder.Path -ChildPath '.gitkeep'
+        Out-File -FilePath $gitKeepPath -InputObject '' -Encoding utf8NoBOM -Force
       }
     }
 
-    New-ConfigurationJson -FolderPath $ModuleFolder -Name $Name
+    New-ConfigurationJson -FolderPath $moduleFolder -Name $Name
   }
 
-  End {
+  end {
     Pop-Location
   }
 }

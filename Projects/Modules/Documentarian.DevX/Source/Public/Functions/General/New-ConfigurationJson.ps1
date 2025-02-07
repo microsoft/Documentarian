@@ -2,26 +2,50 @@
 # Licensed under the MIT License.
 
 function New-ConfigurationJson {
+  <#
+    .SYNOPSIS
+  #>
+
   [CmdletBinding()]
   param(
-    [string] $FolderPath = (Get-Location),
-    [string] $Name,
-    [guid]   $Guid = (New-Guid),
-    [string] $CopyrightNotice,
-    [string] $LicenseNotice,
-    [string] $ProjectUri,
-    [string] $LicenseUri
+    [Parameter()]
+    [string]
+    $FolderPath = (Get-Location),
+
+    [Parameter()]
+    [string]
+    $Name,
+
+    [Parameter()]
+    [guid]
+    $Guid = (New-Guid),
+
+    [Parameter()]
+    [string]
+    $CopyrightNotice,
+
+    [Parameter()]
+    [string]
+    $LicenseNotice,
+
+    [Parameter()]
+    [string]
+    $ProjectUri,
+
+    [Parameter()]
+    [string]
+    $LicenseUri
   )
 
   begin {
-    $ShortName = ($Name -match '\.(?<ShortName>[^\.]+)$') ? $Matches.ShortName : $Name
-    Write-Verbose "Short name is: $ShortName"
+    $shortName = ($Name -match '\.(?<ShortName>[^\.]+)$') ? $Matches.ShortName : $Name
+    Write-Verbose "Short name is: $shortName"
 
-    $FilePath = Join-Path -Path $FolderPath -ChildPath '.DevX.jsonc'
+    $filePath = Join-Path -Path $FolderPath -ChildPath '.DevX.jsonc'
   }
 
   process {
-    $ManifestData = @{
+    $manifestData = @{
       RootModule        = "$Name.psm1"
       ModuleVersion     = '0.0.1'
       Guid              = "$Guid"
@@ -30,14 +54,14 @@ function New-ConfigurationJson {
     }
 
     if ($ProjectURI) {
-      $ManifestData.ProjectUri = $ProjectUri
+      $manifestData.ProjectUri = $ProjectUri
     }
     if ($LicenseUri) {
-      $ManifestData.LicenseUri = $LicenseUri
+      $manifestData.LicenseUri = $LicenseUri
     }
 
     $ConfigurationData = @{
-      ManifestData         = $ManifestData
+      ManifestData         = $manifestData
       ModuleLineEnding     = ([string]::IsNullOrEmpty($LineEnding) ? "`n" : $LineEnding)
       ModuleName           = $Name
       ModuleVersion        = '0.0.1'
@@ -54,26 +78,30 @@ function New-ConfigurationJson {
       $ConfigurationData.ModuleLicenseNotice = $LicenseNotice
     }
 
-    $Data = New-Object -TypeName ordered
+    $data = New-Object -TypeName ordered
 
-    foreach ($Key in ($ConfigurationData.Keys | Sort-Object)) {
-      $Value = $ConfigurationData.$Key
-      if ($Value -is [hashtable]) {
-        $MungedValue = New-Object -TypeName ordered
-        foreach ($SubKey in ($Value.Keys | Sort-Object)) {
-          $MungedValue.$SubKey = $Value.$SubKey
+    foreach ($key in ($ConfigurationData.Keys | Sort-Object)) {
+      $value = $ConfigurationData.$Key
+      if ($value -is [hashtable]) {
+        $mungedValue = New-Object -TypeName ordered
+        foreach ($subKey in ($value.Keys | Sort-Object)) {
+          $mungedValue.$SubKey = $value.$subKey
         }
-        $Value = $MungedValue
+        $value = $mungedValue
       }
-      $Data.$Key = $Value
+      $data.$key = $value
     }
 
-    $File = New-Item -Path $FilePath -Force
+    $file = New-Item -Path $filePath -Force
 
-    $Data
+    $data
     | ConvertTo-Json
-    | Out-File -FilePath $File -Encoding utf8NoBOM -Force
+    | Out-File -FilePath $file -Encoding utf8NoBOM -Force
 
-    $File
+    $file
+  }
+
+  end {
+
   }
 }

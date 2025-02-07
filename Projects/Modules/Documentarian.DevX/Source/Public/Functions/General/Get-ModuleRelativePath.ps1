@@ -17,37 +17,53 @@ foreach ($RequiredFunction in $RequiredFunctions) {
 #endregion RequiredFunctions
 
 function Get-ModuleRelativePath {
+  <#
+    .SYNOPSIS
+  #>
+
   [CmdletBinding()]
   param(
-    [string]$Path,
-    [string]$SourcePath = $MyInvocation.MyCommand.Module.ModuleBase,
-    [switch]$Resolve
+    [Parameter()]
+    [string]
+    $Path,
+
+    [Parameter()]
+    [string]
+    $SourcePath = $MyInvocation.MyCommand.Module.ModuleBase,
+
+    [Parameter()]
+    [switch]
+    $Resolve
   )
 
   process {
-    $SourceLocation = Get-Item -Path $SourcePath
+    $sourceLocation = Get-Item -Path $SourcePath
 
-    if ($SourceLocation -is [System.IO.FileInfo]) {
-      $SourceLocation = $SourceLocation.Parent
+    if ($sourceLocation -is [System.IO.FileInfo]) {
+      $sourceLocation = $SourceLocation.Parent
     }
 
     try {
-      Push-Location -Path $SourceLocation
+      Push-Location -Path $sourceLocation
 
       if (Resolve-Path -Path *.psd1 -Relative -ErrorAction SilentlyContinue) {
-        $ResolvedPath = Join-Path -Path $SourceLocation -ChildPath $Path
+        $resolvedPath = Join-Path -Path $sourceLocation -ChildPath $Path
       } else {
-        $SourceFolderPath = Resolve-SourceFolderPath -Path $SourceLocation
-        $ResolvedPath = Join-Path $SourceFolderPath -ChildPath $Path
+        $sourceFolderPath = Resolve-SourceFolderPath -Path $sourceLocation
+        $resolvedPath = Join-Path $sourceFolderPath -ChildPath $Path
       }
 
       if ($Resolve) {
-        Resolve-Path -Path $ResolvedPath
+        Resolve-Path -Path $resolvedPath
       } else {
-        $ResolvedPath
+        $resolvedPath
       }
     } finally {
       Pop-Location
     }
+  }
+
+  end {
+
   }
 }

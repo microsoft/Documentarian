@@ -4,38 +4,65 @@
 using namespace System.Management.Automation
 
 class DevXValidatePowerShellScriptPathAttribute : ValidateArgumentsAttribute {
+  <#
+    .SYNOPSIS
+    Validates that the specified path is for a valid PowerShell script file.
+
+    .DESCRIPTION
+    This attribute validates that the specified path is for a valid PowerShell script file. The
+    path must be a file path to a PowerShell file with one of the following extensions: `.ps1`,
+    `.psm1`, or `.psd1`. The file must exist and be accessible.
+  #>
+
+  #region Static properties
+  #endregion Static properties
+
+  #region Static methods
+  #endregion Static methods
+
+  #region Instance properties
+  #endregion Instance properties
+
+  #region Instance methods
+
   [void]  Validate([object]$arguments, [EngineIntrinsics]$engineIntrinsics) {
-    $Path = $arguments
+    $path = $arguments
 
     if ([string]::IsNullOrWhiteSpace($path)) {
       throw [System.ArgumentNullException]::new()
     }
 
     try {
-      $Item = Get-Item -Path $Path -ErrorAction Stop
+      $item = Get-Item -Path $path -ErrorAction Stop
     } catch [ItemNotFoundException] {
       throw [System.IO.FileNotFoundException]::new()
     }
 
-    $MessagePrefix = 'Path must be the file path to a PowerShell file'
+    $messagePrefix = 'Path must be the file path to a PowerShell file'
 
-    $Provider = $Item.PSProvider.Name
-    if ($Provider -ne 'FileSystem') {
+    $provider = $Item.PSProvider.Name
+    if ($provider -ne 'FileSystem') {
       throw [System.ArgumentException]::new(
-        "$MessagePrefix; specified provider '$Provider' is invalid."
+        "$messagePrefix; specified provider '$provider' is invalid."
       )
     }
 
-    $Extension = $Item.Extension
-    $ValidExtensions = @('.psd1', '.ps1', '.psm1')
+    $extension           = $Item.Extension
+    $validExtensions     = @('.psd1', '.ps1', '.psm1')
     $isNotPowerShellFile = $Extension -notin $ValidExtensions
+
     if ($isNotPowerShellFile) {
-      $Message = @(
-        "Specified file '$Path' has extension '$extension',"
+      $errorMessage = @(
+        "Specified file '$path' has extension '$extension',"
         'but it must be one of the following:'
-              ($ValidExtensions -join ', ')
+          ($validExtensions -join ', ')
       ) -join ' '
-      throw [System.ArgumentException]::new("$MessagePrefix; $Message")
+      throw [System.ArgumentException]::new("$messagePrefix; $errorMessage")
     }
   }
+
+  #endregion Instance methods
+
+  #region Constructors
+  #endregion Constructors
 }
