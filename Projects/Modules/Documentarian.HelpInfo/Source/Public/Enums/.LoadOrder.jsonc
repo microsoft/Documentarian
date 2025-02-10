@@ -7,12 +7,7 @@
     //     "IgnoreForTest": false
     // }
     {
-        "Name": "ProviderFlags",
-        "IgnoreForBuild": false,
-        "IgnoreForTest": false
-    },
-    {
-        "Name": "ParameterAttributeKind",
+        "Name": "DecoratingCommentsBlockKeywordKind",
         "IgnoreForBuild": false,
         "IgnoreForTest": false
     }
