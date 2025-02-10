@@ -25,6 +25,7 @@ release_links:
 
 ## Unreleased
 
+- Refactored module to move AST parsing logic into a separate module.
 - Added **HelpInfoUri** parameter to `Test-HelpInfoUri` to allow testing a specific URI
 - Fixed column header name in DontShowAttributeInfo.Formats.ps1xml
 - Added PSDefaultValueAttribute to parameters in Find-ParameterWithAttribute

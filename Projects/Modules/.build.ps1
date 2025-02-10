@@ -23,6 +23,7 @@ param(
     'Documentarian.DevX',
     'Documentarian.MarkdownBuilder',
     'Documentarian.MarkdownLint',
+    'Documentarian.HelpInfo',
     'Documentarian.MicrosoftDocs',
     'Documentarian.MicrosoftDocs.PSDocs',
     'Documentarian.ModuleAuthor',
@@ -37,6 +38,7 @@ param(
 $Script:DevXModules = @(
   'Documentarian',
   'Documentarian.DevX',
+  'Documentarian.HelpInfo',
   'Documentarian.MarkdownBuilder',
   'Documentarian.MarkdownLint',
   'Documentarian.MicrosoftDocs',
@@ -49,6 +51,7 @@ if (!$Module) {
   $Module = @(
     'Documentarian.DevX'
     'Documentarian'
+    'Documentarian.HelpInfo'
     'Documentarian.MarkdownBuilder'
     # Can't enable this until there's code to build
     # 'Documentarian.MarkdownLint'
