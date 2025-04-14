@@ -14,7 +14,7 @@ permissions:
 
 # Allow one concurrent deployment
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -29,7 +29,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: 'latest'
+          hugo-version: "0.145.0"
           extended: true
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -40,7 +40,7 @@ jobs:
           # npm-shrinkwrap.json or yarn.lock) in the repository root, and uses its
           # hash as a part of the cache key.
           # https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
-          cache-dependency-path: '**/package-lock.json'
+          cache-dependency-path: "**/package-lock.json"
       - name: Install PostCSS
         run: |
           cd ./Site
@@ -51,7 +51,7 @@ jobs:
         id: cacher
         uses: actions/cache@v4
         with:
-          path: '~/.local/share/powershell/Modules'
+          path: "~/.local/share/powershell/Modules"
           key: ${{ runner.os }}-SqlServer-PSScriptAnalyzer
       - name: Install required PowerShell modules
         if: steps.cacher.outputs.cache-hit != 'true'
