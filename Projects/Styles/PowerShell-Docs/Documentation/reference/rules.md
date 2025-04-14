@@ -12,7 +12,7 @@ description: >-
 
 Consider replacing "by using" with "using" - the leading "by" is redundant.
 
-{{< vale/rule "Avoid" >}}
+{{< vale/rule "styles.psdocs.Avoid" >}}
 
 ### Examples
 
@@ -27,7 +27,7 @@ Correct
 Avoid using clichés. They're particularly difficult to translate and usually require
 locale-specific knowledge of English to understand.
 
-{{< vale/rule "Cliches" >}}
+{{< vale/rule "styles.psdocs.Cliches" >}}
 
 ### Examples
 
@@ -39,116 +39,108 @@ Correct
 
 ## EmDash
 
-{{< vale/rule "EmDash" >}}
+{{< vale/rule "styles.psdocs.EmDash" >}}
 
 ## EnDash
 
-{{< vale/rule "EnDash" >}}
+{{< vale/rule "styles.psdocs.EnDash" >}}
 
 ## EndOfLine
 
-{{< vale/rule "EndOfLine" >}}
+{{< vale/rule "styles.psdocs.EndOfLine" >}}
 
 ## Exclamation
 
-{{< vale/rule "Exclamation" >}}
+{{< vale/rule "styles.psdocs.Exclamation" >}}
 
 ## HeadingDepth
 
-{{< vale/rule "HeadingDepth" >}}
+{{< vale/rule "styles.psdocs.HeadingDepth" >}}
 
 ## InternalLinkCase
 
-{{< vale/rule "InternalLinkCase" >}}
+{{< vale/rule "styles.psdocs.InternalLinkCase" >}}
 
 ## InternalLinkExtension
 
-{{< vale/rule "InternalLinkExtension" >}}
+{{< vale/rule "styles.psdocs.InternalLinkExtension" >}}
 
 ## Latin
 
-{{< vale/rule "Latin" >}}
+{{< vale/rule "styles.psdocs.Latin" >}}
 
 ## LyHyphens
 
-{{< vale/rule "LyHyphens" >}}
+{{< vale/rule "styles.psdocs.LyHyphens" >}}
 
 ## MergeConflictMarkers
 
-{{< vale/rule "MergeConflictMarkers" >}}
+{{< vale/rule "styles.psdocs.MergeConflictMarkers" >}}
 
 ## OptionalPlurals
 
-{{< vale/rule "OptionalPlurals" >}}
+{{< vale/rule "styles.psdocs.OptionalPlurals" >}}
 
 ## Parens
 
-{{< vale/rule "Parens" >}}
+{{< vale/rule "styles.psdocs.Parens" >}}
 
 ## Passive
 
-{{< vale/rule "Passive" >}}
+{{< vale/rule "styles.psdocs.Passive" >}}
 
 ## Periods
 
-{{< vale/rule "Periods" >}}
+{{< vale/rule "styles.psdocs.Periods" >}}
 
 ## Repetition
 
-{{< vale/rule "Repetition" >}}
+{{< vale/rule "styles.psdocs.Repetition" >}}
 
 ## Semicolons
 
-{{< vale/rule "Semicolons" >}}
+{{< vale/rule "styles.psdocs.Semicolons" >}}
 
 ## Slang
 
-{{< vale/rule "Slang" >}}
+{{< vale/rule "styles.psdocs.Slang" >}}
 
 ## So
 
-{{< vale/rule "So" >}}
+{{< vale/rule "styles.psdocs.So" >}}
 
 ## Spacing
 
-{{< vale/rule "Spacing" >}}
+{{< vale/rule "styles.psdocs.Spacing" >}}
 
 ## Spelling
 
-{{< vale/rule "Spelling" >}}
+{{< vale/rule "styles.psdocs.Spelling" >}}
 
 ## TODO
 
-{{< vale/rule "TODO" >}}
+{{< vale/rule "styles.psdocs.TODO" >}}
 
 ## TooWordy
 
-{{< vale/rule "TooWordy" >}}
+{{< vale/rule "styles.psdocs.TooWordy" >}}
 
 ## Weasel
 
-{{< vale/rule "Weasel" >}}
-
-## Which
-
-{{< vale/rule "Which" >}}
+{{< vale/rule "styles.psdocs.Weasel" >}}
 
 ## WhichComma
 
-{{< vale/rule "WhichComma" >}}
+{{< vale/rule "styles.psdocs.WhichComma" >}}
 
 ## WhichThat
 
-{{< vale/rule "WhichThat" >}}
+{{< vale/rule "styles.psdocs.WhichThat" >}}
 
 ## Will
 
-{{< vale/rule "Will" >}}
-
-## Wordiness
-
-{{< vale/rule "Wordiness" >}}
+{{< vale/rule "styles.psdocs.Will" >}}
 
 ## WordList
 
-{{< vale/rule "WordList" >}}
+{{< vale/rule "styles.psdocs.WordList" >}}

@@ -16,9 +16,9 @@ copyright: Microsoft
 version_menu: Releases
 archived_version: false
 version: 0.1.0
-url_latest_version: 'https://github.com/microsoft/Documentarian/releases'
-github_repo: 'https://github.com/microsoft/Documentarian'
-github_project_repo: 'https://github.com/microsoft/Documentarian'
+url_latest_version: "https://github.com/microsoft/Documentarian/releases"
+github_repo: "https://github.com/microsoft/Documentarian"
+github_project_repo: "https://github.com/microsoft/Documentarian"
 github_branch: main
 github_feedback:
   - name: post_create_issue # maps to i18n/*.yaml
@@ -56,7 +56,7 @@ offlineSearch: true
 prism_syntax_highlighting: false
 ui:
   breadcrumb_disable: false
-  footer_about_disable: true
+  footer_about_enable: false
   navbar_logo: false
   navbar_translucent_over_cover_disable: true
   sidebar_menu_compact: true
@@ -69,26 +69,26 @@ ui:
 links:
   user:
     - name: Authoring Guide
-      url: '/docs/authoring'
+      url: "/docs/authoring"
       icon: fa fa-book
       desc: >-
         Read the authoring guide to get started with the Documentarian modules. The guide includes
         tutorials, concepts, and practices you can use when writing and maintaining documentation.
     - name: GitHub Discussions
-      url: 'https://github.com/microsoft/Documentarian/discussions'
+      url: "https://github.com/microsoft/Documentarian/discussions"
       icon: fa fa-comments
       desc: >-
         The project discussions on GitHub host announcements, Q&A, feature ideas, and more. Head
         here to talk with other users, developers, and authors about the project and documentation.
   developer:
     - name: Contributor Guide
-      url: '/docs/contributing'
+      url: "/docs/contributing"
       icon: fa fa-book
       desc: >-
         Read the contributing guide to get started contributing directly. The guide includes
         everything you need to know about building, testing, extending, and documenting the project.
     - name: GitHub Repository
-      url: 'https://github.com/microsoft/Documentarian'
+      url: "https://github.com/microsoft/Documentarian"
       icon: fab fa-github
       desc: >-
         GitHub is where the project is hosted and developed. This repository has the source files

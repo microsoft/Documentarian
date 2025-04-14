@@ -3,15 +3,12 @@
 //
 
 .td-navbar-cover {
-    background: $primary;
-
     @include media-breakpoint-up(md) {
         background: transparent !important;
 
         .nav-link {
             text-shadow: 1px 1px 2px $dark;
         }
-
     }
 
     &.navbar-bg-onscroll .nav-link {
@@ -25,20 +22,16 @@
 }
 
 .td-navbar {
+    @extend .navbar;
+    @extend .navbar-expand;
+
     background: $primary;
     min-height: 4rem;
     margin: 0;
     z-index: 32;
 
-    @include media-breakpoint-up(md) {
-        position: fixed;
-        top: 0;
-        width: 100%;
-    }
-
     .navbar-brand {
         text-transform: none;
-        text-align: middle;
 
         &__name {
             font-weight: $font-weight-bold;
@@ -51,6 +44,11 @@
         }
     }
 
+    .navbar-nav {
+        padding-top: $spacer * 0.5;
+        white-space: nowrap;
+    }
+
     .nav-link {
         text-transform: none;
         font-weight: $font-weight-bold;
@@ -59,31 +57,53 @@
     // For .td-search__input styling, see _search.scss
 
     .dropdown {
-        min-width: 100px;
+        min-width: 50px;
     }
 
-    @include media-breakpoint-down(md) {
-        padding-right: .5rem;
-        padding-left: .75rem;
+    @include media-breakpoint-up(md) {
+        position: fixed;
+        top: 0;
+        width: 100%;
 
+        .nav-item {
+            padding-inline-end: $spacer * 0.5;
+        }
+
+        .navbar-nav {
+            padding-top: 0 !important;
+        }
+    }
+
+    @include media-breakpoint-down(lg) {
         .td-navbar-nav-scroll {
             max-width: 100%;
             height: 2.5rem;
-            margin-top: .25rem;
             overflow: hidden;
-            font-size: .875rem;
+            font-size: 0.9rem;
+        }
 
-            .nav-link {
-                padding-right: .25rem;
-                padding-left: 0;
-            }
+        .navbar-brand {
+            margin-right: 0;
+        }
 
-            .navbar-nav {
-                padding-bottom: 2rem;
-                overflow-x: auto;
-                white-space: nowrap;
-                -webkit-overflow-scrolling: touch;
+        .navbar-nav {
+            padding-bottom: 2rem;
+            overflow-x: auto;
+        }
+    }
 
+    .td-light-dark-menu {
+        .bi {
+            // Adapted from: https://github.com/twbs/bootstrap/blob/main/site/layouts/_default/examples.html
+            width: 1em;
+            height: 1em;
+            vertical-align: -.125em;
+            fill: currentcolor;
+        }
+
+        &.dropdown {
+            @include media-breakpoint-down(lg) {
+                position: unset;
             }
         }
     }
@@ -187,7 +207,7 @@ nav.foldable-nav {
         padding-left: 0em; // modified from 0.5em
         padding-right: 0.2em; // modified from 0.5em
         font-size: 1em;
-        color: $gray-900;
+        color: var(--bs-secondary-color);
         transition: all 0.5s;
 
         &:hover {
@@ -196,7 +216,7 @@ nav.foldable-nav {
     }
 
     .ul-1 .with-child>input:checked~label:before {
-        color: $primary;
+        color: var(--bs-secondary-color);
         transform: rotate(90deg);
         transition: transform 0.5s;
     }
@@ -212,12 +232,12 @@ nav.foldable-nav {
     nav.foldable-nav {
 
         .ul-1 .with-child>label:hover:before {
-            color: $primary;
+            color: var(--bs-link-color);
             transition: color 0.3s;
         }
 
         .ul-1 .with-child>input:checked~label:hover:before {
-            color: $primary;
+            color: var(--bs-link-color);
             transition: color 0.3s;
         }
     }
