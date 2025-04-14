@@ -1,35 +1,35 @@
 {
-  "ManifestData": {
-    "Guid": "a054ec31-cb69-4a4b-b66b-39d25e909615",
-    "ModuleVersion": "0.0.3",
-    "RootModule": "Documentarian.MicrosoftDocs.psm1",
-    "VariablesToExport": "*",
-    "Author": "PowerShell Docs Team",
-    "CompanyName": "Microsoft",
-    "Copyright": "(c) Microsoft. All rights reserved.",
-    "Description": "Collection of tools for working with Microsoft Docs content.",
-    "PowerShellVersion": "5.1",
-    "RequiredModules": [
-      // "Documentarian.Vale",
-      // "Documentarian.MarkdownLint",
-      // "Documentarian"
-    ],
-    "Tags": [
-      "Markdown",
-      "Documentation",
-      "Microsoft",
-      "Learn"
-    ],
-    "ProjectUri": "https://microsoft.github.io/Documentarian/modules/microsoftdocs",
-    "LicenseUri": "https://github.com/microsoft/Documentarian/blob/main/LICENSE-CODE",
-    "ReleaseNotes": "https://microsoft.github.io/Documentarian/modules/microsoftdocs/changelog"
-  },
-  "ModuleCopyrightNotice": "Copyright (c) Microsoft Corporation.",
-  "ModuleLicenseNotice": "Licensed under the MIT License.",
-  "ModuleLineEnding": "\n",
-  "ModuleName": "Documentarian.MicrosoftDocs",
-  "ModuleVersion": "0.0.3",
-  "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
-  "SourceFolderPath": "./Source",
-  // "SourceInitScriptPath": ""
+    "ManifestData": {
+        "Guid": "a054ec31-cb69-4a4b-b66b-39d25e909615",
+        "ModuleVersion": "0.0.4",
+        "RootModule": "Documentarian.MicrosoftDocs.psm1",
+        "VariablesToExport": "*",
+        "Author": "PowerShell Docs Team",
+        "CompanyName": "Microsoft",
+        "Copyright": "(c) Microsoft. All rights reserved.",
+        "Description": "Collection of tools for working with Microsoft Docs content.",
+        "PowerShellVersion": "5.1",
+        "RequiredModules": [
+            // "Documentarian.Vale",
+            // "Documentarian.MarkdownLint",
+            // "Documentarian"
+        ],
+        "Tags": [
+            "Markdown",
+            "Documentation",
+            "Microsoft",
+            "Learn"
+        ],
+        "ProjectUri": "https://microsoft.github.io/Documentarian/modules/microsoftdocs",
+        "LicenseUri": "https://github.com/microsoft/Documentarian/blob/main/LICENSE-CODE",
+        "ReleaseNotes": "https://microsoft.github.io/Documentarian/modules/microsoftdocs/changelog"
+    },
+    "ModuleCopyrightNotice": "Copyright (c) Microsoft Corporation.",
+    "ModuleLicenseNotice": "Licensed under the MIT License.",
+    "ModuleLineEnding": "\n",
+    "ModuleName": "Documentarian.MicrosoftDocs",
+    "ModuleVersion": "0.0.4",
+    "OutputFolderPath": "./[[ManifestData.ModuleVersion]]",
+    "SourceFolderPath": "./Source",
+    // "SourceInitScriptPath": ""
 }

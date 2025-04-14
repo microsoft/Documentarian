@@ -4,64 +4,72 @@
     Licensed under the MIT License.
 -->
 <Configuration>
-  <ViewDefinitions>
-    <View>
-      <Name>Default</Name>
-      <ViewSelectedBy>
-        <TypeName>DocumentLocaleInfo</TypeName>
-      </ViewSelectedBy>
-      <TableControl>
-        <TableHeaders>
-          <TableColumnHeader>
-            <Label>locpath</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>locale</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>ms.contentlocale</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>ms.translationtype</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>ms.date</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>loc_version</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>updated_at</Label>
-          </TableColumnHeader>
-        </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem>
-                <PropertyName>locpath</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>locale</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>ms.contentlocale</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>ms.translationtype</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>ms.date</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>loc_version</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>updated_at</PropertyName>
-              </TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
-      </TableControl>
-    </View>
-  </ViewDefinitions>
+    <ViewDefinitions>
+        <View>
+            <Name>Default</Name>
+            <ViewSelectedBy>
+                <TypeName>DocumentLocaleInfo</TypeName>
+            </ViewSelectedBy>
+            <TableControl>
+                <TableHeaders>
+                    <TableColumnHeader>
+                        <Label>locpath</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>locale</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>ms.contentlocale</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>ms.translationtype</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>ms.date</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>loc_version</Label>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>updated_at</Label>
+                    </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>locpath</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>locale</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>ms.contentlocale</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    if ($null -ne $_.'ms.translationtype') {
+                                        switch ($_.'ms.translationtype') {
+                                            'MT'    { 'Machine' }
+                                            'HT'    { 'Human' }
+                                            default { $_.'ms.translationtype' }
+                                        }
+                                    }
+                                </ScriptBlock>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>'{0:yyyy-MM-dd}' -f [datetime]$_.'ms.date'</ScriptBlock>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>'{0:yyyy-MM-ddThh:mm:ssZ}' -f [datetime]$_.updated_at</ScriptBlock>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>'{0:yyyy-MM-ddThh:mm:ssZ}' -f [datetime]$_.loc_version</ScriptBlock>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+    </ViewDefinitions>
 </Configuration>

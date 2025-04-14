@@ -25,6 +25,8 @@ release_links:
 
 ## Unreleased
 
+- Updated `Get-LocalFreshness` ouput formatting
+
 - Added [`Get-CmdletXref`] to make it simpler to add links to cmdlet reference docs.
 
 [`Get-CmdletXref`]: /modules/microsoftdocs/reference/cmdlets/get-cmdletxref/
