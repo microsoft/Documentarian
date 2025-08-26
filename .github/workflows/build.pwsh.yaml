@@ -40,7 +40,7 @@ jobs:
             version: 0.2.0
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install PowerShell modules
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
