@@ -16,8 +16,8 @@ class LearnLocales {
 
     ## Most docs are trnaslated into a subset of 19 locales.
 
-    static [string[]]$CommonLocales = 'ar-sa', 'en-us', 'cs-cz', 'de-de', 'es-es', 'fr-fr', 'hu-hu',
-    'id-id', 'it-it', 'ja-jp', 'ko-kr', 'nl-nl', 'pl-pl', 'pt-br', 'pt-pt', 'ru-ru', 'sv-se',
-    'tr-tr', 'zh-cn', 'zh-tw'
+    static [string[]]$CommonLocales = 'en-us', 'cs-cz', 'de-de', 'es-es', 'fr-fr', 'hu-hu', 'id-id',
+    'it-it', 'ja-jp', 'ko-kr', 'nl-nl', 'pl-pl', 'pt-br', 'pt-pt', 'ru-ru', 'sv-se', 'tr-tr',
+    'zh-cn', 'zh-tw'
 
 }

@@ -25,6 +25,8 @@ release_links:
 
 ## Unreleased
 
+- Removed `ar-sa` from `[LearnLocales]::CommonLocales`.
+- Fixed bug in `Update-Metadata` to properly handle retrieving and updating front matter.
 - Updated `*-Metadata` cmdlets to use `Get-Document` to parse the content of markdown files
 - Added **AsJson** parameter to `Get-Metadata` to output the results as a JSON object
 

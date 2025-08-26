@@ -6,7 +6,6 @@ online version: https://microsoft.github.io/Documentarian/modules/documentarian/
 schema: 2.0.0
 title: Update-Metadata
 ---
-
 # Update-Metadata
 
 ## SYNOPSIS
@@ -107,3 +106,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 [Remove-Metadata](Update-Metadata.md)
 
 [Set-Metadata](Set-Metadata.md)
+

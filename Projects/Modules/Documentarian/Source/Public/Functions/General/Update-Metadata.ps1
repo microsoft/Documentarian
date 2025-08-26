@@ -16,21 +16,22 @@ function Update-Metadata {
 
     foreach ($file in (Get-ChildItem -Path $Path -Recurse:$Recurse)) {
         $doc = Get-Document -Path $file
-        $OldMetadata = $doc.FrontMatter
+        if ($null -eq $doc.FrontMatter) {
+            $doc.FrontMatter = [ordered]@{}
+        }
 
-        $update = $OldMetadata.Clone()
         foreach ($key in $NewMetadata.Keys) {
-            if ($update.ContainsKey($key)) {
-                $update[$key] = $NewMetadata[$key]
+            if ($doc.FrontMatter.Keys -contains $key) {
+                $doc.FrontMatter[$key] = $NewMetadata[$key]
             } else {
-                $update.Add($key, $NewMetadata[$key])
+                $doc.FrontMatter.Add($key, $NewMetadata[$key])
             }
         }
 
         $header = @(
             '---'
             [environment]::NewLine
-            $update | ConvertTo-Yaml
+            $doc.FrontMatter | ConvertTo-Yaml
             [environment]::NewLine
             '---'
         ) -join ''
