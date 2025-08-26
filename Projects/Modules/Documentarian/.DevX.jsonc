@@ -2,7 +2,7 @@
 {
   "ManifestData": {
     "RootModule": "Documentarian.psm1",
-    "ModuleVersion": "0.0.3",
+    "ModuleVersion": "0.0.4",
     "CompatiblePSEditions": "Core",
     "GUID": "2422ec90-815c-4c1d-8ec1-4c9b082f2909",
     "Author": "PowerShell Docs Team",
