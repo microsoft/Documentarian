@@ -32,7 +32,7 @@ jobs:
           hugo-version: "0.145.0"
           extended: true
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: latest
           cache: npm
