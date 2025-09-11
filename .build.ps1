@@ -3,7 +3,6 @@
 #requires -Version 7.2
 #requires -Module InvokeBuild
 
-Write-Host "testtest123" 
 
 [cmdletbinding()]
 param(
@@ -54,6 +53,8 @@ task PackageVale {
     Get-ChildItem -Path $RulesFolder -File
     | Move-Item -Destination $SubbedFolder
     Remove-Item -Path $RulesFolder
+
+    Write-Host "testtest123" 
 
     # Create the zip file - we need to use the .NET method instead of the cmdlet
     # because the cmdlet ignores hidden files, which `.vale.ini` is considered
