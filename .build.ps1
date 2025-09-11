@@ -3,6 +3,8 @@
 #requires -Version 7.2
 #requires -Module InvokeBuild
 
+Write-Host "testtest123" 
+
 [cmdletbinding()]
 param(
   [string]$SiteBaseUrl
