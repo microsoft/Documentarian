@@ -37,8 +37,6 @@ Related Links
 
 - Refactored `Invoke-Pandoc` to create the header required by `Get-Help` to display the help
   metadata correctly. Also added error handling to provide better feedback when Pandoc fails.
-- Added private function `WrapText` to format long text into multiple lines with a specified
-  indentation.
 - Update `Get-ParameterInfo` and `Find-ParameterWithAttribute` to support three more parameter
   attributes:
 
