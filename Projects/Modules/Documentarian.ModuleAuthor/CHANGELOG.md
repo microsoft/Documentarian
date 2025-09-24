@@ -35,6 +35,10 @@ Related Links
 
 ### Added
 
+- Refactored `Invoke-Pandoc` to create the header required by `Get-Help` to display the help
+  metadata correctly. Also added error handling to provide better feedback when Pandoc fails.
+- Added private function `WrapText` to format long text into multiple lines with a specified
+  indentation.
 - Update `Get-ParameterInfo` and `Find-ParameterWithAttribute` to support three more parameter
   attributes:
 
@@ -48,6 +52,7 @@ Related Links
 
 ### Fixed
 
+- Fixed logic of how `Get-ContentWithoutHeader` finds the end of the YAML front matter.
 - Corrected the behavior for [`Get-ParameterInfo`] for parameters that belong to multiple parameter
   sets. Previously, the `Accept pipeline input` key wrote invalid metadata. Now, the metadata is
   valid.
