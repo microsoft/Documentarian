@@ -3,6 +3,7 @@
 
 function Get-ContentWithoutHeader {
     [CmdletBinding()]
+    [OutputType([string[]])]
     param(
         [Parameter(Mandatory, Position = 0)]
         [string]$Path
