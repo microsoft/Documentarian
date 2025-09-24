@@ -2,6 +2,8 @@
 # Licensed under the MIT License.
 
 function Invoke-Pandoc {
+    [CmdletBinding()]
+    [OutputType([void])]
     param(
         [Parameter(Mandatory)]
         [string[]]$Path,
