@@ -49,7 +49,7 @@ jobs:
           cd ..
       - name: Setup PowerShell module cache
         id: cacher
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: "~/.local/share/powershell/Modules"
           key: ${{ runner.os }}-SqlServer-PSScriptAnalyzer
